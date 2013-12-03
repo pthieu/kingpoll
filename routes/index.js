@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var Poll = mongoose.model( 'poll' );
 var shortid = require('shortid');
+var help = require('../scripts/help.js');
 
 var numonly = /\d+/; //test for number pattern
 
@@ -46,7 +47,7 @@ exports.newpoll = function(req, res) {
     //grab pollid
     //send back poll id
 
-    findUniqueHex(shortid.generate(), Poll, 'p_id', function (err, hex_pid) {
+    help.findUniqueHex(shortid.generate(), Poll, 'p_id', function (err, hex_pid) {
         if (err) return console.error(err);
         //redirect to new id
         console.log(hex_pid);
@@ -54,34 +55,17 @@ exports.newpoll = function(req, res) {
         newpoll.save(function (err, poll, count) {
             if (err){
                 console.log(err);
-                res.status(500).json({status:'save failure'});
+                res.status(500).json({status:'Poll Save: failed'});
             }
             else{
-                console.log('success')
-                var redirect = hex_pid.toString();
+                console.log('Poll Save: passed')
+                var redirect = "/p/"+hex_pid.toString();
                 res.header('Content-Length', redirect.length);
                 res.send(redirect, 200);
             }
         });
     });
 };
-
-function findUniqueHex (hex_pid, Model, id, callback){
-    Model.findOne().where(id, hex_pid).exec(function (err, doc) {
-        if(err){
-            //something wrong with id lookup
-            return err;
-        }
-        else if(doc){
-            //if poll exists, change the hex
-            return findUniqueHex(shortid.generate(), Model, id, callback);
-        }
-        else{
-            //return the hex without error
-            callback(null, hex_pid);
-        }
-    });
-}
 
 function cleansymbols(str, lvl){
     //clears everything except for #

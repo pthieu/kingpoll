@@ -40,7 +40,11 @@ $(document).ready(function(){
     u_id = getLocalVar('u_id');
     u_email = getLocalVar('u_email');
     // socket.emit('getID');
-    socket.on('setID', function () {
+    socket.on('setID', function (ID) {
+        console.log(ID);
+    });
+    socket.on('setEmail', function (email) {
+        console.log(email);
     });
     socket.on('pollID', function (poll) {
         data = poll[0];
@@ -120,16 +124,17 @@ $(document).ready(function(){
             lblVote.text(votetime/1000 + " s");
 
             if(u_email){
-                console.log('email exists, vote');
                 socket.emit('vote', {
                     'p_id'      :[data._id, data.p_id],
+                    'u_id'      :u_id,
                     'u_email'   :u_email,
                     'u_loc'     :[geo_loc.country, geo_loc.countryCode, geo_loc.regionName, geo_loc.region, geo_loc.city],
                     'u_longlat' :[geo_loc.lon, geo_loc.lat],
-                    'v_ip'      :[geo_loc.query],
+                    'v_ip'      :geo_loc.query,
                     'v_choice'  :$(this).val(),
-                    'v_color'   :data.c_hex[$(this).val()],
-                    'v_color'   :data.c_text[$(this).val()]
+                    //vanon
+                    'v_hex'     :data.c_hex[$(this).val()],
+                    'v_text'    :data.c_text[$(this).val()]
                 });
             }
             else{

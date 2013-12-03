@@ -2,18 +2,17 @@ var mongoose = require('mongoose');
 
 //v_vote u_user p_poll 
 var voteSchema = new mongoose.Schema({
-	v_id: {type:Number, required:true, unique:true},
-	u_id: {type:Number, required:true},
-	p_id: {type:Number, required:true},
-	u_email: {String, required:true},
-	u_loc: [{String}],
-	u_longlat: {type:Number},
-	v_ip: {type:String},
-	v_anon: {type:Number, default:0}, //0:public, 1:anonymous, 2:something else
-	v_choice: {type:Number, required:true},
-	v_choice: {type:String},
-	v_text: String,
-	v_expire: Date
+    'u_id'      : {type:mongoose.Schema.Types.ObjectId, required:true},
+    'p_id'      : {type:mongoose.Schema.Types.ObjectId, required:true},
+    'u_email'   : {type:String, required:true},
+    'u_loc'     : [{type:String}],
+    'u_longlat' : [{type:Number}],
+    'v_ip'      : {type:String},
+    'v_anon'    : {type:Number, default:1}, //0:public, 1:anonymous, 2:something else
+    'v_choice'  : {type:Number, required:true},
+    'v_hex'     : {type:String},
+    'v_text'    : {type:String},
+    'v_expire'  : {type:Date}
 });
 
 //make object and apply schema to it, creates consctrutor

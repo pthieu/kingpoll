@@ -3,86 +3,86 @@ var mongoose = require('mongoose');
 // creating a schema
 //p_poll c_choice u_user t_time
 var pollSchema = new mongoose.Schema({
-	//poll param
-	// 'p_id': {type:mongoose.Schema.Types.ObjectId, required:true, index:{unique:true}}, //poll id
-	'p_id': {type:String, required:true, unique:true}, //poll id
-	't_created': {type:Date, required:true},
-	'p_cat': [String], //poll categories i.e. top10, general, fuck, gaming
-	'p_tag': [String], //poll #tags for twitter
-	'p_q': {type:String, required:true, default:"Poll Master forgot question."}, //poll question
-	'p_desc': String, // poll description
-	'p_total': {type:Number, default:0}, //votes total used for top100 later on
-	//vote choice param
-	'c_n': {type:Number, required:true}, //number of colors
-	'c_text': [{type:String, required:true}], // text per choice
-	'c_hex': [{type:String, required:true}], // color
-	'c_total': [{type:Number, default:0}], //total votes per color
-	//user param
-	'u_id': {type:Number}, //user id
-	'u_email': {type:String, default:"anonymous"}, //user id
-	'u_loc': String, //origin of poll
-	'p_anon': {type:Number, default:0}, //0:anonymous, 1:public/searchable, 2: public/needlink, 3: friends/groups, 4:userauth
-	'c_random': {type:Number, default:0}, //number of times user clicked random colors
-	'p_cred': {type:Number, default:100}, // credibility %. hidden.
-	't_avg': {type:Number, default:0}, // average time
-	'data':{
-		'world':{},
-		'canada':{},
-		'usa':{
-			'US-AK':[],
-			'US-AL':[],
-			'US-AR':[],
-			'US-AZ':[],
-			'US-CA':[],
-			'US-CO':[],
-			'US-CT':[],
-			'US-DC':[],
-			'US-DE':[],
-			'US-FL':[],
-			'US-GA':[],
-			'US-HI':[],
-			'US-IA':[],
-			'US-ID':[],
-			'US-IL':[],
-			'US-IN':[],
-			'US-KS':[],
-			'US-KY':[],
-			'US-LA':[],
-			'US-MA':[],
-			'US-MD':[],
-			'US-ME':[],
-			'US-MI':[],
-			'US-MN':[],
-			'US-MO':[],
-			'US-MS':[],
-			'US-MT':[],
-			'US-NC':[],
-			'US-ND':[],
-			'US-NE':[],
-			'US-NH':[],
-			'US-NJ':[],
-			'US-NM':[],
-			'US-NV':[],
-			'US-NY':[],
-			'US-OH':[],
-			'US-OK':[],
-			'US-OR':[],
-			'US-PA':[],
-			'US-RI':[],
-			'US-SC':[],
-			'US-SD':[],
-			'US-TN':[],
-			'US-TX':[],
-			'US-UT':[],
-			'US-VA':[],
-			'US-VT':[],
-			'US-WA':[],
-			'US-WI':[],
-			'US-WV':[],
-			'US-WY':[]
-		},
-		'europe':{}
-	}
+    //poll param
+    // 'p_id': {type:mongoose.Schema.Types.ObjectId, required:true, index:{unique:true}}, //poll id
+    'p_id'      : {type:String, required:true, unique:true}, //poll id
+    't_created' : {type:Date, required:true},
+    'p_cat'     : [String], //poll categories i.e. top10, general, fuck, gaming
+    'p_tag'     : [String], //poll #tags for twitter
+    'p_q'       : {type:String, required:true, default:"Poll Master forgot question."}, //poll question
+    'p_desc'    : String, // poll description
+    'p_total'   : {type:Number, default:0}, //votes total used for top100 later on
+    //vote choice param
+    'c_n'       : {type:Number, required:true}, //number of colors
+    'c_text'    : [{type:String, required:true}], // text per choice
+    'c_hex'     : [{type:String, required:true}], // color
+    'c_total'   : [{type:Number, default:0}], //total votes per color
+    //user param
+    'u_id'      : {type:Number}, //user id
+    'u_email'   : {type:String, default:"anonymous"}, //user id
+    'u_loc'     : String, //origin of poll
+    'p_anon'    : {type:Number, default:0}, //0:anonymous, 1:public/searchable, 2: public/needlink, 3: friends/groups, 4:userauth
+    'c_random'  : {type:Number, default:0}, //number of times user clicked random colors
+    'p_cred'    : {type:Number, default:100}, // credibility %. hidden.
+    't_avg'     : {type:Number, default:0}, // average time
+    'data':{
+        'world':{},
+        'canada':{},
+        'usa':{
+            'US-AK' :[],
+            'US-AL' :[],
+            'US-AR' :[],
+            'US-AZ' :[],
+            'US-CA' :[],
+            'US-CO' :[],
+            'US-CT' :[],
+            'US-DC' :[],
+            'US-DE' :[],
+            'US-FL' :[],
+            'US-GA' :[],
+            'US-HI' :[],
+            'US-IA' :[],
+            'US-ID' :[],
+            'US-IL' :[],
+            'US-IN' :[],
+            'US-KS' :[],
+            'US-KY' :[],
+            'US-LA' :[],
+            'US-MA' :[],
+            'US-MD' :[],
+            'US-ME' :[],
+            'US-MI' :[],
+            'US-MN' :[],
+            'US-MO' :[],
+            'US-MS' :[],
+            'US-MT' :[],
+            'US-NC' :[],
+            'US-ND' :[],
+            'US-NE' :[],
+            'US-NH' :[],
+            'US-NJ' :[],
+            'US-NM' :[],
+            'US-NV' :[],
+            'US-NY' :[],
+            'US-OH' :[],
+            'US-OK' :[],
+            'US-OR' :[],
+            'US-PA' :[],
+            'US-RI' :[],
+            'US-SC' :[],
+            'US-SD' :[],
+            'US-TN' :[],
+            'US-TX' :[],
+            'US-UT' :[],
+            'US-VA' :[],
+            'US-VT' :[],
+            'US-WA' :[],
+            'US-WI' :[],
+            'US-WV' :[],
+            'US-WY' :[]
+        },
+        'europe':{}
+    }
 });
 
 //make object and apply schema to it, creates consctrutor

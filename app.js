@@ -7,8 +7,13 @@ var http = require('http').createServer(app),
     UUID = require('node-uuid'),
     mongoose = require('mongoose');
     fs = require('fs');
+var shortid = require('shortid');
+var help = require('./scripts/help.js');
 
 var Poll = require('./schema/pollSchema').Poll;
+var User = require('./schema/userSchema').User;
+var Vote = require('./schema/voteSchema').Vote;
+
 
 mongoose.connect('mongodb://localhost/test'); //connect to db
 db = mongoose.connection;
@@ -44,7 +49,64 @@ io.sockets.on('connection', function (client) {
 
     client.on('vote', function (dataVote) {
         console.log(dataVote);
-    })
+        new_vid = mongoose.Types.ObjectId();
+        var newvote = new Vote({
+            _id         : new_vid,
+            'p_id'      : dataVote.p_id[0],
+            'u_email'   : dataVote.u_email,
+            'u_loc'     : dataVote.u_loc,
+            'u_longlat' : dataVote.u_longlat,
+            'v_ip'      : dataVote.v_ip,
+            'v_choice'  : dataVote.v_choice,
+            'v_hex'     : dataVote.v_hex,
+            'v_text'    : dataVote.v_text,
+        });
+        // check if user exists
+        if (dataVote.u_email){
+            User.findOne('u_email', dataVote.u_email).exec(function (err, doc) {
+                if (err) throw err;
+                //if u_email doesn't exist, means we gotta make new account, so generate hex
+                if(!doc){
+                    var new_uid = mongoose.Types.ObjectId();
+                    var newuser = new User({
+                        _id         : new_uid,
+                        'u_email'   : dataVote.u_email,
+                        'u_created' : new_uid.getTimestamp(),
+                        'u_loc'     : dataVote.u_loc
+                    });
+                    newuser.u_ip = newuser.u_ip.addToSet(dataVote.v_ip);
+                    newvote['u_id'] = new_uid;
+                    newuser.save(function (err, user, count) {
+                        if (err){
+                            console.log('User Save: failed')
+                            throw err;
+                        }
+                        else{
+                            console.log('User Save: passed')
+                            client.emit('setEmail', user.u_email);
+                            newvote.save(function (err, vote, count) {
+                                if (err){
+                                    console.log('Vote Save: failed')
+                                    throw err;
+                                }
+                                else{
+                                    console.log('Vote Save: passed')
+                                }
+                            });
+                        }
+                    });
+                }
+                else{ //if email in user db
+                    
+                }
+            });
+        }
+        else{
+            //emit fail and tell user to re log
+            console.log('no email');
+        }
+
+    });
     // client.on('choiceyes', function () {
     //     //check if client already voted, if initial vote, just increment vote
     //     if(voted == false){
