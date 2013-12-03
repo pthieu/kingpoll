@@ -1,0 +1,30 @@
+#signup_box{
+    visibility: hidden;
+    font-size: 0.7rem;
+}
+#signup_box, .ui-dialog, .ui-dialog-titlebar, .ui-dialog-titlebar, .ui-widget-header, .ui-corner-all{
+    background-color: #fff;
+}
+#tbEmail{
+    margin-top:0.5rem;
+}
+.ui-dialog{
+    border: 1px #ddd solid;
+}
+.ui-dialog-buttonset{
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+.ui-dialog-buttonset>button{
+    background-color: #fff;
+    border: 1px #ddd solid;
+    margin: 0 0.5rem 0 auto;
+    padding: 0.1rem;
+    color:inherit;
+}
+.ui-dialog-titlebar-close{
+    display: none;
+}
+.ui-button-text{
+    padding: 0 0.2rem 0 0.2rem;
+}

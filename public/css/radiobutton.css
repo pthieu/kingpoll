@@ -1,0 +1,171 @@
+label{
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.radio.nchoice{
+  margin-bottom: 2rem;
+}
+.radio input, .checkradio input{
+    display:none;
+}
+.radio input:checked + label{
+    opacity:1;
+}
+.radio label {
+    font-size: 2rem;
+    font-weight: bold;
+    display: inline-block;
+    text-align: center;
+    padding: 1.5rem;
+    width: 7rem;
+    opacity: 0.5;
+    position: relative;
+    color: #fff;
+    -webkit-transition: 0.15s ease opacity;
+    -moz-transition: 0.15s ease opacity;
+    -ms-transition: 0.15s ease opacity;
+    -o-transition: 0.15s ease opacity;
+    transition: 0.15s ease opacity;
+}
+.radio label::after {
+  content: "";
+  font-size: 1rem;
+  opacity: 0;
+  width: 1.8rem;
+  height: 1.8rem;
+  border: 0.8rem solid;
+  border-left: none;
+  border-bottom: none;
+  position: absolute;
+  -webkit-transition: 0.15s ease opacity;
+  -moz-transition: 0.15s ease opacity;
+  -ms-transition: 0.15s ease opacity;
+  -o-transition: 0.15s ease opacity;
+  transition: 0.15s ease opacity;
+}
+.radio label:hover{
+    opacity: 0.7;
+}
+.radio label:hover::after {
+  opacity: 1;
+}
+
+.checkradio label{
+  margin:0;
+  padding:0;
+  display: block;
+  position: relative;
+}
+
+.checkradio label::after{ 
+    content:"";
+    display: inline-block;
+    width:2rem;
+    height:2rem;
+    position: relative;
+    left:1em;
+    border: 1px black solid;
+}
+
+.radio-cb:checked + .radio-cb-label::after{
+  opacity:1;
+}
+.radio-cb-label{
+  margin-bottom: 0.15em;
+  display: inline-block;
+  position: relative;
+  vertical-align: middle;
+  font-size: 1.4rem;
+  width: 15rem;
+}
+.radio-cb-label{
+    padding-left: 1rem;
+}
+.radio-cb-label::before{
+  content:"";
+  padding: 0;
+  width: 1.4rem;
+  height: 1.4rem;
+  position: absolute;
+  right: -0.2rem;
+  top: 0rem;
+  border: 2px solid #aaa;
+  background: #fff;
+}
+.radio-cb-label::after{
+  content:"";
+  position: absolute;
+  padding: 0;
+  width: 1.5rem;
+  height: 2.25rem;
+  right: -0.5rem;
+  top: -1rem;
+  opacity:0;
+  border: 0.65rem solid;
+  border-color: inherit;
+  border-top: none;
+  border-left: none;
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  -o-transform: rotate(45deg);
+  transform: rotate(45deg);
+  -webkit-transition: 0.15s ease opacity;
+  -moz-transition: 0.15s ease opacity;
+  -ms-transition: 0.15s ease opacity;
+  -o-transition: 0.15s ease opacity;
+  transition: 0.15s ease opacity;
+}
+.radio-cb-label:hover::after{
+  opacity:0.5;
+}
+
+.choices{
+   border-bottom: 1px #ddd solid;
+   margin-top: 0.25rem;
+}
+.choices .radio{
+  text-align: center;
+  margin-bottom: 0.25rem;
+}
+.choices .radio label{
+  padding:0.35rem;
+  font-size:1.2rem;
+  margin: 0.25rem;
+  width:7rem;
+  height:4rem;
+  max-height:4rem;
+  line-height:1rem;
+  display: inline-table;
+  vertical-align: top;
+}
+.choices .radio label>div{
+  display:table-cell;
+  vertical-align: middle;
+  width: inherit;
+  height: inherit;
+  max-height:4rem;
+}
+.choices .radio label>div>div{
+  width: inherit;
+  max-height: inherit;
+  font-weight: normal;
+  word-wrap: break-word;
+}
+
+.tbDescription{
+    margin: 0.5rem auto 0.5rem auto;
+    padding-left: 0.25rem;
+    width: 40rem;
+    word-wrap: break-word;
+    text-align: left;
+    border-left: 0.25rem solid;
+    border-color: #ddd;
+}
+.tbDescription:hover{
+    border-color: red;
+}

@@ -1,0 +1,10 @@
+#footer{
+    height:1.5rem;
+    line-height:1.5rem;
+    position: relative;
+    clear:both;
+    border-top: 1px #ddd solid;
+    font-size: 0.7em;
+    font-weight: bold;
+    color: #aaa;
+}
