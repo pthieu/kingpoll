@@ -7,10 +7,10 @@ var pollSchema = new mongoose.Schema({
     // 'p_id': {type:mongoose.Schema.Types.ObjectId, required:true, index:{unique:true}}, //poll id
     'p_id'      : {type:String, required:true, unique:true}, //poll id
     't_created' : {type:Date, required:true},
-    'p_cat'     : [String], //poll categories i.e. top10, general, fuck, gaming
-    'p_tag'     : [String], //poll #tags for twitter
-    'p_q'       : {type:String, required:true, default:"Poll Master forgot question."}, //poll question
-    'p_desc'    : String, // poll description
+    'p_cat'     : [{type:String}], //poll categories i.e. top10, general, fuck, gaming
+    'p_tag'     : [{type:String}], //poll #tags for twitter
+    'p_q'       : {type:String, required: true, default:"OP forgot question."}, //poll question
+    'p_desc'    : {type:String}, // poll description
     'p_total'   : {type:Number, default:0}, //votes total used for top100 later on
     //vote choice param
     'c_n'       : {type:Number, required:true}, //number of colors
@@ -20,8 +20,9 @@ var pollSchema = new mongoose.Schema({
     //user param
     'u_id'      : {type:Number}, //user id
     'u_email'   : {type:String, default:"anonymous"}, //user id
-    'u_loc'     : String, //origin of poll
-    'p_anon'    : {type:Number, default:0}, //0:anonymous, 1:public/searchable, 2: public/needlink, 3: friends/groups, 4:userauth
+    'u_loc'     : {type:String}, //origin of poll
+    'p_anon'    : {type:Boolean, default:false}, //show user name?
+    'p_privacy' : {type:Number, default:0}, //0:public/searchable, 1: public/needlink, 2: friends/groups, 3:userauth
     'c_random'  : {type:Number, default:0}, //number of times user clicked random colors
     'p_cred'    : {type:Number, default:100}, // credibility %. hidden.
     't_avg'     : {type:Number, default:0}, // average time

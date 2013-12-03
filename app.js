@@ -49,7 +49,7 @@ io.sockets.on('connection', function (client) {
 
     client.on('vote', function (dataVote) {
         console.log(dataVote);
-        new_vid = mongoose.Types.ObjectId();
+        var new_vid = mongoose.Types.ObjectId();
         var newvote = new Vote({
             _id         : new_vid,
             'p_id'      : dataVote.p_id[0],
@@ -83,7 +83,9 @@ io.sockets.on('connection', function (client) {
                         }
                         else{
                             console.log('User Save: passed')
+                            console.log(user);
                             client.emit('setEmail', user.u_email);
+                                                console.log(newvote);
                             newvote.save(function (err, vote, count) {
                                 if (err){
                                     console.log('Vote Save: failed')
@@ -97,7 +99,20 @@ io.sockets.on('connection', function (client) {
                     });
                 }
                 else{ //if email in user db
-                    
+                    console.log('Email Found in Users DB')
+                    client.emit('setEmail', doc.u_email);
+                    newvote['u_id'] = doc._id;
+                    console.log('doc');
+                    console.log(doc);
+                    newvote.save(function (err, vote, count) {
+                        if (err){
+                            console.log('Vote Save: failed')
+                            throw err;
+                        }
+                        else{
+                            console.log('Vote Save: passed')
+                        }
+                    });
                 }
             });
         }
