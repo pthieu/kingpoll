@@ -46,6 +46,13 @@ $(document).ready(function(){
     socket.on('setEmail', function (email) {
         console.log(email);
     });
+    socket.on('setVoted', function (voted) {
+        console.log(voted);
+    });
+    socket.on('voteNoEmail', function () {
+        console.log('No email specified');
+        //queue popup
+    });
     socket.on('pollID', function (poll) {
         data = poll[0];
         $('#choices .radio').html('');

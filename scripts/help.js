@@ -18,5 +18,17 @@ module.exports = {
                 callback(null, hex_pid);
             }
         });
+    },
+    savedoc: function (item, cbitem, callback){
+        item.save(function (err, item, count) {
+            if (err){
+                console.log('Save: failed')
+                throw err;
+            }
+            else{
+                console.log('Save: passed')
+                if(callback) callback(cbitem);
+            }
+        });
     }
 }

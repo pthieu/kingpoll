@@ -48,8 +48,10 @@ io.sockets.on('connection', function (client) {
     var voted = false;
 
     client.on('vote', function (dataVote) {
-        console.log(dataVote);
         var new_vid = mongoose.Types.ObjectId();
+        Poll.findOne({'_id':}).exec(function () {
+            
+        });
         var newvote = new Vote({
             _id         : new_vid,
             'p_id'      : dataVote.p_id[0],
@@ -61,9 +63,11 @@ io.sockets.on('connection', function (client) {
             'v_hex'     : dataVote.v_hex,
             'v_text'    : dataVote.v_text,
         });
+        var voted = {};
+        voted[newvote.p_id] = newvote.v_choice;
         // check if user exists
         if (dataVote.u_email){
-            User.findOne('u_email', dataVote.u_email).exec(function (err, doc) {
+            User.findOne({'u_email': dataVote.u_email}).exec(function (err, doc) {
                 if (err) throw err;
                 //if u_email doesn't exist, means we gotta make new account, so generate hex
                 if(!doc){
@@ -76,41 +80,28 @@ io.sockets.on('connection', function (client) {
                     });
                     newuser.u_ip = newuser.u_ip.addToSet(dataVote.v_ip);
                     newvote['u_id'] = new_uid;
-                    newuser.save(function (err, user, count) {
-                        if (err){
-                            console.log('User Save: failed')
-                            throw err;
-                        }
-                        else{
-                            console.log('User Save: passed')
-                            console.log(user);
-                            client.emit('setEmail', user.u_email);
-                                                console.log(newvote);
-                            newvote.save(function (err, vote, count) {
-                                if (err){
-                                    console.log('Vote Save: failed')
-                                    throw err;
-                                }
-                                else{
-                                    console.log('Vote Save: passed')
-                                }
-                            });
-                        }
+                    console.log('Saving User');
+                    help.savedoc(newuser, newvote, function (item) {
+                        client.emit('setEmail', newuser.u_email);
+                        client.emit('setID', newuser._id);
+                        console.log('Saving Vote');
+                        help.savedoc(item, voted, function (emit_item) {
+                            client.emit("setVoted", emit_item);
+                        });
                     });
                 }
                 else{ //if email in user db
                     console.log('Email Found in Users DB')
-                    client.emit('setEmail', doc.u_email);
+                    // client.emit('setEmail', doc.u_email);
                     newvote['u_id'] = doc._id;
-                    console.log('doc');
-                    console.log(doc);
-                    newvote.save(function (err, vote, count) {
-                        if (err){
-                            console.log('Vote Save: failed')
-                            throw err;
+                    Vote.findOne({'u_id': newvote.u_id, 'p_id':dataVote.p_id[0]}).exec(function (err, doc){
+                        if(!doc){
+                            console.log("Saving Vote");
+                            help.savedoc(newvote);
                         }
                         else{
-                            console.log('Vote Save: passed')
+                            console.log('User voted already');
+                            client.emit("setVoted", voted);
                         }
                     });
                 }
@@ -118,9 +109,9 @@ io.sockets.on('connection', function (client) {
         }
         else{
             //emit fail and tell user to re log
-            console.log('no email');
+            console.log('Vote has no email');
+            client.emit("voteNoEmail");
         }
-
     });
     // client.on('choiceyes', function () {
     //     //check if client already voted, if initial vote, just increment vote
@@ -166,10 +157,6 @@ function showResults (client, yes_cnt, no_cnt){
     client.emit('results', {'yes_cnt':yes_cnt, 'no_cnt':no_cnt});
 }
 
-
-//temporary results logging for proof of concept
-var results;
-var yes_cnt, no_cnt;
 
 //tmp code to read from log file of results
 // fs.readFile(__dirname + '/tmp/results.log', "utf-8", function (err, data) {
