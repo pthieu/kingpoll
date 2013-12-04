@@ -49,8 +49,9 @@ io.sockets.on('connection', function (client) {
 
     client.on('vote', function (dataVote) {
         var new_vid = mongoose.Types.ObjectId();
-        Poll.findOne({'_id':}).exec(function () {
-            
+        Poll.findOne({'_id': dataVote.p_id[0]}).exec(function (err, doc) {
+            if (err) throw err;
+            if (doc){console.log('poll exists');}
         });
         var newvote = new Vote({
             _id         : new_vid,
