@@ -20,7 +20,7 @@ exports.createpoll = function (req, res) {
 exports.newpoll = function(req, res) {
     new_pid = mongoose.Types.ObjectId(); //new pollid
     new_uid = mongoose.Types.ObjectId(); //new userid for anon
-
+    // console.log(req.body);
     var newpoll = new Poll({
         _id: new_pid,
         'p_q': req.body.p_q,

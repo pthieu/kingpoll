@@ -12,6 +12,7 @@ var voteSchema = new mongoose.Schema({
     'v_choice'  : {type:Number, required:true},
     'v_hex'     : {type:String},
     'v_text'    : {type:String},
+    'v_date'    : {type:Date},
     'v_expire'  : {type:Date}
 });
 

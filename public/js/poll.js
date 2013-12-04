@@ -54,100 +54,106 @@ $(document).ready(function(){
         //queue popup
     });
     socket.on('pollID', function (poll) {
-        data = poll[0];
-        $('#choices .radio').html('');
-        // we use an array instead of a key/value pair because we want the buttons that
-        // are added later to actually sync up with the colors in the array objects
-        // not sure if the for(i in obj) will progress in an orderly way
-        var choice_colors=[]; //holds button text and color
-        for(i=0; i<data.c_n;i++){
-            choice_colors[i] = {'c_text':data.c_text[i], 'color':data.c_hex[i], 'votes':0};
+        if (poll){
+            data = poll;
+            $('#choices .radio').html('');
+            // we use an array instead of a key/value pair because we want the buttons that
+            // are added later to actually sync up with the colors in the array objects
+            // not sure if the for(i in obj) will progress in an orderly way
+            var choice_colors=[]; //holds button text and color
+            for(i=0; i<data.c_n;i++){
+                choice_colors[i] = {'c_text':data.c_text[i], 'color':data.c_hex[i], 'votes':0};
+            }
+            if(data.p_desc != null){
+                $('#tbDescription').css('visibility', 'visible');
+            }
+            $('.tbDescription').html(data.p_desc);
+            $('#question').html(data.p_q);
+            //grabbuttons
+            for(var i in choice_colors){
+                // $('#choices').append("<button class='choice' style='background-color:#"+choice_colors[i].color+"'>"+choice_colors[i].c_text+"</button>")
+                $('#choices .radio').append('<input id="c'+ i +'"class="btnChoice" type="radio" name="vote" value="'+ i +'" /><label for="c'+i+'" style="background-color:#'+choice_colors[i].color+'"><div><div>'+choice_colors[i].c_text+'</div></div></label>');
+            }
+
+            for(i in data.data.usa){
+                if(data.data.usa[i].length < 1){
+                    continue;
+                }
+                rgn_color[i] = calcRgnColor(data.c_n, choice_colors, data.data.usa[i]);
+                for(j=0;j<data.c_n;j++){
+                    //increment each color's total votes for calculations later
+                    choice_colors[j].votes += data.data.usa[i][j];
+                }
+            }
+            // converts radians to percentage
+            var results_perc = d3.scale.linear().domain([0, 100]).range([0, 2 * Math.PI]);
+            var pie_data = calcPie(choice_colors);
+            
+            var tmp = d3.selectAll("#results_chart *")
+                        .remove();
+            var results_pie = d3.select("#results_chart");
+            var results_pie_arc = d3.svg.arc()
+                    .innerRadius(50)
+                    .outerRadius(100)
+                    .startAngle(function(d){return results_perc(d[0]);})
+                    .endAngle(function(d){return results_perc(d[1]);});
+
+            results_pie.selectAll("path") //selects the single existing path (arc) above
+                .data(pie_data) //binds data
+                .enter() //if not enough path's, we are going to add more elements
+                .append("path") //element is a path
+                .attr("d", results_pie_arc) //path param "d", grab results from results_pie_arc
+                .style("fill", function(d){return d[2];}) //for some reason, style property avaliable only after enter()
+                .attr("transform", "translate("+"120"+","+h/2+")")
+                .attr('id',function(d){return "pie_c"+d[3];});
+
+            getMap($('#map'), rgn_color); //write map
+            //$(".jvectormap-region[data-code='US-WA']").attr("fill","#cc0000");
+            //$(".jvectormap-region[data-code='US-WA']").attr("fill-opacity", 0);
+            //var tmp = 'US-AR';
+            //$(".jvectormap-region[data-code='"+tmp+"']").css({'opacity':0});
+            // $('#map').bind('onRegionOut.jvectormap', function(event, code){
+            //     $(".jvectormap-region[data-code='US-WA']").attr("fill","#cc0000");
+            // });
+
+            $.getJSON("http://ip-api.com/json/", function(data) {
+                geo_loc = data;
+                socket.emit('iploc', data);
+            });
+
+            //graphs done drawing, grab time
+            votetime = $.now();
+            $('input[name="vote"]').click(function(){
+                //get time once
+                if (votetime>1383809658764){
+                    votetime = $.now()-votetime; //get votetime once
+                }
+                var lblVote = $('label[for="'+$(this).attr('id')+'"] div div');
+                lblVote.text(votetime/1000 + " s");
+
+                if(u_email){
+                    socket.emit('vote', {
+                        'p_id'      :[data._id, data.p_id],
+                        'u_id'      :u_id,
+                        'u_email'   :u_email,
+                        'u_loc'     :[geo_loc.country, geo_loc.countryCode, geo_loc.regionName, geo_loc.region, geo_loc.city],
+                        'u_longlat' :[geo_loc.lon, geo_loc.lat],
+                        'v_ip'      :geo_loc.query,
+                        'v_choice'  :$(this).val(),
+                        //vanon
+                        'v_hex'     :data.c_hex[$(this).val()],
+                        'v_text'    :data.c_text[$(this).val()]
+                    });
+                }
+                else{
+                    getSignUpBox(lblVote);
+                }
+            });
         }
-        if(data.p_desc != null){
-            $('#tbDescription').css('visibility', 'visible');
+        else{
+            $('#choices .radio').html("Poll not found <span style='font-weight:bold'>:c</span>");
+            console.log('poll not found');
         }
-        $('.tbDescription').html(data.p_desc);
-        $('#question').html(data.p_q);
-        //grabbuttons
-        for(var i in choice_colors){
-            // $('#choices').append("<button class='choice' style='background-color:#"+choice_colors[i].color+"'>"+choice_colors[i].c_text+"</button>")
-            $('#choices .radio').append('<input id="c'+ i +'"class="btnChoice" type="radio" name="vote" value="'+ i +'" /><label for="c'+i+'" style="background-color:#'+choice_colors[i].color+'"><div><div>'+choice_colors[i].c_text+'</div></div></label>');
-        }
-
-        for(i in data.data.usa){
-            if(data.data.usa[i].length < 1){
-                continue;
-            }
-            rgn_color[i] = calcRgnColor(data.c_n, choice_colors, data.data.usa[i]);
-            for(j=0;j<data.c_n;j++){
-                //increment each color's total votes for calculations later
-                choice_colors[j].votes += data.data.usa[i][j];
-            }
-        }
-        // converts radians to percentage
-        var results_perc = d3.scale.linear().domain([0, 100]).range([0, 2 * Math.PI]);
-        var pie_data = calcPie(choice_colors);
-        
-        var tmp = d3.selectAll("#results_chart *")
-                    .remove();
-        var results_pie = d3.select("#results_chart");
-        var results_pie_arc = d3.svg.arc()
-                .innerRadius(50)
-                .outerRadius(100)
-                .startAngle(function(d){return results_perc(d[0]);})
-                .endAngle(function(d){return results_perc(d[1]);});
-
-        results_pie.selectAll("path") //selects the single existing path (arc) above
-            .data(pie_data) //binds data
-            .enter() //if not enough path's, we are going to add more elements
-            .append("path") //element is a path
-            .attr("d", results_pie_arc) //path param "d", grab results from results_pie_arc
-            .style("fill", function(d){return d[2];}) //for some reason, style property avaliable only after enter()
-            .attr("transform", "translate("+"120"+","+h/2+")")
-            .attr('id',function(d){return "pie_c"+d[3];});
-
-        getMap($('#map'), rgn_color); //write map
-        //$(".jvectormap-region[data-code='US-WA']").attr("fill","#cc0000");
-        //$(".jvectormap-region[data-code='US-WA']").attr("fill-opacity", 0);
-        //var tmp = 'US-AR';
-        //$(".jvectormap-region[data-code='"+tmp+"']").css({'opacity':0});
-        // $('#map').bind('onRegionOut.jvectormap', function(event, code){
-        //     $(".jvectormap-region[data-code='US-WA']").attr("fill","#cc0000");
-        // });
-
-        $.getJSON("http://ip-api.com/json/", function(data) {
-            geo_loc = data;
-            socket.emit('iploc', data);
-        });
-
-        //graphs done drawing, grab time
-        votetime = $.now();
-        $('input[name="vote"]').click(function(){
-            //get time once
-            if (votetime>1383809658764){
-                votetime = $.now()-votetime; //get votetime once
-            }
-            var lblVote = $('label[for="'+$(this).attr('id')+'"] div div');
-            lblVote.text(votetime/1000 + " s");
-
-            if(u_email){
-                socket.emit('vote', {
-                    'p_id'      :[data._id, data.p_id],
-                    'u_id'      :u_id,
-                    'u_email'   :u_email,
-                    'u_loc'     :[geo_loc.country, geo_loc.countryCode, geo_loc.regionName, geo_loc.region, geo_loc.city],
-                    'u_longlat' :[geo_loc.lon, geo_loc.lat],
-                    'v_ip'      :geo_loc.query,
-                    'v_choice'  :$(this).val(),
-                    //vanon
-                    'v_hex'     :data.c_hex[$(this).val()],
-                    'v_text'    :data.c_text[$(this).val()]
-                });
-            }
-            else{
-                getSignUpBox(lblVote);
-            }
-        });
     });
 });
 

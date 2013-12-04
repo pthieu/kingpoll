@@ -39,7 +39,7 @@ io.set('log level', 0); // Delete this row if you want to see debug messages
 //Listen for incoming connections from clients
 io.sockets.on('connection', function (client) {
     client.on('getpoll', function (pollID) {
-        Poll.find({p_id:pollID}, function(err, poll) {
+        Poll.findOne({'p_id':pollID}, function(err, poll) {
             if (err) return console.error(err);
             client.emit('pollID', poll);
         });
