@@ -86,8 +86,22 @@ io.sockets.on('connection', function (client) {
                         client.emit('setEmail', newuser.u_email);
                         client.emit('setID', newuser._id);
                         console.log('Saving Vote');
-                        help.savedoc(item, voted, function (emit_item) {
-                            client.emit("setVoted", emit_item);
+                        help.savedoc(item, voted, function (emit_item) {//save vote
+                            client.emit("setVoted", emit_item); //set what user voted on
+                            //increment main poll only if save worked
+                            console.log('icnrement poll');
+                            Poll.findOne({'_id':newvote.p_id}, function(err, poll) {
+                                if (err) return console.error(err);
+                                if (poll.data.canada[newvote.u_loc[4]]){
+
+                                }
+                                else{
+                                    
+                                }
+                                poll.save(function (err) {
+                                    if(err) throw err;
+                                });
+                            });
                         });
                     });
                 }
