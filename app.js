@@ -51,122 +51,74 @@ io.sockets.on('connection', function (client) {
         var new_vid = mongoose.Types.ObjectId();
         Poll.findOne({'_id': dataVote.p_id[0]}).exec(function (err, doc) {
             if (err) throw err;
-            if (doc){console.log('poll exists');}
-        });
-        var newvote = new Vote({
-            _id         : new_vid,
-            'p_id'      : dataVote.p_id[0],
-            'u_email'   : dataVote.u_email,
-            'u_loc'     : dataVote.u_loc,
-            'u_longlat' : dataVote.u_longlat,
-            'v_ip'      : dataVote.v_ip,
-            'v_choice'  : dataVote.v_choice,
-            'v_hex'     : dataVote.v_hex,
-            'v_text'    : dataVote.v_text,
-        });
-        var voted = {};
-        voted[newvote.p_id] = newvote.v_choice;
-        // check if user exists
-        if (dataVote.u_email){
-            User.findOne({'u_email': dataVote.u_email}).exec(function (err, doc) {
-                if (err) throw err;
-                //if u_email doesn't exist, means we gotta make new account, so generate hex
-                if(!doc){
-                    var new_uid = mongoose.Types.ObjectId();
-                    var newuser = new User({
-                        _id         : new_uid,
-                        'u_email'   : dataVote.u_email,
-                        'u_created' : new_uid.getTimestamp(),
-                        'u_loc'     : dataVote.u_loc
-                    });
-                    newuser.u_ip = newuser.u_ip.addToSet(dataVote.v_ip);
-                    newvote['u_id'] = new_uid;
-                    console.log('Saving User');
-                    help.savedoc(newuser, newvote, function (item) {
-                        client.emit('setEmail', newuser.u_email);
-                        client.emit('setID', newuser._id);
-                        console.log('Saving Vote');
-                        help.savedoc(item, voted, function (emit_item) {//save vote
-                            client.emit("setVoted", emit_item); //set what user voted on
-                            //increment main poll only if save worked
-                            console.log('icnrement poll');
-                            var tmp = newvote.u_loc[4];
-                            var array = {};
-                            array[tmp] = "test";
-
-                            Poll.findOne({'_id':newvote.p_id}).exec(function(err, poll) {
-                                if (err) return console.error(err);
-                                (poll.data[(newvote.u_loc[0]).toLowerCase()][newvote.u_loc[3]])[0] += 1;
-                                console.log('THIS REGION ' + poll.data.canada[newvote.u_loc[3]]);
-                                console.log(poll.data.canada);
-                                poll.save(function (err) {
-                                    if(err){console.log(err);}
-                                    console.log('success');
-                                });
+            if (doc){
+                console.log('Found poll!');
+                var newvote = new Vote({
+                    _id         : new_vid,
+                    'p_id'      : dataVote.p_id[0],
+                    'u_email'   : dataVote.u_email,
+                    'u_loc'     : dataVote.u_loc,
+                    'u_longlat' : dataVote.u_longlat,
+                    'v_ip'      : dataVote.v_ip,
+                    'v_choice'  : dataVote.v_choice,
+                    'v_hex'     : dataVote.v_hex,
+                    'v_text'    : dataVote.v_text,
+                });
+                var voted = {};
+                voted[newvote.p_id] = newvote.v_choice;
+                // check if user exists
+                if (dataVote.u_email){
+                    User.findOne({'u_email': dataVote.u_email}).exec(function (err, doc) {
+                        if (err) throw err;
+                        //if u_email doesn't exist, means we gotta make new account, so generate hex
+                        if(!doc){
+                            var new_uid = mongoose.Types.ObjectId();
+                            var user = new User({
+                                _id         : new_uid,
+                                'u_email'   : dataVote.u_email,
+                                'u_created' : new_uid.getTimestamp(),
+                                'u_loc'     : dataVote.u_loc
                             });
+                        }
+                        else{
+                            var user = new User();
+                            user = doc;
+                            console.log('Found user account!');
+                        }
+                        Vote.findOne({'u_id': user._id, 'p_id':dataVote.p_id[0]}).exec(function (err, vote){
+                            if(!vote){
+                                console.log('No vote found, updating user IP log');
+                                user.u_ip = user.u_ip.addToSet(dataVote.v_ip);
+                                newvote['u_id'] = user._id;
+                                help.savedoc(user, newvote, function (item) {
+                                    client.emit('setEmail', user.u_email);
+                                    client.emit('setID', user._id);
+                                    console.log('Trying to save vote');
+                                    help.savedoc(item, voted, function (emit_item) {//save vote
+                                        client.emit("setVoted", emit_item); //set what user voted on
+                                        console.log('Trying to increment poll: ' + newvote.p_id + ' -- ' + newvote.u_loc[0] + ', ' + newvote.u_loc[3] + ', choice ' + newvote.v_choice);
+                                        help.incPoll(Poll, newvote.p_id, newvote.v_choice, newvote.u_loc); // increment only after vote saved success
+                                    });
+                                });
+                            }
+                            else{
+                                console.log('User voted already, break');
+                                client.emit("setVoted", voted);
+                            }
                         });
                     });
                 }
-                else{ //if email in user db
-                    console.log('Email Found in Users DB')
-                    // client.emit('setEmail', doc.u_email);
-                    newvote['u_id'] = doc._id;
-                    Vote.findOne({'u_id': newvote.u_id, 'p_id':dataVote.p_id[0]}).exec(function (err, doc){
-                        if(!doc){
-                            console.log("Saving Vote");
-                            help.savedoc(newvote);
-                        }
-                        else{
-                            console.log('User voted already');
-                            client.emit("setVoted", voted);
-                        }
-                    });
+                else{
+                    //emit fail and tell user to re log
+                    console.log('Vote has no email');
+                    client.emit("voteNoEmail");
                 }
-            });
-        }
-        else{
-            //emit fail and tell user to re log
-            console.log('Vote has no email');
-            client.emit("voteNoEmail");
-        }
+            }
+        });
     });
-    // client.on('choiceyes', function () {
-    //     //check if client already voted, if initial vote, just increment vote
-    //     if(voted == false){
-    //         yes_cnt++;
-    //     }
-    //     else{
-    //         //if not initial vote, then we have to switch the votes and recalc totals
-    //         yes_cnt++;
-    //         no_cnt--;
-    //     }
-    //     voted=true;
-    //     var log = fs.createWriteStream(__dirname + '/tmp/results.log', {'flags': 'w'});
-    //     log.write("yes:"+yes_cnt + "\n" + "no:"+no_cnt);
-    //     log.end();
-    //     showResults(client, yes_cnt, no_cnt);
-    // });
-    // client.on('choiceno', function () {
-    //     if(voted == false){
-    //         no_cnt++;
-    //     }
-    //     else{
-    //         no_cnt++;
-    //         yes_cnt--;
-    //     }
-    //     voted=true;
-    //     var log = fs.createWriteStream(__dirname + '/tmp/results.log', {'flags': 'w'});
-    //     log.write("yes:"+yes_cnt + "\n" + "no:"+no_cnt);
-    //     log.end();
-    //     showResults(client, yes_cnt, no_cnt);
-    // });
     client.on('iploc', function (iploc) {
         console.log(iploc);
     });
-    // Poll.find({_id:1}, function(err, poll) {
-    //     if (err) return console.error(err);
-    //     client.emit('pollID', poll);
-    // });
 });
 
 function showResults (client, yes_cnt, no_cnt){
@@ -177,11 +129,12 @@ function showResults (client, yes_cnt, no_cnt){
 
 //tmp code to read from log file of results
 // fs.readFile(__dirname + '/tmp/results.log', "utf-8", function (err, data) {
-//         if (err) throw err;
 //         results = data.toString().split('\n');
-//         console.log(results);
 //         yes_cnt = results[0].split(':')[1];
 //         no_cnt = results[1].split(':')[1];
-//         console.log(yes_cnt);
-//         console.log(no_cnt);
 // });
+
+//how to write to file stream
+    //     var log = fs.createWriteStream(__dirname + '/tmp/results.log', {'flags': 'w'});
+    //     log.write("yes:"+yes_cnt + "\n" + "no:"+no_cnt);
+    //     log.end();

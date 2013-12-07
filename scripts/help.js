@@ -30,5 +30,36 @@ module.exports = {
                 if(callback) callback(cbitem);
             }
         });
+    },
+    incPoll: function (Poll, pid, choice, loc) {
+        Poll.findOne({'_id':pid}).exec(function(err, poll) {
+            if (err) throw err;
+            var country = loc[0].toLowerCase();
+            var region = loc[3].toUpperCase();
+            //easy stuff. remember if it's an array to use markModified()
+            poll.p_total += 1;
+            poll.c_total[choice] += 1;
+            poll.markModified('c_total');
+            //prefixes for naming in maps
+            switch(country){
+                case 'us':
+                    region = "US-"+region; // add prefix
+                    break;
+            }
+
+            //check if region actually exists, if it doesn't we increment the hiding instead
+            if(poll.data[country][region]){
+                (poll.data[country][region])[choice] += 1;
+                poll.markModified('data.' + country + '.' + region);
+            }
+            else{
+                poll.data.hiding[choice] += 1;
+                poll.markModified('data.hiding');
+            }
+            poll.save(function (err) {
+                if(err){console.log(err);}
+                console.log('Poll incremented');
+            });
+        });
     }
 }

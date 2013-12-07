@@ -93,6 +93,7 @@ function getUniqueArray(arr){
 }
 function initMapChoice(nchoice, data){
     var c_n=[];
+    var c_total=[];
     var rtnArr = {};
     //fill c_total
     for(i=0; i<nchoice; i++){
@@ -107,6 +108,11 @@ function initMapChoice(nchoice, data){
             }
         }
     }
+    for(i = 0; i < nchoice; i++){
+        c_total.push(0);
+        data.hiding.push(0);
+    }
+    rtnArr['c_total'] = c_total;
     rtnArr['data'] = data;
     return rtnArr;
 }
