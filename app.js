@@ -90,16 +90,18 @@ io.sockets.on('connection', function (client) {
                             client.emit("setVoted", emit_item); //set what user voted on
                             //increment main poll only if save worked
                             console.log('icnrement poll');
-                            Poll.findOne({'_id':newvote.p_id}, function(err, poll) {
-                                if (err) return console.error(err);
-                                if (poll.data.canada[newvote.u_loc[4]]){
+                            var tmp = newvote.u_loc[4];
+                            var array = {};
+                            array[tmp] = "test";
 
-                                }
-                                else{
-                                    
-                                }
+                            Poll.findOne({'_id':newvote.p_id}).exec(function(err, poll) {
+                                if (err) return console.error(err);
+                                (poll.data[(newvote.u_loc[0]).toLowerCase()][newvote.u_loc[3]])[0] += 1;
+                                console.log('THIS REGION ' + poll.data.canada[newvote.u_loc[3]]);
+                                console.log(poll.data.canada);
                                 poll.save(function (err) {
-                                    if(err) throw err;
+                                    if(err){console.log(err);}
+                                    console.log('success');
                                 });
                             });
                         });

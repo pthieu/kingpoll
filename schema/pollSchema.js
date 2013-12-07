@@ -28,8 +28,22 @@ var pollSchema = new mongoose.Schema({
     't_avg'     : {type:Number, default:0}, // average time
     'data':{
         'world':{},
-        'canada': {type:mongoose.Schema.Types.Mixed},
-        'usa':{
+        'canada':{
+            'AB' :[{type: Number}],
+            'BC' :[{type: Number}],
+            'MB' :[{type: Number}],
+            'NB' :[{type: Number}],
+            'NL' :[{type: Number}],
+            'NS' :[{type: Number}],
+            'NT' :[{type: Number}],
+            'NU' :[{type: Number}],
+            'ON' :[{type: Number}],
+            'PE' :[{type: Number}],
+            'QC' :[{type: Number}],
+            'SK' :[{type: Number}],
+            'YT' :[{type: Number}]
+        },
+        'us':{
             'US-AK' :[],
             'US-AL' :[],
             'US-AR' :[],

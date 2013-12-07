@@ -75,14 +75,14 @@ $(document).ready(function(){
                 $('#choices .radio').append('<input id="c'+ i +'"class="btnChoice" type="radio" name="vote" value="'+ i +'" /><label for="c'+i+'" style="background-color:#'+choice_colors[i].color+'"><div><div>'+choice_colors[i].c_text+'</div></div></label>');
             }
 
-            for(i in data.data.usa){
-                if(data.data.usa[i].length < 1){
+            for(i in data.data.us){
+                if(data.data.us[i].length < 1){
                     continue;
                 }
-                rgn_color[i] = calcRgnColor(data.c_n, choice_colors, data.data.usa[i]);
+                rgn_color[i] = calcRgnColor(data.c_n, choice_colors, data.data.us[i]);
                 for(j=0;j<data.c_n;j++){
                     //increment each color's total votes for calculations later
-                    choice_colors[j].votes += data.data.usa[i][j];
+                    choice_colors[j].votes += data.data.us[i][j];
                 }
             }
             // converts radians to percentage
