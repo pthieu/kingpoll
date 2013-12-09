@@ -69,7 +69,12 @@ exports.newpoll = function(req, res) {
         });
     });
 };
-
+exports.newuser = function(req, res) {
+    console.log(req.body);
+    var redirect = '/signup';
+    res.header('Content-Length', redirect.length);
+    res.send(redirect, 200);
+};
 function cleansymbols(str, lvl){
     //clears everything except for #
     if (lvl == null){
