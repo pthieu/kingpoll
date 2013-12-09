@@ -109,13 +109,6 @@ body {
     text-align: center;
 }
 
-button#yes, button#no {
-    color: white;
-    margin: 0.5rem 0 0.5rem 0;
-    font-size: 1rem;
-    font-weight: bold;
-}
-
 /*
 .jvectormap-region {
     stroke: #afafaf;

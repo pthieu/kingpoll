@@ -29,6 +29,7 @@ app.use(express.bodyParser());
 app.get('/', routes.about);
 app.get('/new', routes.createpoll);
 app.get('/p/:id', routes.getpoll);
+app.get('/signup', routes.signup);
 // app.get('*', routes.about);
 app.post('/new', routes.newpoll);
 

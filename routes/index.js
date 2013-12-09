@@ -17,6 +17,9 @@ exports.getpoll = function (req, res) {
 exports.createpoll = function (req, res) {
     res.sendfile('public/views/newpoll.html');
 }
+exports.signup = function (req, res) {
+    res.sendfile('public/views/signup.html');
+};
 exports.newpoll = function(req, res) {
     new_pid = mongoose.Types.ObjectId(); //new pollid
     new_uid = mongoose.Types.ObjectId(); //new userid for anon
