@@ -8,10 +8,10 @@ $(document).ready(function() {
       }
     });
 
-    var tmp = colors_hex[randColor(colors_hex)];
-    $('#submit').css({'background-color': "#"+tmp,'border-color': "#"+tmp});
+    var themecolor = colors_hex[randColor(colors_hex)];
+    $('#submit').css({'background-color': "#"+themecolor,'border-color': "#"+themecolor});
     $('.field').hover(function () {
-        $(this).find('label').css({'color': "#"+tmp});
+        $(this).find('label').css({'color': "#"+themecolor});
     }, function () {
         $(this).find('label').css({'color': "#888"});
     });
@@ -24,7 +24,7 @@ $(document).ready(function() {
                             'u_password': $('#tbCheckPassword').val(),
                             'u_name': $('#tbName').val(),
                             'u_sex': $('input[name=gender]:checked').val(),
-                            'u_team': tmp
+                            'u_team': themecolor
         }).success(function (data, status) {
             console.log(data);
             // window.location.href = data;
