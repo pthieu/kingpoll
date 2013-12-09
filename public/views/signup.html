@@ -3,24 +3,65 @@
 <head>
   <meta charset="UTF-8">
   <title>kingpoll.</title>
-    <link rel="stylesheet" href="/css/radiobutton.css" type="text/css" />
     <link rel="stylesheet" href="/css/signup.css" type="text/css" />
     <link rel="stylesheet" href="/css/dash.css" type="text/css" />
     <link rel="stylesheet" href="/css/footer.css" type="text/css" />
 </head>
 <body>
   <div id='wrapper'>
-    <div class='container'>
-        Mailing Address
-      <div class='fields'></div>
-      <form method="post" id='formSignup'>
-      </form>
+    <div id='branding'>
+      <span id='nameLogo'>kingpoll.</span><div id='wrapLogo'><img src="/images/kingstache_666.png" alt="There's a poll for that." id='imgLogo'></div>
+      <br/><!-- <span id='slogan'>There's a poll for that.</span> -->
     </div>
+    <form method="post" id='newuser'>
+      <div class='formSignup'>
+        <div class='header'>Signup</div>
+          <div class="field">
+            <input id="tbEmail" type="text" class='f' name='email'/>
+            <label for="tbEmail">Email</label>
+          </div>
+          <div class="field">
+            <input id="tbUsername" type="text" class='f' name='username'/>
+            <label for="tbUsername">Username</label>
+          </div>
+          <div class="field">
+            <input id="tbPassword" type="text" class='f' />
+            <label for="tbPassword">Password</label>
+          </div>
+          <div class="field">
+            <input id="tbCheckPassword" type="text" class='f' name='password' />
+            <label for="tbCheckPassword">Re-type Password</label>
+          </div>
+          <div id='submit_signup'>
+            <button type='submit' id='submit'>Signup!</button>
+          </div>
+      </div>
+      <div>Want a higher multiplier for your credibility? Help us help you!<br/>(You can fill this in later to boost your multiplier)</div>
+      <div class='formSignup'>
+        <div class='header'>Additional Information</div>
+        <div class="field">
+          <input id="tbName" type="text" class='f' name='name' />
+          <label for="tbName">Name</label>
+        </div>
+        <div class="field checkradio">
+          <input class='f fn' disabled='disabled'/>
+          <label>Gender</label>
+          <input id="tbMale" type='radio' class='radio-cb' name='gender' value='m'/>
+          <label for="tbMale" class='radio-cb-label'>Male</label>
+          <input id="tbFemale" type='radio' class='radio-cb' name='gender' value='m'/>
+          <label for="tbFemale" class='radio-cb-label'>Female</label>
+        </div>
+        <div class="field">
+          <input id="tbBirth" type="text" class='scroll' name='birth' />
+          <label for="tbBirth">Birth Date</label>
+        </div>
+      </div>
+    </form>
   </div>
   <div id="footer"></div>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-  <script src="/js/colors.js"></script>
   <script src="/js/jquery.cookie.js"></script>
+  <script src="/js/colors.js"></script>
   <script src="/js/signup.js"></script>
   <script>$('#dash').load('/views/dash.html')</script>
   <script>$('#footer').load('/views/footer.html')</script>

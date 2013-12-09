@@ -176,13 +176,9 @@ $(document).ready(function() {
                                 'c_random': c_random,
                                 'p_q': post_question,
                                 'p_desc': post_description
-                            }).success(function (data, status) {
-                                window.location.href = data;
-                            });
-        // }
-        // else{
-            //pop dialog
-        // }
+            }).success(function (data, status) {
+                window.location.href = data;
+            });
     });
 });
 
