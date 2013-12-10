@@ -12,8 +12,14 @@ $(document).ready(function() {
     $('#submit').css({'background-color': "#"+themecolor,'border-color': "#"+themecolor});
     $('.field').hover(function () {
         $(this).find('label').css({'color': "#"+themecolor});
+        $(this).find('input, label').css({'color': "#"+themecolor});
     }, function () {
         $(this).find('label').css({'color': "#888"});
+        $(this).find('input, label').css({'color': "#888"});
+    });
+
+    $('#tbBirth').on('mousedown focus',function () {
+        $(this).datepicker({ dateFormat: "dd/mm/yy" });
     });
 
     $('#newuser').submit(function(e){

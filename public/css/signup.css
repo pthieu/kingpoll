@@ -217,3 +217,28 @@ input[name='gender'] + label{
   border : 0px;
   outline : none;
 }
+
+.birth>*{
+  float: left;
+  text-align: left;
+  font-size: 1.4rem;
+  font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
+}
+#tbBirth{
+  position: relative;
+  float: right;
+  width: 60%;
+  top: -0.1rem;
+  right:0;
+  color: #888;
+  border: none;
+}
+.birth > label{
+  position: relative;
+  left:0rem;
+}
+
+#ui-datepicker-div{
+  background-color: #fff;
+  border: 1px solid #888;
+}
