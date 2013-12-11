@@ -9,6 +9,7 @@ var http = require('http').createServer(app),
     fs = require('fs');
 var shortid = require('shortid');
 var help = require('./scripts/help.js');
+var email = require('./scripts/email.js');
 
 var Poll = require('./schema/pollSchema').Poll;
 var User = require('./schema/userSchema').User;
@@ -100,6 +101,7 @@ io.sockets.on('connection', function (client) {
                                         client.emit("setVoted", emit_item); //set what user voted on
                                         console.log('Trying to increment poll: ' + newvote.p_id + ' -- ' + newvote.u_loc[0] + ', ' + newvote.u_loc[3] + ', choice ' + newvote.v_choice);
                                         help.incPoll(Poll, newvote.p_id, newvote.v_choice, newvote.u_loc); // increment only after vote saved success
+                                        email.send_email_confirmation(user.u_email, newvote.p_id);
                                     });
                                 });
                             }

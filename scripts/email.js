@@ -8,6 +8,21 @@ var smtpTransport =  nodemailer.createTransport("SMTP",{
      }
 });
 
+module.exports = {
+
+    send_email_confirmation: function (email, post_id){
+    url = 'http://www.google.com';
+
+    //Logic to determine post information from post_id, and the confirmation URL
+    
+    subject = 'KingPoll: Confirm your vote now!';
+    body = 'Please click on the following link to confirm your vote on KingPoll:\n\n' + url
+
+    send_email(email, subject, body);
+
+    }
+};
+
 function send_email(email, subject, msg){
     smtpTransport.sendMail({
             from: "KingPoll <iokingpoll@gmail.com>",
@@ -26,6 +41,7 @@ function send_email(email, subject, msg){
             }
     });
 }
+    
 
 function handle_sendemail_success(results)
 {
@@ -37,18 +53,5 @@ function handle_sendemail_success(results)
     }
     
 }
-
-function send_email_confirmation(email, post_id){
-    url = 'http://www.google.com';
-
-    //Logic to determine post information from post_id, and the confirmation URL
-    
-    subject = 'KingPoll: Confirm your vote now!';
-    body = 'Please click on the following link to confirm your vote on KingPoll:\n\n' + url
-
-    send_email(email, subject, body);
-
-}
-
 // send_email('iokingpoll@gmail.com', 'Test', 'testttt');
-send_email_confirmation('mark.sk.ho@gmail.com', 1);
+//send_email_confirmation('mark.sk.ho@gmail.com', 1);
