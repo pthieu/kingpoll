@@ -6,9 +6,7 @@ var userSchema = new mongoose.Schema({
     'u_id'      : {type:String, unique:true}, //like twitter's @name, changeable
     'u_email'   : {type:String, required:true, unique:true}, //user email, used for login
     'u_anonname': {type:String}, //anonymous nickname appointed to user
-    'u_name'    : {'first'  : {type:String}, //first name
-                   'last'   : {type:String} //last name 
-                  },
+    'u_name'    : {type:String},
     'u_salt'    : {type:String}, //salt to decrypt user password
     'u_password': {type:String}, //some sort of encrypted password
     'u_birth'   : {type:Date}, //Birthday
