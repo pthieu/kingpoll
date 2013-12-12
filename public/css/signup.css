@@ -83,9 +83,18 @@ label{
   width: 25rem;
   margin: 2rem auto;
   background: white;
-  border-radius: 3px;
   box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.1);
 }
+#mult {
+  position:absolute;
+  right:-9rem;
+  bottom:0;
+  padding: 1rem;
+  font-size: 1.4rem;
+  background: white;
+  box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.1);
+}
+
 .header{
   font-size: 1.5rem;
   font-weight: bold;
@@ -218,13 +227,13 @@ input[name='gender'] + label{
   outline : none;
 }
 
-.birth>*{
+.birth>*, select{
   float: left;
   text-align: left;
   font-size: 1.4rem;
   font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
 }
-#tbBirth{
+#tbBirth, .relationship > select{
   position: relative;
   float: right;
   width: 60%;
@@ -237,8 +246,36 @@ input[name='gender'] + label{
   position: relative;
   left:0rem;
 }
+.relationship > label{
+   font-size: 1.4rem;
+   float: left;
+}
+.relationship > label > select {
+  display: inline-block;
+  position: relative;
+  top:0;
+  left:2rem;
+  border-color: #bbb;
+  color: #888;
+  -webkit-appearance:none;
+  -moz-appearance:none;
+  appearance:none;
+}
+.relationship > label {position:relative}
+.relationship > label:last-of-type:after {
+    content:'<>';
+    font-weight: bold;
+    color:#aaa;
+    left:9rem;
+    top:0.2rem;
+    -webkit-transform:rotate(90deg);
+    -moz-transform:rotate(90deg);
+    -ms-transform:rotate(90deg);
+    transform:rotate(90deg);
+    position:absolute;
+    pointer-events:none;
+}
 
-#ui-datepicker-div{
-  background-color: #fff;
-  border: 1px solid #888;
+.ui-datepicker{
+  font-size: 1rem;
 }
