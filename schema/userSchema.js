@@ -7,7 +7,7 @@ var userSchema = new mongoose.Schema({
     'u_email'   : {type:String, required:true, unique:true}, //user email, used for login
     'u_anonname': {type:String}, //anonymous nickname appointed to user
     'u_name'    : {type:String},
-    'u_salt'    : {type:String}, //salt to decrypt user password
+    'u_salt'    : [{type:String}], //salt to decrypt user password
     'u_password': {type:String}, //some sort of encrypted password
     'u_birth'   : {type:Date}, //Birthday
     't_created' : {type:Date}, //account creation date
@@ -18,6 +18,7 @@ var userSchema = new mongoose.Schema({
     'u_ip'      : [{type:String}], //list of IP's user logged in from, hold last 5
     'u_multi'   : {type:Number, default:0}, //user exp multiplier
     'u_team'    : [{type:String, default:"anonymous"}],
+    'v_left'    : {type:Number, default:0}, //number of votes left: -1 = registered, >0 = votes left
     's_exp'     : {type:Number, default:0}, //user exp based on votes x multiplier
     's_level'   : {type:Number, default:1}, //user level based on experience
     's_vanon'   : {type:Number, default:0}, //number of time user has voted anonymously stat

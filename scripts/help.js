@@ -8,12 +8,12 @@ module.exports = {
                 throw err;
             }
             else if(doc){
-                console.log("returning " + hex_pid);
+                console.log("Hex not good: " + hex_pid);
                 //if item exists, change the hex
                 return findUniqueHex(shortid.generate(), Model, id, callback);
             }
             else{
-                console.log("this id is good: " + hex_pid);
+                console.log("Returning unique hex: " + hex_pid);
                 //return the hex without error
                 callback(null, hex_pid);
             }

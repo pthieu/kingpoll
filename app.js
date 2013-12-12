@@ -8,13 +8,13 @@ var http = require('http').createServer(app),
     mongoose = require('mongoose');
     fs = require('fs');
 var shortid = require('shortid');
-var help = require('./scripts/help.js');
-var email = require('./scripts/email.js');
 
 var Poll = require('./schema/pollSchema').Poll;
 var User = require('./schema/userSchema').User;
 var Vote = require('./schema/voteSchema').Vote;
 
+var help = require('./scripts/help.js');
+var email = require('./scripts/email.js');
 
 mongoose.connect('mongodb://localhost/test'); //connect to db
 db = mongoose.connection;
@@ -31,6 +31,7 @@ app.get('/', routes.about);
 app.get('/new', routes.createpoll);
 app.get('/p/:id', routes.getpoll);
 app.get('/signup', routes.signup);
+app.get('/verify/:code', routes.signup);
 // app.get('*', routes.about);
 app.post('/new', routes.newpoll);
 app.post('/signup', routes.newuser);
@@ -75,6 +76,7 @@ io.sockets.on('connection', function (client) {
                         if (err) throw err;
                         //if u_email doesn't exist, means we gotta make new account, so generate hex
                         if(!doc){
+                            console.log('User account not found, creating...');
                             var new_uid = mongoose.Types.ObjectId();
                             var user = new User({
                                 _id         : new_uid,
@@ -90,9 +92,19 @@ io.sockets.on('connection', function (client) {
                         }
                         Vote.findOne({'u_id': user._id, 'p_id':dataVote.p_id[0]}).exec(function (err, vote){
                             if(!vote){
+                                var v_valid = (user.v_left < 0) ? true : false; //v_valid if user registered
+                                if (user.v_left >= 0){
+                                    user.v_left += 1; //increment outstanding votes
+                                    if ((user.v_left%10) === 0){
+                                        console.log('Sending vote verification...');
+                                        email.send_email_confirmation(newvote.u_email, newvote.p_id, newvote._id);
+                                    }
+                                }
+                                user.u_ip = user.u_ip.addToSet(dataVote.v_ip);                                
                                 console.log('No vote found, updating user IP log');
-                                user.u_ip = user.u_ip.addToSet(dataVote.v_ip);
                                 newvote['u_id'] = user._id;
+                                newvote.v_valid = v_valid;
+
                                 help.savedoc(user, newvote, function (item) {
                                     client.emit('setEmail', user.u_email);
                                     client.emit('setID', user._id);
@@ -101,7 +113,6 @@ io.sockets.on('connection', function (client) {
                                         client.emit("setVoted", emit_item); //set what user voted on
                                         console.log('Trying to increment poll: ' + newvote.p_id + ' -- ' + newvote.u_loc[0] + ', ' + newvote.u_loc[3] + ', choice ' + newvote.v_choice);
                                         help.incPoll(Poll, newvote.p_id, newvote.v_choice, newvote.u_loc); // increment only after vote saved success
-                                        email.send_email_confirmation(user.u_email, newvote.p_id);
                                     });
                                 });
                             }

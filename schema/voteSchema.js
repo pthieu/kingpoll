@@ -13,7 +13,7 @@ var voteSchema = new mongoose.Schema({
     'v_hex'     : {type:String},
     'v_text'    : {type:String},
     'v_date'    : {type:Date},
-    'v_valid'   : {type:Boolean}
+    'v_valid'   : {type:Boolean, default: false} //for non-reg users, 0:check for confirm 1:good
 });
 
 //make object and apply schema to it, creates consctrutor
