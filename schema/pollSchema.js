@@ -25,7 +25,7 @@ var pollSchema = new mongoose.Schema({
     'p_privacy' : {type:Number, default:0}, //0:public/searchable, 1: public/needlink, 2: friends/groups, 3:userauth
     'c_random'  : {type:Number, default:0}, //number of times user clicked random colors
     'p_cred'    : {type:Number, default:100}, // credibility %. hidden.
-    't_avg'     : {type:Number, default:0}, // average time
+    's_tavg'     : {type:Number, default:0}, // average time
     'data':{
         'world':{},
         'canada':{

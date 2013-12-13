@@ -13,13 +13,13 @@ var smtpTransport =  nodemailer.createTransport("SMTP",{
 });
 
 module.exports = {
-    send_email_confirmation: function (email, p_id, v_id){
+    send_email_confirmation: function (email, p_id, v_id, v_valid){
         User.findOne({'u_email':email}, function (err, user) {
             var new_salt = shortid.generate();
             user.u_salt.push(new_salt);
             user.save(function (err) {
                 if (err) console.error(err);
-                url = 'http://www.kingpoll.com/verify/'+email+'-'+p_id+'-'+v_id;
+                url = 'http://www.kingpoll.com/verify/'+v_valid+'+'+p_id+'+'+v_id;
                 //Logic to determine poll information from poll_id, and the confirmation URL
                 subject = 'KingPoll: Validate your vote now!';
                 body = 'Hi!\n\nYour votes are currently pending validity! Please click on the following link to verify you\'re not a robot and validate your last 10 votes:\n' + url
@@ -41,10 +41,13 @@ function send_email(email, subject, msg){
             smtpTransport.close();
             if(err){
                 console.log(err);
+                //if failed, try again?
                 handle_sendemail_success(false);
             }
             else{
                 console.log(res);
+                //if pass, we set an expirey date on vote. or? query all votes that are v_valid != true that are before a specific date
+                //reset all polls affected
                 handle_sendemail_success(true);
             }
     });

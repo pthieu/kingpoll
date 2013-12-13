@@ -60,7 +60,7 @@ io.sockets.on('connection', function (client) {
                 var newvote = new Vote({
                     _id         : new_vid,
                     'p_id'      : dataVote.p_id[0],
-                    'u_email'   : dataVote.u_email,
+                    'u_email'   : dataVote.u_email.toLowerCase(),
                     'u_loc'     : dataVote.u_loc,
                     'u_longlat' : dataVote.u_longlat,
                     'v_ip'      : dataVote.v_ip,
@@ -71,8 +71,8 @@ io.sockets.on('connection', function (client) {
                 var voted = {};
                 voted[newvote.p_id] = newvote.v_choice;
                 // check if user exists
-                if (dataVote.u_email){
-                    User.findOne({'u_email': dataVote.u_email}).exec(function (err, doc) {
+                if (dataVote.u_email.toLowerCase()){
+                    User.findOne({'u_email': dataVote.u_email.toLowerCase()}).exec(function (err, doc) {
                         if (err) throw err;
                         //if u_email doesn't exist, means we gotta make new account, so generate hex
                         if(!doc){
@@ -80,10 +80,12 @@ io.sockets.on('connection', function (client) {
                             var new_uid = mongoose.Types.ObjectId();
                             var user = new User({
                                 _id         : new_uid,
-                                'u_email'   : dataVote.u_email,
+                                'u_email'   : dataVote.u_email.toLowerCase(),
                                 'u_created' : new_uid.getTimestamp(),
                                 'u_loc'     : dataVote.u_loc
                             });
+                            user.u_salt.push(shortid.generate());
+                            user.markModified('u_salt');
                         }
                         else{
                             var user = new User();
@@ -92,18 +94,21 @@ io.sockets.on('connection', function (client) {
                         }
                         Vote.findOne({'u_id': user._id, 'p_id':dataVote.p_id[0]}).exec(function (err, vote){
                             if(!vote){
-                                var v_valid = (user.v_left < 0) ? true : false; //v_valid if user registered
+                                newvote.v_valid = (user.v_left < 0) ? 'true' : 'false'; //v_valid if user registered
                                 if (user.v_left >= 0){
                                     user.v_left += 1; //increment outstanding votes
-                                    if ((user.v_left%10) === 0){
+                                    newvote.v_valid = user.u_salt[user.u_salt.length-1]; //take newest salt
+                                    console.log(newvote);
+                                    if ((user.v_left%6) === 0){ // send every 6 votes for now
                                         console.log('Sending vote verification...');
-                                        email.send_email_confirmation(newvote.u_email, newvote.p_id, newvote._id);
+                                        email.send_email_confirmation(newvote.u_email, newvote.p_id, newvote._id, newvote.v_valid);
+                                        user.u_salt.push(shortid.generate()); //generate new salt at mod=0
+                                        user.markModified('u_salt'); //tell mongoose it's modified
                                     }
                                 }
-                                user.u_ip = user.u_ip.addToSet(dataVote.v_ip);                                
+                                user.u_ip = user.u_ip.addToSet(dataVote.v_ip);
                                 console.log('No vote found, updating user IP log');
                                 newvote['u_id'] = user._id;
-                                newvote.v_valid = v_valid;
 
                                 help.savedoc(user, newvote, function (item) {
                                     client.emit('setEmail', user.u_email);
