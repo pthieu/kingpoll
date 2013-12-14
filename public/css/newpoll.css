@@ -29,7 +29,8 @@ label{
   overflow:hidden;
   margin: 0 auto -1.5rem auto;
   position:relative;
-  width: 50em;
+  width:100%;
+  max-width: 50em;
   min-height: 100%;
   height:auto !important;
   height:100%;

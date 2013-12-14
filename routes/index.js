@@ -1,10 +1,13 @@
 var mongoose = require('mongoose');
 var Poll = mongoose.model( 'poll' );
+var User = mongoose.model( 'user' );
+var Vote = mongoose.model( 'vote' );
 var shortid = require('shortid');
 var help = require('../scripts/help.js');
 
 var numonly = /\d+/; //test for number pattern
 
+/********** GET STUFF **********/
 exports.about = function (req, res) {
     res.sendfile('public/views/about.html');
 }
@@ -20,6 +23,43 @@ exports.createpoll = function (req, res) {
 exports.signup = function (req, res) {
     res.sendfile('public/views/signup.html');
 };
+exports.verifyvote = function (req, res) {
+    var data = [];
+    data = req.params.code.split('+');
+    var v_salt = data[0];
+    var u_id = data[1];
+    var v_id = data[2];
+
+    Vote.update({u_id:u_id, v_valid:v_salt}, {$set:{v_valid:'true'}}, {multi:true}, function (err, nUpdated) {
+        if (err) console.error(err);
+        User.findOne({_id:u_id}, function (err, user) {
+            console.log('Number of votes validated: '+nUpdated);
+            user.v_left -= nUpdated;
+            user.v_left = (user.v_left < 0) ? 0 : user.v_left; // make sure it's not < 0
+            user.u_salt.shift();
+            user.markModified('u_salt');
+            user.save(function (err) {
+                if (err) console.error(err);
+                res.sendfile('public/views/validation.html');
+            });
+        });
+    });
+    // Vote.find({u_id:u_id, v_valid:v_salt}, function (err, vote) {
+    //     for(i=0; i<vote.length; i++){
+    //         vote[i].v_valid = true;
+    //         Model.update({ _id: id }, { $set: { size: 'large' }}, { multi: true }, callback);
+    //         vote.save(function (err, vote, count) {
+    //             if (err){console.error(err);}
+    //             else{
+    //                 User.update({_id:u_id})
+    //             }
+    //         });
+    //     }
+    // });
+};
+
+
+/********** POST STUFF **********/
 exports.newpoll = function(req, res) {
     new_pid = mongoose.Types.ObjectId(); //new pollid
     new_uid = mongoose.Types.ObjectId(); //new userid for anon

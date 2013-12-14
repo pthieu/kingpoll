@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>kingpoll.</title>
+    <link rel="stylesheet" href="/flat-ui/jquery-ui-1.10.3.custom.min.css" type="text/css" />
+    <link rel="stylesheet" href="/css/validation.css" type="text/css" />
+    <link rel="stylesheet" href="/css/dash.css" type="text/css" />
+    <link rel="stylesheet" href="/css/footer.css" type="text/css" />
+</head>
+<body>
+  <div id='dash'></div>
+  <div id='wrapper'>
+    <div id='branding'>
+      <span id='nameLogo'>kingpoll.</span><div id='wrapLogo'><img src="/images/kingstache_666.png" alt="There's a poll for that." id='imgLogo'></div>
+      <br/><!-- <span id='slogan'>There's a poll for that.</span> -->
+    </div>
+    <div class='card'>
+      <div class='card-head'>Thanks for Voting!</div>
+      <div class='card-text'>You have validated your votes on the following polls:</div>
+<!--       <div id='polls' class='card-text card-list'>
+        <ul>
+          <li>1</li>
+          <li>2</li>
+          <li>3</li>
+        </ul>
+      </div> -->
+      <div class='card-text'>Sign up to track your votes and get cred! You also get rid of these annoying validation e-mails!</div>
+      <div class='card-text'><label class='btnSolo'>Signup!</label></div>
+    </div>
+  </div>
+  <div id="footer"></div>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+  <script src="/js/jquery.cookie.js"></script>
+  <script src="/js/colors.js"></script>
+  <script src="/js/validation.js"></script>
+  <script>$('#dash').load('/views/dash.html')</script>
+  <script>$('#footer').load('/views/footer.html')</script>
+</body>
+</html>

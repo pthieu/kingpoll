@@ -13,20 +13,19 @@ var smtpTransport =  nodemailer.createTransport("SMTP",{
 });
 
 module.exports = {
-    send_email_confirmation: function (email, p_id, v_id, v_valid){
+    send_email_confirmation: function (email, u_id, v_id, v_valid){
         User.findOne({'u_email':email}, function (err, user) {
-            var new_salt = shortid.generate();
-            user.u_salt.push(new_salt);
-            user.save(function (err) {
-                if (err) console.error(err);
-                url = 'http://www.kingpoll.com/verify/'+v_valid+'+'+p_id+'+'+v_id;
-                //Logic to determine poll information from poll_id, and the confirmation URL
-                subject = 'KingPoll: Validate your vote now!';
-                body = 'Hi!\n\nYour votes are currently pending validity! Please click on the following link to verify you\'re not a robot and validate your last 10 votes:\n' + url
-                + "\n\nIf you don't verify yourself, your vote will be deleted after 24 hours. If you don't want to receive validation e-mails, please sign up!";
-                send_email(email, subject, body);
-            });
-
+            url = 'http://localhost:8888/verify/v/'+v_valid+'+'+u_id+'+'+v_id; // use below line for production
+            // url = 'http://www.kingpoll.com/verify/v/'+v_valid+'+'+u_id+'+'+v_id;
+            //Logic to determine poll information from poll_id, and the confirmation URL
+            subject = 'KingPoll: Validate your vote now!';
+            body = "Hi!\n\nYour votes are currently pending validation! "
+            + "Please click on the following link to verify you\'re not a robot and validate up to 10 votes:\n    " + url
+            + "\n\nIf you have voted less than 10 times when you clicked the link, "
+            + "it will validate those votes and you will receive a new validation link (worth 10 votes) on your next vote."
+            + "\n\nIf you don't verify yourself, your vote will be deleted after 24 hours. "
+            + "If you don't want to receive validation e-mails, please sign up!";
+            send_email(email, subject, body);
         });
     }
 }

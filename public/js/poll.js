@@ -1,5 +1,3 @@
-var socket = io.connect();
-
 //load var
 var data;
 
@@ -142,7 +140,8 @@ $(document).ready(function(){
                         'v_choice'  :$(this).val(),
                         //vanon
                         'v_hex'     :data.c_hex[$(this).val()],
-                        'v_text'    :data.c_text[$(this).val()]
+                        'v_text'    :data.c_text[$(this).val()],
+                        's_vtime'   :votetime
                     });
                 }
                 else{

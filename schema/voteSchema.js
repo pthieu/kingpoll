@@ -14,7 +14,7 @@ var voteSchema = new mongoose.Schema({
     'v_text'    : {type:String},
     'v_date'    : {type:Date},
     'v_valid'   : {type:String, default: 'false'}, //for non-reg users, 0:check for confirm 1:good
-    's_vtime'    : {type:Number, default: 0} //how long user took to vote
+    's_vtime'   : {type:Number, default: 0} //how long user took to vote
 });
 
 //make object and apply schema to it, creates consctrutor

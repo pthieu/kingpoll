@@ -31,7 +31,7 @@ app.get('/', routes.about);
 app.get('/new', routes.createpoll);
 app.get('/p/:id', routes.getpoll);
 app.get('/signup', routes.signup);
-app.get('/verify/:code', routes.signup);
+app.get('/verify/v/:code', routes.verifyvote);
 // app.get('*', routes.about);
 app.post('/new', routes.newpoll);
 app.post('/signup', routes.newuser);
@@ -94,21 +94,21 @@ io.sockets.on('connection', function (client) {
                         }
                         Vote.findOne({'u_id': user._id, 'p_id':dataVote.p_id[0]}).exec(function (err, vote){
                             if(!vote){
+                                newvote['u_id'] = user._id;
                                 newvote.v_valid = (user.v_left < 0) ? 'true' : 'false'; //v_valid if user registered
                                 if (user.v_left >= 0){
                                     user.v_left += 1; //increment outstanding votes
-                                    newvote.v_valid = user.u_salt[user.u_salt.length-1]; //take newest salt
                                     console.log(newvote);
-                                    if ((user.v_left%6) === 0){ // send every 6 votes for now
+                                    if ((user.v_left%10) === 1){ // send every 6 votes for now
                                         console.log('Sending vote verification...');
-                                        email.send_email_confirmation(newvote.u_email, newvote.p_id, newvote._id, newvote.v_valid);
                                         user.u_salt.push(shortid.generate()); //generate new salt at mod=0
                                         user.markModified('u_salt'); //tell mongoose it's modified
+                                        email.send_email_confirmation(newvote.u_email, newvote.u_id, newvote._id, user.u_salt[user.u_salt.length-1]);
                                     }
+                                    newvote.v_valid = user.u_salt[user.u_salt.length-1]; //take newest salt
                                 }
                                 user.u_ip = user.u_ip.addToSet(dataVote.v_ip);
                                 console.log('No vote found, updating user IP log');
-                                newvote['u_id'] = user._id;
 
                                 help.savedoc(user, newvote, function (item) {
                                     client.emit('setEmail', user.u_email);
