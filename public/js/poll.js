@@ -1,3 +1,5 @@
+var socket = io.connect();
+
 //load var
 var data;
 
