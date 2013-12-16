@@ -23,6 +23,7 @@ module.exports = {
         item.save(function (err, item, count) {
             if (err){
                 console.log('Save: failed')
+                console.log(item);
                 throw err;
             }
             else{

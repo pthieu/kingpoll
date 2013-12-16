@@ -51,10 +51,12 @@ io.sockets.on('connection', function (client) {
             client.emit('pollID', poll);
         });
     });
-    console.log(client.id);
+    // console.log(client.id);
     var voted = false;
 
     client.on('vote', function (dataVote) {
+        u_email = dataVote.u_email.toLowerCase();
+        u_id = (dataVote.u_id) ? dataVote.u_id : mongoose.Types.ObjectId();
         var new_vid = mongoose.Types.ObjectId();
         Poll.findOne({'_id': dataVote.p_id[0]}).exec(function (err, doc) {
             if (err) throw err;
@@ -63,7 +65,7 @@ io.sockets.on('connection', function (client) {
                 var newvote = new Vote({
                     _id         : new_vid,
                     'p_id'      : dataVote.p_id[0],
-                    'u_email'   : dataVote.u_email.toLowerCase(),
+                    'u_email'   : u_email,
                     'u_loc'     : dataVote.u_loc,
                     'u_longlat' : dataVote.u_longlat,
                     'v_ip'      : dataVote.v_ip,
@@ -74,8 +76,9 @@ io.sockets.on('connection', function (client) {
                 var voted = {};
                 voted[newvote.p_id] = newvote.v_choice;
                 // check if user exists
-                if (dataVote.u_email.toLowerCase()){
-                    User.findOne({'u_email': dataVote.u_email.toLowerCase()}).exec(function (err, doc) {
+                if (u_email){
+                    console.log('Looking for user: ' + u_email)
+                    User.findOne({'u_email': u_email}).exec(function (err, doc) {
                         if (err) throw err;
                         //if u_email doesn't exist, means we gotta make new account, so generate hex
                         if(!doc){
@@ -83,7 +86,8 @@ io.sockets.on('connection', function (client) {
                             var new_uid = mongoose.Types.ObjectId();
                             var user = new User({
                                 _id         : new_uid,
-                                'u_email'   : dataVote.u_email.toLowerCase(),
+                                'u_id'      : u_id,
+                                'u_email'   : u_email,
                                 'u_created' : new_uid.getTimestamp(),
                                 'u_loc'     : dataVote.u_loc
                             });
@@ -117,11 +121,11 @@ io.sockets.on('connection', function (client) {
                                     client.emit('setEmail', user.u_email);
                                     client.emit('setID', user._id);
                                     console.log('Trying to save vote');
-                                    help.savedoc(item, voted, function (emit_item) {//save vote
-                                        client.emit("setVoted", emit_item); //set what user voted on
-                                        console.log('Trying to increment poll: ' + newvote.p_id + ' -- ' + newvote.u_loc[0] + ', ' + newvote.u_loc[3] + ', choice ' + newvote.v_choice);
-                                        help.incPoll(Poll, newvote.p_id, newvote.v_choice, newvote.u_loc); // increment only after vote saved success
-                                    });
+                                    // help.savedoc(item, voted, function (emit_item) {//save vote
+                                    //     client.emit("setVoted", emit_item); //set what user voted on
+                                    //     console.log('Trying to increment poll: ' + newvote.p_id + ' -- ' + newvote.u_loc[0] + ', ' + newvote.u_loc[3] + ', choice ' + newvote.v_choice);
+                                    //     help.incPoll(Poll, newvote.p_id, newvote.v_choice, newvote.u_loc); // increment only after vote saved success
+                                    // });
                                 });
                             }
                             else{

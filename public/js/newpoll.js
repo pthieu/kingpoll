@@ -51,8 +51,8 @@ $(document).ready(function() {
         preview_colors();
     });
     $('input[name=template_choice]').click(function() {
-        $('#custom_question').val('');
-        $('#preview_question').text('');
+        // $('#custom_question').val('');
+        // $('#preview_question').text('');
     });
     //yes/no option, change text box
     $('#template1').click(function() {
@@ -72,7 +72,7 @@ $(document).ready(function() {
         // $('#textchoice input[type="text"]').attr('readonly',"readonly");
         $('#textchoice input[type="radio"]').attr('disabled',"true");
         preview_colors();
-        $('#question').val('');
+        // $('#question').val('');
         //disable other nchoices
         $('input[name="nchoice"]').attr('disabled','disabled');
         //uncheck simple q's

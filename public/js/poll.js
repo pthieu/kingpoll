@@ -18,8 +18,8 @@ var rgn_fill = "#dddddd";
 var rgn_stroke = "#ffffff";
 
 //results pie chart config
-var w = $('#results').width();
-var h = $('#results').height();;                
+var w = $('#results').width()/2;
+var h = $('#results').height();                
 
 socket.on('results', function (results) {
     calcResultPerc(results['yes_cnt'], results['no_cnt']);
@@ -40,6 +40,9 @@ $(document).ready(function(){
     u_id = getLocalVar('u_id');
     u_email = getLocalVar('u_email');
     // socket.emit('getID');
+
+    var disqus_identifier = pollid;
+
     socket.on('setID', function (ID) {
         console.log(ID);
     });
@@ -85,13 +88,78 @@ $(document).ready(function(){
                     choice_colors[j].votes += data.data.us[i][j];
                 }
             }
+
+// var poundcolors = [];
+// for(i=0; i<colors_hex.length; i++){
+//     poundcolors[i] = "#"+colors_hex[i];
+// }
+// nv.addGraph(function() {
+//   var chart = nv.models.pieChart()
+//       .x(function(d) { return d.label })
+//       .y(function(d) { return d.value })
+//       .color(poundcolors)
+//       .showLabels(false)
+//       .showLegend(false)
+//       .labelThreshold(.05)
+//       .toolTips(false)
+//       .donut(true);
+
+//     d3.select("#pieTotal")
+//         .datum(exampleData())
+//       .transition().duration(1200)
+//         .call(chart);
+
+//   return chart;
+// });
+
+// function exampleData() {
+//   return [
+//   {
+//     key: "Cumulative Return",
+//     values: [
+//       { 
+//         "label" : "CDS / Options" ,
+//         "value" : 20
+//       } , 
+//       { 
+//         "label" : "Cash" , 
+//         "value" : 20
+//       } , 
+//       { 
+//         "label" : "Corporate Bonds" , 
+//         "value" : 20
+//       } , 
+//       { 
+//         "label" : "Equity" , 
+//         "value" : 20
+//       } , 
+//       { 
+//         "label" : "Index Futures" ,
+//         "value" : 20
+//       } , 
+//       { 
+//         "label" : "Options" , 
+//         "value" : 20
+//       } , 
+//       { 
+//         "label" : "Preferred" , 
+//         "value" : 20
+//       } , 
+//     ]
+//   }
+//   ];
+// }
+
             // converts radians to percentage
+            var choice_colors=[{'c_text':'yes', 'color':'ff0000', 'votes':10},
+                  {'c_text':'no', 'color':'0000ff', 'votes':10}];
+            var dur = 750;
             var results_perc = d3.scale.linear().domain([0, 100]).range([0, 2 * Math.PI]);
             var pie_data = calcPie(choice_colors);
             
             var tmp = d3.selectAll("#results_chart *")
                         .remove();
-            var results_pie = d3.select("#results_chart");
+            var results_pie = d3.select("#pieTotal");
             var results_pie_arc = d3.svg.arc()
                     .innerRadius(50)
                     .outerRadius(100)
@@ -102,10 +170,22 @@ $(document).ready(function(){
                 .data(pie_data) //binds data
                 .enter() //if not enough path's, we are going to add more elements
                 .append("path") //element is a path
-                .attr("d", results_pie_arc) //path param "d", grab results from results_pie_arc
                 .style("fill", function(d){return d[2];}) //for some reason, style property avaliable only after enter()
                 .attr("transform", "translate("+"120"+","+h/2+")")
-                .attr('id',function(d){return "pie_c"+d[3];});
+                .attr('id',function(d){return "pie_c"+d[3];})
+                .attr("d", results_pie_arc)
+                .transition().duration(dur).ease("elastic").attrTween("d", arcTween); //path param "d", grab results from results_pie_arc
+
+
+function arcTween(a) {
+
+    var i = d3.interpolate(this._current, a);
+    this._current = i(0);
+    return function(t) {
+        return arc(i(t));
+    };
+}
+
 
             getMap($('#map'), rgn_color); //write map
             //$(".jvectormap-region[data-code='US-WA']").attr("fill","#cc0000");
@@ -327,6 +407,7 @@ function calcPie(data){
 
     var pos = 0; //placeholder for first element
     //now calculate the angles for the pie chart
+    results.push([0,100,'ddd',0]); //skeleton donut
     for(i in data){
         //check of 0/0 error
         if (data[i].votes === 0){

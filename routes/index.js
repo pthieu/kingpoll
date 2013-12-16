@@ -42,15 +42,21 @@ exports.verifyvote = function (req, res) {
     Vote.update({u_id:u_id, v_valid:v_salt}, {$set:{v_valid:'true'}}, {multi:true}, function (err, nUpdated) {
         if (err) console.error(err);
         User.findOne({_id:u_id}, function (err, user) {
-            console.log('Number of votes validated: '+nUpdated);
-            user.v_left -= nUpdated;
-            user.v_left = (user.v_left < 0) ? 0 : user.v_left; // make sure it's not < 0
-            user.u_salt.shift();
-            user.markModified('u_salt');
-            user.save(function (err) {
-                if (err) console.error(err);
+            if(user){
+                console.log('Number of votes validated: '+nUpdated);
+                user.v_left -= nUpdated;
+                user.v_left = (user.v_left < 0) ? 0 : user.v_left; // make sure it's not < 0
+                user.u_salt.shift();
+                user.markModified('u_salt');
+                user.save(function (err) {
+                    if (err) console.error(err);
+                    res.sendfile('public/views/validation.html');
+                });
+            }
+            else{
+                console.log('No Votes found');
                 res.sendfile('public/views/validation.html');
-            });
+            }
         });
     });
     // Vote.find({u_id:u_id, v_valid:v_salt}, function (err, vote) {
@@ -112,7 +118,7 @@ exports.newpoll = function(req, res) {
             else{
                 console.log('Poll Save: passed')
                 var redirect = "/p/"+hex_pid.toString();
-                res.header('Content-Length', redirect.length);
+                res.header('Content-Length', Buffer.byteLength(redirect));
                 res.send(redirect, 200);
             }
         });
@@ -121,7 +127,7 @@ exports.newpoll = function(req, res) {
 exports.newuser = function(req, res) {
     console.log(req.body);
     var redirect = '/signup';
-    res.header('Content-Length', redirect.length);
+    res.header('Content-Length', Buffer.byteLength(redirect));
     res.send(redirect, 200);
 };
 function cleansymbols(str, lvl){

@@ -6,17 +6,17 @@
     <title>kingpoll.</title>
     <link href="/jvectormap/jquery-jvectormap-1.2.2.css" media="screen" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="/css/radiobutton.css" type="text/css" />
+    <link rel="stylesheet" href="/css/layout.css" type="text/css" />
+    <link rel="stylesheet" href="http://nvd3.org/src/nv.d3.css" type="text/css" />
     <link rel="stylesheet" href="/css/poll.css" type="text/css" />
+    <link rel="stylesheet" href="/css/disqus.css" type="text/css" />
     <link rel="stylesheet" href="/css/popup_signup.css" type="text/css" />
     <link rel="stylesheet" href="/css/dash.css" type="text/css" />
     <link rel="stylesheet" href="/css/footer.css" type="text/css" />
     <!--<script src="/maps/data_usa.js" type="text/javascript"></script>-->
 </head>
 <body>
-    <div id='dash'>
-        Logo NewPoll Top100 Signup Login
-    </div>
-    
+    <div id='dash'></div>
     <div id="wrapper">
         <div id='question'>Question</div>
         <div id="choices" class='choices'>
@@ -28,20 +28,26 @@
             <div class='tbDescription'></div>
         </div>
         <div id="results">
+            <svg id='pieTotal' class='stats'></svg>
+            <svg id='barVoteTime' class='stats'></svg>
+            <svg id='lineVoteFreq' class='stats'></svg>
             <svg id='results_chart'></svg>
         </div>
         <div id="mid">
             <div id="map"></div>
         </div>
-        
-        <div id="left">Yes Live Feed</div>
-        <div id="right">No Live Feed</div>
-        <div id="bottom">Messages</div>
+        <div id="messages">
+            <div id="disqus_thread"></div>
+            <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+            <a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+        </div>
     </div>
+    <div style='display:none'>
     <div id='signup_box' title='Are you a robot?'>
         Please enter your e-mail to vote.<br/>
         (This is to prevent skewing of results)
         <input type="text" id='tbEmail' name='signup_email'>
+    </div>
     </div>
     <div id="footer"></div>
     <script src="/socket.io/socket.io.js"></script>
@@ -51,9 +57,12 @@
     <script src="/js/colors.js"></script>
     <script src="http://jvectormap.com/js/jquery-jvectormap-1.2.2.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.3.10/d3.min.js" charset="utf-8"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/nvd3/1.1.14-beta/nv.d3.min.js" charset="utf-8"></script>
+    <!--<script src="//cdnjs.cloudflare.com/ajax/libs/nvd3/1.1.14-beta/nv.d3.min.js" charset="utf-8"></script>-->
+    <script src="http://nvd3.org/nv.d3.js" charset="utf-8"></script>
     <script src="/jvectormap/maps/jquery-jvectormap-us-lcc-en.js"></script>
+    <script src="/js/disqus.js"></script>
     <script src="/js/poll.js"></script>
     <script>$('#footer').load('/views/footer.html')</script>
+    <script>$('#dash').load('/views/dash.html')</script>
 </body>
 </html>
