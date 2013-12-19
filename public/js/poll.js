@@ -19,7 +19,14 @@ var rgn_stroke = "#ffffff";
 
 //results pie chart config
 var w = $('#results').width()/2;
-var h = $('#results').height();                
+var h = $('#results').height();
+
+//vote time bar chart config
+var chartMargin = {top:30, right:30, bottom:30, left:30};
+var chartW = $('#pieTotal').width()  - chartMargin.left - chartMargin.right;
+var chartH = $('#pieTotal').height() - chartMargin.top - chartMargin.bottom;
+var barWidth = 20;
+var barOffset = 6
 
 socket.on('results', function (results) {
     calcResultPerc(results['yes_cnt'], results['no_cnt']);
@@ -88,68 +95,6 @@ $(document).ready(function(){
                     choice_colors[j].votes += data.data.us[i][j];
                 }
             }
-
-// var poundcolors = [];
-// for(i=0; i<colors_hex.length; i++){
-//     poundcolors[i] = "#"+colors_hex[i];
-// }
-// nv.addGraph(function() {
-//   var chart = nv.models.pieChart()
-//       .x(function(d) { return d.label })
-//       .y(function(d) { return d.value })
-//       .color(poundcolors)
-//       .showLabels(false)
-//       .showLegend(false)
-//       .labelThreshold(.05)
-//       .toolTips(false)
-//       .donut(true);
-
-//     d3.select("#pieTotal")
-//         .datum(exampleData())
-//       .transition().duration(1200)
-//         .call(chart);
-
-//   return chart;
-// });
-
-// function exampleData() {
-//   return [
-//   {
-//     key: "Cumulative Return",
-//     values: [
-//       { 
-//         "label" : "CDS / Options" ,
-//         "value" : 20
-//       } , 
-//       { 
-//         "label" : "Cash" , 
-//         "value" : 20
-//       } , 
-//       { 
-//         "label" : "Corporate Bonds" , 
-//         "value" : 20
-//       } , 
-//       { 
-//         "label" : "Equity" , 
-//         "value" : 20
-//       } , 
-//       { 
-//         "label" : "Index Futures" ,
-//         "value" : 20
-//       } , 
-//       { 
-//         "label" : "Options" , 
-//         "value" : 20
-//       } , 
-//       { 
-//         "label" : "Preferred" , 
-//         "value" : 20
-//       } , 
-//     ]
-//   }
-//   ];
-// }
-
             // converts radians to percentage
             var choice_colors=[{'c_text':'yes', 'color':'ff0000', 'votes':10},
                   {'c_text':'no', 'color':'0000ff', 'votes':10}];
@@ -174,7 +119,7 @@ $(document).ready(function(){
                 .attr("transform", "translate("+"120"+","+h/2+")")
                 .attr('id',function(d){return "pie_c"+d[3];})
                 .attr("d", results_pie_arc)
-                .transition().duration(dur).ease("elastic").attrTween("d", arcTween); //path param "d", grab results from results_pie_arc
+//causing length unknown error                // .transition().duration(dur).ease("elastic").attrTween("d", arcTween); //path param "d", grab results from results_pie_arc
 
 
 function arcTween(a) {
@@ -186,6 +131,59 @@ function arcTween(a) {
     };
 }
 
+/* THIS IS CODE FOR THE BAR CHART*/
+                var data = [{name:'Average', value: 1.5}, {name:'You', value: 3}, {name:'Test', value: 2}];
+
+                var chart = d3.select('#barVoteTime').append('svg')
+                    .attr('class', 'barchart')
+                    .attr("height", chartH + chartMargin.top + chartMargin.bottom)
+                    .append('g')
+                    .attr("transform", "translate(" + chartMargin.left + "," + chartMargin.top + ")");
+
+                var x = d3.scale.ordinal()
+                    .rangeRoundBands([0, chartW]);
+                var y = d3.scale.linear()
+                    .range([chartH, 0]);
+                x.domain(data.map(function(d){return d.name;}));
+                y.domain([0, d3.max(data, function(d){return d.value;})]);
+
+                var bar = chart.selectAll('g')
+                    .data(data)
+                    .enter().append('g')
+                    .attr("y", function(d) { return y(d.value); });
+                bar.append("rect")
+                    .attr("x", function(d) { return x(d.name)+barOffset/2; })
+                    .attr("y", function(d) { return y(d.value); })
+                    .attr("height", function(d) { return chartH - y(d.value); })
+                    .attr("width", x.rangeBand()-barOffset);
+
+                bar.append("text")
+                    .attr("x", function(d) { return x(d.name)+barWidth/2;})
+                    .attr("y", function(d) { return x(d) - 3; })
+                    .attr("dy", "2rem")
+                    .text(function(d) { return d.value; })
+
+                var xAxis = d3.svg.axis()
+                  .scale(x)
+                  .orient('bottom');
+                var yAxis = d3.svg.axis()
+                  .scale(y)
+                  .orient('left');
+
+                chart.append('g')
+                    .attr('class', 'x axis')
+                    .attr('transform', 'translate(0,'+chartH+')')
+                    .call(xAxis);
+                chart.append('g')
+                    .attr('class', 'y axis')
+                    .attr('transform', 'translate(0,0)')
+                    .call(yAxis);
+
+/* END CODE BARCHART*/
+            $('#barVoteTime').click(function () {
+                data = [{name:'Average', value: 10}, {name:'You', value: 10}, {name:'Test', value: 10}];
+                drawVoteTime(chart, data, y, yAxis);
+            });
 
             getMap($('#map'), rgn_color); //write map
             //$(".jvectormap-region[data-code='US-WA']").attr("fill","#cc0000");
@@ -237,6 +235,21 @@ function arcTween(a) {
         }
     });
 });
+
+function drawVoteTime(chart, data, y_scale, yAxis){
+    y_scale.domain([0, d3.max(data, function(d){return d.value;})]);
+
+    chart.selectAll('.y.axis')
+        .transition()
+        .duration(1000)
+        .call(yAxis);
+    chart.selectAll("rect")
+        .data(data)
+        .transition()
+        .duration(1000)
+        .attr("y", function(d) { return y_scale(d.value); })
+        .attr("height", function(d) { return chartH - y_scale(d.value); });
+}
 
 function getLocalVar(item){
     if(typeof(Storage) !== "undefined"){
