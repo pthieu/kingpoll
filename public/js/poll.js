@@ -132,7 +132,7 @@ function arcTween(a) {
 }
 
 /* THIS IS CODE FOR THE BAR CHART*/
-                var data = [{name:'Average', value: 1.5}, {name:'You', value: 3}, {name:'Test', value: 2}];
+                var bardata = [{name:'Average', value: 1.5}, {name:'You', value: 3}, {name:'Test', value: 2}];
 
                 var chart = d3.select('#barVoteTime').append('svg')
                     .attr('class', 'barchart')
@@ -144,11 +144,11 @@ function arcTween(a) {
                     .rangeRoundBands([0, chartW]);
                 var y = d3.scale.linear()
                     .range([chartH, 0]);
-                x.domain(data.map(function(d){return d.name;}));
-                y.domain([0, d3.max(data, function(d){return d.value;})]);
+                x.domain(bardata.map(function(d){return d.name;}));
+                y.domain([0, d3.max(bardata, function(d){return d.value;})]);
 
                 var bar = chart.selectAll('g')
-                    .data(data)
+                    .data(bardata)
                     .enter().append('g')
                     .attr("y", function(d) { return y(d.value); });
                 bar.append("rect")
