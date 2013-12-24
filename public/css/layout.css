@@ -35,12 +35,12 @@ body{
 #branding{
     color: #666;
     margin-top: 9rem;
-    margin-bottom: 1em;
+    margin-bottom: 1rem;
 }
 #nameLogo{
     position: relative;
     font-weight: 900;
-    font-size: 5em;
+    font-size: 5rem;
 }
 #nameLogo::before{
     content: 'Question';
@@ -57,7 +57,7 @@ body{
     font-size: 1rem;
 }
 #branding>#slogan{
-    font-size: 1em;
+    font-size: 1rem;
 }
 #wrapLogo{
     display:inline;

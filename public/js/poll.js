@@ -26,7 +26,9 @@ var chartMargin = {top:30, right:30, bottom:30, left:30};
 var chartW = $('#pieTotal').width()  - chartMargin.left - chartMargin.right;
 var chartH = $('#pieTotal').height() - chartMargin.top - chartMargin.bottom;
 var barWidth = 20;
-var barOffset = 6
+var barOffset = 6;
+var dur = 1000; //transition duration
+var chart_solocolor = colors_hex[randColor(colors_hex)];
 
 socket.on('results', function (results) {
     calcResultPerc(results['yes_cnt'], results['no_cnt']);
@@ -132,7 +134,7 @@ function arcTween(a) {
 }
 
 /* THIS IS CODE FOR THE BAR CHART*/
-                var bardata = [{name:'Average', value: 1.5}, {name:'You', value: 3}, {name:'Test', value: 2}];
+                var bardata = [{name:'Average', value: 0.3}, {name:'You', value: 5}];
 
                 var chart = d3.select('#barVoteTime').append('svg')
                     .attr('class', 'barchart')
@@ -155,13 +157,15 @@ function arcTween(a) {
                     .attr("x", function(d) { return x(d.name)+barOffset/2; })
                     .attr("y", function(d) { return y(d.value); })
                     .attr("height", function(d) { return chartH - y(d.value); })
-                    .attr("width", x.rangeBand()-barOffset);
+                    .attr("width", x.rangeBand()-barOffset); //rangeband chooses width of bar based on # of bars
 
-                bar.append("text")
-                    .attr("x", function(d) { return x(d.name)+barWidth/2;})
-                    .attr("y", function(d) { return x(d) - 3; })
-                    .attr("dy", "2rem")
-                    .text(function(d) { return d.value; })
+                bar.append("text") //not label at bottom, value in bar
+                    .attr("class", "s_votetime")
+                    .attr("x", function(d) {return x(d.name);}) //starting point left of bar
+                    .attr("y", function(d) { return y(d.value); }) //starts at top of bar
+                    .attr("dx", function(d) {return x.rangeBand()/2;}) //moves to middle of bar
+                    .attr("dy", function(d) { return (chartH - y(d.value))/2; }) //moves to middle of bar
+                    .text(function(d) { return d.value+"s";})
 
                 var xAxis = d3.svg.axis()
                   .scale(x)
@@ -181,9 +185,14 @@ function arcTween(a) {
 
 /* END CODE BARCHART*/
             $('#barVoteTime').click(function () {
-                data = [{name:'Average', value: 10}, {name:'You', value: 10}, {name:'Test', value: 10}];
+                data = [{name:'Average', value: 10}, {name:'You', value: 10}];
                 drawVoteTime(chart, data, y, yAxis);
             });
+            $('.barchart rect').css('fill','#'+chart_solocolor);
+            $('.barchart .s_votetime').css('text-shadow','-1px -1px #'+chart_solocolor
+                                                       + ', 1px -1px #'+chart_solocolor
+                                                       + ', -1px 1px #'+chart_solocolor
+                                                       + ', 1px 1px #'+chart_solocolor);
 
             getMap($('#map'), rgn_color); //write map
             //$(".jvectormap-region[data-code='US-WA']").attr("fill","#cc0000");
@@ -241,14 +250,21 @@ function drawVoteTime(chart, data, y_scale, yAxis){
 
     chart.selectAll('.y.axis')
         .transition()
-        .duration(1000)
+        .duration(dur)
         .call(yAxis);
     chart.selectAll("rect")
         .data(data)
         .transition()
-        .duration(1000)
+        .duration(dur)
         .attr("y", function(d) { return y_scale(d.value); })
         .attr("height", function(d) { return chartH - y_scale(d.value); });
+    chart.selectAll("text")
+        .data(data)
+        .transition()
+        .duration(dur)
+        .attr("y", function(d) { return y_scale(d.value); }) //starts at top of bar        
+        .attr("dy", function(d) { return (chartH - y_scale(d.value))/2; }) //moves to middle of bar
+        .text(function(d) { return d.value+"s";});
 }
 
 function getLocalVar(item){

@@ -52,9 +52,7 @@ io.sockets.on('connection', function (client) {
             client.emit('pollID', poll);
         });
     });
-    console.log(client.id);
-    var voted = false;
-
+    // console.log(client.id);
     client.on('vote', function (dataVote){
         console.log('voting');
         socket.vote(dataVote, client)
@@ -63,12 +61,6 @@ io.sockets.on('connection', function (client) {
         console.log(iploc);
     });
 });
-
-function showResults (client, yes_cnt, no_cnt){
-    console.log(client.id + " - " + "yes:" + yes_cnt + " no:" + no_cnt);
-    client.emit('results', {'yes_cnt':yes_cnt, 'no_cnt':no_cnt});
-}
-
 
 //tmp code to read from log file of results
 // fs.readFile(__dirname + '/tmp/results.log', "utf-8", function (err, data) {
