@@ -20,6 +20,9 @@ exports.test2 = function (req, res) {
 exports.about = function (req, res) {
     res.sendfile('public/views/about.html');
 }
+exports.listpoll = function (req, res) {
+    res.sendfile('public/views/listpoll.html');
+}
 exports.getpoll = function (req, res) {
     if(numonly.test(req.params.id) === true){
         pollID = req.params.id;

@@ -33,6 +33,7 @@ app.get('/test', routes.test); // use this for testing html
 app.get('/test2', routes.test2); // use this for testing html
 app.get('/about', routes.about);
 app.get('/new', routes.createpoll);
+app.get('/listpoll', routes.listpoll);
 app.get('/p/:id', routes.getpoll);
 app.get('/signup', routes.signup);
 app.get('/verify/v/:code', routes.verifyvote);
@@ -50,6 +51,13 @@ io.sockets.on('connection', function (client) {
         Poll.findOne({'p_id':pollID}, function(err, poll) {
             if (err) return console.error(err);
             client.emit('pollID', poll);
+        });
+    });
+    //get list of all the available polls and display to user
+    client.on('getlistpoll', function () {
+        Poll.find(function(err, poll) {
+            if (err) return console.error(err);
+            client.emit('listpoll', poll);
         });
     });
     // console.log(client.id);
