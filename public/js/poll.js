@@ -17,18 +17,22 @@ var rgn_color = {};
 var rgn_fill = "#dddddd";
 var rgn_stroke = "#ffffff";
 
-//results pie chart config
-var w = $('#results').width()/2;
-var h = $('#results').height();
+
 
 //vote time bar chart config
 var chartMargin = {top:30, right:30, bottom:30, left:30};
 var chartW = $('#pieTotal').width()  - chartMargin.left - chartMargin.right;
-var chartH = $('#pieTotal').height() - chartMargin.top - chartMargin.bottom;
+var chartH = $('#pieTotal').height() - chartMargin.top/2 - chartMargin.bottom/2;
 var barWidth = 20;
 var barOffset = 6;
 var dur = 1000; //transition duration
 var chart_solocolor = colors_hex[randColor(colors_hex)];
+
+//results pie chart config
+var pieW = $('#pieTotal').width();
+var pieH = $('#pieTotal').height();
+var innerRadius = $('#pieTotal').width()/3;
+var outerRadius = $('#pieTotal').width()/2 - chartMargin.right/4;
 
 socket.on('results', function (results) {
     calcResultPerc(results['yes_cnt'], results['no_cnt']);
@@ -52,6 +56,60 @@ $(document).ready(function(){
 
     var disqus_identifier = pollid;
 
+
+    //set up empty graphs
+    //PIE CHART - VOTE TOTALS
+    var results_pie = d3.layout.pie()
+                       .sort(null);
+    var pie_arc = d3.svg.arc()
+                    .innerRadius(innerRadius)
+                    .outerRadius(outerRadius);
+
+    var svg_pie = d3.select("#pieTotal")
+                               .attr("width", pieW)
+                               .attr("height", pieH)
+                               .append("g")
+                               .attr("transform", "translate(" + pieW / 2 + "," + pieH / 2 + ")");
+
+    var pie_path = svg_pie.selectAll("path").data(results_pie([1,0,0,0,0,0]))
+                               .enter().append("path")
+                               .attr("fill", "white")
+                               .attr("d", pie_arc)
+                               .each(function(d) { this._current = d; }); // store the initial values
+    var pie_votes = [1,0,0,0,0,0];
+    var pie_colors = ["#ddd"];
+    $(svg_pie).bind("monitor", worker);
+    $(svg_pie).trigger("monitor");
+
+    function worker(event) {
+
+        pie_path = pie_path.data(results_pie(pie_votes))
+                   .attr("fill", function(d,i) {return pie_colors[i]})
+
+        pie_path.transition().duration(500).attrTween("d", arcTween);                                            
+        setTimeout(function(){$(svg_pie).trigger("monitor")}, 1000)
+    }                     
+                         
+    // Store the displayed angles in _current.
+    // Then, interpolate from _current to the new angles.
+    // During the transition, _current is updated in-place by d3.interpolate.
+    function arcTween(a) {
+      var i = d3.interpolate(this._current, a);
+      this._current = i(0);
+      return function(t) {
+        return pie_arc(i(t));
+      };
+    }
+
+    function getRandomCounts() {
+        var arr = [];
+        for (var i=0;i<6;i++) {
+           arr.push(Math.floor(Math.random()*10)+1);
+        }
+        console.log(arr);
+        return (arr);
+    }
+
     socket.on('setID', function (ID) {
         console.log(ID);
     });
@@ -65,6 +123,7 @@ $(document).ready(function(){
         console.log('No email specified');
         //queue popup
     });
+
     socket.on('pollID', function (poll) {
         if (poll){
             data = poll;
@@ -73,8 +132,13 @@ $(document).ready(function(){
             // are added later to actually sync up with the colors in the array objects
             // not sure if the for(i in obj) will progress in an orderly way
             var choice_colors=[]; //holds button text and color
+                pie_votes = [];
+                pie_colors = [];
             for(i=0; i<data.c_n;i++){
                 choice_colors[i] = {'c_text':data.c_text[i], 'color':data.c_hex[i], 'votes':0};
+                //sets new values on pie arcs
+                pie_votes.push(data.c_total[i]);
+                pie_colors.push("#"+data.c_hex[i]);
             }
             if(data.p_desc != null){
                 $('#tbDescription').css('visibility', 'visible');
@@ -97,41 +161,43 @@ $(document).ready(function(){
                     choice_colors[j].votes += data.data.us[i][j];
                 }
             }
+
+
             // converts radians to percentage
-            var choice_colors=[{'c_text':'yes', 'color':'ff0000', 'votes':10},
-                  {'c_text':'no', 'color':'0000ff', 'votes':10}];
-            var dur = 750;
-            var results_perc = d3.scale.linear().domain([0, 100]).range([0, 2 * Math.PI]);
-            var pie_data = calcPie(choice_colors);
+            // var choice_colors=[{'c_text':'yes', 'color':'ff0000', 'votes':10},
+            //       {'c_text':'no', 'color':'0000ff', 'votes':10}];
+            // var dur = 750;
+            // var results_perc = d3.scale.linear().domain([0, 100]).range([0, 2 * Math.PI]);
+            // var pie_data = calcPie(choice_colors);
             
-            var tmp = d3.selectAll("#results_chart *")
-                        .remove();
-            var results_pie = d3.select("#pieTotal");
-            var results_pie_arc = d3.svg.arc()
-                    .innerRadius(50)
-                    .outerRadius(100)
-                    .startAngle(function(d){return results_perc(d[0]);})
-                    .endAngle(function(d){return results_perc(d[1]);});
+            // var tmp = d3.selectAll("#results_chart *")
+            //             .remove();
+//             var results_pie = d3.select("#pieTotal");
+//             var results_pie_arc = d3.svg.arc()
+//                     .innerRadius(50)
+//                     .outerRadius(100)
+//                     .startAngle(function(d){return results_perc(d[0]);})
+//                     .endAngle(function(d){return results_perc(d[1]);});
 
-            results_pie.selectAll("path") //selects the single existing path (arc) above
-                .data(pie_data) //binds data
-                .enter() //if not enough path's, we are going to add more elements
-                .append("path") //element is a path
-                .style("fill", function(d){return d[2];}) //for some reason, style property avaliable only after enter()
-                .attr("transform", "translate("+"120"+","+h/2+")")
-                .attr('id',function(d){return "pie_c"+d[3];})
-                .attr("d", results_pie_arc)
-//causing length unknown error                // .transition().duration(dur).ease("elastic").attrTween("d", arcTween); //path param "d", grab results from results_pie_arc
+//             results_pie.selectAll("path") //selects the single existing path (arc) above
+//                 .data(pie_data) //binds data
+//                 .enter() //if not enough path's, we are going to add more elements
+//                 .append("path") //element is a path
+//                 .style("fill", function(d){return d[2];}) //for some reason, style property avaliable only after enter()
+//                 .attr("transform", "translate("+"120"+","+h/2+")")
+//                 .attr('id',function(d){return "pie_c"+d[3];})
+//                 .attr("d", results_pie_arc)
+// //causing length unknown error                // .transition().duration(dur).ease("elastic").attrTween("d", arcTween); //path param "d", grab results from results_pie_arc
 
 
-function arcTween(a) {
+// function arcTween(a) {
 
-    var i = d3.interpolate(this._current, a);
-    this._current = i(0);
-    return function(t) {
-        return arc(i(t));
-    };
-}
+//     var i = d3.interpolate(this._current, a);
+//     this._current = i(0);
+//     return function(t) {
+//         return arc(i(t));
+//     };
+// }
 
 /* THIS IS CODE FOR THE BAR CHART*/
                 var bardata = [{name:'Average', value: 0.3}, {name:'You', value: 5}];
@@ -140,7 +206,7 @@ function arcTween(a) {
                     .attr('class', 'barchart')
                     .attr("height", chartH + chartMargin.top + chartMargin.bottom)
                     .append('g')
-                    .attr("transform", "translate(" + chartMargin.left + "," + chartMargin.top + ")");
+                    .attr("transform", "translate(" + chartMargin.left + "," + chartMargin.top/3 + ")");
 
                 var x = d3.scale.ordinal()
                     .rangeRoundBands([0, chartW]);
