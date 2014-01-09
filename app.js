@@ -7,6 +7,7 @@ var http = require('http').createServer(app),
     UUID = require('node-uuid'),
     mongoose = require('mongoose');
     fs = require('fs');
+    textSearch = require('mongoose-text-search');
 var shortid = require('shortid');
 
 var Poll = require('./schema/pollSchema').Poll;
@@ -37,6 +38,7 @@ app.get('/listpoll', routes.listpoll);
 app.get('/p/:id', routes.getpoll);
 app.get('/signup', routes.signup);
 app.get('/verify/v/:code', routes.verifyvote);
+app.get('/search', routes.searchpoll);
 // app.get('*', routes.about);
 app.post('/new', routes.newpoll);
 app.post('/signup', routes.newuser);
@@ -58,6 +60,13 @@ io.sockets.on('connection', function (client) {
         Poll.find(function(err, poll) {
             if (err) return console.error(err);
             client.emit('listpoll', poll);
+        });
+    });
+    //get search results for polls and display to user
+    client.on('searchpoll', function (searchKey) {
+        Poll.textSearch(searchKey, function(err, poll) {
+            if (err) return console.error(err);
+            client.emit('listsearchpoll', poll);
         });
     });
     // console.log(client.id);
