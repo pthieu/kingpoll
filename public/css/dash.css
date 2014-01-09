@@ -9,3 +9,7 @@
     background-color: white;
     top:0;
 }
+.search{
+	position: absolute;
+	margin-left: 50px;
+}

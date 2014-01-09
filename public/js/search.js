@@ -1,24 +1,26 @@
 var socket = io.connect();
 
 $(document).ready(function(){
-    socket.emit('getlistpoll');
+    var searchKey = gup('spoll');
+    socket.emit('searchpoll', searchKey);
 
-    socket.on('listpoll', function (poll) {
+    socket.on('listsearchpoll', function (poll) {
         if (poll){
 
+            var pollitems = poll.results;
             var source = $("#list-poll-item").html();
             var pollItemTemplate = Handlebars.compile(source);
 
-            poll.forEach(function(entry) {
+            pollitems.forEach(function(entry) {
                 //use template from view-poll-list and populate the view with 
                 //all the polls returned
-                $('#view-poll-list').append(pollItemTemplate(entry));
+                $('#view-poll-list').append(pollItemTemplate(entry.obj));
             });
         }
     });
 });
 
-$('#poll-filter').keyup(function() {
+$('#search-filter').keyup(function() {
     filter(this); 
 });
 
@@ -34,4 +36,9 @@ function filter(element) {
             $(this).hide();
         }
     });
+}
+
+function gup (name) {
+  name = RegExp ('[?&]' + name.replace (/([[\]])/, '\\$1') + '=([^&#]*)');
+  return (window.location.href.match (name) || ['', ''])[1];
 }

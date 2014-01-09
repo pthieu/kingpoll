@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var textSearch = require('mongoose-text-search');
 
 // creating a schema
 //p_poll c_choice u_user t_time
@@ -100,6 +101,12 @@ var pollSchema = new mongoose.Schema({
         'hiding':[{type: Number}]
     }
 });
+
+// give our schema text search capabilities
+pollSchema.plugin(textSearch);
+
+// add a text index to the p_q
+pollSchema.index({p_q: 'text'});
 
 //make object and apply schema to it, creates consctrutor
 //doing this, mongoose will make a table in db
