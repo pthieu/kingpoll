@@ -20,3 +20,11 @@
   stroke: #000;
   shape-rendering: crispEdges;
 }
+
+.piechart text{
+  fill: #888;
+  font-family: inherit;
+  font-size: 1.5rem;
+  text-anchor: middle;
+  alignment-baseline: middle;
+}
