@@ -43,9 +43,8 @@ $(document).ready(function(){
     //use this for now until we get to real dns
     var pollid = (window.location.href).split('/')[4];
     socket.emit('getpoll', pollid);
-    var tmp = colors_hex[randColor(colors_hex)];
     $('.tbDescription').hover(function () {
-        $(this).css({'border-color': "#"+tmp});
+        $(this).css({'border-color': "#"+chart_solocolor});
     }, function () {
         $(this).css({'border-color': "#ddd"});
     });
@@ -73,20 +72,20 @@ $(document).ready(function(){
                     .attr("class","piechart")
 
     var pie_path = svg_pie.selectAll("path").data(results_pie([1,0,0,0,0,0,0]))
-                           .enter().append("path")
-                           .attr("d", pie_arc)
-                           .each(function(d) { this._current = d; }) // store the initial values
-                           .attr("class", "vote_arc")
-                           .attr("value", function(d,i) {
-                                    return (i-1);
-                           });
+                    .enter().append("path")
+                    .attr("d", pie_arc)
+                    .each(function(d) { this._current = d; }) // store the initial values
+                    .attr("class", "vote_arc")
+                    .attr("value", function(d,i) {
+                            return (i-1);
+                    });
     var svg_pie_bg = svg_pie.append("circle")
-                            .attr("cx", 0)
-                            .attr("cy", 0)
-                            .attr("r", innerRadius-10)
-                            .attr("fill", "none");
+                    .attr("cx", 0)
+                    .attr("cy", 0)
+                    .attr("r", innerRadius-10)
+                    .attr("fill", "none");
     var svg_pie_msg = svg_pie.append("text") // later svg is "higher"
-                            .attr("class", "piechart_msg")
+                    .attr("class", "piechart_msg")
         svg_pie_msg.append("tspan")
                     .attr("x", 0)
                     .attr("y", -3)
@@ -97,8 +96,26 @@ $(document).ready(function(){
                     .attr("y", 22)
                     .attr("id",'pie_msg_val')
                     .text("0");
+
+    var svg_viewers = d3.select("#activeViewers")
+                    .attr("class", "stats")
+                    .attr("width", pieW)
+                    .attr("height", pieH)
+                    .append("text")
+                    .attr("transform", "translate(" + pieW / 2 + "," + pieH / 2 + ")")
+        svg_viewers.append("tspan")
+                    .attr("x", 0)
+                    .attr("y", -10)
+                    .text("Viewers");
+        svg_viewers.append("tspan")
+                    .attr("x", 0)
+                    .attr("y", 30)
+                    .attr("id","tspanActiveViewers")
+                    .text("1");
+
 //CLICK
     $('#click').click(function () {
+        alert('fuck you farran');
     });
 
     var pie_votes = [1,0,0,0,0,0,0];
@@ -110,13 +127,6 @@ $(document).ready(function(){
         pie_path = pie_path.data(results_pie(pie_votes))
                    .attr("fill", function(d,i) {return pie_colors[i]});
         pie_path.transition().duration(500).attrTween("d", arcTween//(
-            // function(d, i) 
-            // {
-            //     return {
-            //       innerRadius: 50,
-            //       outerRadius: 50
-            //     };
-            // })
         );
         setTimeout(function(){$(svg_pie).trigger("monitor")}, 500);
     }
@@ -163,16 +173,16 @@ $(document).ready(function(){
             // are added later to actually sync up with the colors in the array objects
             // not sure if the for(i in obj) will progress in an orderly way
             var choice_colors=[]; //holds button text and color
-                pie_votes = [];
-                pie_colors = [];
-                if(data.p_total <= 0){
-                    pie_votes.push(1);
-                    pie_colors.push("#ddd");
-                }
-                else{
-                    pie_votes.push(0);
-                    pie_colors.push("#ddd");
-                }
+            pie_votes = [];
+            pie_colors = [];
+            if(data.p_total <= 0){
+                pie_votes.push(1);
+                pie_colors.push("#ddd");
+            }
+            else{
+                pie_votes.push(0);
+                pie_colors.push("#ddd");
+            }
 
             for(i=0; i<data.c_n;i++){
                 choice_colors[i] = {'c_text':data.c_text[i], 'color':data.c_hex[i], 'votes':0};
@@ -217,56 +227,62 @@ $(document).ready(function(){
                     $('#pie_msg_val').text(data.p_total);
                 }
             });
+//VIEWERS COUNT
+            $('#activeViewers text tspan').css("fill", "#"+chart_solocolor);
+            socket.on('setViewers', function (d) {
+                $('#tspanActiveViewers').text(d);
+            });
+            setInterval(function(){socket.emit('getViewers')}, 5000);
 
 /* THIS IS CODE FOR THE BAR CHART*/
-                var bardata = [{name:'Average', value: 0.3}, {name:'You', value: 5}];
+            var bardata = [{name:'Average', value: 0.3}, {name:'You', value: 5}];
 
-                var chart = d3.select('#barVoteTime').append('svg')
-                    .attr('class', 'barchart')
-                    .attr("height", chartH + chartMargin.top + chartMargin.bottom)
-                    .append('g')
-                    .attr("transform", "translate(" + chartMargin.left + "," + chartMargin.top/3 + ")");
+            var chart = d3.select('#barVoteTime').append('svg')
+                .attr('class', 'barchart')
+                .attr("height", chartH + chartMargin.top + chartMargin.bottom)
+                .append('g')
+                .attr("transform", "translate(" + chartMargin.left*1.5 + "," + chartMargin.top/3 + ")");
 
-                var x = d3.scale.ordinal()
-                    .rangeRoundBands([0, chartW]);
-                var y = d3.scale.linear()
-                    .range([chartH, 0]);
-                x.domain(bardata.map(function(d){return d.name;}));
-                y.domain([0, d3.max(bardata, function(d){return d.value;})]);
+            var x = d3.scale.ordinal()
+                .rangeRoundBands([0, chartW]);
+            var y = d3.scale.linear()
+                .range([chartH, 0]);
+            x.domain(bardata.map(function(d){return d.name;}));
+            y.domain([0, d3.max(bardata, function(d){return d.value;})]);
 
-                var bar = chart.selectAll('g')
-                    .data(bardata)
-                    .enter().append('g')
-                    .attr("y", function(d) { return y(d.value); });
-                bar.append("rect")
-                    .attr("x", function(d) { return x(d.name)+barOffset/2; })
-                    .attr("y", function(d) { return y(d.value); })
-                    .attr("height", function(d) { return chartH - y(d.value); })
-                    .attr("width", x.rangeBand()-barOffset); //rangeband chooses width of bar based on # of bars
+            var bar = chart.selectAll('g')
+                .data(bardata)
+                .enter().append('g')
+                .attr("y", function(d) { return y(d.value); });
+            bar.append("rect")
+                .attr("x", function(d) { return x(d.name)+barOffset/2; })
+                .attr("y", function(d) { return y(d.value); })
+                .attr("height", function(d) { return chartH - y(d.value); })
+                .attr("width", x.rangeBand()-barOffset); //rangeband chooses width of bar based on # of bars
 
-                bar.append("text") //not label at bottom, value in bar
-                    .attr("class", "s_votetime")
-                    .attr("x", function(d) {return x(d.name);}) //starting point left of bar
-                    .attr("y", function(d) { return y(d.value); }) //starts at top of bar
-                    .attr("dx", function(d) {return x.rangeBand()/2;}) //moves to middle of bar
-                    .attr("dy", function(d) { return (chartH - y(d.value))/2; }) //moves to middle of bar
-                    .text(function(d) { return d.value+"s";})
+            bar.append("text") //not label at bottom, value in bar
+                .attr("class", "s_votetime")
+                .attr("x", function(d) {return x(d.name);}) //starting point left of bar
+                .attr("y", function(d) { return y(d.value); }) //starts at top of bar
+                .attr("dx", function(d) {return x.rangeBand()/2;}) //moves to middle of bar
+                .attr("dy", function(d) { return (chartH - y(d.value))/2; }) //moves to middle of bar
+                .text(function(d) { return d.value+"s";})
 
-                var xAxis = d3.svg.axis()
-                  .scale(x)
-                  .orient('bottom');
-                var yAxis = d3.svg.axis()
-                  .scale(y)
-                  .orient('left');
+            var xAxis = d3.svg.axis()
+              .scale(x)
+              .orient('bottom');
+            var yAxis = d3.svg.axis()
+              .scale(y)
+              .orient('left');
 
-                chart.append('g')
-                    .attr('class', 'x axis')
-                    .attr('transform', 'translate(0,'+chartH+')')
-                    .call(xAxis);
-                chart.append('g')
-                    .attr('class', 'y axis')
-                    .attr('transform', 'translate(0,0)')
-                    .call(yAxis);
+            chart.append('g')
+                .attr('class', 'x axis')
+                .attr('transform', 'translate(0,'+chartH+')')
+                .call(xAxis);
+            chart.append('g')
+                .attr('class', 'y axis')
+                .attr('transform', 'translate(0,0)')
+                .call(yAxis);
 
 /* END CODE BARCHART*/
             $('#barVoteTime').click(function () {
@@ -324,7 +340,7 @@ $(document).ready(function(){
             });
         }
         else{
-            $('#choices .radio').html("Poll not found <span style='font-weight:bold'>:c</span>");
+            $('#question').html("Poll not found <span style='font-weight:bold'>:c</span>");
             console.log('poll not found');
         }
     });

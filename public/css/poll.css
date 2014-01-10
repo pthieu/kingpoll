@@ -89,6 +89,19 @@ svg path:hover{
 }
 
 .stats{
+  display: inline;
   width: 15rem;
-  display:inline;
+  vertical-align: middle;
+  margin: auto;
+}
+
+#results div{
+  position: relative;
+  display: inline-block;
+  height:100%;
+}
+
+#results div *{
+  display: inline-block;
+  vertical-align: middle;
 }

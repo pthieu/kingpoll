@@ -28,3 +28,19 @@
   text-anchor: middle;
   alignment-baseline: middle;
 }
+
+#activeViewers text{
+  fill: #888;
+  font-family: inherit;
+  font-size: 1.5rem;
+  text-anchor: middle;
+  alignment-baseline: middle;
+}
+#activeViewers text tspan {
+  font-size:2rem;
+  font-weight: bold;
+}
+#activeViewers text tspan:first-child{
+  font-size:2.5rem;
+  font-weight: bold;
+}

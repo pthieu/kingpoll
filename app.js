@@ -47,12 +47,21 @@ http.listen(appPort);
 
 io.set('log level', 0); // Delete this row if you want to see debug messages
 
+var activepolls = new Array(); // don't use = {} because it doesn't have splice() function
+
 //Listen for incoming connections from clients
 io.sockets.on('connection', function (client) {
+    var pollid;
     client.on('getpoll', function (pollID) {
         Poll.findOne({'p_id':pollID}, function(err, poll) {
             if (err) return console.error(err);
             client.emit('pollID', poll);
+            if(poll){
+                pollid = poll.p_id;
+                activepolls[pollid] = (activepolls[pollid] ? activepolls[pollid]+1 : 1);
+                console.log("Active Polls:");
+                console.log(activepolls);
+            }
         });
     });
     //get list of all the available polls and display to user
@@ -76,6 +85,17 @@ io.sockets.on('connection', function (client) {
     });
     client.on('iploc', function (iploc) {
         console.log(iploc);
+    });
+    client.on('getViewers', function () {
+        client.emit('setViewers', activepolls[pollid]);
+    });
+    client.on('disconnect', function (iploc) {
+        if(activepolls[pollid]){
+            activepolls[pollid] -= 1;
+            activepolls.splice(pollid, 1);
+            console.log("Active Polls:");
+            console.log(activepolls);
+        }
     });
 });
 
