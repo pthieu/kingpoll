@@ -167,6 +167,7 @@ $(document).ready(function(){
 
     socket.on('pollID', function (poll) {
         if (poll){
+            socket.emit('getViewers')
             data = poll;
             $('#choices .radio').html('');
             // we use an array instead of a key/value pair because we want the buttons that
@@ -230,7 +231,7 @@ $(document).ready(function(){
 //VIEWERS COUNT
             $('#activeViewers text tspan').css("fill", "#"+chart_solocolor);
             socket.on('setViewers', function (d) {
-                $('#tspanActiveViewers').text(d);
+                $('#tspanActiveViewers').text((d === null) ? 1 : d);
             });
             setInterval(function(){socket.emit('getViewers')}, 5000);
 
