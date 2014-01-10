@@ -4,7 +4,9 @@ $(document).ready(function(){
     socket.emit('getlistpoll');
 
     socket.on('listpoll', function (poll) {
-        if (poll){
+        if (poll.length != 0){
+
+            $('#searching').hide();
 
             var source = $("#list-poll-item").html();
             var pollItemTemplate = Handlebars.compile(source);
@@ -14,6 +16,8 @@ $(document).ready(function(){
                 //all the polls returned
                 $('#view-poll-list').append(pollItemTemplate(entry));
             });
+        } else {
+            $('#searching').text("Sorry, No Polls Found!!");
         }
     });
 });

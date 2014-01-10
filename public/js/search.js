@@ -5,7 +5,9 @@ $(document).ready(function(){
     socket.emit('searchpoll', searchKey);
 
     socket.on('listsearchpoll', function (poll) {
-        if (poll){
+        if (poll.results.length != 0){
+
+            $('#searching').hide();
 
             var pollitems = poll.results;
             var source = $("#list-poll-item").html();
@@ -16,6 +18,8 @@ $(document).ready(function(){
                 //all the polls returned
                 $('#view-poll-list').append(pollItemTemplate(entry.obj));
             });
+        } else {
+            $('#searching').text("Sorry, No Polls Found!!");
         }
     });
 });
