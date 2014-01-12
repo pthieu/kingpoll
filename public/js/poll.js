@@ -93,7 +93,7 @@ $(document).ready(function(){
                     .attr("x", 0)
                     .attr("y", -3)
                     .attr("id",'pie_msg_title')
-                    .text("Votes");
+                    .text("Total Votes:");
         svg_pie_msg.append("tspan")
                     .attr("x", 0)
                     .attr("y", 22)
@@ -155,7 +155,7 @@ $(document).ready(function(){
         .attr("y", function(d) { return y(d.value); }) //starts at top of bar
         .attr("dx", function(d) {return x.rangeBand()/2;}) //moves to middle of bar
         .attr("dy", function(d) { return (chartH - y(d.value))/2; }) //moves to middle of bar
-        .text(function(d) { return d.value+"s";})
+        .text(function(d) {return d.value+"s";});
 
     var xAxis = d3.svg.axis()
       .scale(x)
@@ -237,7 +237,6 @@ $(document).ready(function(){
             }
             if(data.p_desc){
                 $('#tbDescription').show();
-                // $('#tbDescription').css('visibility', 'visible');
             }
             $('.tbDescription').html(data.p_desc);
             $('#question').html(data.p_q);
@@ -265,7 +264,7 @@ $(document).ready(function(){
                 if ($(this).attr('value') >= 0) {
                     svg_pie_bg.attr("fill", "none");
                     $('.piechart text').css("fill",$('body').css('color'));
-                    $('#pie_msg_title').text('Votes');
+                    $('#pie_msg_title').text('Total Votes');
                     $('#pie_msg_val').text(data.p_total);
                 }
             });
@@ -273,8 +272,9 @@ $(document).ready(function(){
 //BARCHART CHANGES
             voteTimeData = [{name:'Average', value: data.s_tavg}, {name:'You', value: s_vtime}];
             drawVoteTime(chart, voteTimeData, y, yAxis);
-            socket.on('setVoteTime', function (s_vtime) {
-                voteTimeData = [{name:'Average', value: data.s_tavg}, {name:'You', value: s_vtime}];
+            socket.on('setVoteTime', function (time) {
+                s_vtime = time;
+                voteTimeData = [{name:'Average', value: data.s_tavg}, {name:'You', value: time}];
                 drawVoteTime(chart, voteTimeData, y, yAxis);
             });
             $('.barchart rect').css('fill','#'+chart_solocolor);
@@ -341,7 +341,7 @@ $(document).ready(function(){
 });
 
 function drawVoteTime(chart, data, y_scale, yAxis){
-    y_scale.domain([0, d3.max(data, function(d){return d.value;})]);
+    y_scale.domain([0, d3.max(data, function(d){ return ((d.value>100) ? 100 : (d.value)); })]);
 
     chart.selectAll('.y.axis')
         .transition()
@@ -351,15 +351,18 @@ function drawVoteTime(chart, data, y_scale, yAxis){
         .data(data)
         .transition()
         .duration(dur)
-        .attr("y", function(d) { return y_scale(d.value); })
-        .attr("height", function(d) { return chartH - y_scale(d.value); });
+        .attr("y", function(d) { return y_scale((d.value>100) ? 100 : (d.value) ); })
+        .attr("height", function(d) { return chartH - y_scale((d.value>100) ? 100 : (d.value)); });
     chart.selectAll("text")
         .data(data)
         .transition()
         .duration(dur)
-        .attr("y", function(d) { return y_scale(d.value); }) //starts at top of bar        
-        .attr("dy", function(d) { return (chartH - y_scale(d.value))/2; }) //moves to middle of bar
-        .text(function(d) { return d.value+"s";});
+        .attr("y", function(d) { return y_scale((d.value>100) ? 100 : (d.value)); }) //starts at top of bar        
+        .attr("dy", function(d) { return (chartH - y_scale((d.value>100) ? 100 : (d.value)))/2; }) //moves to middle of bar
+        .text(function(d) {
+            // if(d.value >= 100){ return ">100"+"s";}
+            return ((d.value>100)?(">100"+"s"):(d.value+"s"));
+        });
 }
 
 function getLocalVar(item){
