@@ -17,15 +17,15 @@ var rgn_fill = "#dddddd";
 var rgn_stroke = "#ffffff";
 
 
-
 //vote time bar chart config
 var chartMargin = {top:30, right:30, bottom:30, left:30};
 var chartW = $('#pieTotal').width()  - chartMargin.left - chartMargin.right;
 var chartH = $('#pieTotal').height() - chartMargin.top/2 - chartMargin.bottom/2;
 var barWidth = 20;
 var barOffset = 6;
-var dur = 1000; //transition duration
+var dur = 500; //transition duration
 var chart_solocolor = colors_hex[randColor(colors_hex)];
+var s_vtime = 0;
 
 //results pie chart config
 var pieW = $('#pieTotal').width();
@@ -235,8 +235,9 @@ $(document).ready(function(){
                 pie_votes.push(data.c_total[i]);
                 pie_colors.push("#"+data.c_hex[i]);
             }
-            if(data.p_desc != null){
-                $('#tbDescription').css('visibility', 'visible');
+            if(data.p_desc){
+                $('#tbDescription').show();
+                // $('#tbDescription').css('visibility', 'visible');
             }
             $('.tbDescription').html(data.p_desc);
             $('#question').html(data.p_q);
@@ -270,8 +271,8 @@ $(document).ready(function(){
             });
 
 //BARCHART CHANGES
-            var voteTimeData2 = [{name:'Average', value: data.s_tavg}, {name:'You', value: 0}];
-            drawVoteTime(chart, voteTimeData2, y, yAxis);
+            voteTimeData = [{name:'Average', value: data.s_tavg}, {name:'You', value: s_vtime}];
+            drawVoteTime(chart, voteTimeData, y, yAxis);
             socket.on('setVoteTime', function (s_vtime) {
                 voteTimeData = [{name:'Average', value: data.s_tavg}, {name:'You', value: s_vtime}];
                 drawVoteTime(chart, voteTimeData, y, yAxis);

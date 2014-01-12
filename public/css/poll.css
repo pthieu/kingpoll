@@ -18,7 +18,7 @@
 
 #tbDescription{
   border-bottom: 1px #ddd solid;
-  visibility: hidden;
+  display:none;
 }
 
 #results_chart>path{
@@ -31,8 +31,7 @@
 }
 #results {
   margin: 0 auto 0 auto;
-  /*background-color: #443344;*/
-  height: 15rem;
+  /*height: 15rem;*/
   position: relative;
   border-bottom: 1px #ddd solid;
 }
@@ -91,6 +90,7 @@ svg path:hover{
 .stats{
   display: inline;
   width: 15rem;
+  height:15rem;
   vertical-align: middle;
   margin: auto;
 }
