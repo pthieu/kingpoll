@@ -62,5 +62,9 @@ module.exports = {
                 console.log('Poll incremented');
             });
         });
+    },
+    averager: function (val, avg, div){
+        //val is in ms
+        return Math.round(((avg*div)+val/1000)/(div+1)*1000)/1000;
     }
 }

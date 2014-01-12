@@ -38,6 +38,11 @@ socket.on('results', function (results) {
     calcResultPerc(results['yes_cnt'], results['no_cnt']);
 });
 
+$.getJSON("http://ip-api.com/json/", function(data) {
+    geo_loc = data;
+    socket.emit('iploc', data);
+});
+
 $(document).ready(function(){
     // var pollid = ((/http.*\d+\//).exec(window.location.href))[0].replace(/^.*\/\/.*?\//, '').replace('/', '');
     //use this for now until we get to real dns
@@ -56,8 +61,8 @@ $(document).ready(function(){
     var disqus_identifier = pollid;
 
 
-    //set up empty graphs
-    //PIE CHART - VOTE TOTALS
+//set up empty graphs
+//PIE CHART - VOTE TOTALS
     var results_pie = d3.layout.pie()
                        .sort(null);
     var pie_arc = d3.svg.arc()
@@ -97,6 +102,80 @@ $(document).ready(function(){
                     .attr("id",'pie_msg_val')
                     .text("0");
 
+    var pie_votes = [1,0,0,0,0,0,0];
+    var pie_colors = ["#ddd"];
+    $(svg_pie).bind("monitor", worker);
+    $(svg_pie).trigger("monitor");
+
+    function worker(event) {
+        pie_path = pie_path.data(results_pie(pie_votes))
+                   .attr("fill", function(d,i) {return pie_colors[i]});
+        pie_path.transition().duration(500).attrTween("d", arcTween//(
+        );
+        setTimeout(function(){$(svg_pie).trigger("monitor")}, 500);
+    }
+    // Store the displayed angles in _current.
+    // Then, interpolate from _current to the new angles.
+    // During the transition, _current is updated in-place by d3.interpolate.
+    function arcTween(a) {
+      var i = d3.interpolate(this._current, a);
+      this._current = i(0);
+      return function(t) {
+        return pie_arc(i(t));
+      };
+    }
+
+//BARCHART
+    var bardata = [{name:'Average', value: 0}, {name:'You', value: 0}];
+
+    var chart = d3.select('#barVoteTime').append('svg')
+        .attr('class', 'barchart')
+        .attr("height", chartH + chartMargin.top + chartMargin.bottom)
+        .append('g')
+        .attr("transform", "translate(" + chartMargin.left*1.5 + "," + chartMargin.top/3 + ")");
+
+    var x = d3.scale.ordinal()
+        .rangeRoundBands([0, chartW]);
+    var y = d3.scale.linear()
+        .range([chartH, 0]);
+    x.domain(bardata.map(function(d){return d.name;}));
+    y.domain([0, d3.max(bardata, function(d){return d.value;})]);
+
+    var bar = chart.selectAll('g')
+        .data(bardata)
+        .enter().append('g')
+        .attr("y", function(d) { return y(d.value); });
+    bar.append("rect")
+        .attr("x", function(d) { return x(d.name)+barOffset/2; })
+        .attr("y", function(d) { return y(d.value); })
+        .attr("height", function(d) { return chartH - y(d.value); })
+        .attr("width", x.rangeBand()-barOffset); //rangeband chooses width of bar based on # of bars
+
+    bar.append("text") //not label at bottom, value in bar
+        .attr("class", "s_votetime")
+        .attr("x", function(d) {return x(d.name);}) //starting point left of bar
+        .attr("y", function(d) { return y(d.value); }) //starts at top of bar
+        .attr("dx", function(d) {return x.rangeBand()/2;}) //moves to middle of bar
+        .attr("dy", function(d) { return (chartH - y(d.value))/2; }) //moves to middle of bar
+        .text(function(d) { return d.value+"s";})
+
+    var xAxis = d3.svg.axis()
+      .scale(x)
+      .orient('bottom');
+    var yAxis = d3.svg.axis()
+      .scale(y)
+      .orient('left');
+
+    chart.append('g')
+        .attr('class', 'x axis')
+        .attr('transform', 'translate(0,'+chartH+')')
+        .call(xAxis);
+    chart.append('g')
+        .attr('class', 'y axis')
+        .attr('transform', 'translate(0,0)')
+        .call(yAxis);
+
+//VIEWERS
     var svg_viewers = d3.select("#activeViewers")
                     .attr("class", "stats")
                     .attr("width", pieW)
@@ -117,39 +196,6 @@ $(document).ready(function(){
     $('#click').click(function () {
         alert('fuck you farran');
     });
-
-    var pie_votes = [1,0,0,0,0,0,0];
-    var pie_colors = ["#ddd"];
-    $(svg_pie).bind("monitor", worker);
-    $(svg_pie).trigger("monitor");
-
-    function worker(event) {
-        pie_path = pie_path.data(results_pie(pie_votes))
-                   .attr("fill", function(d,i) {return pie_colors[i]});
-        pie_path.transition().duration(500).attrTween("d", arcTween//(
-        );
-        setTimeout(function(){$(svg_pie).trigger("monitor")}, 500);
-    }
-
-    // Store the displayed angles in _current.
-    // Then, interpolate from _current to the new angles.
-    // During the transition, _current is updated in-place by d3.interpolate.
-    function arcTween(a) {
-      var i = d3.interpolate(this._current, a);
-      this._current = i(0);
-      return function(t) {
-        return pie_arc(i(t));
-      };
-    }
-
-    function getRandomCounts() {
-        var arr = [];
-        for (var i=0;i<6;i++) {
-           arr.push(Math.floor(Math.random()*10)+1);
-        }
-        console.log(arr);
-        return (arr);
-    }
 
     socket.on('setID', function (ID) {
         console.log(ID);
@@ -185,7 +231,7 @@ $(document).ready(function(){
                 pie_colors.push("#ddd");
             }
 
-            for(i=0; i<data.c_n;i++){
+            for(var i=0; i<data.c_n;i++){
                 choice_colors[i] = {'c_text':data.c_text[i], 'color':data.c_hex[i], 'votes':0};
                 //sets new values on pie arcs
                 pie_votes.push(data.c_total[i]);
@@ -196,10 +242,6 @@ $(document).ready(function(){
             }
             $('.tbDescription').html(data.p_desc);
             $('#question').html(data.p_q);
-            //grabbuttons
-            for(var i in choice_colors){
-                $('#choices .radio').append('<input id="c'+ i +'"class="btnChoice" type="radio" name="vote" value="'+ i +'" /><label for="c'+i+'" style="background-color:#'+choice_colors[i].color+'"><div><div>'+choice_colors[i].c_text+'</div></div></label>');
-            }
 
             for(i in data.data.us){
                 if(data.data.us[i].length < 1){
@@ -228,73 +270,22 @@ $(document).ready(function(){
                     $('#pie_msg_val').text(data.p_total);
                 }
             });
-//VIEWERS COUNT
-            $('#activeViewers text tspan').css("fill", "#"+chart_solocolor);
-            socket.on('setViewers', function (d) {
-                $('#tspanActiveViewers').text((d === null) ? 1 : d);
-            });
-            setInterval(function(){socket.emit('getViewers')}, 5000);
 
-/* THIS IS CODE FOR THE BAR CHART*/
-            var bardata = [{name:'Average', value: 0.3}, {name:'You', value: 5}];
-
-            var chart = d3.select('#barVoteTime').append('svg')
-                .attr('class', 'barchart')
-                .attr("height", chartH + chartMargin.top + chartMargin.bottom)
-                .append('g')
-                .attr("transform", "translate(" + chartMargin.left*1.5 + "," + chartMargin.top/3 + ")");
-
-            var x = d3.scale.ordinal()
-                .rangeRoundBands([0, chartW]);
-            var y = d3.scale.linear()
-                .range([chartH, 0]);
-            x.domain(bardata.map(function(d){return d.name;}));
-            y.domain([0, d3.max(bardata, function(d){return d.value;})]);
-
-            var bar = chart.selectAll('g')
-                .data(bardata)
-                .enter().append('g')
-                .attr("y", function(d) { return y(d.value); });
-            bar.append("rect")
-                .attr("x", function(d) { return x(d.name)+barOffset/2; })
-                .attr("y", function(d) { return y(d.value); })
-                .attr("height", function(d) { return chartH - y(d.value); })
-                .attr("width", x.rangeBand()-barOffset); //rangeband chooses width of bar based on # of bars
-
-            bar.append("text") //not label at bottom, value in bar
-                .attr("class", "s_votetime")
-                .attr("x", function(d) {return x(d.name);}) //starting point left of bar
-                .attr("y", function(d) { return y(d.value); }) //starts at top of bar
-                .attr("dx", function(d) {return x.rangeBand()/2;}) //moves to middle of bar
-                .attr("dy", function(d) { return (chartH - y(d.value))/2; }) //moves to middle of bar
-                .text(function(d) { return d.value+"s";})
-
-            var xAxis = d3.svg.axis()
-              .scale(x)
-              .orient('bottom');
-            var yAxis = d3.svg.axis()
-              .scale(y)
-              .orient('left');
-
-            chart.append('g')
-                .attr('class', 'x axis')
-                .attr('transform', 'translate(0,'+chartH+')')
-                .call(xAxis);
-            chart.append('g')
-                .attr('class', 'y axis')
-                .attr('transform', 'translate(0,0)')
-                .call(yAxis);
-
-/* END CODE BARCHART*/
-            $('#barVoteTime').click(function () {
-                voteTimeData = [{name:'Average', value: 10}, {name:'You', value: 10}];
-                drawVoteTime(chart, voteTimeData, y, yAxis);
-            });
+//BARCHART CHANGES
+            voteTimeData = [{name:'Average', value: data.s_tavg}, {name:'You', value: 0}];
+            drawVoteTime(chart, voteTimeData, y, yAxis);
             $('.barchart rect').css('fill','#'+chart_solocolor);
             $('.barchart .s_votetime').css('text-shadow','-1px -1px #'+chart_solocolor
                                                        + ', 1px -1px #'+chart_solocolor
                                                        + ', -1px 1px #'+chart_solocolor
                                                        + ', 1px 1px #'+chart_solocolor);
+
+//VIEWERS COUNT CHANGES
+            $('#activeViewers text tspan').css("fill", "#"+chart_solocolor);
+            socket.on('setViewers', function (d) {
+                $('#tspanActiveViewers').text((d === null) ? 1 : d);
+            });
+            setInterval(function(){socket.emit('getViewers')}, 5000);
 
             getMap($('#map'), rgn_color); //write map
             //$(".jvectormap-region[data-code='US-WA']").attr("fill","#cc0000");
@@ -305,17 +296,18 @@ $(document).ready(function(){
             //     $(".jvectormap-region[data-code='US-WA']").attr("fill","#cc0000");
             // });
 
-            $.getJSON("http://ip-api.com/json/", function(data) {
-                geo_loc = data;
-                socket.emit('iploc', data);
-            });
-
+            //create buttons
+            for(i in choice_colors){
+                $('#choices .radio').append('<input id="c'+ i +'"class="btnChoice" type="radio" name="vote" value="'+ i +'" /><label for="c'+i+'" style="background-color:#'+choice_colors[i].color+'"><div><div>'+choice_colors[i].c_text+'</div></div></label>');
+            }
             //graphs done drawing, grab time
             votetime = $.now();
             $('input[name="vote"]').click(function(){
                 //get time once
                 if (votetime>1383809658764){
                     votetime = $.now()-votetime; //get votetime once
+                    voteTimeData = [{name:'Average', value: data.s_tavg}, {name:'You', value: votetime/1000}];
+                    drawVoteTime(chart, voteTimeData, y, yAxis);
                 }
                 var lblVote = $('label[for="'+$(this).attr('id')+'"] div div');
                 lblVote.text(votetime/1000 + " s");

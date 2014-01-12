@@ -7,14 +7,13 @@ var help = require('../scripts/help.js');
 var email = require('../scripts/email.js');
 
 exports.vote = function (dataVote, client) {
-	console.log('test');
     u_email = dataVote.u_email.toLowerCase();
     u_id = (dataVote.u_id) ? dataVote.u_id : mongoose.Types.ObjectId();
     var new_vid = mongoose.Types.ObjectId();
-    Poll.findOne({'_id': dataVote.p_id[0]}).exec(function (err, doc) {
+    Poll.findOne({'_id': dataVote.p_id[0]}).exec(function (err, poll) {
         if (err) throw err;
-        if (doc){
-            console.log('Found poll!');
+        if (poll){
+            console.log('Found poll: poll.p_id');
             var newvote = new Vote({
                 _id         : new_vid,
                 'p_id'      : dataVote.p_id[0],
@@ -25,16 +24,17 @@ exports.vote = function (dataVote, client) {
                 'v_choice'  : dataVote.v_choice,
                 'v_hex'     : dataVote.v_hex,
                 'v_text'    : dataVote.v_text,
+                's_vtime'   : dataVote.s_vtime
             });
             var voted = {};
             voted[newvote.p_id] = newvote.v_choice; //using associative array for the field/value 
             // check if user exists
             if (u_email){
                 console.log('Looking for user: ' + u_email)
-                User.findOne({'u_email': u_email}).exec(function (err, doc) {
+                User.findOne({'u_email': u_email}).exec(function (err, user) {
                     if (err) throw err;
                     //if u_email doesn't exist, means we gotta make new account, so generate hex
-                    if(!doc){
+                    if(!user){
                         console.log('User account not found, creating...');
                         var new_uid = mongoose.Types.ObjectId();
                         var user = new User({
@@ -42,14 +42,21 @@ exports.vote = function (dataVote, client) {
                             'u_id'      : u_id,
                             'u_email'   : u_email,
                             'u_created' : new_uid.getTimestamp(),
-                            'u_loc'     : dataVote.u_loc
+                            'u_loc'     : dataVote.u_loc,
+                            's_tavg'    : dataVote.s_vtime/1000,
+                            's_tmin'    : dataVote.s_vtime/1000,
+                            's_tmax'    : dataVote.s_vtime/1000,
+                            's_vtotal'  : 1
                         });
                         user.u_salt.push(shortid.generate());
                         user.markModified('u_salt');
                     }
                     else{
-                        var user = new User();
-                        user = doc;
+                        user.s_tmin = Math.min(user.s_tmin, dataVote.s_vtime/1000);
+                        user.s_tmax = Math.max(user.s_tmax, dataVote.s_vtime/1000);
+                        user.s_tavg = help.averager(dataVote.s_vtime, user.s_tavg, user.s_vtotal);
+                        user.s_vtotal += 1;
+                        console.log(user.s_tavg);
                         console.log('Found user account!');
                     }
                     Vote.findOne({'u_id': user._id, 'p_id':dataVote.p_id[0]}).exec(function (err, vote){
