@@ -47,7 +47,7 @@ http.listen(appPort);
 
 io.set('log level', 0); // Delete this row if you want to see debug messages
 
-var activepolls = new Array(); // don't use = {} because it doesn't have splice() function
+var activepolls = {}; // {} is object literal, foo = new Array() is array-type
 
 //Listen for incoming connections from clients
 io.sockets.on('connection', function (client) {
@@ -95,7 +95,9 @@ io.sockets.on('connection', function (client) {
     client.on('disconnect', function (iploc) {
         if(activepolls[pollid]){
             activepolls[pollid] -= 1;
-            activepolls.splice(pollid, 1);
+            if(activepolls[pollid] <= 0){
+                delete activepolls[pollid];
+            }
             console.log("Active Polls:");
             console.log(activepolls);
         }
