@@ -10,7 +10,6 @@ var u_id;
 var geo_loc;
 
 //flags
-var c_yes = c_no = false;
 
 //map prefs
 var rgn_color = {};
@@ -47,7 +46,7 @@ $(document).ready(function(){
     // var pollid = ((/http.*\d+\//).exec(window.location.href))[0].replace(/^.*\/\/.*?\//, '').replace('/', '');
     //use this for now until we get to real dns
     var pollid = (window.location.href).split('/')[4];
-    socket.emit('getpoll', pollid);
+    socket.emit('getPoll', pollid);
     $('.tbDescription').hover(function () {
         $(this).css({'border-color': "#"+chart_solocolor});
     }, function () {
@@ -59,7 +58,6 @@ $(document).ready(function(){
     // socket.emit('getID');
 
     var disqus_identifier = pollid;
-
 
 //set up empty graphs
 //PIE CHART - VOTE TOTALS
@@ -110,7 +108,7 @@ $(document).ready(function(){
     function worker(event) {
         pie_path = pie_path.data(results_pie(pie_votes))
                    .attr("fill", function(d,i) {return pie_colors[i]});
-        pie_path.transition().duration(500).attrTween("d", arcTween//(
+            pie_path.transition().duration(500).attrTween("d", arcTween//(
         );
         setTimeout(function(){$(svg_pie).trigger("monitor")}, 500);
     }
@@ -203,9 +201,6 @@ $(document).ready(function(){
     socket.on('setEmail', function (email) {
         console.log(email);
     });
-    socket.on('setVoted', function (voted) {
-        console.log(voted);
-    });
     socket.on('voteNoEmail', function () {
         console.log('No email specified');
         //queue popup
@@ -213,7 +208,10 @@ $(document).ready(function(){
 
     socket.on('pollID', function (poll) {
         if (poll){
-            socket.emit('getViewers')
+            socket.emit('getViewers');
+            if(u_email){
+                socket.emit('getVoteTime', {u_email: u_email, p_id: pollid});
+            }
             data = poll;
             $('#choices .radio').html('');
             // we use an array instead of a key/value pair because we want the buttons that
@@ -272,8 +270,12 @@ $(document).ready(function(){
             });
 
 //BARCHART CHANGES
-            voteTimeData = [{name:'Average', value: data.s_tavg}, {name:'You', value: 0}];
-            drawVoteTime(chart, voteTimeData, y, yAxis);
+            var voteTimeData2 = [{name:'Average', value: data.s_tavg}, {name:'You', value: 0}];
+            drawVoteTime(chart, voteTimeData2, y, yAxis);
+            socket.on('setVoteTime', function (s_vtime) {
+                voteTimeData = [{name:'Average', value: data.s_tavg}, {name:'You', value: s_vtime}];
+                drawVoteTime(chart, voteTimeData, y, yAxis);
+            });
             $('.barchart rect').css('fill','#'+chart_solocolor);
             $('.barchart .s_votetime').css('text-shadow','-1px -1px #'+chart_solocolor
                                                        + ', 1px -1px #'+chart_solocolor
@@ -309,8 +311,6 @@ $(document).ready(function(){
                     voteTimeData = [{name:'Average', value: data.s_tavg}, {name:'You', value: votetime/1000}];
                     drawVoteTime(chart, voteTimeData, y, yAxis);
                 }
-                var lblVote = $('label[for="'+$(this).attr('id')+'"] div div');
-                lblVote.text(votetime/1000 + " s");
 
                 if(u_email){
                     socket.emit('vote', {

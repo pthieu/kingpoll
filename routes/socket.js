@@ -6,6 +6,16 @@ var shortid = require('shortid');
 var help = require('../scripts/help.js');
 var email = require('../scripts/email.js');
 
+exports.getVoted = function (data, client) {
+    Poll.findOne({'p_id': data.p_id}, function (err, poll) {
+        Vote.findOne({u_email: data.u_email, p_id: poll._id}, function (err, vote) {
+            if (err) return console.error(err);
+            if(vote){
+                client.emit('setVoteTime', vote.s_vtime);
+            }
+        });
+    });
+}
 exports.vote = function (dataVote, client) {
     u_email = dataVote.u_email.toLowerCase();
     u_id = (dataVote.u_id) ? dataVote.u_id : mongoose.Types.ObjectId();
@@ -24,7 +34,7 @@ exports.vote = function (dataVote, client) {
                 'v_choice'  : dataVote.v_choice,
                 'v_hex'     : dataVote.v_hex,
                 'v_text'    : dataVote.v_text,
-                's_vtime'   : dataVote.s_vtime
+                's_vtime'   : dataVote.s_vtime/1000
             });
             var voted = {};
             voted[newvote.p_id] = newvote.v_choice; //using associative array for the field/value 
@@ -84,7 +94,7 @@ exports.vote = function (dataVote, client) {
                                 help.savedoc(item, voted, function (emit_item) {//save vote
                                     client.emit("setVoted", emit_item); //set what user voted on
                                     console.log('Trying to increment poll: ' + newvote.p_id + ' -- ' + newvote.u_loc[0] + ', ' + newvote.u_loc[3] + ', choice ' + newvote.v_choice);
-                                    help.incPoll(Poll, newvote.p_id, newvote.v_choice, newvote.u_loc); // increment only after vote saved success
+                                    help.incPoll(Poll, newvote); // increment only after vote saved success
                                 });
                             });
                         }

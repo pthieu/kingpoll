@@ -52,7 +52,7 @@ var activepolls = new Array(); // don't use = {} because it doesn't have splice(
 //Listen for incoming connections from clients
 io.sockets.on('connection', function (client) {
     var pollid;
-    client.on('getpoll', function (pollID) {
+    client.on('getPoll', function (pollID) {
         Poll.findOne({'p_id':pollID}, function(err, poll) {
             if (err) return console.error(err);
             client.emit('pollID', poll);
@@ -81,13 +81,16 @@ io.sockets.on('connection', function (client) {
     // console.log(client.id);
     client.on('vote', function (dataVote){
         console.log('voting');
-        socket.vote(dataVote, client)
+        socket.vote(dataVote, client);
     });
     client.on('iploc', function (iploc) {
         console.log(iploc);
     });
     client.on('getViewers', function () {
         client.emit('setViewers', activepolls[pollid]);
+    });
+    client.on('getVoteTime', function (data) {
+        socket.getVoted(data, client);
     });
     client.on('disconnect', function (iploc) {
         if(activepolls[pollid]){
