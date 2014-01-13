@@ -28,6 +28,7 @@ var chart_solocolor = colors_hex[randColor(colors_hex)];
 var s_vtime = 0;
 
 //results pie chart config
+var pie_votes = [];
 var pieW = $('#pieTotal').width();
 var pieH = $('#pieTotal').height();
 var innerRadius = $('#pieTotal').width()/3;
@@ -61,67 +62,122 @@ $(document).ready(function(){
 
 //set up empty graphs
 //PIE CHART - VOTE TOTALS
-    var results_pie = d3.layout.pie()
-                       .sort(null);
-    var pie_arc = d3.svg.arc()
-                    .innerRadius(innerRadius)
-                    .outerRadius(outerRadius);
+    donut = function module(_sel, r1, r2, w, h, color) {
+        _sel.each(function (_data) {
+            var pie = d3.layout.pie()
+                .sort(null);
 
-    var svg_pie = d3.select("#pieTotal")
-                    .attr("width", pieW)
-                    .attr("height", pieH)
+            var arc = d3.svg.arc()
+                .innerRadius(r1)
+                .outerRadius(r2);
+
+            var svg = d3.select(this).select(".pie > g");
+            if (svg.empty()) {
+                svg = d3.select(this).append("svg")
+                    .attr("class","pie")
+                    .attr("width", w)
+                    .attr("height", h)
                     .append("g")
-                    .attr("transform", "translate(" + pieW / 2 + "," + pieH / 2 + ")")
-                    .attr("class","piechart")
+                    .attr("transform", "translate(" + w / 2 + "," + h / 2 + ")");
+            }
+            var path = svg.selectAll("path")
+                .data(pie);
+            path.enter().append("path")
+                .attr("fill", function (d, i) {
+                return "#" + color[i];
+            })
+                .attr("d", arc)
+                .each(function (d) {
+                this._current = d;
+            });
 
-    var pie_path = svg_pie.selectAll("path").data(results_pie([1,0,0,0,0,0,0]))
-                    .enter().append("path")
-                    .attr("d", pie_arc)
-                    .each(function(d) { this._current = d; }) // store the initial values
-                    .attr("class", "vote_arc")
-                    .attr("value", function(d,i) {
-                            return (i-1);
-                    });
-    var svg_pie_bg = svg_pie.append("circle")
-                    .attr("cx", 0)
-                    .attr("cy", 0)
-                    .attr("r", innerRadius-10)
-                    .attr("fill", "none");
-    var svg_pie_msg = svg_pie.append("text") // later svg is "higher"
-                    .attr("class", "piechart_msg")
-        svg_pie_msg.append("tspan")
-                    .attr("x", 0)
-                    .attr("y", -3)
-                    .attr("id",'pie_msg_title')
-                    .text("Total Votes:");
-        svg_pie_msg.append("tspan")
-                    .attr("x", 0)
-                    .attr("y", 22)
-                    .attr("id",'pie_msg_val')
-                    .text("0");
+            path.transition()
+                .duration(dur)
+                .attrTween("d", arcTween);
 
-    var pie_votes = [1,0,0,0,0,0,0];
-    var pie_colors = ["#ddd"];
-    $(svg_pie).bind("monitor", worker);
-    $(svg_pie).trigger("monitor");
+            path.exit().remove();
 
-    function worker(event) {
-        pie_path = pie_path.data(results_pie(pie_votes))
-                   .attr("fill", function(d,i) {return pie_colors[i]});
-            pie_path.transition().duration(500).attrTween("d", arcTween//(
-        );
-        setTimeout(function(){$(svg_pie).trigger("monitor")}, 500);
+            function arcTween(a) {
+                var i = d3.interpolate(this._current, a);
+                this._current = i(0);
+                return function (t) {
+                    return arc(i(t));
+                };
+            }
+        });
+    };
+    var data = [1, 0, 0, 0, 0, 0];
+    var container = d3.select("#results").datum(data);
+    donut(container, innerRadius, outerRadius, pieW, pieH, ['ddd']);
+
+    function update() {
+        data = d3.range((Math.random() * 6)).map(function (d, i) {
+            return (Math.random() * 10);
+        });
+        container.datum(data).transition();
+        donut(container, innerRadius, outerRadius, pieW, pieH, colors_hex);
     }
-    // Store the displayed angles in _current.
-    // Then, interpolate from _current to the new angles.
-    // During the transition, _current is updated in-place by d3.interpolate.
-    function arcTween(a) {
-      var i = d3.interpolate(this._current, a);
-      this._current = i(0);
-      return function(t) {
-        return pie_arc(i(t));
-      };
-    }
+
+    // var results_pie = d3.layout.pie()
+    //                    .sort(null);
+    // var pie_arc = d3.svg.arc()
+    //                 .innerRadius(innerRadius)
+    //                 .outerRadius(outerRadius);
+
+    // var svg_pie = d3.select("#pieTotal")
+    //                 .attr("width", pieW)
+    //                 .attr("height", pieH)
+    //                 .append("g")
+    //                 .attr("transform", "translate(" + pieW / 2 + "," + pieH / 2 + ")")
+    //                 .attr("class","piechart")
+
+    // var pie_path = svg_pie.selectAll("path").data(results_pie([1,0,0,0,0,0,0]))
+    //                 .enter().append("path")
+    //                 .attr("d", pie_arc)
+    //                 .each(function(d) { this._current = d; }) // store the initial values
+    //                 .attr("class", "vote_arc")
+    //                 .attr("value", function(d,i) {
+    //                         return (i-1);
+    //                 });
+    // var svg_pie_bg = svg_pie.append("circle")
+    //                 .attr("cx", 0)
+    //                 .attr("cy", 0)
+    //                 .attr("r", innerRadius-10)
+    //                 .attr("fill", "none");
+    // var svg_pie_msg = svg_pie.append("text") // later svg is "higher"
+    //                 .attr("class", "piechart_msg")
+    //     svg_pie_msg.append("tspan")
+    //                 .attr("x", 0)
+    //                 .attr("y", -3)
+    //                 .attr("id",'pie_msg_title')
+    //                 .text("Total Votes:");
+    //     svg_pie_msg.append("tspan")
+    //                 .attr("x", 0)
+    //                 .attr("y", 22)
+    //                 .attr("id",'pie_msg_val')
+    //                 .text("0");
+
+    // pie_votes = [1,0,0,0,0,0,0];
+    // var pie_colors = ["#ddd"];
+    // $(svg_pie).bind("monitor", worker);
+    // $(svg_pie).trigger("monitor");
+
+    // function worker(event) {
+    //     pie_path = pie_path.data(results_pie(pie_votes))
+    //                 .attr("fill", function(d,i) {return pie_colors[i]});
+    //     pie_path.transition().duration(500).attrTween("d", arcTween);
+    //     setTimeout(function(){$(svg_pie).trigger("monitor")}, 500);
+    // }
+    // // Store the displayed angles in _current.
+    // // Then, interpolate from _current to the new angles.
+    // // During the transition, _current is updated in-place by d3.interpolate.
+    // function arcTween(a) {
+    //   var i = d3.interpolate(this._current, a);
+    //   this._current = i(0);
+    //   return function(t) {
+    //     return pie_arc(i(t));
+    //   };
+    // }
 
 //BARCHART
     var bardata = [{name:'Average', value: 0}, {name:'You', value: 0}];
@@ -190,9 +246,14 @@ $(document).ready(function(){
                     .attr("id","tspanActiveViewers")
                     .text("1");
 
+//MAP CREATION
+            var map = getMap($('#map'), rgn_color); //write map
+            map.series.regions[0].setValues(rgn_color);
+
 //CLICK
     $('#click').click(function () {
-        alert('fuck you farran');
+        // alert('fuck you farran');
+        update();
     });
 
     socket.on('setID', function (ID) {
@@ -251,6 +312,7 @@ $(document).ready(function(){
                     choice_colors[j].votes += data.data.us[i][j];
                 }
             }
+    
 //PIE CHANGES
             $("#pie_msg_val").text(data.p_total);
             $(".vote_arc").hover(function () {
@@ -289,8 +351,33 @@ $(document).ready(function(){
                 $('#tspanActiveViewers').text((d === null) ? 1 : d);
             });
             setInterval(function(){socket.emit('getViewers')}, 5000);
+//MAP CHANGES
+            $('#click').click(function () {
+                for (i in rgn_color){
+                    var tmp = [];
+                    for(var j=0; j<data.c_n;j++){
+                        tmp.push(Math.floor(Math.random()*10));
+                    }
+                    rgn_color[i] = calcRgnColor(data.c_n, choice_colors, tmp);
+                }
+                map.series.regions[0].setValues(rgn_color);
 
-            getMap($('#map'), rgn_color); //write map
+                pie_votes = [];
+                pie_colors = [];
+                if(data.p_total <= 0){
+                    pie_votes.push(1);
+                    pie_colors.push("#ddd");
+                }
+                else{
+                    pie_votes.push(0);
+                    pie_colors.push("#ddd");
+                }
+                for(var i=0; i<Math.floor(Math.random()*6);i++){
+                    //sets new values on pie arcs
+                    pie_votes.push(Math.floor(Math.random()*10));
+                    pie_colors.push("#"+(Math.floor(Math.random()*16777215)).toString(16));
+                }
+            });
             //$(".jvectormap-region[data-code='US-WA']").attr("fill","#cc0000");
             //$(".jvectormap-region[data-code='US-WA']").attr("fill-opacity", 0);
             //var tmp = 'US-AR';
@@ -376,8 +463,7 @@ function getLocalVar(item){
 }
 
 function getMap(map, rgn_color){
-        map.find('div').remove();
-        map2 = new jvm.WorldMap({
+        map = new jvm.WorldMap({
             map: 'us_lcc_en',
             container: map,
             zoomButtons: false,
@@ -407,7 +493,7 @@ function getMap(map, rgn_color){
                     attribute: 'fill'}]
             }
         });
-        map2.series.regions[0].setValues(rgn_color);
+        return map;
 }
 
 function setEmail(u_email){

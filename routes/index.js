@@ -11,12 +11,6 @@ var numonly = /\d+/; //test for number pattern
 exports.landing = function (req, res) {
     res.sendfile('public/views/landing.html');
 }
-exports.test = function (req, res) {
-    res.sendfile('public/views/test.html');
-}
-exports.test2 = function (req, res) {
-    res.sendfile('public/views/test2.html');
-}
 exports.about = function (req, res) {
     res.sendfile('public/views/about.html');
 }
