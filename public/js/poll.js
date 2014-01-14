@@ -2,6 +2,8 @@ var socket = io.connect();
 
 //load var
 var data;
+var lastpoll;
+var pollid;
 
 //vote var
 var votetime;
@@ -29,6 +31,7 @@ var s_vtime = 0;
 
 //results pie chart config
 var pie_votes = [];
+var pie_colors = [];
 var pieW = $('#pieTotal').width();
 var pieH = $('#pieTotal').height();
 var innerRadius = $('#pieTotal').width()/3;
@@ -46,7 +49,8 @@ $.getJSON("http://ip-api.com/json/", function(data) {
 $(document).ready(function(){
     // var pollid = ((/http.*\d+\//).exec(window.location.href))[0].replace(/^.*\/\/.*?\//, '').replace('/', '');
     //use this for now until we get to real dns
-    var pollid = (window.location.href).split('/')[4];
+    pollid = (window.location.href).split('/')[4];
+    lastpoll = pollid;
     socket.emit('getPoll', pollid);
     $('.tbDescription').hover(function () {
         $(this).css({'border-color': "#"+chart_solocolor});
@@ -62,7 +66,7 @@ $(document).ready(function(){
 
 //set up empty graphs
 //PIE CHART - VOTE TOTALS
-    donut = function module(_sel, r1, r2, w, h, color) {
+    donut = function module(_sel, r1, r2, w, h, color, _callback, _cbparam) {
         _sel.each(function (_data) {
             var pie = d3.layout.pie()
                 .sort(null);
@@ -71,20 +75,22 @@ $(document).ready(function(){
                 .innerRadius(r1)
                 .outerRadius(r2);
 
-            var svg = d3.select(this).select(".pie > g");
+            var svg = d3.select(this).select("#pieTotal > g");
             if (svg.empty()) {
-                svg = d3.select(this).append("svg")
-                    .attr("class","pie")
+                svg = d3.select(this).select("#pieTotal")
+                    .attr("id", "pieTotal")
+                    .attr("class","stats pie")
                     .attr("width", w)
                     .attr("height", h)
                     .append("g")
-                    .attr("transform", "translate(" + w / 2 + "," + h / 2 + ")");
+                    .attr("transform", "translate(" + w / 2 + "," + h / 2 + ")")
+                    .attr("class","piechart");
             }
             var path = svg.selectAll("path")
                 .data(pie);
             path.enter().append("path")
                 .attr("fill", function (d, i) {
-                return "#" + color[i];
+                return color[i];
             })
                 .attr("d", arc)
                 .each(function (d) {
@@ -93,7 +99,12 @@ $(document).ready(function(){
 
             path.transition()
                 .duration(dur)
-                .attrTween("d", arcTween);
+                .attrTween("d", arcTween)
+                .each('end', function () {
+                    if(_callback){
+                        _callback(_cbparam);
+                    }
+                });
 
             path.exit().remove();
 
@@ -106,16 +117,13 @@ $(document).ready(function(){
             }
         });
     };
-    var data = [1, 0, 0, 0, 0, 0];
-    var container = d3.select("#results").datum(data);
-    donut(container, innerRadius, outerRadius, pieW, pieH, ['ddd']);
+    var tmpdata = [1];
+    var pieTotal = d3.select("#results").datum(tmpdata);
+    donut(pieTotal, innerRadius, outerRadius, pieW, pieH, ['#ddd']);
 
-    function update() {
-        data = d3.range((Math.random() * 6)).map(function (d, i) {
-            return (Math.random() * 10);
-        });
-        container.datum(data).transition();
-        donut(container, innerRadius, outerRadius, pieW, pieH, colors_hex);
+    function pieTotal_update(_data, _callback, _cbparam) {
+        pieTotal.datum(_data.val).transition();
+        donut(pieTotal, innerRadius, outerRadius, pieW, pieH, pie_colors, _callback, _cbparam);
     }
 
     // var results_pie = d3.layout.pie()
@@ -252,8 +260,67 @@ $(document).ready(function(){
 
 //CLICK
     $('#click').click(function () {
+        var tmplength = 2;
+        var last_votes = pie_votes;
         // alert('fuck you farran');
-        update();
+        pie_votes = [0];
+        pie_colors = ['#ddd'];
+        if(pollid == lastpoll){
+            pie_votes = [1];
+            for(var i=0; i<tmplength;i++){
+                //sets new values on pie arcs
+                pie_votes.push(0);
+                pie_colors.push("#"+(Math.floor(Math.random()*16777215)).toString(16));
+            }
+            pieTotal_update({val:pie_votes, hex:pie_colors});
+            pie_votes = [0];
+            for(var i=0; i<tmplength;i++){
+                //sets new values on pie arcs
+                pie_votes.push(Math.floor(Math.random()*10));
+                // pie_colors.push("#"+(Math.floor(Math.random()*16777215)).toString(16));
+            }
+            pieTotal_update({val:pie_votes, hex:pie_colors});
+        }
+        else{
+            empty_lastvotes = [1];
+            for(var i=0; i<last_votes.length; i++){
+                empty_lastvotes.push(0);
+            }
+            for(var i=0; i<Math.floor(Math.random()*10);i++){
+                //sets new values on pie arcs
+                pie_votes.push(Math.floor(Math.random()*10));
+                pie_colors.push("#"+(Math.floor(Math.random()*11184810)).toString(16));
+            }
+            var emptyvotes = [1];
+            var emptycolors = ['#ddd'];
+            for (var i=0; i<pie_votes.length; i++){
+                emptyvotes.push(0);
+                emptycolors.push(pie_colors[i]);
+            }
+            pieTotal_update({val:empty_lastvotes, hex:['#ddd']},
+                pieTotal_update, ({val:[], hex:[]},
+                    pieTotal_update, ({val:emptyvotes, hex:emptycolors},
+                        pieTotal_update, {val:pie_votes, hex:pie_colors}
+                        )));
+            // setTimeout(function () {
+            //     pieTotal_update({val:emptyvotes, hex:emptycolors});
+            // }, 2000);
+            // setTimeout(function () {
+            //     pieTotal_update({val:pie_votes, hex:pie_colors});
+            // }, 3000); 
+            
+
+            // pieTotal_update({val:emptyvotes, hex:['#ddd']});
+            // pieTotal_update({val:[1], hex:['#ddd']}, pieTotal_update, {val:pie_votes, hex:pie_colors});
+        }
+        // pie_votes = d3.range((Math.random() * 2)).map(function (d, i) {
+        //     return (Math.random() * 10);
+        // });
+        // pieTotal_update({val:pie_votes, hex:pie_colors});
+    });
+    $('#changepoll').click(function () {
+        pollid = Math.random();
+        $(this).text(pollid);
     });
 
     socket.on('setID', function (ID) {
@@ -274,27 +341,29 @@ $(document).ready(function(){
                 socket.emit('getVoteTime', {u_email: u_email, p_id: pollid});
             }
             data = poll;
+            lastpoll = pollid;
+            pollid = data.p_id;
             $('#choices .radio').html('');
             // we use an array instead of a key/value pair because we want the buttons that
             // are added later to actually sync up with the colors in the array objects
             // not sure if the for(i in obj) will progress in an orderly way
             var choice_colors=[]; //holds button text and color
-            pie_votes = [];
-            pie_colors = [];
-            if(data.p_total <= 0){
-                pie_votes.push(1);
-                pie_colors.push("#ddd");
-            }
-            else{
-                pie_votes.push(0);
-                pie_colors.push("#ddd");
-            }
+            // pie_votes = [];
+            // pie_colors = [];
+            // if(data.p_total <= 0){
+            //     pie_votes.push(1);
+            //     pie_colors.push("#ddd");
+            // }
+            // else{
+            //     pie_votes.push(0);
+            //     pie_colors.push("#ddd");
+            // }
 
             for(var i=0; i<data.c_n;i++){
                 choice_colors[i] = {'c_text':data.c_text[i], 'color':data.c_hex[i], 'votes':0};
                 //sets new values on pie arcs
-                pie_votes.push(data.c_total[i]);
-                pie_colors.push("#"+data.c_hex[i]);
+                // pie_votes.push(data.c_total[i]);
+                // pie_colors.push("#"+data.c_hex[i]);
             }
             if(data.p_desc){
                 $('#tbDescription').show();
@@ -362,21 +431,21 @@ $(document).ready(function(){
                 }
                 map.series.regions[0].setValues(rgn_color);
 
-                pie_votes = [];
-                pie_colors = [];
-                if(data.p_total <= 0){
-                    pie_votes.push(1);
-                    pie_colors.push("#ddd");
-                }
-                else{
-                    pie_votes.push(0);
-                    pie_colors.push("#ddd");
-                }
-                for(var i=0; i<Math.floor(Math.random()*6);i++){
-                    //sets new values on pie arcs
-                    pie_votes.push(Math.floor(Math.random()*10));
-                    pie_colors.push("#"+(Math.floor(Math.random()*16777215)).toString(16));
-                }
+                // pie_votes = [];
+                // pie_colors = [];
+                // if(data.p_total <= 0){
+                //     pie_votes.push(1);
+                //     pie_colors.push("#ddd");
+                // }
+                // else{
+                //     pie_votes.push(0);
+                //     pie_colors.push("#ddd");
+                // }
+                // for(var i=0; i<Math.floor(Math.random()*6);i++){
+                //     //sets new values on pie arcs
+                //     pie_votes.push(Math.floor(Math.random()*10));
+                //     pie_colors.push("#"+(Math.floor(Math.random()*16777215)).toString(16));
+                // }
             });
             //$(".jvectormap-region[data-code='US-WA']").attr("fill","#cc0000");
             //$(".jvectormap-region[data-code='US-WA']").attr("fill-opacity", 0);
