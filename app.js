@@ -63,10 +63,14 @@ io.sockets.on('connection', function (client) {
         });
     });
     //get list of all the available polls and display to user
-    client.on('getlistpoll', function () {
-        Poll.find(function(err, poll) {
+    client.on('getlistpoll', function (limit, skip, scroll) {
+        Poll.find({},{},{limit: limit, skip: skip}, function(err, poll) {
             if (err) return console.error(err);
-            client.emit('listpoll', poll);
+            if (scroll) {
+                client.emit('listpoll', poll);
+            } else {
+                client.emit('initlistpoll', poll);
+            }
         });
     });
     //get search results for polls and display to user

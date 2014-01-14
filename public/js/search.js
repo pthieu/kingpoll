@@ -4,24 +4,28 @@ $(document).ready(function(){
     var searchKey = gup('spoll');
     socket.emit('searchpoll', searchKey);
 
-    socket.on('listsearchpoll', function (poll) {
-        if (poll.results.length != 0){
+    if (searchKey != "") {
+        socket.on('listsearchpoll', function (poll) {
+            if (poll.results.length != 0){
 
-            $('#searching').hide();
+                $('#searching').hide();
 
-            var pollitems = poll.results;
-            var source = $("#list-poll-item").html();
-            var pollItemTemplate = Handlebars.compile(source);
+                var pollitems = poll.results;
+                var source = $("#list-poll-item").html();
+                var pollItemTemplate = Handlebars.compile(source);
 
-            pollitems.forEach(function(entry) {
-                //use template from view-poll-list and populate the view with 
-                //all the polls returned
-                $('#view-poll-list').append(pollItemTemplate(entry.obj));
-            });
-        } else {
-            $('#searching').text("Sorry, No Polls Found!!");
-        }
-    });
+                pollitems.forEach(function(entry) {
+                    //use template from view-poll-list and populate the view with 
+                    //all the polls returned
+                    $('#view-poll-list').append(pollItemTemplate(entry.obj));
+                });
+            } else {
+                $('#searching').text("Sorry, No Polls Found!!");
+            }
+        });
+    } else {
+        $('#searching').text("Please enter a search value!");
+    }
 });
 
 $('#search-filter').keyup(function() {
@@ -46,3 +50,9 @@ function gup (name) {
   name = RegExp ('[?&]' + name.replace (/([[\]])/, '\\$1') + '=([^&#]*)');
   return (window.location.href.match (name) || ['', ''])[1];
 }
+
+$(window).scroll(function(){
+    if  ($(window).scrollTop() == $(document).height() - $(window).height()){
+        alert("end of page!");
+    }
+}); 
