@@ -30,6 +30,7 @@ var chart_solocolor = colors_hex[randColor(colors_hex)];
 var s_vtime = 0;
 
 //results pie chart config
+var last_votes = []
 var pie_votes = [];
 var pie_colors = [];
 var pieW = $('#pieTotal').width();
@@ -85,6 +86,25 @@ $(document).ready(function(){
                     .append("g")
                     .attr("transform", "translate(" + w / 2 + "," + h / 2 + ")")
                     .attr("class","piechart");
+
+                var svg_pie_bg = svg.append("circle")
+                            .attr("cx", 0)
+                            .attr("cy", 0)
+                            .attr("r", innerRadius-10)
+                            .attr("fill", "none")
+                            .attr("id", "pieTotalBG");
+                var svg_pie_msg = svg.append("text") // later svg is "higher"
+                            .attr("class", "piechart_msg")
+                svg_pie_msg.append("tspan")
+                            .attr("x", 0)
+                            .attr("y", -3)
+                            .attr("id",'pie_msg_title')
+                            .text("Total Votes:");
+                svg_pie_msg.append("tspan")
+                            .attr("x", 0)
+                            .attr("y", 22)
+                            .attr("id",'pie_msg_val')
+                            .text("0");
             }
             var path = svg.selectAll("path")
                 .data(pie);
@@ -95,14 +115,20 @@ $(document).ready(function(){
                 .attr("d", arc)
                 .each(function (d) {
                 this._current = d;
-            });
+            })
+            .attr("class", "vote_arc")
+            .attr("value", function(d,i) {
+                    return (i-1);
+            });;
 
             path.transition()
                 .duration(dur)
                 .attrTween("d", arcTween)
                 .each('end', function () {
                     if(_callback){
-                        _callback(_cbparam);
+                       setTimeout(function () {
+                         _callback(_cbparam)
+                       }, 100);
                     }
                 });
 
@@ -126,66 +152,36 @@ $(document).ready(function(){
         donut(pieTotal, innerRadius, outerRadius, pieW, pieH, pie_colors, _callback, _cbparam);
     }
 
-    // var results_pie = d3.layout.pie()
-    //                    .sort(null);
-    // var pie_arc = d3.svg.arc()
-    //                 .innerRadius(innerRadius)
-    //                 .outerRadius(outerRadius);
+    function populatepie(_data, _hex) {
+        var vlength = Math.min(_data.length, _hex.length);
+        pie_votes = [0];
+        pie_colors = ['#ddd'];
+        //initialize with [1,0,0...]
+        pie_votes = [1];
+        for(var i=0; i<vlength;i++){
+            //sets new values on pie arcs
+            pie_votes.push(0);
+            pie_colors.push("#"+_hex[i]);
+        }
+        pieTotal_update({val:pie_votes, hex:pie_colors});
+        //animate pieTotal valuse
+        pie_votes = [0];
+        for(var i=0; i<vlength;i++){
+            //sets new values on pie arcs
+            // pie_votes.push(Math.floor(Math.random()*10));
+            pie_votes.push(_data[i]);
+        }
+        pieTotal_update({val:pie_votes, hex:pie_colors});
+    };
 
-    // var svg_pie = d3.select("#pieTotal")
-    //                 .attr("width", pieW)
-    //                 .attr("height", pieH)
-    //                 .append("g")
-    //                 .attr("transform", "translate(" + pieW / 2 + "," + pieH / 2 + ")")
-    //                 .attr("class","piechart")
-
-    // var pie_path = svg_pie.selectAll("path").data(results_pie([1,0,0,0,0,0,0]))
-    //                 .enter().append("path")
-    //                 .attr("d", pie_arc)
-    //                 .each(function(d) { this._current = d; }) // store the initial values
-    //                 .attr("class", "vote_arc")
-    //                 .attr("value", function(d,i) {
-    //                         return (i-1);
-    //                 });
-    // var svg_pie_bg = svg_pie.append("circle")
-    //                 .attr("cx", 0)
-    //                 .attr("cy", 0)
-    //                 .attr("r", innerRadius-10)
-    //                 .attr("fill", "none");
-    // var svg_pie_msg = svg_pie.append("text") // later svg is "higher"
-    //                 .attr("class", "piechart_msg")
-    //     svg_pie_msg.append("tspan")
-    //                 .attr("x", 0)
-    //                 .attr("y", -3)
-    //                 .attr("id",'pie_msg_title')
-    //                 .text("Total Votes:");
-    //     svg_pie_msg.append("tspan")
-    //                 .attr("x", 0)
-    //                 .attr("y", 22)
-    //                 .attr("id",'pie_msg_val')
-    //                 .text("0");
-
-    // pie_votes = [1,0,0,0,0,0,0];
-    // var pie_colors = ["#ddd"];
-    // $(svg_pie).bind("monitor", worker);
-    // $(svg_pie).trigger("monitor");
-
-    // function worker(event) {
-    //     pie_path = pie_path.data(results_pie(pie_votes))
-    //                 .attr("fill", function(d,i) {return pie_colors[i]});
-    //     pie_path.transition().duration(500).attrTween("d", arcTween);
-    //     setTimeout(function(){$(svg_pie).trigger("monitor")}, 500);
-    // }
-    // // Store the displayed angles in _current.
-    // // Then, interpolate from _current to the new angles.
-    // // During the transition, _current is updated in-place by d3.interpolate.
-    // function arcTween(a) {
-    //   var i = d3.interpolate(this._current, a);
-    //   this._current = i(0);
-    //   return function(t) {
-    //     return pie_arc(i(t));
-    //   };
-    // }
+    function clearpie() {
+        var empty_lastvotes = [1];
+        for(var i=0; i<last_votes.length; i++){
+            empty_lastvotes.push(0);
+        }
+        pieTotal_update({val:empty_lastvotes, hex:[rgn_fill]},
+            pieTotal_update, {val:[1], hex:[rgn_fill]});
+    };
 
 //BARCHART
     var bardata = [{name:'Average', value: 0}, {name:'You', value: 0}];
@@ -260,64 +256,9 @@ $(document).ready(function(){
 
 //CLICK
     $('#click').click(function () {
-        var tmplength = 2;
-        var last_votes = pie_votes;
-        // alert('fuck you farran');
-        pie_votes = [0];
-        pie_colors = ['#ddd'];
-        if(pollid == lastpoll){
-            pie_votes = [1];
-            for(var i=0; i<tmplength;i++){
-                //sets new values on pie arcs
-                pie_votes.push(0);
-                pie_colors.push("#"+(Math.floor(Math.random()*16777215)).toString(16));
-            }
-            pieTotal_update({val:pie_votes, hex:pie_colors});
-            pie_votes = [0];
-            for(var i=0; i<tmplength;i++){
-                //sets new values on pie arcs
-                pie_votes.push(Math.floor(Math.random()*10));
-                // pie_colors.push("#"+(Math.floor(Math.random()*16777215)).toString(16));
-            }
-            pieTotal_update({val:pie_votes, hex:pie_colors});
-        }
-        else{
-            empty_lastvotes = [1];
-            for(var i=0; i<last_votes.length; i++){
-                empty_lastvotes.push(0);
-            }
-            for(var i=0; i<Math.floor(Math.random()*10);i++){
-                //sets new values on pie arcs
-                pie_votes.push(Math.floor(Math.random()*10));
-                pie_colors.push("#"+(Math.floor(Math.random()*11184810)).toString(16));
-            }
-            var emptyvotes = [1];
-            var emptycolors = ['#ddd'];
-            for (var i=0; i<pie_votes.length; i++){
-                emptyvotes.push(0);
-                emptycolors.push(pie_colors[i]);
-            }
-            pieTotal_update({val:empty_lastvotes, hex:['#ddd']},
-                pieTotal_update, ({val:[], hex:[]},
-                    pieTotal_update, ({val:emptyvotes, hex:emptycolors},
-                        pieTotal_update, {val:pie_votes, hex:pie_colors}
-                        )));
-            // setTimeout(function () {
-            //     pieTotal_update({val:emptyvotes, hex:emptycolors});
-            // }, 2000);
-            // setTimeout(function () {
-            //     pieTotal_update({val:pie_votes, hex:pie_colors});
-            // }, 3000); 
-            
-
-            // pieTotal_update({val:emptyvotes, hex:['#ddd']});
-            // pieTotal_update({val:[1], hex:['#ddd']}, pieTotal_update, {val:pie_votes, hex:pie_colors});
-        }
-        // pie_votes = d3.range((Math.random() * 2)).map(function (d, i) {
-        //     return (Math.random() * 10);
-        // });
-        // pieTotal_update({val:pie_votes, hex:pie_colors});
+        populatepie(data.c_total, data.c_hex);
     });
+    $('#clearpoll').click(clearpie);
     $('#changepoll').click(function () {
         pollid = Math.random();
         $(this).text(pollid);
@@ -336,34 +277,19 @@ $(document).ready(function(){
 
     socket.on('pollID', function (poll) {
         if (poll){
-            socket.emit('getViewers');
-            if(u_email){
-                socket.emit('getVoteTime', {u_email: u_email, p_id: pollid});
-            }
+            //set up data !IMPORTANT
             data = poll;
-            lastpoll = pollid;
+            lastpoll = (pollid) ? pollid : data.p_id;
+            last_votes = data.c_total;
             pollid = data.p_id;
+
             $('#choices .radio').html('');
             // we use an array instead of a key/value pair because we want the buttons that
             // are added later to actually sync up with the colors in the array objects
             // not sure if the for(i in obj) will progress in an orderly way
             var choice_colors=[]; //holds button text and color
-            // pie_votes = [];
-            // pie_colors = [];
-            // if(data.p_total <= 0){
-            //     pie_votes.push(1);
-            //     pie_colors.push("#ddd");
-            // }
-            // else{
-            //     pie_votes.push(0);
-            //     pie_colors.push("#ddd");
-            // }
-
             for(var i=0; i<data.c_n;i++){
                 choice_colors[i] = {'c_text':data.c_text[i], 'color':data.c_hex[i], 'votes':0};
-                //sets new values on pie arcs
-                // pie_votes.push(data.c_total[i]);
-                // pie_colors.push("#"+data.c_hex[i]);
             }
             if(data.p_desc){
                 $('#tbDescription').show();
@@ -381,19 +307,28 @@ $(document).ready(function(){
                     choice_colors[j].votes += data.data.us[i][j];
                 }
             }
-    
+
 //PIE CHANGES
+            if(pollid == lastpoll){
+                populatepie(data.c_total, data.c_hex);
+            }
+            else{
+                clearpie();
+                setTimeout(function () {
+                    populatepie(data.c_total, data.c_hex);
+                }, dur*2);
+            }
             $("#pie_msg_val").text(data.p_total);
             $(".vote_arc").hover(function () {
                 if ($(this).attr('value') >= 0){
-                    svg_pie_bg.attr("fill", ("#"+choice_colors[$(this).attr('value')].color));
+                    $('#pieTotalBG').attr("fill", ("#"+choice_colors[$(this).attr('value')].color));
                     $(".piechart text").css("fill","#fff");
                     $('#pie_msg_title').text(Math.floor(data.c_total[$(this).attr('value')]/data.p_total*10000)/100+"%");
                     $('#pie_msg_val').text(data.c_total[$(this).attr('value')]);
                 }
             }, function (){
                 if ($(this).attr('value') >= 0) {
-                    svg_pie_bg.attr("fill", "none");
+                    $('#pieTotalBG').attr("fill", "none");
                     $('.piechart text').css("fill",$('body').css('color'));
                     $('#pie_msg_title').text('Total Votes');
                     $('#pie_msg_val').text(data.p_total);
@@ -401,6 +336,9 @@ $(document).ready(function(){
             });
 
 //BARCHART CHANGES
+            if(u_email){
+                socket.emit('getVoteTime', {u_email: u_email, p_id: pollid});
+            }
             voteTimeData = [{name:'Average', value: data.s_tavg}, {name:'You', value: s_vtime}];
             drawVoteTime(chart, voteTimeData, y, yAxis);
             socket.on('setVoteTime', function (time) {
@@ -415,6 +353,7 @@ $(document).ready(function(){
                                                        + ', 1px 1px #'+chart_solocolor);
 
 //VIEWERS COUNT CHANGES
+            socket.emit('getViewers');
             $('#activeViewers text tspan').css("fill", "#"+chart_solocolor);
             socket.on('setViewers', function (d) {
                 $('#tspanActiveViewers').text((d === null) ? 1 : d);
@@ -430,22 +369,6 @@ $(document).ready(function(){
                     rgn_color[i] = calcRgnColor(data.c_n, choice_colors, tmp);
                 }
                 map.series.regions[0].setValues(rgn_color);
-
-                // pie_votes = [];
-                // pie_colors = [];
-                // if(data.p_total <= 0){
-                //     pie_votes.push(1);
-                //     pie_colors.push("#ddd");
-                // }
-                // else{
-                //     pie_votes.push(0);
-                //     pie_colors.push("#ddd");
-                // }
-                // for(var i=0; i<Math.floor(Math.random()*6);i++){
-                //     //sets new values on pie arcs
-                //     pie_votes.push(Math.floor(Math.random()*10));
-                //     pie_colors.push("#"+(Math.floor(Math.random()*16777215)).toString(16));
-                // }
             });
             //$(".jvectormap-region[data-code='US-WA']").attr("fill","#cc0000");
             //$(".jvectormap-region[data-code='US-WA']").attr("fill-opacity", 0);
