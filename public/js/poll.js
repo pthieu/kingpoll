@@ -416,6 +416,8 @@ $(document).ready(function(){
             $('#question').html("Poll not found <span style='font-weight:bold'>:c</span>");
             console.log('poll not found');
         }
+//DISQUS
+        loaddisqus();
     });
 });
 
