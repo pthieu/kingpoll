@@ -4,6 +4,7 @@ var socket = io.connect();
 var data;
 var lastpoll;
 var pollid;
+var disqus_identifier;
 
 //vote var
 var votetime;
@@ -63,7 +64,7 @@ $(document).ready(function(){
     u_email = getLocalVar('u_email');
     // socket.emit('getID');
 
-    var disqus_identifier = pollid;
+
 
 //set up empty graphs
 //PIE CHART - VOTE TOTALS
@@ -282,6 +283,7 @@ $(document).ready(function(){
             lastpoll = (pollid) ? pollid : data.p_id;
             last_votes = data.c_total;
             pollid = data.p_id;
+            disqus_identifier = pollid;
 
             $('#choices .radio').html('');
             // we use an array instead of a key/value pair because we want the buttons that
