@@ -62,15 +62,23 @@ io.sockets.on('connection', function (client) {
             }
         });
     });
+    client.on('getRandPoll', function (pollpage) {
+        Poll.count( function(err,count) {
+            Poll.find({},{},{limit: 1, skip: Math.floor((Math.random()*(count)))}, function(err, poll) {
+                if (err) return console.error(err);
+                if (pollpage) {
+                    client.emit('pollID', poll[0]);
+                } else {
+                    client.emit('randPollID', poll[0].p_id);
+                }
+            });
+        });
+    });
     //get list of all the available polls and display to user
     client.on('getlistpoll', function (limit, skip, scroll) {
         Poll.find({},{},{limit: limit, skip: skip}, function(err, poll) {
             if (err) return console.error(err);
-            if (scroll) {
-                client.emit('listpoll', poll);
-            } else {
-                client.emit('initlistpoll', poll);
-            }
+            client.emit('listpoll', poll);
         });
     });
     //get search results for polls and display to user
