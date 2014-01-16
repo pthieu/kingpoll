@@ -292,6 +292,7 @@ $(document).ready(function(){
     socket.on('pollID', function (poll) {
         if (poll){
             //set up data !IMPORTANT
+
             data = poll;
             lastpoll = (pollid) ? pollid : data.p_id;
             last_votes = data.c_total;

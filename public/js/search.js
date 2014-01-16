@@ -53,6 +53,5 @@ function gup (name) {
 
 $(window).scroll(function(){
     if  ($(window).scrollTop() == $(document).height() - $(window).height()){
-        alert("end of page!");
     }
 }); 

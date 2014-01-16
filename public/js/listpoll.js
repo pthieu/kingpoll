@@ -6,6 +6,24 @@ $(document).ready(function(){
     var temp3 = ($(window).height() - 286) / 35;
     loadcount = Math.ceil(temp3) + 5;
     loadpoll(loadcount, count, true);
+
+    socket.on('listpoll', function (poll) {
+        if (poll.length != 0){
+
+            $('#searching').hide();
+
+            var source = $("#list-poll-item").html();
+            var pollItemTemplate = Handlebars.compile(source);
+
+            poll.forEach(function(entry) {
+                //use template from view-poll-list and populate the view with 
+                //all the polls returned
+                $('#view-poll-list').append(pollItemTemplate(entry));
+            });
+        } else {
+            $('#searching').text("Sorry, No Polls Found!!");
+        }
+    });
 });
 
 $('#poll-filter').keyup(function() {
@@ -32,35 +50,11 @@ $(window).scroll(function(){
 
         count = count + 1;
 
-        loadpoll(20, count, false);
+        loadpoll(loadcount, count, false);
     }
 }); 
 
 function loadpoll(limit, count, scroll) {
     var init;
     socket.emit('getlistpoll', limit, count*loadcount, scroll);
-
-    if (scroll) { 
-        init = 'listpoll';
-    } else {
-        init = 'initlistpoll';
-    }
-
-    socket.on(init, function (poll) {
-        if (poll.length != 0){
-
-            $('#searching').hide();
-
-            var source = $("#list-poll-item").html();
-            var pollItemTemplate = Handlebars.compile(source);
-
-            poll.forEach(function(entry) {
-                //use template from view-poll-list and populate the view with 
-                //all the polls returned
-                $('#view-poll-list').append(pollItemTemplate(entry));
-            });
-        } else {
-            $('#searching').text("Sorry, No Polls Found!!");
-        }
-    });
 }
