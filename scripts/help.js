@@ -1,8 +1,7 @@
 var findUniqueHex = function (hex_pid, Model, id, callback){
     Model.findOne().where(id, hex_pid).exec(function (err, doc) {
-        console.log('looking for '+hex_pid);
         if(err){
-            console.log("return error");
+            console.error("return error");
             //something wrong with id lookup
             throw err;
         }
