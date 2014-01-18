@@ -606,6 +606,7 @@ function desaturation (r,g,b,sat_inv) {
     var r_sat, g_sat, b_sat;
     //calulate amount to DESATURATE by. if no change, i.e. sat_inv=0, color is same as before (full fill)
     //if sat=1, means we want to fully desaturate (255 i.e. white) so multiply difference and add it in
+    //to increase the amount of "paleness", increase multiplier after sat_inv
     r_sat = (Math.floor(r+(255-r)*sat_inv*0.7)).toString(16);
     g_sat = (Math.floor(g+(255-g)*sat_inv*0.7)).toString(16);
     b_sat = (Math.floor(b+(255-b)*sat_inv*0.7)).toString(16);
