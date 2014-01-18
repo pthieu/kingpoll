@@ -94,7 +94,7 @@ exports.vote = function (dataVote, client) {
                                 help.savedoc(item, voted, function (emit_item) {//save vote
                                     client.emit("setVoted", emit_item); //set what user voted on
                                     console.log('Trying to increment poll: ' + newvote.p_id + ' -- ' + newvote.u_loc[0] + ', ' + newvote.u_loc[3] + ', choice ' + newvote.v_choice);
-                                    help.incPoll(Poll, newvote); // increment only after vote saved success
+                                    help.incPoll(Poll, newvote, client); // increment only after vote saved success
                                 });
                             });
                         }

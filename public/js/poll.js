@@ -292,7 +292,6 @@ $(document).ready(function(){
     socket.on('pollID', function (poll) {
         if (poll){
             //set up data !IMPORTANT
-
             data = poll;
             lastpoll = (pollid) ? pollid : data.p_id;
             last_votes = data.c_total;
@@ -314,10 +313,10 @@ $(document).ready(function(){
             $('#question').html(data.p_q);
 
 //PIE CHANGES
-            if(pollid == lastpoll){
+            if(pollid == lastpoll && data.p_total > 0){
                 populatepie(data.c_total, data.c_hex);
             }
-            else{
+            else if (pollid != lastpoll){
                 clearpie();
                 setTimeout(function () {
                     populatepie(data.c_total, data.c_hex);
@@ -368,7 +367,6 @@ $(document).ready(function(){
             switch(geo_loc.countryCode){
                 case 'CA':
                     mapdata = data.data.canada;
-                    
                     break;
                 case 'US':
                     mapdata = data.data.us;
@@ -384,6 +382,7 @@ $(document).ready(function(){
                     choice_colors[j].votes += mapdata[i][j];
                 }
             }
+            map.series.regions[0].setValues(rgn_color);
 
             $('#click').click(function () {
                 for (i in rgn_color){
@@ -412,7 +411,7 @@ $(document).ready(function(){
             $('input[name="vote"]').click(function(){
                 //get time once
                 if (votetime>1383809658764){
-                    votetime = $.now()-votetime; //get votetime once
+                    votetime = s_vtime ? s_vtime*1000 :($.now()-votetime); //get votetime once
                     voteTimeData = [{name:'Average', value: data.s_tavg}, {name:'You', value: votetime/1000}];
                     drawVoteTime(chart, voteTimeData, y, yAxis);
                 }
@@ -442,7 +441,7 @@ $(document).ready(function(){
             console.log('poll not found');
         }
 //DISQUS
-        loaddisqus();
+        poll?setTimeout(loaddisqus, 1500):$('#messages>span').text("No poll, no comments :c");
     });
 });
 

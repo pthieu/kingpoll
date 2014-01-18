@@ -1,4 +1,6 @@
-var socket = io.connect();
+// var socket = io.connect();   //don't really need this. 
+                                //they're connecting on the main page already, 
+                                //although might want to change it over to dashboard later.
 
 function randomPoll() {
     var page = (window.location.href).split('/')[3];

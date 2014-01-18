@@ -31,7 +31,7 @@ var savedoc = function (item, cbitem, callback){
         }
     });
 }
-var incPoll = function (Poll, newvote) {
+var incPoll = function (Poll, newvote, _client) {
     Poll.findOne({'_id':newvote.p_id}).exec(function(err, poll) {
         if (err) throw err;
         var country = newvote.u_loc[0].toLowerCase();
@@ -58,9 +58,10 @@ var incPoll = function (Poll, newvote) {
             poll.markModified('data.hiding');
         }
 
-        poll.save(function (err) {
+        poll.save(function (err, poll) {
             if(err){console.log(err);}
             console.log('Poll incremented');
+            _client.emit('pollID', poll);
         });
     });
 }
