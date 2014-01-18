@@ -56,6 +56,8 @@ io.sockets.on('connection', function (client) {
             client.emit('pollID', poll);
             if(poll){
                 pollid = poll.p_id;
+                client.join(pollid);//join socket.io room
+                console.log(io.sockets.manager.rooms);
                 activepolls[pollid] = (activepolls[pollid] ? activepolls[pollid]+1 : 1);
                 console.log("Active Polls:");
                 console.log(activepolls);
@@ -91,7 +93,7 @@ io.sockets.on('connection', function (client) {
     // console.log(client.id);
     client.on('vote', function (dataVote){
         console.log('voting');
-        socket.vote(dataVote, client);
+        socket.vote(dataVote, client, io);
     });
     client.on('iploc', function (iploc) {
         console.log(iploc);
@@ -103,6 +105,7 @@ io.sockets.on('connection', function (client) {
         socket.getVoted(data, client);
     });
     client.on('disconnect', function (iploc) {
+        client.leave(pollID);
         if(activepolls[pollid]){
             activepolls[pollid] -= 1;
             if(activepolls[pollid] <= 0){
