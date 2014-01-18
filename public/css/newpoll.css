@@ -57,6 +57,7 @@ input[name="textchoice"]{
   top:-0.54rem;
   font-size:1.25rem;
   width: 20rem;
+  border: 1px #aaa solid;
 }
 #textchoice label:not(#rngclr){
   margin:0;
@@ -249,6 +250,9 @@ textarea+div>span{
   resize:none;
   height: 6rem;
   width: 35rem;
+}
+.tb{
+  border: 1px #aaa solid;
 }
 
 #submit{
