@@ -10,7 +10,10 @@ var lastpoll;
 var pollid;
 var disqus_identifier;
 var map = {};
-var mapdata = {};
+var mapdata = {
+        'US':{},
+        'CA': {}
+    };
 var mapname; 
 
 //vote var
@@ -261,15 +264,11 @@ $(document).ready(function(){
                     .text("1");
 
 //MAP CREATION
-                mapname = 'us_lcc_en';
-                map['US'] = getMap($('#mapUS'), mapname, rgn_color); //write map
-                map.US.series.regions[0].setValues(rgn_color);
-                rgn_color['US'] = {};
-                mapname = 'ca_lcc_en';
-                map['CA'] = getMap($('#mapCA'), mapname, rgn_color); //write map
-                map.CA.series.regions[0].setValues(rgn_color);
-                map.CA.setFocus(1.4, 0, 90);
-                rgn_color['CA'] = {};
+            for(var i in mapdata){
+                map[i] = getMap($('#map'+i), i, rgn_color); //write map
+                map[i].series.regions[0].setValues(rgn_color);
+                rgn_color[i] = {};
+            }
             $('input[name="mapChoice"]').click(function () {
                 $('.map').hide();
                 switch($(this).val()){
@@ -280,6 +279,7 @@ $(document).ready(function(){
                         break;
                     case 'CA':
                         $('#mapCA').show();
+                        map.CA.setFocus(1.4, 0, 90);
                         break;
                 }
             });
@@ -394,19 +394,22 @@ $(document).ready(function(){
             });
             setInterval(function(){socket.emit('getViewers')}, 5000);
 //MAP CHANGES
-            mapdata['CA'] = data.data.CA;
-            mapdata['US'] = data.data.US;
-            $('.radio-label').css({'border-color': "#"+chart_solocolor});
-            switch(geo_loc.countryCode){
-                case 'CA':
-                    $('#radioCA').click();
-                    break;
-                case 'US':
-                    $('#radioUS').click();
-                    break;
+            for(var i in data.data){
+                if(i == 'hiding'){continue;}
+                mapdata[i] = data.data[i];
             }
+            $('.radio-label').css({'border-color': "#"+chart_solocolor});
+            // switch(geo_loc.countryCode){
+            //     case 'CA':
+            //         $('#radioCA').click();
+            //         break;
+            //     case 'US':
+            //         $('#radioUS').click();
+            //         break;
+            // }
             for(var i in mapdata){
                 for(var j in mapdata[i]){
+                    if(i == 'hiding'){continue;}
                     if(mapdata[i][j].length < 1){
                         continue;
                     }
@@ -418,6 +421,7 @@ $(document).ready(function(){
                 }
             }
             for(var i in mapdata){
+                if(i == 'hiding'){continue;}
                 map[i].series.regions[0].setValues(rgn_color[i]);
             }
 
