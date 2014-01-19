@@ -41,15 +41,63 @@
 #mid{
   height: 25rem;
   position: relative;
+  overflow: hidden;
   border-bottom: 1px #ddd solid;
   text-align: right;
 }
-#map {
-  float: right;
+#mid>* {
+  display: inline-block;
+  position: relative;
+}
+#mapButtons{
+  float: left;
+  min-width: 15%;
+  z-index: 1;
+}
+#mapButtons > .radio-input{
+  display: none;
+}
+#mapButtons > .radio-label{
+  display: block;
+  position: relative;
+  font-size: 2rem;
+  text-align: right;
+}
+#mapButtons > .radio-label::after{
+  position: absolute;
+  content:"";
+  width: 1rem;
+  height: 1rem;
+  border-left: 0.5rem transparent solid;
+  border-bottom: 0.5rem transparent solid;
+  opacity:0;
+  top:1rem;
+  right:-1.5rem;
+  border-color: inherit;
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  -o-transform: rotate(45deg);
+  transform: rotate(45deg);
+  -webkit-transition: 0.15s ease opacity;
+  -moz-transition: 0.15s ease opacity;
+  -ms-transition: 0.15s ease opacity;
+  -o-transition: 0.15s ease opacity;
+  transition: 0.15s ease opacity;
+}
+#mapButtons > .radio-label:hover::after{
+  opacity: 0.5;
+}
+#mapButtons > .radio-input:checked + label::after{
+  opacity: 1;
+}
+.map {
+  position:absolute;
   height: 100%;
   width: 80%;
   background-color: white; /*#aaa*/
 }
+
 #txtDescription{
   height: 100px;
   width: auto;

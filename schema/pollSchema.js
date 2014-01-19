@@ -28,8 +28,8 @@ var pollSchema = new mongoose.Schema({
     'p_cred'    : {type:Number, default:100}, // credibility %. hidden.
     's_tavg'    : {type:Number, default:0}, // average time
     'data':{
-        'world':{},
-        'canada':{
+        'WORLD':{},
+        'CA':{
             'AB' :[{type: Number}],
             'BC' :[{type: Number}],
             'MB' :[{type: Number}],
@@ -44,7 +44,7 @@ var pollSchema = new mongoose.Schema({
             'SK' :[{type: Number}],
             'YT' :[{type: Number}]
         },
-        'us':{
+        'US':{
             'US-AK' :[{type: Number}],
             'US-AL' :[{type: Number}],
             'US-AR' :[{type: Number}],

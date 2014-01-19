@@ -9,7 +9,9 @@ var data;
 var lastpoll;
 var pollid;
 var disqus_identifier;
-var map, mapname, mapdata;
+var map = {};
+var mapdata = {};
+var mapname; 
 
 //vote var
 var votetime;
@@ -48,9 +50,9 @@ socket.on('results', function (results) {
     calcResultPerc(results['yes_cnt'], results['no_cnt']);
 });
 
-$.getJSON("http://ip-api.com/json/", function(data) {
-    geo_loc = data;
-    socket.emit('iploc', data);
+$.getJSON("http://ip-api.com/json/", function(_geodata) {
+    geo_loc = _geodata;
+    socket.emit('iploc', _geodata);
 });
 
 $(document).ready(function(){
@@ -259,20 +261,28 @@ $(document).ready(function(){
                     .text("1");
 
 //MAP CREATION
-            $.getScript('/jvectormap/maps/jquery-jvectormap-us-lcc-en.js', function (data, status, jqxhr) {
-                // console.log(data);
                 mapname = 'us_lcc_en';
-                // map = getMap($('#map'), mapname, rgn_color); //write map
-                // map.series.regions[0].setValues(rgn_color);
-            });
-            $.getScript('/jvectormap/maps/jquery-jvectormap-ca-lcc-en.js', function (data, status, jqxhr) {
-                // console.log(data);
+                map['US'] = getMap($('#mapUS'), mapname, rgn_color); //write map
+                map.US.series.regions[0].setValues(rgn_color);
+                rgn_color['US'] = {};
                 mapname = 'ca_lcc_en';
-                map = getMap($('#map'), mapname, rgn_color); //write map
-                map.series.regions[0].setValues(rgn_color);
-                map.setFocus(1.4, 0, 90);
+                map['CA'] = getMap($('#mapCA'), mapname, rgn_color); //write map
+                map.CA.series.regions[0].setValues(rgn_color);
+                map.CA.setFocus(1.4, 0, 90);
+                rgn_color['CA'] = {};
+            $('input[name="mapChoice"]').click(function () {
+                $('.map').hide();
+                switch($(this).val()){
+                    case 'World':
+                        break;
+                    case 'US':
+                        $('#mapUS').show();
+                        break;
+                    case 'CA':
+                        $('#mapCA').show();
+                        break;
+                }
             });
-
 
 //CLICK
     $('#click').click(function () {
@@ -384,36 +394,43 @@ $(document).ready(function(){
             });
             setInterval(function(){socket.emit('getViewers')}, 5000);
 //MAP CHANGES
+            mapdata['CA'] = data.data.CA;
+            mapdata['US'] = data.data.US;
+            $('.radio-label').css({'border-color': "#"+chart_solocolor});
             switch(geo_loc.countryCode){
                 case 'CA':
-                    mapdata = data.data.canada;
+                    $('#radioCA').click();
                     break;
                 case 'US':
-                    mapdata = data.data.us;
+                    $('#radioUS').click();
                     break;
             }
-            for(i in mapdata){
-                if(mapdata[i].length < 1){
-                    continue;
-                }
-                rgn_color[i] = calcRgnColor(data.c_n, choice_colors, mapdata[i]);
-                for(j=0;j<data.c_n;j++){
-                    //increment each color's total votes for calculations later
-                    choice_colors[j].votes += mapdata[i][j];
+            for(var i in mapdata){
+                for(var j in mapdata[i]){
+                    if(mapdata[i][j].length < 1){
+                        continue;
+                    }
+                    rgn_color[i][j] = calcRgnColor(data.c_n, choice_colors, mapdata[i][j]);
+                    for(var k=0;k<data.c_n;k++){
+                        //increment each color's total votes for calculations later
+                        choice_colors[k].votes += mapdata[i][j][k];
+                    }
                 }
             }
-            map.series.regions[0].setValues(rgn_color);
+            for(var i in mapdata){
+                map[i].series.regions[0].setValues(rgn_color[i]);
+            }
 
-            $('#click').click(function () {
-                for (i in rgn_color){
-                    var tmp = [];
-                    for(var j=0; j<data.c_n;j++){
-                        tmp.push(Math.floor(Math.random()*10));
-                    }
-                    rgn_color[i] = calcRgnColor(data.c_n, choice_colors, tmp);
-                }
-                map.series.regions[0].setValues(rgn_color);
-            });
+            // $('#click').click(function () {
+            //     for (i in rgn_color){
+            //         var tmp = [];
+            //         for(var j=0; j<data.c_n;j++){
+            //             tmp.push(Math.floor(Math.random()*10));
+            //         }
+            //         rgn_color[i] = calcRgnColor(data.c_n, choice_colors, tmp);
+            //     }
+            //     map.series.regions[0].setValues(rgn_color);
+            // });
             //$(".jvectormap-region[data-code='US-WA']").attr("fill","#cc0000");
             //$(".jvectormap-region[data-code='US-WA']").attr("fill-opacity", 0);
             //var tmp = 'US-AR';

@@ -36,7 +36,14 @@
             <svg id='activeViewers'></svg>
         </div>
         <div id="mid">
-            <div id="map"></div>
+            <div id='mapButtons'>
+                <!-- <input type="radio" id='radioWorld' class='radio-input' name='mapChoice' value='World' /><label for="radioWorld" class='radio-label'>World</label> -->
+                <input type="radio" id='radioCA' class='radio-input' name='mapChoice' value='CA' /><label for="radioCA" class='radio-label'>Canada</label>
+                <input type="radio" id='radioUS' class='radio-input' name='mapChoice' value='US' /><label for="radioUS" class='radio-label'>USA</label>
+            </div>
+            <!-- <div id="mapWorld" class='map'></div> -->
+            <div id="mapUS" class='map'></div>
+            <div id="mapCA" class='map'></div>
         </div>
         <div id="messages">
             <div id="disqus_thread"></div>
@@ -62,6 +69,7 @@
     <!--<script src="//cdnjs.cloudflare.com/ajax/libs/nvd3/1.1.14-beta/nv.d3.min.js" charset="utf-8"></script>-->
     <script src="http://nvd3.org/nv.d3.js" charset="utf-8"></script>
     <script src="/jvectormap/maps/jquery-jvectormap-us-lcc-en.js"></script>
+    <script src="/jvectormap/maps/jquery-jvectormap-ca-lcc-en.js"></script>
     <script src="/js/disqus.js"></script>
     <script src="/js/poll.js"></script>
     <script type="text/javascript" src="/js/dashboard.js"></script>
