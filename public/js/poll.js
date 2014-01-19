@@ -1,6 +1,10 @@
 var socket = io.connect();
 
 //load var
+var pushstate = {
+    current: 0,
+    latest: 0
+};
 var data;
 var lastpoll;
 var pollid;
@@ -55,6 +59,7 @@ $(document).ready(function(){
     pollid = (window.location.href).split('/')[4];
     lastpoll = pollid;
     socket.emit('getPoll', pollid);
+    disqus_identifier = pollid;
 
     $('.tbDescription').hover(function () {
         $(this).css({'border-color': "#"+chart_solocolor});
@@ -299,6 +304,18 @@ $(document).ready(function(){
             pollid = data.p_id;
             disqus_identifier = pollid;
 
+            // (lastpoll != pollid) ? (function(){
+            //     (pushstate.current == pushstate.latest) ? (function(){
+            //         pushstate.latest++;
+            //         history.pushState(pushstate.latest, data.p_q, pollid);
+            //     })() : null;
+            //     window.onpopstate = function (e) {
+            //         pushstate.current += 1;
+            //         socket.emit('getPoll', (window.location.href).split('/')[4]);
+            //     };
+            // })() : null;
+            (lastpoll != pollid) ? history.replaceState({}, data.p_q, pollid) : null;
+
             $('#choices .radio').html('');
             // we use an array instead of a key/value pair because we want the buttons that
             // are added later to actually sync up with the colors in the array objects
@@ -318,28 +335,29 @@ $(document).ready(function(){
                 populatepie(data.c_total, data.c_hex);
             }
             else if (pollid != lastpoll){
-                history.pushState({}, data.p_q, pollid);
                 clearpie();
                 setTimeout(function () {
                     populatepie(data.c_total, data.c_hex);
                 }, dur*2);
             }
             $("#pie_msg_val").text(data.p_total);
-            $(".vote_arc").hover(function () {
-                if ($(this).attr('value') >= 0){
-                    $('#pieTotalBG').attr("fill", ("#"+choice_colors[$(this).attr('value')].color));
-                    $(".piechart text").css("fill","#fff");
-                    $('#pie_msg_title').text(Math.floor(data.c_total[$(this).attr('value')]/data.p_total*10000)/100+"%");
-                    $('#pie_msg_val').text(data.c_total[$(this).attr('value')]);
-                }
-            }, function (){
-                if ($(this).attr('value') >= 0) {
-                    $('#pieTotalBG').attr("fill", "none");
-                    $('.piechart text').css("fill",$('body').css('color'));
-                    $('#pie_msg_title').text('Total Votes');
-                    $('#pie_msg_val').text(data.p_total);
-                }
-            });
+            setInterval(function () {
+                $(".vote_arc").hover(function () {
+                    if ($(this).attr('value') >= 0){
+                        $('#pieTotalBG').attr("fill", ("#"+choice_colors[$(this).attr('value')].color));
+                        $(".piechart text").css("fill","#fff");
+                        $('#pie_msg_title').text(Math.floor(data.c_total[$(this).attr('value')]/data.p_total*10000)/100+"%");
+                        $('#pie_msg_val').text(data.c_total[$(this).attr('value')]);
+                    }
+                }, function (){
+                    if ($(this).attr('value') >= 0) {
+                        $('#pieTotalBG').attr("fill", "none");
+                        $('.piechart text').css("fill",$('body').css('color'));
+                        $('#pie_msg_title').text('Total Votes');
+                        $('#pie_msg_val').text(data.p_total);
+                    }
+                });
+            }, dur);
 
 //BARCHART CHANGES
             if(u_email){
@@ -443,7 +461,7 @@ $(document).ready(function(){
             console.log('poll not found');
         }
 //DISQUS
-        poll?setTimeout(loaddisqus, 1500):$('#messages>span').text("No poll, no comments :c");
+        // poll?setTimeout(loaddisqus, 1500):$('#messages>span').text("No poll, no comments :c");
     });
 });
 
