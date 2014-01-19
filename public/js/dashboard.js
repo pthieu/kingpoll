@@ -8,7 +8,6 @@ function randomPoll() {
     if (page === 'p' ) {
         $('#question').html("Getting poll, please wait...");
         $('#tbDescription').hide();
-        
         socket.emit('getRandPoll', true);
     } else {
         socket.emit('getRandPoll', false);

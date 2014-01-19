@@ -55,6 +55,7 @@ $(document).ready(function(){
     pollid = (window.location.href).split('/')[4];
     lastpoll = pollid;
     socket.emit('getPoll', pollid);
+
     $('.tbDescription').hover(function () {
         $(this).css({'border-color': "#"+chart_solocolor});
     }, function () {
@@ -317,6 +318,7 @@ $(document).ready(function(){
                 populatepie(data.c_total, data.c_hex);
             }
             else if (pollid != lastpoll){
+                history.pushState({}, data.p_q, pollid);
                 clearpie();
                 setTimeout(function () {
                     populatepie(data.c_total, data.c_hex);

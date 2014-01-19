@@ -45,8 +45,6 @@ http.listen(appPort);
 
 io.set('log level', 0); // Delete this row if you want to see debug messages
 
-var activepolls = {}; // {} is object literal, foo = new Array() is array-type
-
 //Listen for incoming connections from clients
 io.sockets.on('connection', function (client) {
     var pollid;
@@ -58,9 +56,6 @@ io.sockets.on('connection', function (client) {
                 pollid = poll.p_id;
                 client.join(pollid);//join socket.io room
                 console.log(io.sockets.manager.rooms);
-                activepolls[pollid] = (activepolls[pollid] ? activepolls[pollid]+1 : 1);
-                console.log("Active Polls:");
-                console.log(activepolls);
             }
         });
     });
@@ -69,6 +64,9 @@ io.sockets.on('connection', function (client) {
             Poll.find({},{},{limit: 1, skip: Math.floor((Math.random()*(count)))}, function(err, poll) {
                 if (err) return console.error(err);
                 if (pollpage) {
+                    (pollid == poll[0].p_id) ? null : client.leave(pollid);
+                    pollid = poll[0].p_id;
+                    client.join(pollid);
                     client.emit('pollID', poll[0]);
                 } else {
                     client.emit('randPollID', poll[0].p_id);
@@ -99,21 +97,13 @@ io.sockets.on('connection', function (client) {
         console.log(iploc);
     });
     client.on('getViewers', function () {
-        client.emit('setViewers', activepolls[pollid]);
+        client.emit('setViewers', io.sockets.clients(pollid).length);
     });
     client.on('getVoteTime', function (data) {
         socket.getVoted(data, client);
     });
     client.on('disconnect', function (iploc) {
-        client.leave(pollID);
-        if(activepolls[pollid]){
-            activepolls[pollid] -= 1;
-            if(activepolls[pollid] <= 0){
-                delete activepolls[pollid];
-            }
-            console.log("Active Polls:");
-            console.log(activepolls);
-        }
+        client.leave(pollid);
     });
 });
 
