@@ -285,6 +285,9 @@ $(document).ready(function(){
                         break;
                 }
             });
+            $(window).resize(function() {
+                map.CA.setFocus(1.4, 0, 90);
+            });
 
 //CLICK
     $('#click').click(function () {
@@ -346,17 +349,20 @@ $(document).ready(function(){
             if(pollid == lastpoll && data.p_total > 0){
                 populatepie(data.c_total, data.c_hex);
             }
-            else if (pollid != lastpoll){
+            else if (pollid != lastpoll && data.p_total > 0){
                 clearpie();
                 setTimeout(function () {
                     populatepie(data.c_total, data.c_hex);
                 }, dur*2);
             }
+            else if (data.p_total <= 0){
+                clearpie();
+            }
             $("#pie_msg_val").text(data.p_total);
             setInterval(function () {
                 $(".vote_arc").hover(function () {
                     if ($(this).attr('value') >= 0){
-                        $('#pieTotalBG').attr("fill", ("#"+choice_colors[$(this).attr('value')].color));
+                        $('#pieTotalBG').attr("fill", ("#"+data.c_hex[$(this).attr('value')]));
                         $(".piechart text").css("fill","#fff");
                         $('#pie_msg_title').text(Math.floor(data.c_total[$(this).attr('value')]/data.p_total*10000)/100+"%");
                         $('#pie_msg_val').text(data.c_total[$(this).attr('value')]);
