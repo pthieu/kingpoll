@@ -15,6 +15,7 @@ var User = require('./schema/userSchema').User;
 var Vote = require('./schema/voteSchema').Vote;
 
 var help = require('./scripts/help.js');
+var dual = require('./public/js/dualwield.js');
 var email = require('./scripts/email.js');
 
 mongoose.connect('mongodb://localhost/test'); //connect to db

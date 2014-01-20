@@ -130,12 +130,11 @@ $(document).ready(function() {
         //slideup/down desc. position of val important for smooth animation
         if($(this).val().length <= 0){
             $('#prvw_tbDescription').slideUp('fast');
-            $('#prvw_tbDescription').text($(this).val());
         }
         else{
-            $('#prvw_tbDescription').text($(this).val());
             $('#prvw_tbDescription').slideDown('fast');
         }
+        $('#prvw_tbDescription').html(dual.linkify($(this).val()));
     });
     // grab which simple choice selected
     $('.radio-cb').click(function() {
