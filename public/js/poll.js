@@ -269,16 +269,18 @@ $(document).ready(function(){
                 map[i].series.regions[0].setValues(rgn_color);
                 rgn_color[i] = {};
             }
+            $('#mapUS').css({'z-index': '1'});
             $('input[name="mapChoice"]').click(function () {
-                $('.map').hide();
                 switch($(this).val()){
                     case 'World':
                         break;
                     case 'US':
-                        $('#mapUS').show();
+                        $('.map:not(#map'+$(this).val()+')').css({'z-index': '0'});
+                        $('#map'+$(this).val()).css({'z-index': '1'});
                         break;
                     case 'CA':
-                        $('#mapCA').show();
+                        $('.map:not(#map'+$(this).val()+')').css({'z-index': '0'});
+                        $('#map'+$(this).val()).css({'z-index': '1'});
                         map.CA.setFocus(1.4, 0, 90);
                         break;
                 }

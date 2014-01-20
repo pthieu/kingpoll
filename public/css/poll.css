@@ -50,9 +50,10 @@
   position: relative;
 }
 #mapButtons{
-  float: left;
+  position: absolute;
+  left:0;
   min-width: 15%;
-  z-index: 1;
+  z-index: 3;
 }
 #mapButtons > .radio-input{
   display: none;
@@ -91,10 +92,16 @@
 #mapButtons > .radio-input:checked + label::after{
   opacity: 1;
 }
-.map {
+.mapcontainer {
   position:absolute;
   height: 100%;
-  width: 80%;
+  width: 85%;
+  background-color: white; /*#aaa*/
+}
+.map {
+  position:absolute;
+  display:block;
+  width:100%;
   background-color: white; /*#aaa*/
 }
 
