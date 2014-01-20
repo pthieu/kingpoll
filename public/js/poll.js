@@ -399,14 +399,14 @@ $(document).ready(function(){
                 mapdata[i] = data.data[i];
             }
             $('.radio-label').css({'border-color': "#"+chart_solocolor});
-            // switch(geo_loc.countryCode){
-            //     case 'CA':
-            //         $('#radioCA').click();
-            //         break;
-            //     case 'US':
-            //         $('#radioUS').click();
-            //         break;
-            // }
+            switch(geo_loc.countryCode){
+                case 'CA':
+                    $('#radioCA').click();
+                    break;
+                case 'US':
+                    $('#radioUS').click();
+                    break;
+            }
             for(var i in mapdata){
                 for(var j in mapdata[i]){
                     if(i == 'hiding'){continue;}

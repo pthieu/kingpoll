@@ -90,10 +90,17 @@ exports.newpoll = function(req, res) {
     });
     //get color text/hex
     for (i=0; i < req.body.c_n; i++){
+        if(!(req.body.textchoice[i].c_hex) || !(req.body.textchoice[i].c_text)){
+            console.log('Poll Save: FAILED -- c_n and text/hex lengths do not match')
+            res.send(500, 'c_n length does not match');
+            res.end();
+            return;            
+        }
         // we don't use push() because we need to ensure order
         newpoll['c_text'][i] = req.body.textchoice[i].c_text;
         newpoll['c_hex'][i] = req.body.textchoice[i].c_hex;
     }
+    console.log('poll length check passed');
     //find hashtags
     var tags = cleansymbols(req.body.p_q); //clear symbols so people can't fuck up the db
     newpoll['p_tag'] = getUniqueArray(cleanhashtag(tags));

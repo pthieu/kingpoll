@@ -39,6 +39,11 @@ $(document).ready(function() {
             $('#textchoice div:gt('+(nchoice_pick-1)+')').fadeOut('fast');
             $('#textchoice div:lt('+nchoice_pick+')').fadeIn('fast');
             $('#rngclr').css("visibility","visible");
+            // $('input[name="textchoice"]:visible').attr('required', true);
+            // setTimeout(function () {
+            //     $('input[name="textchoice"]:hidden').removeAttr('required');
+            // }, 300);
+            rngcolors();
         }
     });
     //adds the preview buttons
@@ -167,17 +172,28 @@ $(document).ready(function() {
                 post_color = form.find("input[name='c"+(i+1)+"_color']:checked").val();
                 post_textchoice.push({'c_text':post_text, 'c_hex':post_color});
             }
-            var posting = $.post("/new", {
-                                'template_choice': post_template,
-                                'u_id': post_uid,
-                                'u_email': post_email,
-                                'c_n': post_nchoice,
-                                'textchoice': post_textchoice,
-                                'c_random': c_random,
-                                'p_q': post_question,
-                                'p_desc': post_description
-            }).success(function (data, status) {
+            var posting = $.ajax({
+                url: '/new',
+                type: 'POST',
+                data:{
+                        'template_choice': post_template,
+                        'u_id': post_uid,
+                        'u_email': post_email,
+                        'c_n': post_nchoice,
+                        'textchoice': post_textchoice,
+                        'c_random': c_random,
+                        'p_q': post_question,
+                        'p_desc': post_description
+                },
+                dataType: "html"
+            }).done(function (data) {
                 window.location.href = data;
+            }).fail(function (data) {
+                switch(data.responseText){
+                    case 'c_n length does not match':
+                        alert('Please fill all visible textboxes with text and choose a color!');
+                        break;
+                }
             });
     });
 });
