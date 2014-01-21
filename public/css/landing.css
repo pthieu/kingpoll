@@ -1,21 +1,35 @@
+.top{
+  margin:auto;
+  position: relative;
+  width: 90%;
+  min-height: 15rem;
+}
+.top>*{
+  display:inline-block;
+}
+#branding{
+  position: absolute;
+  float:left;
+  left:0;
+  z-index: 2;
+}
 .wrap{
   display    : block;
   margin     : 0;
-  min-height : 100%;
-  height     : 100%;
 }
-
+#stats-wrap{
+  position: absolute;
+  width: 80%;
+  right:0;
+  bottom:0;
+}
 #polls-wrap{
   min-width : 70%;
 }
-#stats-wrap{
-  min-width : 30%;
-}
-
 .card{
   display        : inline-block;
   /*box-shadow   : 0 0 0.5rem rgba(0, 0, 0, 0.1);*/
-  width          : 14rem;
+  width          : 10rem;
   padding-top    : 2rem;
   padding-bottom : 2rem;
   color          : #fff;
