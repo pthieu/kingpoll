@@ -4,27 +4,41 @@
   <meta charset="UTF-8">
   <title>kingpoll.</title>
     <link rel="stylesheet" href="/flat-ui/jquery-ui-1.10.3.custom.min.css" type="text/css" />
+    <link rel="stylesheet" href="/css/layout.css" type="text/css" />
+    <link rel="stylesheet" href="/css/landing.css" type="text/css" />
     <link rel="stylesheet" href="/css/dash.css" type="text/css" />
     <link rel="stylesheet" href="/css/footer.css" type="text/css" />
 </head>
 <body>
+  <div id='dash'></div>
   <div id='wrapper'>
     <div id='branding'>
       <span id='nameLogo'>kingpoll.</span><div id='wrapLogo'><img src="/images/kingstache_666.png" alt="Question Everything." id='imgLogo'></div>
       <br/><!-- <span id='slogan'>There's a poll for that.</span> -->
     </div>
+    <div id='stats-wrap' class='wrap'>
+      <div class='card'><h2>Current Voters</h2><span><h3>100</h3></span></div>
+      <div class='card'><h2>Registered Users</h2><span><h3>100</h3></span></div>
+      <div class='card'><h2>Polls</h2><span><h3>100</h3></span></div>
+      <div class='card'><h2>Votes</h2><span><h3>100</h3></span></div>
+      <div class='card'><h2>Anonymous Votes</h2><span><h3>100</h3></span></div>
+    </div>
+    <div id='polls-wrap' class='wrap'></div>
   </div>
-  <div id="disqus_thread"></div>
+  <!-- <div id="disqus_thread"></div> -->
   <script type="text/javascript">
       var disqus_identifier = 'landing';
   </script>
-  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-  <a href="http://disqus.com" class="dsq-brlink">Loading Comments... <span class="logo-disqus">Disqus</span></a>
+  <!-- <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  <a href="http://disqus.com" class="dsq-brlink">Loading Comments... <span class="logo-disqus">Disqus</span></a> -->
     <div id="footer"></div>
+  <script src="/socket.io/socket.io.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
   <script src="/js/jquery.cookie.js"></script>
   <script src="/js/colors.js"></script>
+  <script src="/js/dashboard.js"></script>
+  <script src="/js/landing.js"></script>
   <script>$('#dash').load('/views/dash.html')</script>
   <script>$('#footer').load('/views/footer.html')</script>
 </body>

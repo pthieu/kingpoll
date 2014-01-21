@@ -1,73 +1,75 @@
 *, *:before, *:after {
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
+  -moz-box-sizing    : border-box;
+  -webkit-box-sizing : border-box;
+  box-sizing         : border-box;
+  margin             : 0;
 }
 
 html{
-    width:100%;
-    height:100%;
+  width  : 100%;
+  height : 100%;
 }
 body{
-    margin:0;
-    width: 100%;
-    min-width: 15rem;
-    height:100%;
-    font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
-    background-color: white;
-    color: #888;
-    text-align: center;
+  margin           : 0;
+  width            : 100%;
+  min-width        : 15rem;
+  height           : 100%;
+  font-family      : "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
+  background-color : white;
+  color            : #888;
+  text-align       : center;
 }
 
 #wrapper{
-  overflow:hidden;
-  margin: 0 auto -1.5rem auto;
-  position:relative;
-  width:100%;
-  max-width: 50rem;
-  min-height: 100%;
-  height:auto !important;
-  height:100%;
-  left:0; right:0;
-  text-align: center;
-  border-left: 1px #ddd solid;
-  border-right: 1px #ddd solid;
+  overflow     : hidden;
+  margin       : 0 auto -1.5rem auto;
+  position     : relative;
+  width        : 100%;
+  max-width    : 50rem;
+  min-height   : 100%;
+  height       : auto !important;
+  height       : 100%;
+  left         : 0; right:0;
+  text-align   : center;
+  border-left  : 1px #ddd solid;
+  border-right : 1px #ddd solid;
 }
 
 #branding{
-    color: #666;
-    margin-top: 9rem;
-    margin-bottom: 1rem;
+  color         : #666;
+  margin-top    : 9rem;
+  margin-bottom : 1rem;
+  min-width     : 25rem;
 }
 #nameLogo{
-    position: relative;
-    font-weight: 900;
-    font-size: 5rem;
+  position    : relative;
+  font-weight : 900;
+  font-size   : 5rem;
+  left        : ;
 }
 #nameLogo::before{
-    content: 'Question';
-    position: absolute;
-    top:5.25rem;
-    left: 3rem;
-    font-size: 1rem;
+  content   : 'Question';
+  position  : absolute;
+  top       : 5.25rem;
+  left      : 3rem;
+  font-size : 1rem;
 }
 #nameLogo::after{
-    content: 'Everything';
-    position: absolute;
-    top:5.25rem;
-    left:11.90rem;
-    font-size: 1rem;
+  content   : 'Everything';
+  position  : absolute;
+  top       : 5.25rem;
+  left      : 11.90rem;
+  font-size : 1rem;
 }
 #branding>#slogan{
-    font-size: 1rem;
+  font-size : 1rem;
 }
 #wrapLogo{
-    display:inline;
-    position: relative;
+  position : relative;
+  height   : 0;
 }
 #imgLogo{
-    position:absolute;
-    height: 15rem;
-    top:-13.7rem;
-    left:-18rem;
+  position : relative;
+  height   : 15rem;
+  top      : -16rem;
 }

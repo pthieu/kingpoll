@@ -1,209 +1,209 @@
 label{
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+  -webkit-touch-callout : none;
+  -webkit-user-select   : none;
+  -khtml-user-select    : none;
+  -moz-user-select      : none;
+  -ms-user-select       : none;
+  user-select           : none;
 }
 .formSignup {
-  position:relative;
-  width: 25rem;
-  margin: 2rem auto;
-  background: white;
-  box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.1);
+  position   : relative;
+  width      : 25rem;
+  margin     : 2rem auto;
+  background : white;
+  box-shadow : 0 0 0.5rem rgba(0, 0, 0, 0.1);
 }
 #mult {
-  position:absolute;
-  right:-9rem;
-  top:0;
-  padding: 1rem;
-  font-size: 1.4rem;
-  background: white;
-  box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.1);
+  position   : absolute;
+  right      : -9rem;
+  top        : 0;
+  padding    : 1rem;
+  font-size  : 1.4rem;
+  background : white;
+  box-shadow : 0 0 0.5rem rgba(0, 0, 0, 0.1);
 }
 
 .header{
-  font-size: 1.5rem;
-  font-weight: bold;
-  margin-bottom: 1rem;
+  font-size     : 1.5rem;
+  font-weight   : bold;
+  margin-bottom : 1rem;
 }
 .field{
-  position: relative;
-  height: 2rem;
-  text-align: center;
-  width: 22rem;
-  margin: 0 auto 0 auto;
-  padding-bottom: 3rem;
+  position       : relative;
+  height         : 2rem;
+  text-align     : center;
+  width          : 22rem;
+  margin         : 0 auto 0 auto;
+  padding-bottom : 3rem;
 }
 
 .f{
-  position: relative;
-  top:0;
-  left:0;
-  border: none; 
-  background: transparent;
-  height: 2rem;
-  width: 100%;
-  position: absolute;
-  outline: none;
-  font-size: 1.5rem;
-  border-bottom: 1px solid #ddd;
+  position      : relative;
+  top           : 0;
+  left          : 0;
+  border        : none; 
+  background    : transparent;
+  height        : 2rem;
+  width         : 100%;
+  position      : absolute;
+  outline       : none;
+  font-size     : 1.5rem;
+  border-bottom : 1px solid #ddd;
 }
 /*.f for field*/
 .f + label {
-  position: absolute;
-  font-size: 1.4rem;
-  top: 0;
-  left: 0;
-  color: #727272;
-  transition: .3s;
-  -webkit-transition: .3s;
+  position           : absolute;
+  font-size          : 1.4rem;
+  top                : 0;
+  left               : 0;
+  color              : #727272;
+  transition         : .3s;
+  -webkit-transition : .3s;
 }
 
 .f:hover:not(.fn) + label, .f:focus + label, .f.set + label {
-  font-weight: 500;
-  font-size: 1rem;
-  top: -1.1rem;
-  transition: .3s;
-  -webkit-transition: .3s;
+  font-weight        : 500;
+  font-size          : 1rem;
+  top                : -1.1rem;
+  transition         : .3s;
+  -webkit-transition : .3s;
 }
 .f.set + label {
 }
 .field.checkradio{
-  text-align: left;
+  text-align : left;
 }
 
 .radio-cb:checked + .radio-cb-label::after{
-  opacity:1;
+  opacity : 1;
 }
 .radio-cb-label{
-  margin-bottom: 0.15em;
-  display: inline-block;
-  position: relative;
-  vertical-align: middle;
-  font-size: 1.4rem;
-  left:8rem;
-  width: 15rem;
+  margin-bottom  : 0.15em;
+  display        : inline-block;
+  position       : relative;
+  vertical-align : middle;
+  font-size      : 1.4rem;
+  left           : 8rem;
+  width          : 15rem;
 }
 .radio-cb-label{
-    padding-left: 1rem;
+  padding-left : 1rem;
 }
 .radio-cb-label::before{
-  content:"";
-  padding: 0;
-  width: 1.4rem;
-  height: 1.4rem;
-  position: absolute;
-  right: -0.2rem;
-  left:-0.8rem;
-  top: 0.25rem;
-  border: 2px solid #aaa;
-  background: #fff;
+  content    : "";
+  padding    : 0;
+  width      : 1.4rem;
+  height     : 1.4rem;
+  position   : absolute;
+  right      : -0.2rem;
+  left       : -0.8rem;
+  top        : 0.25rem;
+  border     : 2px solid #aaa;
+  background : #fff;
 }
 .radio-cb-label::after{
-  content:"";
-  position: absolute;
-  padding: 0;
-  width: 1.5rem;
-  height: 2.25rem;
-  right: -0.5rem;
-  top: -1rem;
-  left:-0.7rem;
-  opacity:0;
-  border: 0.65rem solid;
-  border-color: inherit;
-  border-top: none;
-  border-left: none;
-  -webkit-transform: rotate(45deg);
-  -moz-transform: rotate(45deg);
-  -ms-transform: rotate(45deg);
-  -o-transform: rotate(45deg);
-  transform: rotate(45deg);
-  -webkit-transition: 0.15s ease opacity;
-  -moz-transition: 0.15s ease opacity;
-  -ms-transition: 0.15s ease opacity;
-  -o-transition: 0.15s ease opacity;
-  transition: 0.15s ease opacity;
+  content            : "";
+  position           : absolute;
+  padding            : 0;
+  width              : 1.5rem;
+  height             : 2.25rem;
+  right              : -0.5rem;
+  top                : -1rem;
+  left               : -0.7rem;
+  opacity            : 0;
+  border             : 0.65rem solid;
+  border-color       : inherit;
+  border-top         : none;
+  border-left        : none;
+  -webkit-transform  : rotate(45deg);
+  -moz-transform     : rotate(45deg);
+  -ms-transform      : rotate(45deg);
+  -o-transform       : rotate(45deg);
+  transform          : rotate(45deg);
+  -webkit-transition : 0.15s ease opacity;
+  -moz-transition    : 0.15s ease opacity;
+  -ms-transition     : 0.15s ease opacity;
+  -o-transition      : 0.15s ease opacity;
+  transition         : 0.15s ease opacity;
 }
 .radio-cb-label:hover::after{
-  opacity:0.5;
+  opacity : 0.5;
 }
 input[name='gender']{
-  display: none;
+  display : none;
 }
 input[name='gender'] + label{
-  float:left;
-  width:30%;
+  float : left;
+  width : 30%;
 }
 
 #submit{
-  color:white;
-  border:none;
-  width: 10rem;
-  height: 5rem;
-  font-size: 1.5rem;
-  font-weight: bold;
-  opacity: 0.7;
-  margin-bottom: 2rem;
+  color         : white;
+  border        : none;
+  width         : 10rem;
+  height        : 5rem;
+  font-size     : 1.5rem;
+  font-weight   : bold;
+  opacity       : 0.7;
+  margin-bottom : 2rem;
 }
 #submit:hover{
-  opacity:1;
+  opacity : 1;
 }
 #submit:focus{
-  border : 0px;
+  border  : 0px;
   outline : none;
 }
 
 .birth>*, select{
-  float: left;
-  text-align: left;
-  font-size: 1.4rem;
-  font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
+  float       : left;
+  text-align  : left;
+  font-size   : 1.4rem;
+  font-family : "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
 }
 #tbBirth, .relationship > select{
-  position: relative;
-  float: right;
-  width: 60%;
-  top: -0.1rem;
-  right:0;
-  color: #888;
-  border: none;
+  position : relative;
+  float    : right;
+  width    : 60%;
+  top      : -0.1rem;
+  right    : 0;
+  color    : #888;
+  border   : none;
 }
 .birth > label{
-  position: relative;
-  left:0rem;
+  position : relative;
+  left     : 0rem;
 }
 .relationship > label{
-   font-size: 1.4rem;
-   float: left;
+  font-size : 1.4rem;
+  float     : left;
 }
 .relationship > label > select {
-  display: inline-block;
-  position: relative;
-  top:0;
-  left:2rem;
-  border-color: #bbb;
-  color: #888;
-  -webkit-appearance:none;
-  -moz-appearance:none;
-  appearance:none;
+  display            : inline-block;
+  position           : relative;
+  top                : 0;
+  left               : 2rem;
+  border-color       : #bbb;
+  color              : #888;
+  -webkit-appearance : none;
+  -moz-appearance    : none;
+  appearance         : none;
 }
 .relationship > label {position:relative}
 .relationship > label:last-of-type:after {
-    content:'<>';
-    font-weight: bold;
-    color:#aaa;
-    left:9rem;
-    top:0.2rem;
-    -webkit-transform:rotate(90deg);
-    -moz-transform:rotate(90deg);
-    -ms-transform:rotate(90deg);
-    transform:rotate(90deg);
-    position:absolute;
-    pointer-events:none;
+  content           : '<>';
+  font-weight       : bold;
+  color             : #aaa;
+  left              : 9rem;
+  top               : 0.2rem;
+  -webkit-transform : rotate(90deg);
+  -moz-transform    : rotate(90deg);
+  -ms-transform     : rotate(90deg);
+  transform         : rotate(90deg);
+  position          : absolute;
+  pointer-events    : none;
 }
 
 .ui-datepicker{
-  font-size: 1rem;
+  font-size : 1rem;
 }

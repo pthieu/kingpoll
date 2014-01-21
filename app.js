@@ -48,6 +48,10 @@ io.set('log level', 0); // Delete this row if you want to see debug messages
 
 //Listen for incoming connections from clients
 io.sockets.on('connection', function (client) {
+    client.on('joinlanding', function () {
+        client.join('landing');
+        console.log(io.sockets.manager.rooms);
+    });
     var pollid;
     client.on('getPoll', function (pollID) {
         Poll.findOne({'p_id':pollID}, function(err, poll) {
@@ -55,6 +59,7 @@ io.sockets.on('connection', function (client) {
             client.emit('pollID', poll);
             if(poll){
                 pollid = poll.p_id;
+                client.leave('landing');
                 client.join(pollid);//join socket.io room
                 console.log(io.sockets.manager.rooms);
             }
@@ -67,6 +72,7 @@ io.sockets.on('connection', function (client) {
                 if (pollpage) {
                     (pollid == poll[0].p_id) ? null : client.leave(pollid);
                     pollid = poll[0].p_id;
+                    client.leave('landing');
                     client.join(pollid);
                     client.emit('pollID', poll[0]);
                 } else {
@@ -105,6 +111,7 @@ io.sockets.on('connection', function (client) {
     });
     client.on('disconnect', function (iploc) {
         client.leave(pollid);
+        client.leave('landing');
     });
 });
 
