@@ -22,7 +22,7 @@ body{
 
 #wrapper{
   overflow     : hidden;
-  margin       : 0 auto -1.5rem auto;
+  margin       : 3rem auto -1.5rem auto;
   position     : relative;
   width        : 100%;
   max-width    : 50rem;
@@ -31,8 +31,8 @@ body{
   height       : 100%;
   left         : 0; right:0;
   text-align   : center;
-  border-left  : 1px #ddd solid;
-  border-right : 1px #ddd solid;
+  /*border-left  : 1px #ddd solid;*/
+  /*border-right : 1px #ddd solid;*/
 }
 
 #branding{

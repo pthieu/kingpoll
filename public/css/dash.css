@@ -10,43 +10,55 @@
     height: 3em;
     position: fixed;
     border-bottom: 1px #ddd solid;
-    background-color: #666;
+    background-color: #555;
+    color: #fff;
     z-index: 100;
-    background-color: white;
     top:0;
-    text-align: left
+    text-align: left;
+    min-width: 25rem;
+}
+ #dash *, #dash a, #dash a:visited, #dash a:active{
+    color:#fff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+#dash a:hover{
+    opacity: 0.5;
 }
 .search{
-	/*position: absolute;*/
-	/*margin-left: 50px;*/
+    /*margin-left: 50px;*/
+    z-index: 2;
 }
 .left{
+    position: relative;
     float:left;
+    z-index: 5;
 }
 .mid{
-    width: 40%;
+    /*width: 40%;*/
 }
 .right{
     position: absolute;
     display: inline-block;
-    right: 0;
-    width: 50%;
+    right: 1rem;
+    float:right;
+    z-index: 0;
+    min-width: 15rem
 }
 #login-wrap{
     z-index: 5;
-    color: black;
-    right:6rem;
-    float:left;
+    position: absolute;
+    right:3rem;
 }
 #nav{
     visibility: hidden;
-    /*display:none;*/
 }
 #nav-wrap{
     float: right;
     display:inline-block;
     z-index: 0;
-    position: relative;
     right: 0;
     top:0;
+    float:right;
 }

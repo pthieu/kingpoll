@@ -20,15 +20,34 @@ function randomPoll() {
     });
 }
 
+
+
+var checkResize = function () {
+        if($(window).width() < '750'){
+            // $('#dash').css({'height': '6rem'});
+            $('.mid').hide();
+            // $('.mid').css({'z-index', '2'});
+        }
+        else{
+            // $('#dash').css({'height': '3rem'});
+            $('.mid').show();
+            // $('.mid').css({'z-index', '2'});
+        }
+}
+
 $(document).ready(function () {
     // $('.menu-btn').click(function () {
     //     $('#nav-wrap').slideToggle(50);
     // });
-setTimeout(function () {
-    $('#nav').slicknav({
-        label: '',
-        prependTo: '#nav-wrap',
-        duration:100
+    setTimeout(function () {
+        $('#nav').slicknav({
+            label: '',
+            prependTo: '#nav-wrap',
+            duration:100
+        });
+    }, 500);
+    checkResize();
+    $(window).resize(function() {
+        checkResize();
     });
-}, 500);  
 });

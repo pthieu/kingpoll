@@ -1,6 +1,6 @@
 .top{
   margin:auto;
-  margin-top: 8rem;
+  margin-top: 3rem;
   position: relative;
   width: 90%;
   min-height: 15rem;
@@ -9,7 +9,7 @@
   display:inline-block;
 }
 #branding{
-  position: absolute;
+  position: relative;
   float:left;
   left:0;
   z-index: 2;
@@ -22,9 +22,10 @@
   position: absolute;
   width: 80%;
   right:0;
-  bottom:0;
+  margin-top: 2rem;
 }
 #polls-wrap{
+  margin-top: 2rem;
   min-width : 70%;
 }
 .card{
