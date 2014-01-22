@@ -1,15 +1,27 @@
-<span>
-	Logo
-	<a href="javascript:void(0)" onclick="randomPoll();">Random</a>
-	Top10
-	<a href="/listpoll">Poll List</a>
-	<a href="/new">New Poll</a>
-	<a href="/signup">Signup</a>
-	Login
-</span>
-<span class="search">
-	<form action="/search">
-		<input type="text" name="spoll" value>
-		<input type="submit" name="submitsearch" value="Search">
-	</form>
-</span>
+<div class='left'>
+    Logo
+    <a href="javascript:void(0)" onclick="randomPoll();">Random</a>
+    <a href="/new">New Poll</a>
+</div>
+<div class='mid'>
+    <span class="search">
+        <form action="/search">
+            <input type="text" name="spoll" value>
+            <input type="submit" name="submitsearch" value="Search">
+        </form>
+    </span>    
+</div>
+<div class='right'>
+    <div id='login-wrap'>
+        <a href="/signup">Signup</a>
+        <span id='login'>Login</span>
+    </div>
+    <div id='nav-wrap'>
+        <ul id='nav' >
+            <li><a href="#">Top 100ffffffffffffffffff</a></li>
+            <li><a href="/listpoll">Poll List</a></li>
+            <li>3</li>
+        </ul>
+    </div>
+</div>
+<script src="/js/dashboard.js"></script>

@@ -19,3 +19,16 @@ function randomPoll() {
         window.location.href = "/p/" + temp;
     });
 }
+
+$(document).ready(function () {
+    // $('.menu-btn').click(function () {
+    //     $('#nav-wrap').slideToggle(50);
+    // });
+setTimeout(function () {
+    $('#nav').slicknav({
+        label: '',
+        prependTo: '#nav-wrap',
+        duration:100
+    });
+}, 500);  
+});
