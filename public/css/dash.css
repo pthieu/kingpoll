@@ -73,6 +73,11 @@
 .navbar-brand{
     color:#fff !important;
 }
+.navbar-header img{
+    width: 2.2rem;
+    margin-top: 0.4rem;
+
+}
 #dash input, #dash button{
     color: #888;
 }
