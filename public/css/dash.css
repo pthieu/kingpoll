@@ -1,7 +1,7 @@
-#dash>*:not(.right), #login-wrap{
+/*#dash>*:not(.right), #login-wrap{
     display:inline-block;
     margin: 0.75rem;
-}
+}*/
 #dash{
     position: relative;
     margin: 0;
@@ -20,7 +20,10 @@
  #dash *, #dash a, #dash a:visited, #dash a:active{
     color:#fff;
     text-decoration: none;
-    font-weight: bold;
+    /*font-weight: bold;*/
+}
+.navbar-brand{
+    font-weight: bold;   
 }
 
 #dash a:hover{
@@ -61,4 +64,15 @@
     right: 0;
     top:0;
     float:right;
+}
+
+.navbar-inverse{
+    background-color: #555;
+    border-color: #555;
+}
+.navbar-brand{
+    color:#fff !important;
+}
+#dash input, #dash button{
+    color: #888;
 }
