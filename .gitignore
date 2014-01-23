@@ -1,5 +1,6 @@
 *.log
 *.swp
+.idea/
 
 lib-cov
 lcov.info
@@ -18,3 +19,4 @@ build
 .grunt
 
 node_modules
+
