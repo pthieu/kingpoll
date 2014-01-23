@@ -384,8 +384,8 @@ $(document).ready(function(){
             voteTimeData = [{name:'Average', value: data.s_tavg}, {name:'You', value: s_vtime}];
             drawVoteTime(chart, voteTimeData, y, yAxis);
             socket.on('setVoteTime', function (time) {
-                s_vtime = time;
-                voteTimeData = [{name:'Average', value: data.s_tavg}, {name:'You', value: time}];
+                s_vtime = (time) ? time : 0;
+                voteTimeData = [{name:'Average', value: data.s_tavg}, {name:'You', value: s_vtime}];
                 drawVoteTime(chart, voteTimeData, y, yAxis);
             });
             $('.barchart rect').css('fill','#'+chart_solocolor);
@@ -460,7 +460,7 @@ $(document).ready(function(){
             $('input[name="vote"]').click(function(){
                 //get time once
                 if (votetime>1383809658764){
-                    votetime = s_vtime ? s_vtime*1000 :($.now()-votetime); //get votetime once
+                    votetime = (s_vtime) ? s_vtime*1000 :($.now()-votetime); //get votetime once
                     voteTimeData = [{name:'Average', value: data.s_tavg}, {name:'You', value: votetime/1000}];
                     drawVoteTime(chart, voteTimeData, y, yAxis);
                 }
