@@ -28,6 +28,15 @@ exports.findAll = function(req, res) {
  * @param res
  */
 exports.findById = function(req, res) {
+    req.assert('id').notEmpty();
+    var errors = req.validationErrors();
+    if (errors) {
+        res.status(400).send({
+            errors: errors
+        });
+        return;
+    }
+
     res.send({
         id: req.params.comment_id,
         comment: 'You fetched id: ' + req.params.comment_id
@@ -41,17 +50,18 @@ exports.findById = function(req, res) {
  * @param res
  */
 exports.addComment = function(req, res) {
-    var pollId = req.params.poll_id;
-    if (pollId === undefined) {
-        res.status(400).send('Missing poll_id');
-    }
-    var message = req.body.message
-    if (message === undefined) {
-        res.status(400).send('Missing message');
+    req.assert('poll_id').notEmpty();
+    req.assert('message').notEmpty();
+    var errors = req.validationErrors();
+    if (errors) {
+        res.status(400).send({
+            errors: errors
+        });
+        return;
     }
 
     res.send({
-       id: 'some new message id'
+        id: 'some new message id'
     });
 }
 
@@ -62,14 +72,17 @@ exports.addComment = function(req, res) {
  * @param res
  */
 exports.deleteComment = function(req, res) {
-    var pollId = req.params.poll_id;
-    if (pollId === undefined) {
-        res.status(400).send('Missing message');
+    req.assert('poll_id').notEmpty();
+    req.assert('comment_id').notEmpty();
+    var errors = req.validationErrors();
+    if (errors) {
+        res.status(400).send({
+            errors: errors
+        });
+        return;
     }
+
     var commentId = req.params.comment_id;
-    if (commentId === undefined) {
-        res.status(400).send('Missing comment id');
-    }
 
     res.send(204);
 }
@@ -81,17 +94,15 @@ exports.deleteComment = function(req, res) {
  * @param res
  */
 exports.editComment = function(req, res) {
-    var pollId = req.params.poll_id;
-    if (pollId === undefined) {
-        res.status(400).send('Missing message');
-    }
-    var commentId = req.params.comment_id;
-    if (commentId === undefined) {
-        res.status(400).send('Missing comment id');
-    }
-    var message = req.body.message
-    if (message === undefined) {
-        res.status(400).send('Missing message');
+    req.assert('poll_id').notEmpty();
+    req.assert('comment_id').notEmpty();
+    req.assert('message').notEmpty();
+    var errors = req.validationErrors();
+    if (errors) {
+        res.status(400).send({
+            errors: errors
+        });
+        return;
     }
 
     res.send({

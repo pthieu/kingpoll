@@ -2,6 +2,7 @@
 var appPort =  process.env.PORT || process.env.VCAPP_APP_PORT || 8888;
 
 var express = require('express'), app = express();
+var expressValidator = require('express-validator');
 var http = require('http').createServer(app);
 var io = require('socket.io').listen(http);
 var UUID = require('node-uuid');
@@ -27,9 +28,10 @@ db.on('error', console.error); //error check
 var routes = require('./routes');
 var socket = require('./routes/socket.js');
 
-// app.use(express.logger());
+app.use(express.logger());
 app.use(express.static(__dirname + '/public'));
 app.use(express.bodyParser());
+app.use(expressValidator());
 
 app.get('/', routes.landing);
 app.get('/about', routes.about);
