@@ -2,13 +2,14 @@
 var appPort =  process.env.PORT || process.env.VCAPP_APP_PORT || 8888;
 
 var express = require('express'), app = express();
-var http = require('http').createServer(app),
-    io = require('socket.io').listen(http),
-    UUID = require('node-uuid'),
-    mongoose = require('mongoose');
-    fs = require('fs');
-    textSearch = require('mongoose-text-search');
+var http = require('http').createServer(app);
+var io = require('socket.io').listen(http);
+var UUID = require('node-uuid');
+var mongoose = require('mongoose');
+var fs = require('fs');
+var textSearch = require('mongoose-text-search');
 var shortid = require('shortid');
+var poll_comments = require('./routes/poll_comments');
 
 var Poll = require('./schema/pollSchema').Poll;
 var User = require('./schema/userSchema').User;
@@ -43,6 +44,7 @@ app.post('/new', routes.newpoll);
 app.post('/signup', routes.newuser);
 
 http.listen(appPort);
+console.log('listening on port: ' + appPort);
 
 io.set('log level', 0); // Delete this row if you want to see debug messages
 
@@ -126,3 +128,10 @@ io.sockets.on('connection', function (client) {
     //     var log = fs.createWriteStream(__dirname + '/tmp/results.log', {'flags': 'w'});
     //     log.write("yes:"+yes_cnt + "\n" + "no:"+no_cnt);
     //     log.end();
+
+// Comments
+app.get('/polls/:poll_id/comments', poll_comments.findAll);
+app.get('/polls/:poll_id/comments/:comment_id', poll_comments.findById);
+app.post('/polls/:poll_id/comments', poll_comments.addComment);
+app.put('/polls/:poll_id/comments/:comment_id', poll_comments.editComment);
+app.delete('/polls/:poll_id/comments/:comment_id', poll_comments.deleteComment);
