@@ -25,16 +25,18 @@
     </div>
 </div> -->
   <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-    <div class="container">
-      <div class="navbar-header col-sm-3">
+    <div class="container-fluid">
+      <div class="navbar-header col-md-2">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
           <span class="sr-only">Toggle navigation</span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <img src="/images/kingstache_fff_s.png" alt="Question Everything." class="navbar-left">
-        <a class="navbar-brand" href="#">kingpoll.</a>
+        <div class='logo'>
+          <img src="/images/kingstache_fff_s.png" alt="Question Everything." class="pull-left">
+          <a class="navbar-brand pull-left" href="#">kingpoll.</a>  
+        </div>
       </div>
       <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
@@ -42,7 +44,7 @@
           <li><a href="/new" onclick="">New Poll</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-center col-sm-5">
-            <form class="navbar-form">
+            <form id='search' class="navbar-form">
               <div class="input-group">
                   <input type="search" class="form-control" placeholder="Search"/>
                   <span class="input-group-btn">
@@ -51,7 +53,7 @@
               </div>
           </form>
         </ul>
-        <ul class="nav navbar-nav navbar-right">
+        <ul class="nav navbar-nav pull-right">
           <li><a href="#" onclick="">Signup / Login</a></li>
         </ul>      
         </form>

@@ -2,7 +2,7 @@
     display:inline-block;
     margin: 0.75rem;
 }*/
-#dash{
+/*#dash{
     position: relative;
     margin: 0;
     padding: 0;
@@ -16,7 +16,7 @@
     top:0;
     text-align: left;
     min-width: 25rem;
-}
+}*/
  #dash *, #dash a, #dash a:visited, #dash a:active{
     color:#fff;
     text-decoration: none;
@@ -72,11 +72,18 @@
 }
 .navbar-brand{
     color:#fff !important;
+    padding-left:0.15rem;
 }
 .navbar-header img{
     width: 2.2rem;
     margin-top: 0.4rem;
 
+}
+.navbar-toggle{
+    margin-right: 0;
+}
+#search{
+    margin-left: 0.4rem;
 }
 #dash input, #dash button{
     color: #888;
