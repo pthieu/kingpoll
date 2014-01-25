@@ -22,7 +22,10 @@ var email = require('./scripts/email.js');
 
 mongoose.connect('mongodb://localhost/test'); //connect to db
 db = mongoose.connection;
-db.on('error', console.error); //error check
+db.on('error', console.error.bind(console, 'connection error:')); //error check
+db.once('open', function callback() {
+    console.log('Connected to mongodb://localhost/test');
+});
 
 //this has to be after mongoose connect because it needs connect alive to grab schema
 var routes = require('./routes');

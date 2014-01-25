@@ -1,6 +1,7 @@
 /**
  * Created by adrianchung on 1/23/2014.
  */
+var Comment = require('../models/comments').Comment;
 
 /**
  * Get all comments
@@ -9,16 +10,17 @@
  * @param res
  */
 exports.findAll = function(req, res) {
-    res.send([
-        {
-            id: "1",
-            comment: "This app rocks!"
-        },
-        {
-            id: "2",
-            comment: "You bet!"
+    Comment.find({}, function(err, result) {
+        if (!err) {
+            if (result === null) {
+                res.send(404);
+            } else {
+                res.send(result);
+            }
+        } else {
+            handleError(res, err);
         }
-    ]);
+    });
 }
 
 /**
@@ -28,7 +30,8 @@ exports.findAll = function(req, res) {
  * @param res
  */
 exports.findById = function(req, res) {
-    req.assert('id').notEmpty();
+    req.assert('poll_id').notEmpty();
+    req.assert('comment_id').notEmpty();
     var errors = req.validationErrors();
     if (errors) {
         res.status(400).send({
@@ -37,9 +40,16 @@ exports.findById = function(req, res) {
         return;
     }
 
-    res.send({
-        id: req.params.comment_id,
-        comment: 'You fetched id: ' + req.params.comment_id
+    Comment.findOne({_id: req.params.comment_id}, function(err, result) {
+        if (!err) {
+            if (result == null) {
+                res.send(404);
+            } else {
+                res.send(result);
+            }
+        } else {
+            handleError(res, err);
+        }
     });
 }
 
@@ -60,9 +70,18 @@ exports.addComment = function(req, res) {
         return;
     }
 
-    res.send({
-        id: 'some new message id'
+    var comment = new Comment({
+        message: req.body.message
     });
+
+    console.log('creating' + comment);
+
+    comment.save(function(err) {
+        if (err) {
+            return handleError(err);
+        }
+    });
+    res.send(comment);
 }
 
 /**
@@ -82,9 +101,13 @@ exports.deleteComment = function(req, res) {
         return;
     }
 
-    var commentId = req.params.comment_id;
-
-    res.send(204);
+    Comment.remove({ _id: req.params.comment_id }, function(err, result) {
+        if (!err) {
+            res.send(204);
+        } else {
+            handleError(res, err);
+        }
+    });
 }
 
 /**
@@ -105,8 +128,20 @@ exports.editComment = function(req, res) {
         return;
     }
 
-    res.send({
-        id: 'some new message id',
-        message: message
-    });
+    Comment.findOneAndUpdate(
+        { _id: req.params.comment_id },
+        { message: req.body.message },
+        function(err, result) {
+            if (!err) {
+                res.send(result);
+            } else {
+                handleError(res, err);
+            }
+        }
+    );
+}
+
+function handleError(res, err) {
+    console.log(err);
+    res.status(500).send(err);
 }
