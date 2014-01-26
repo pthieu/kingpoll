@@ -2,6 +2,7 @@
  * Created by adrianchung on 1/23/2014.
  */
 var Comment = require('../models/comments').Comment;
+var Poll = require('../schema/pollSchema').Poll;
 
 /**
  * Get all comments
@@ -10,7 +11,16 @@ var Comment = require('../models/comments').Comment;
  * @param res
  */
 exports.findAll = function(req, res) {
-    Comment.find({}, function(err, result) {
+    req.assert('poll_id').notEmpty();
+    var errors = req.validationErrors();
+    if (errors) {
+        res.status(400).send({
+            errors: errors
+        });
+        return;
+    }
+
+    Poll.findOne({ p_id: req.params.poll_id }, 'comments',  function(err, result) {
         if (!err) {
             if (result === null) {
                 res.send(404);
@@ -70,18 +80,52 @@ exports.addComment = function(req, res) {
         return;
     }
 
-    var comment = new Comment({
-        message: req.body.message
-    });
+    var addComment = function() {
+        var comment = new Comment({
+            parent_poll_id    : req.params.poll_id,
+            parent_comment_id : req.params.comment_id,
+            message           : req.body.message
+        });
 
-    console.log('creating' + comment);
+        comment.save(function(err) {
+            if (err) {
+                return handleError(err);
+            } else {
+                addCommentToPoll(comment._id);
 
-    comment.save(function(err) {
-        if (err) {
-            return handleError(err);
-        }
-    });
-    res.send(comment);
+                if (req.params.comment_id !== undefined) {
+                    addCommentToComment(comment._id);
+                }
+            }
+        });
+        res.send(comment);
+    }
+
+    var addCommentToPoll = function(commentId) {
+        Poll.findOneAndUpdate(
+            { p_id: req.params.poll_id },
+            { $push: { comments: commentId }},
+            function(err, result) {
+                if (!err) {
+                } else {
+                    // TODO We can have inconsistencies if this fails
+                    console.log(err);
+                }
+            }
+        );
+    }
+
+    var addCommentToComment = function(commentId) {
+        Comment.findOneAndUpdate(
+            { _id: req.params.comment_id },
+            { $push: { comments: commentId }},
+            function(err, result) {
+                if (err) { console.log(err); };
+            }
+        );
+    }
+
+    addComment();
 }
 
 /**
@@ -101,9 +145,16 @@ exports.deleteComment = function(req, res) {
         return;
     }
 
-    Comment.remove({ _id: req.params.comment_id }, function(err, result) {
+    Comment.findOneAndRemove({ _id: req.params.comment_id }, function(err, result) {
         if (!err) {
             res.send(204);
+
+            Comment.findOneAndUpdate({ p_id: result.parent_comment_id },
+                { $pull: { comments: result._id } },
+                function(err, result) { if (err) console.log(err); });
+            Poll.findOneAndUpdate({ p_id: result.parent_poll_id },
+                { $pull: { comments: result._id } },
+                function(err, result) { if (err) console.log(err); });
         } else {
             handleError(res, err);
         }

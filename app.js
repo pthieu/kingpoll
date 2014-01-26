@@ -138,5 +138,6 @@ io.sockets.on('connection', function (client) {
 app.get('/polls/:poll_id/comments', poll_comments.findAll);
 app.get('/polls/:poll_id/comments/:comment_id', poll_comments.findById);
 app.post('/polls/:poll_id/comments', poll_comments.addComment);
+app.post('/polls/:poll_id/comments/:comment_id', poll_comments.addComment);
 app.put('/polls/:poll_id/comments/:comment_id', poll_comments.editComment);
 app.delete('/polls/:poll_id/comments/:comment_id', poll_comments.deleteComment);

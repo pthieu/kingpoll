@@ -27,6 +27,7 @@ var pollSchema = new mongoose.Schema({
     'c_random'  : {type:Number, default:0}, //number of times user clicked random colors
     'p_cred'    : {type:Number, default:100}, // credibility %. hidden.
     's_tavg'    : {type:Number, default:0}, // average time
+    'comments'  : [mongoose.Schema.Types.ObjectId],
     'data':{
         'WORLD':{},
         'CA':{
