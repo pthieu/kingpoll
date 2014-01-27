@@ -1,3 +1,5 @@
+var socket = io.connect();
+
 $(document).ready(function() {
     // create #options based on max num
     var nchoice_max = $('.nchoice label').length;

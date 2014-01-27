@@ -1,9 +1,7 @@
 #footer{
-    clear:both;
     position: relative;
-    height:1.5rem;
+    height:0;
     background-color: #fff;
-    border-top: 1px #ddd solid;
     line-height:1.5rem;
     font-size: 0.7em;
     font-weight: bold;
@@ -15,4 +13,17 @@
 }
 #footer>a:hover{
     text-decoration: underline;
+}
+.navbar-bottom, #footer .navbar-collapse{
+    height:3rem !important;
+    min-height: 3rem !important;
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+    overflow:hidden;
+}
+.navbar-bottom .navbar-nav>li>a{
+    padding-bottom: 0 !important;
+}
+#footer .navbar ul{
+    padding-bottom: 0 !important;
 }

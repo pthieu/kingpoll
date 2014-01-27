@@ -77,10 +77,17 @@
 .navbar-header img{
     width: 2.2rem;
     margin-top: 0.4rem;
+    margin-left:0.8rem;
 
+}
+.navbar-header button:last-of-type{
+    margin-right:0.5rem;
 }
 .navbar-toggle{
     margin-right: 0;
+}
+.navbar-right:last-child{
+    margin-right: 0.2rem !important;
 }
 #search{
     margin-left: 0.4rem;

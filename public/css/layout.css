@@ -33,9 +33,9 @@ body{
   height         : auto !important;
   height         : 100%;
   min-height     : 100%;
-  width          : 100%;
-  max-width      : 50rem;
-  margin         : 3rem auto -1.5rem auto;
+  /*width          : 100%;*/
+  /*max-width      : 50rem;*/
+  margin         : 0 auto -3rem auto;
 
   text-align     : center;
 
@@ -45,7 +45,7 @@ body{
 
 #branding{
   min-width     : 25rem;
-  margin-top    : 9rem;
+  margin-top    : 11rem;
   margin-bottom : 1rem;
 
   color         : #666;

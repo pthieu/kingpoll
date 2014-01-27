@@ -1,6 +1,7 @@
-// var socket = io.connect();   //don't really need this. 
-                                //they're connecting on the main page already, 
-                                //although might want to change it over to dashboard later.
+// var socket = io.connect();   //dashboard loads last so might anything that happens
+                                //in the page can break if it occurs before dash load
+                                //connect in individual pages for now, figure out dash
+                                //loading time later
 
 function randomPoll() {
     var page = (window.location.href).split('/')[3];
@@ -20,8 +21,6 @@ function randomPoll() {
     });
 }
 
-
-
 var checkResize = function () {
         if($(window).width() < '750'){
             // $('#dash').css({'height': '6rem'});
@@ -36,18 +35,5 @@ var checkResize = function () {
 }
 
 $(document).ready(function () {
-    // $('.menu-btn').click(function () {
-    //     $('#nav-wrap').slideToggle(50);
-    // });
-    setTimeout(function () {
-        $('#nav').slicknav({
-            label: '',
-            prependTo: '#nav-wrap',
-            duration:100
-        });
-    }, 500);
-    checkResize();
-    $(window).resize(function() {
-        checkResize();
-    });
+
 });

@@ -2,19 +2,20 @@
 <html>
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-  scale=1.0">
   <title>kingpoll.</title>
     <link rel="stylesheet" href="/flat-ui/jquery-ui-1.10.3.custom.min.css" type="text/css" />
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="/css/layout.css" type="text/css" />
     <link rel="stylesheet" href="/css/landing.css" type="text/css" />
     <link rel="stylesheet" href="/css/dash.css" type="text/css" />
-    <!-- <link rel="stylesheet" href="/css/slicknav.css" type="text/css" /> -->
     <link rel="stylesheet" href="/css/footer.css" type="text/css" />
-    <meta name="viewport" content="width=device-width, initial-  scale=1.0">
+    
 </head>
 <body>
   <div id='dash'></div>
-  <div class='top'>
+  <div id='wrapper'>
+      <div class='top'>
     <div id='branding'>
       <span id='nameLogo'>kingpoll.</span><div id='wrapLogo'><img src="/images/kingstache_666.png" alt="Question Everything." id='imgLogo'></div>
       <br/><!-- <span id='slogan'>There's a poll for that.</span> -->
@@ -27,23 +28,23 @@
       <div class='card'><span><h1>100</h1></span><h3>Anonymous</h3></div>
     </div>
   </div>
-  <div id='wrapper'>
     <div id='polls-wrap' class='wrap'></div>
   </div>
   <!-- <div id="disqus_thread"></div> -->
   <script type="text/javascript">
-      var disqus_identifier = 'landing';
+      // var disqus_identifier = 'landing';
   </script>
   <!-- <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
   <a href="http://disqus.com" class="dsq-brlink">Loading Comments... <span class="logo-disqus">Disqus</span></a> -->
-    <div id="footer"></div>
+  <div class="navbar navbar-inverse navbar-bottom">
+    <div class="container-fluid" id='footer'></div>
+  </div>
   <script src="/socket.io/socket.io.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
   <script src="/js/jquery.cookie.js"></script>
   <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
   <script src="/js/colors.js"></script>
-  <script src="/js/slicknav.min.js"></script>
   <script src="/js/landing.js"></script>
   <script>$('#dash').load('/views/dash.html')</script>
   <script>$('#footer').load('/views/footer.html')</script>
