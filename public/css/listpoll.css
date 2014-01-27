@@ -37,6 +37,7 @@ label{
 }
 .list-table-container table{
   border-collapse:collapse;
+  margin: 0 auto;
 }
 .list-table-container th{
   border-bottom:1px solid black;
