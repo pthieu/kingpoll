@@ -3,6 +3,7 @@
  */
 var Comment = require('../models/comments').Comment;
 var Poll = require('../schema/pollSchema').Poll;
+var app = require('../app');
 
 /**
  * Get all comments
@@ -91,6 +92,7 @@ exports.addComment = function(req, res) {
             if (err) {
                 return handleError(err);
             } else {
+                io.sockets.in(poll.p_id).emit('commentAdded', comment);
                 addCommentToPoll(comment._id);
 
                 if (req.params.comment_id !== undefined) {
@@ -148,6 +150,7 @@ exports.deleteComment = function(req, res) {
     Comment.findOneAndRemove({ _id: req.params.comment_id }, function(err, result) {
         if (!err) {
             res.send(204);
+            io.sockets.in(poll.p_id).emit('commentDeleted', result);
 
             Comment.findOneAndUpdate({ p_id: result.parent_comment_id },
                 { $pull: { comments: result._id } },
@@ -185,6 +188,7 @@ exports.editComment = function(req, res) {
         function(err, result) {
             if (!err) {
                 res.send(result);
+                io.sockets.in(poll.p_id).emit('commentEdited', result);
             } else {
                 handleError(res, err);
             }

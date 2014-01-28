@@ -141,3 +141,6 @@ app.post('/polls/:poll_id/comments', poll_comments.addComment);
 app.post('/polls/:poll_id/comments/:comment_id', poll_comments.addComment);
 app.put('/polls/:poll_id/comments/:comment_id', poll_comments.editComment);
 app.delete('/polls/:poll_id/comments/:comment_id', poll_comments.deleteComment);
+
+// Need to make our socket handler available for other modules
+exports.io = io;
