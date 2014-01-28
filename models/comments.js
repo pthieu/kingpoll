@@ -10,6 +10,6 @@ var commentsSchema = new mongoose.Schema({
     message         : { type: String, required: true },
     comments        : [mongoose.Schema.Types.ObjectId],
     created_date    : { type: Date, default: Date.now },
-    created_date    : { type: Date, default: Date.now }
+    updated_date    : { type: Date, default: Date.now }
 });
 exports.Comment = mongoose.model("comments", commentsSchema);
