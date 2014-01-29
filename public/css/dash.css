@@ -26,7 +26,17 @@
     font-weight: bold;   
 }
 
-#dash a:hover{
+#dash ul a:hover{
+    background-color:#fff;
+    color:#555;
+}
+.dropdown-menu{
+    padding-top: 0;
+}
+.dropdown-toggle{
+    margin-bottom: 0.4rem;
+}
+#dash .dropdown-toggle:hover .caret{
     background-color:#fff;
     color:#555;
 }
@@ -54,6 +64,10 @@
     z-index: 5;
     position: absolute;
     right:3rem;
+}
+.navbar-fixed-top{
+    border:none;
+    text-align: center;
 }
 #nav{
     visibility: hidden;
@@ -88,10 +102,17 @@
     margin-right: 0;
 }
 .navbar-right:last-child{
-    margin-right: 0.2rem !important;
+    margin-right: 0 !important;
+}
+.navbar-form{
+    margin:0;
 }
 #search{
     margin-left: 0.4rem;
+}
+#search button:hover{
+    background-color: #fff;
+    color: #555;
 }
 #search *, .dropdown *{
     background-color: #555;
@@ -107,8 +128,10 @@
 }
 .dropdown>a{
     background-color: #555;
-    margin-left: 4rem;
 }
 .dropdown-menu{
     text-align: justify;
+}
+.navbar-right{
+    margin:0;
 }
