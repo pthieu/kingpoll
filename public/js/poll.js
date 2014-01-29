@@ -346,14 +346,16 @@ $(document).ready(function(){
             $('#question').html(data.p_q);
 
 //PIE CHANGES
+            //if same poll, update stats
             if(pollid == lastpoll && data.p_total > 0){
                 populatepie(data.c_total, data.c_hex);
             }
+            //if different poll, clear and recreate arcs
             else if (pollid != lastpoll && data.p_total > 0){
                 clearpie();
                 setTimeout(function () {
                     populatepie(data.c_total, data.c_hex);
-                }, dur*2);
+                }, dur*1.5);
             }
             else if (data.p_total <= 0){
                 clearpie();
