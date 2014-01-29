@@ -17,7 +17,7 @@
     text-align: left;
     min-width: 25rem;
 }*/
- #dash *, #dash a, #dash a:visited, #dash a:active{
+ #dash *, #dash a, #dash a:visited, #dash a:active, .divider{
     color:#fff;
     text-decoration: none;
     /*font-weight: bold;*/
@@ -27,9 +27,10 @@
 }
 
 #dash a:hover{
-    opacity: 0.5;
+    background-color:#fff;
+    color:#555;
 }
-.search{
+.search {
     /*margin-left: 50px;*/
     z-index: 2;
 }
@@ -92,6 +93,22 @@
 #search{
     margin-left: 0.4rem;
 }
+#search *, .dropdown *{
+    background-color: #555;
+}
 #dash input, #dash button{
-    color: #888;
+}
+#dash .divider{
+    background-color:white;
+    margin: auto;
+    margin-top: 0.2rem;
+    margin-bottom: 0.2rem;
+    width: 90%;
+}
+.dropdown>a{
+    background-color: #555;
+    margin-left: 4rem;
+}
+.dropdown-menu{
+    text-align: justify;
 }
