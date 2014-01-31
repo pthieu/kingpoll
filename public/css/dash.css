@@ -25,15 +25,14 @@
 .navbar-brand{
     font-weight: bold;   
 }
-
 #dash ul a:hover{
     background-color:#fff;
     color:#555;
 }
 .dropdown-menu{
+    text-align: justify;
     padding-top: 0;
-}
-.dropdown-toggle{
+    border:1px #fff solid;
 }
 #dash .dropdown-toggle:hover .caret{
     background-color:#fff;
@@ -127,9 +126,6 @@
 }
 .dropdown>a{
     background-color: #555;
-}
-.dropdown-menu{
-    text-align: justify;
 }
 .navbar-right{
     margin:0;
