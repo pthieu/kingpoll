@@ -34,7 +34,6 @@
     padding-top: 0;
 }
 .dropdown-toggle{
-    margin-bottom: 0.4rem;
 }
 #dash .dropdown-toggle:hover .caret{
     background-color:#fff;
@@ -99,7 +98,7 @@
     margin-right:0.5rem;
 }
 .navbar-toggle{
-    margin-right: 0;
+    /*margin-right: 0;*/
 }
 .navbar-right:last-child{
     margin-right: 0 !important;
