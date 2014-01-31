@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var salt = require('../scripts/saltgen.js');
 
 // creating a schema
 //u_user s_stats a_achievements
@@ -31,6 +32,31 @@ var userSchema = new mongoose.Schema({
     's_credpt'  : {type:Number, default:0}, //user credibility points stat
     // 'a_badges'   : [{type: Number}] //user individual achievements
 });
+
+// Bcrypt middleware
+userSchema.pre('save', function(next) {
+        var user = this;
+
+        if(!user.isModified('u_password')) return next();
+
+        var saltval = salt.generate_salt();
+        user.u_salt = saltval;
+        console.log(user.u_salt);
+        user.u_password = salt.get_hashed_password(user.u_password, saltval);
+        console.log(user.u_password);
+        next();
+});
+
+//Password Verification function
+userSchema.methods.comparePassword = function(candidatePassword, cb) {
+        var inputpassword = salt.get_hashed_password(candidatePassword, this.u_salt);
+
+        if (this.u_password == inputpassword) {
+            cb(null, true);
+        } else {
+            cb(null, false);
+        }
+};
 
 //make object and apply schema to it, creates consctrutor
 //doing this, mongoose will make a table in db

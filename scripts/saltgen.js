@@ -1,6 +1,6 @@
 //Part 1: Checking the password
 
-function get_hashed_password(password, salt) {
+var get_hashed_password = function (password, salt) {
     var crypto = require('crypto');
     var salted_password = crypto.createHash('sha256').update(password+salt).digest('base64');
     return salted_password;
@@ -19,7 +19,7 @@ console.log(get_hashed_password(input_password, salt));
 
 
 //Part2: Creating the password
-function generate_salt() {
+var generate_salt = function () {
     var salt_len = 20;
     var chars = '0123456789abcdefghijklmnopqurstuvwxyzABCDEFGHIJKLMNOPQURSTUVWXYZ'
     var num_chars = chars.length;
@@ -36,3 +36,8 @@ function generate_salt() {
 salt = generate_salt();
 console.log(salt);
 console.log(get_hashed_password('phong_password', salt));
+
+module.exports = {
+    get_hashed_password: get_hashed_password,
+    generate_salt: generate_salt
+}

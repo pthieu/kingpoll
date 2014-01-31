@@ -60,7 +60,22 @@
                 <li class='title'><a href="/signup">Signup</a></li>
                 <li><a href="#">Login</a></li>
                 <li class='divider'></li>
-                <li><a href="#">Login via Facebook</a></li>
+                <li>
+                  <a href="#">Login via Facebook</a>
+                  <form action="/login" method="post" class="login-div">
+                    <div>
+                      <label>Username:</label>
+                      <input type="text" name="username" class="login-field"/><br/>
+                    </div>
+                    <div>
+                      <label>Password:</label>
+                      <input type="password" name="password" class="login-field"/>
+                    </div>
+                      <div>
+                      <input type="submit" value="Submit" class="login-submit"/>
+                    </div>
+                  </form>
+                </li>
                 <li><a href="#">Login via Twitter</a></li>
                 <li><a href="#">Login via Google</a></li>
                 <li><a href="#">Login via Twitch.tv</a></li>

@@ -77,7 +77,7 @@ $(document).ready(function() {
                             'u_team': themecolor}}
             ).success(function (data, status) {
             console.log(data);
-            // window.location.href = data;
+            window.location.href = data;
         });
     });
 });

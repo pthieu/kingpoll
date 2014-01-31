@@ -135,3 +135,12 @@
 .navbar-right{
     margin:0;
 }
+.login-div{
+    padding: 3px 20px;
+}
+.login-fields{
+    width: 150px;
+}
+.login-submit{
+    margin-top: 10px;
+}

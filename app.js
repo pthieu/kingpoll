@@ -11,6 +11,8 @@ var fs = require('fs');
 var textSearch = require('mongoose-text-search');
 var shortid = require('shortid');
 var poll_comments = require('./routes/poll_comments');
+var pass = require('./routes/login_auth.js')
+var passport = require('passport');
 
 var Poll = require('./schema/pollSchema').Poll;
 var User = require('./schema/userSchema').User;
@@ -30,11 +32,16 @@ db.once('open', function callback() {
 //this has to be after mongoose connect because it needs connect alive to grab schema
 var routes = require('./routes');
 var socket = require('./routes/socket.js');
+var userRoute = require('./routes/login.js');
 
 app.use(express.logger());
 app.use(express.static(__dirname + '/public'));
 app.use(express.bodyParser());
 app.use(expressValidator());
+app.use(express.cookieParser());
+app.use(express.session({ secret: 'kingpoll' }));
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.get('/', routes.landing);
 app.get('/about', routes.about);
@@ -47,6 +54,9 @@ app.get('/search', routes.searchpoll);
 // app.get('*', routes.about);
 app.post('/new', routes.newpoll);
 app.post('/signup', routes.newuser);
+app.get('/login', userRoute.getlogin);
+app.post('/login', userRoute.postlogin);
+
 
 http.listen(appPort);
 console.log('listening on port: ' + appPort);

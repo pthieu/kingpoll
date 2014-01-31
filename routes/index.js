@@ -21,6 +21,7 @@ exports.searchpoll = function (req, res) {
     res.sendfile('public/views/search.html');
 }
 exports.getpoll = function (req, res) {
+    console.log("getpoll...");
     if(numonly.test(req.params.id) === true){
         pollID = req.params.id;
     }
@@ -133,9 +134,28 @@ exports.newpoll = function(req, res) {
 };
 exports.newuser = function(req, res) {
     console.log(req.body);
-    var redirect = '/signup';
-    res.header('Content-Length', Buffer.byteLength(redirect));
-    res.send(redirect, 200);
+    console.log(req.body.req.u_email);
+    var newuser = new User({
+        'u_email': req.body.req.u_email,
+        'u_id': req.body.req.u_id,
+        'u_password': req.body.req.u_password
+    });
+
+    console.log(newuser);
+
+    newuser.save(function (err, user, count) {
+        if (err){
+            console.log(err);
+            res.status(500).json({status:'Poll Save: failed'});
+        }
+        else{
+            console.log('User Save: passed')
+            var redirect = '/';
+            res.header('Content-Length', Buffer.byteLength(redirect));
+            res.send(redirect, 200);
+        }
+    });
+
 };
 function cleansymbols(str, lvl){
     //clears everything except for #
