@@ -56,3 +56,67 @@
 #polls-wrap>.polldesc{
   max-width: 80%;
 }
+
+/* CUSTOMIZE THE CAROUSEL */
+
+/* Carousel base class */
+.carousel {
+}
+/* Since positioning the image, we need to help out the caption */
+.carousel-caption {
+  z-index: 10;
+}
+
+/* Declare heights because of positioning of img element */
+.carousel .item {
+  height: 30rem;
+  background-color:#666;
+}
+.carousel img:not(#imgLogo) {
+  position: absolute;
+  top: 0;
+  left: 0;
+  min-width: 100%;
+}
+.carousel-control{
+  background-image: none !important;
+  /*background-color: #ddd;*/
+  opacity: 0;
+}
+.carousel-control:hover{
+  opacity: 0.2;
+  background-color: #fff;
+}
+.carousel-control:hover span{
+  opacity:1;
+}
+.carousel-control span{
+  /*top:17% !important;*/
+  /*font-size: 10rem !important;*/
+  /*right:40% !important;*/
+  z-index:1;
+}
+.carousel-indicators{
+  bottom: 0;
+}
+.jumbotron{
+  background-color: #fff;
+}
+#branding {
+  top:2rem;
+  z-index:0;
+  float: none;
+}
+#imgLogo{
+  top:-18rem;
+  height:auto;
+}
+#nameLogo{
+  color:#fff;
+  bottom:0;
+}
+.container{
+}
+.jumbotron{
+  margin:auto;
+}
