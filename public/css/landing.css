@@ -35,6 +35,9 @@
   color          : #fff;
   /*margin  : 0.25rem;*/
 }
+.card h1{
+  font-weight: bold;
+}
 .poll{
   cursor: pointer;
   border-top: 1px #ddd solid;
@@ -45,15 +48,15 @@
 .poll>*{
   display:inline-block;
 }
-.poll>span:nth-child(1){
+/*.poll>span:nth-child(1){
   min-width:80%;
 }
 .poll>span:nth-child(2){
   min-width:20%;
-}
-#polls-wrap>.polldesc{
+}*/
+/*#polls-wrap>.polldesc{
   max-width: 80%;
-}
+}*/
 
 /* CUSTOMIZE THE CAROUSEL */
 

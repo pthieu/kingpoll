@@ -16,9 +16,9 @@ $(document).ready(function(){
 
     socket.on('listpoll', function (poll) {
         for(var i in poll){
-            $('#polls-wrap').append('<div class="poll" poll-id='+poll[i].p_id+'><span>'+poll[i].p_q+'</span><span>'+poll[i].p_total+'</span></div>');
+            $('#polls-wrap').append('<tr><td class="poll" poll-id='+poll[i].p_id+'>'+poll[i].p_q+'</td><td>'+poll[i].p_total+'</span></td></tr>');
             var tmpdesc = (poll[i].p_desc) ? poll[i].p_desc : "Description not available."
-            $('#polls-wrap').append('<div class="polldesc" style="display: none" poll-id='+poll[i].p_id+'><span>'+tmpdesc+'</span></div>');
+            // $('#polls-wrap').append('<div class="polldesc" style="display: none" poll-id='+poll[i].p_id+'><span>'+tmpdesc+'</span></div>');
         }
         $('.poll').click(function () {
             $('.polldesc[poll-id='+$(this).attr('poll-id')+']').slideToggle(100);
