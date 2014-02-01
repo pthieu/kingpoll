@@ -1,38 +1,39 @@
-.top{
+/*.top{
   margin:auto;
   margin-top: 3rem;
   position: relative;
   width: 90%;
   min-height: 15rem;
-}
+}*/
 #branding{
   position: relative;
   float:left;
   left:0;
   z-index: 2;
 }
-.wrap{
+/*.wrap{
   display    : block;
   margin     : 0;
-}
+}*/
 #stats-wrap{
-  position: absolute;
+  /*position: absolute;
   width: 80%;
   right:0;
-  margin-top: 2rem;
+  margin-top: 2rem;*/
+  
 }
-#polls-wrap{
+/*#polls-wrap{
   margin-top: 2rem;
   min-width : 70%;
-}
+}*/
 .card{
-  display        : inline-block;
-  /*box-shadow   : 0 0 0.5rem rgba(0, 0, 0, 0.1);*/
+  /*display        : inline-block;
+  box-shadow   : 0 0 0.5rem rgba(0, 0, 0, 0.1);
   width          : 10rem;
   padding-top    : 2rem;
-  padding-bottom : 2rem;
+  padding-bottom : 2rem;*/
   color          : #fff;
-  margin-bottom  : 0.25rem;
+  /*margin  : 0.25rem;*/
 }
 .poll{
   cursor: pointer;
@@ -79,7 +80,7 @@
 }
 .carousel-control{
   background-image: none !important;
-
+  text-shadow:none;
 }
 .carousel-control:hover{
   background-color: rgba(255,255,255,0.2)

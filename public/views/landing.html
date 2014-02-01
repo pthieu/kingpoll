@@ -4,22 +4,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-  scale=1.0">
   <title>kingpoll.</title>
-    <link rel="stylesheet" href="/flat-ui/jquery-ui-1.10.3.custom.min.css" type="text/css" />
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" type="text/css" />
-    <link rel="stylesheet" href="/css/layout.css" type="text/css" />
-    <link rel="stylesheet" href="/css/landing.css" type="text/css" />
-    <link rel="stylesheet" href="/css/dash.css" type="text/css" />
-    <link rel="stylesheet" href="/css/footer.css" type="text/css" />
-    
+  <link rel="stylesheet" href="/flat-ui/jquery-ui-1.10.3.custom.min.css" type="text/css" />
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" type="text/css" />
+  <link rel="stylesheet" href="/css/layout.css" type="text/css" />
+  <link rel="stylesheet" href="/css/landing.css" type="text/css" />
+  <link rel="stylesheet" href="/css/dash.css" type="text/css" />
+  <link rel="stylesheet" href="/css/footer.css" type="text/css" />
+
 </head>
 <body>
   <div id='dash'></div>
   <div id='wrapper'>
-
-  <div class='top'>
-    <!-- Main jumbotron for a primary marketing message or call to action -->
-    <div class="jumbotron">
-      <div class="container">
+    <div class='top'>
+      <!-- Main jumbotron for a primary marketing message or call to action -->
+      <div class="jumbotron container">
         <div id="myCarousel" class="carousel slide">
           <!-- Indicators -->
           <ol class="carousel-indicators">
@@ -35,7 +33,7 @@
               <div class="container">
                 <div id='branding'>
                   <span id='nameLogo'>kingpoll.</span><div id='wrapLogo'><img src="/images/kingstache_fff_s.png" alt="Question Everything." id='imgLogo'></div>
-                <br/><!-- <span id='slogan'>There's a poll for that.</span> -->
+                  <br/><!-- <span id='slogan'>There's a poll for that.</span> -->
                 </div>
               </div>
             </div>
@@ -43,7 +41,7 @@
               <img src="http://lorempixel.com/900/900/technics">
               <div class="container">
                 <div class="carousel-caption">
-                  <h1>The Streamer & Youtuber</h1>
+                  <h1>The Online Celebrity</h1>
                   <p>Interact with your audience.</p>
                   <p><a class="btn btn-primary" href="#">Demo</a></p>
                 </div>
@@ -89,22 +87,39 @@
           </a>  
         </div>
         <!-- /.carousel -->
+      </div>
+      <div class='container'>
+        <div id='stats-wrap' class='row col-md-offset-3'>
+          <div class='card col-md-2 col-sm-3 col-xs-3'><span><h1>100</h1></span><h4>Viewers</h4></div>
+          <div class='card col-md-2 col-sm-3 col-xs-3'><span><h1>100</h1></span><h4>Registered</h4></div>
+          <div class='card col-md-2 col-sm-3 col-xs-3'><span><h1>100</h1></span><h4>Votes</h4></div>
+          <div class='card col-md-2 col-sm-3 col-xs-3'><span><h1>100</h1></span><h4>Polls</h3></div>
+          <!-- <div class='card col-md-2'><span><h1>100</h1></span><h3>Anonymous</h3></div> -->
+        </div>
+      </div>
     </div>
-  </div>
-    <div id='stats-wrap' class='wrap'>
-      <div class='card'><span><h1>100</h1></span><h3>Current Voters</h3></div>
-      <div class='card'><span><h1>100</h1></span><h3>Registered Users</h3></div>
-      <div class='card'><span><h1>100</h1></span><h3>Votes</h3></div>
-      <div class='card'><span><h1>100</h1></span><h3>Polls</h3></div>
-      <div class='card'><span><h1>100</h1></span><h3>Anonymous</h3></div>
-    </div>
-  </div>
     <div id='polls-wrap' class='wrap'></div>
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <td>question</td>
+            <td>viewers</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1,001</td>
+            <td>Lorem</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
   <!-- <div id="disqus_thread"></div> -->
   <script type="text/javascript">
       // var disqus_identifier = 'landing';
-  </script>
+      </script>
   <!-- <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
   <a href="http://disqus.com" class="dsq-brlink">Loading Comments... <span class="logo-disqus">Disqus</span></a> -->
   <div class="navbar navbar-inverse navbar-bottom">

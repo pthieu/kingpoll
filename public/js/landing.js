@@ -26,7 +26,8 @@ $(document).ready(function(){
     });
 
     $('.card').each(function () {
-        $(this).css({'background-color':'#'+colors_hex[randColor(colors_hex)]});
+        // $(this).css({'background-color':'#'+colors_hex[randColor(colors_hex)]});
+        $(this).css({'color':'#'+colors_hex[randColor(colors_hex)]});
     });
 
 });
