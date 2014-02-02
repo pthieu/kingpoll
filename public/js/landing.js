@@ -16,18 +16,24 @@ $(document).ready(function(){
 
     socket.on('listpoll', function (poll) {
         for(var i in poll){
-            $('#polls-wrap').append('<tr><td class="poll" poll-id='+poll[i].p_id+'>'+poll[i].p_q+'</td><td>'+poll[i].p_total+'</span></td></tr>');
+            $('#polls-wrap').append('<tr class="poll" poll-id='+poll[i].p_id+'><td>'+poll[i].p_q+'</td>     \
+                <td>'+poll[i].p_total+'</td>    \
+                <td>'+poll[i].s_tavg/1000+'s</td>    \
+                <td><a href="/p/'+poll[i].p_id+'">Go!</a></td>      \
+                </tr>');
             var tmpdesc = (poll[i].p_desc) ? poll[i].p_desc : "Description not available."
-            // $('#polls-wrap').append('<div class="polldesc" style="display: none" poll-id='+poll[i].p_id+'><span>'+tmpdesc+'</span></div>');
+            var th_colspan = $('thead tr td').length;
+            $('#polls-wrap').append('<td colspan="'+th_colspan+'" style="display:none"><div class="polldesc" style="display: none" poll-id='+poll[i].p_id+'>'+tmpdesc+'</div></td>');
         }
-        $('.poll').click(function () {
-            $('.polldesc[poll-id='+$(this).attr('poll-id')+']').slideToggle(100);
+        $('.poll *:not(a)').click(function () {
+            $('.polldesc[poll-id='+$(this).parent().attr('poll-id')+']').parent().slideToggle(100);
+            $('.polldesc[poll-id='+$(this).parent().attr('poll-id')+']').slideToggle(100);
         });
     });
 
     $('.card').each(function () {
-        // $(this).css({'background-color':'#'+colors_hex[randColor(colors_hex)]});
-        $(this).css({'color':'#'+colors_hex[randColor(colors_hex)]});
+        // $(this).css({'color':'#'+colors_hex[randColor(colors_hex)]});
+        $(this).css({'color':'#666'});
     });
 
 });
