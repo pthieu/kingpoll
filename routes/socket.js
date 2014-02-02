@@ -10,6 +10,8 @@ exports.getVoted = function (data, client) {
     Poll.findOne({'p_id': data.p_id}, function (err, poll) {
         Vote.findOne({u_email: data.u_email, p_id: poll._id}, function (err, vote) {
             if (err) return console.error(err);
+            (vote)?client.emit('setVoted', vote.v_choice):client.emit('setVoted');
+            console.log('setvotetime');
             (vote)?client.emit('setVoteTime', vote.s_vtime):client.emit('setVoteTime');
         });
     });
@@ -75,12 +77,13 @@ exports.vote = function (dataVote, client, io) {
                             if (user.v_left >= 0){
                                 user.v_left += 1; //increment outstanding votes
                                 console.log(newvote);
-                                if ((user.v_left%10) === 1){ // send every 6 votes for now
-                                    console.log('Sending vote verification...');
-                                    user.u_salt.push(shortid.generate()); //generate new salt at mod=0
-                                    user.markModified('u_salt'); //tell mongoose it's modified
-                                    email.send_email_confirmation(newvote.u_email, newvote.u_id, newvote._id, user.u_salt[user.u_salt.length-1]);
-                                }
+                                //VOTE LOGIC, DISABLE FOR DEVELOPMENT
+                                // if ((user.v_left%10) === 1){ // send every 6 votes for now
+                                //     console.log('Sending vote verification...');
+                                //     user.u_salt.push(shortid.generate()); //generate new salt at mod=0
+                                //     user.markModified('u_salt'); //tell mongoose it's modified
+                                //     email.send_email_confirmation(newvote.u_email, newvote.u_id, newvote._id, user.u_salt[user.u_salt.length-1]);
+                                // }
                                 newvote.v_valid = user.u_salt[user.u_salt.length-1]; //take newest salt
                             }
                             user.u_ip = user.u_ip.addToSet(dataVote.v_ip);

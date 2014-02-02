@@ -148,7 +148,7 @@ io.sockets.on('connection', function (client) {
     client.on('getPolls', function () {
         client.emit('setPolls', total_polls);
     });
-    client.on('getVoteTime', function (data) {
+    client.on('getVoted', function (data) {
         socket.getVoted(data, client);
     });
     client.on('disconnect', function (iploc) {

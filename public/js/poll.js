@@ -21,6 +21,7 @@ var votetime;
 var u_email;
 var u_id;
 var geo_loc;
+var voted;
 
 //flags
 
@@ -344,6 +345,8 @@ $(document).ready(function(){
             }
             $('.tbDescription').html(data.p_desc);
             $('#question').html(data.p_q);
+//BUTTON CHANGES
+            socket.on('setVoted')
 
 //PIE CHANGES
             //if same poll, update stats
@@ -380,10 +383,10 @@ $(document).ready(function(){
             }, dur);
 
 //BARCHART CHANGES
-            if(u_email){
-                socket.emit('getVoteTime', {u_email: u_email, p_id: pollid});
+            if(u_email && !(voted)){
+                socket.emit('getVoted', {u_email: u_email, p_id: pollid});
             }
-            voteTimeData = [{name:'Average', value: data.s_tavg}, {name:'You', value: s_vtime}];
+            voteTimeData = [{name:'Average', value: Math.round(data.s_tavg*1000)/1000}, {name:'You', value: s_vtime}];
             drawVoteTime(chart, voteTimeData, y, yAxis);
             socket.on('setVoteTime', function (time) {
                 s_vtime = (time) ? time/1000 : 0;
@@ -463,8 +466,11 @@ $(document).ready(function(){
                 //get time once
                 if (votetime>1383809658764){
                     votetime = (s_vtime) ? s_vtime*1000 :($.now()-votetime); //get votetime once
-                    voteTimeData = [{name:'Average', value: Math.round(dual.averager(votetime, data.s_tavg*1000, data.p_total))/1000}, {name:'You', value: votetime/1000}];
-                    drawVoteTime(chart, voteTimeData, y, yAxis);
+                    if(!s_vtime){
+                        voteTimeData = [{name:'Average', value: Math.round(dual.averager(votetime, data.s_tavg*1000, data.p_total))/1000}, {name:'You', value: votetime/1000}];
+                        drawVoteTime(chart, voteTimeData, y, yAxis);
+                        s_vtime = votetime/1000;
+                    };
                 }
 
                 if(u_email){
@@ -481,6 +487,7 @@ $(document).ready(function(){
                         'v_text'    :data.c_text[$(this).val()],
                         's_vtime'   :votetime
                     });
+                    voted = true;
                 }
                 else{
                     getSignUpBox($('label[for="' + $(this).attr('id') + '"]'));
@@ -583,9 +590,16 @@ function getSignUpBox(sel){
             "Close": function () {
                 $(this).dialog('close');
             },
-            "Vote!": function () {
-                setEmail($('#tbEmail').val());
-                $(this).dialog('close');
+            "Vote": {
+                id:'signupVote',
+                text: 'Vote!',
+                click: function (d) {
+                    if($('#tbEmail').val()){
+                        setEmail($('#tbEmail').val());
+                        $('#'+sel.attr('for')).click();
+                        $(this).dialog('close');
+                    }
+                }
             }
         }
     });
