@@ -13,17 +13,41 @@ $(document).ready(function(){
     var temp3 = ($(window).height() - 286) / 35;
     loadcount = Math.ceil(temp3) + 5;
     loadpoll(loadcount, count, true);
+        
+    socket.emit('getViewers');
+    socket.emit('getUsers');
+    socket.emit('getVotes');
+    socket.emit('getPolls');
+    var getstats_timer = setInterval(function () {
+        socket.emit('getViewers');
+        socket.emit('getUsers');
+        socket.emit('getVotes');
+        socket.emit('getPolls');
+    }, 5000);
+
+    socket.on('setViewers', function (d) {
+        $('#nViewers').text(d);
+    });
+    socket.on('setUsers', function (d) {
+        $('#nAccounts').text(d);
+    });
+    socket.on('setVotes', function (d) {
+        $('#nVotes').text(d);
+    });
+    socket.on('setPolls', function (d) {
+        $('#nPolls').text(d);
+    });
 
     socket.on('listpoll', function (poll) {
         for(var i in poll){
             $('#polls-wrap').append('<tr class="poll" poll-id='+poll[i].p_id+'><td>'+poll[i].p_q+'</td>     \
                 <td>'+poll[i].p_total+'</td>    \
                 <td>'+poll[i].s_tavg/1000+'s</td>    \
-                <td><a href="/p/'+poll[i].p_id+'">Go!</a></td>      \
+                <td><a href="/p/'+poll[i].p_id+'" class="btn btn-default btn-xs">Go!</a></td>      \
                 </tr>');
-            var tmpdesc = (poll[i].p_desc) ? poll[i].p_desc : "Description not available."
+            var tmpdesc = (poll[i].p_desc) ? poll[i].p_desc : "Poll King did not provide a description.";
             var th_colspan = $('thead tr td').length;
-            $('#polls-wrap').append('<td colspan="'+th_colspan+'" style="display:none"><div class="polldesc" style="display: none" poll-id='+poll[i].p_id+'>'+tmpdesc+'</div></td>');
+            $('#polls-wrap').append('<td colspan="'+th_colspan+1+'" style="display:none"><div class="polldesc" style="display: none" poll-id='+poll[i].p_id+'>'+tmpdesc+'</div></td>');
         }
         $('.poll *:not(a)').click(function () {
             $('.polldesc[poll-id='+$(this).parent().attr('poll-id')+']').parent().slideToggle(100);

@@ -126,3 +126,11 @@
 .container{
   padding:0;
 }
+.btn{
+  /*margin:8px;*/
+  font-weight: bold;
+}
+/*td{
+  vertical-align: middle;
+  line-height: 6;
+}*/

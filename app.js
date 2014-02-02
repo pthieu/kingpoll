@@ -63,12 +63,24 @@ console.log('listening on port: ' + appPort);
 
 io.set('log level', 0); // Delete this row if you want to see debug messages
 
+
+var total_polls=0;
+var total_users=0;
+var total_votes=0;
+setInterval(function () {
+    Poll.find({}, function (err, polls) {
+        total_polls = (polls)?polls.length:0;
+    });
+    Vote.find({}, function (err, votes) {
+        total_votes = (votes)?votes.length:0;
+    });
+    User.find({}, function (err, users) {
+        total_users = (users)?users.length:0;
+    });
+}, 5000);
+
 //Listen for incoming connections from clients
 io.sockets.on('connection', function (client) {
-    client.on('joinlanding', function () {
-        client.join('landing');
-        console.log(io.sockets.manager.rooms);
-    });
     var pollid;
     client.on('getPoll', function (pollID) {
         Poll.findOne({'p_id':pollID}, function(err, poll) {
@@ -81,6 +93,10 @@ io.sockets.on('connection', function (client) {
                 console.log(io.sockets.manager.rooms);
             }
         });
+    });
+    client.on('joinlanding', function () {
+        client.join('landing');
+        console.log(io.sockets.manager.rooms);
     });
     client.on('getRandPoll', function (pollpage) {
         Poll.count( function(err,count) {
@@ -120,8 +136,17 @@ io.sockets.on('connection', function (client) {
     client.on('iploc', function (iploc) {
         console.log(iploc);
     });
-    client.on('getViewers', function () {
-        client.emit('setViewers', io.sockets.clients(pollid).length);
+    client.on('getViewers', function (d) {
+        client.emit('setViewers', io.sockets.clients(d).length);
+    });
+    client.on('getUsers', function () {
+        client.emit('setUsers', total_users);
+    });
+    client.on('getVotes', function () {
+        client.emit('setVotes', total_votes);
+    });
+    client.on('getPolls', function () {
+        client.emit('setPolls', total_polls);
     });
     client.on('getVoteTime', function (data) {
         socket.getVoted(data, client);

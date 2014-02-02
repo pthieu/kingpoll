@@ -399,12 +399,13 @@ $(document).ready(function(){
                                                        + ', 1px 1px #'+chart_solocolor);
 
 //VIEWERS COUNT CHANGES
-            socket.emit('getViewers');
+console.log(pollid)
+            socket.emit('getViewers', pollid);
             $('#activeViewers text tspan').css("fill", "#"+chart_solocolor);
             socket.on('setViewers', function (d) {
                 $('#tspanActiveViewers').text((d === null) ? 1 : d);
             });
-            setInterval(function(){socket.emit('getViewers')}, 5000);
+            setInterval(function(){socket.emit('getViewers', pollid)}, 5000);
 //MAP CHANGES
             for(var i in data.data){
                 if(i == 'hiding'){continue;}

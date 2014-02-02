@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-  scale=1.0">
-  <!-- <title>kingpoll.</title> -->
+  <title>kingpoll.</title>
   <link rel="stylesheet" href="/flat-ui/jquery-ui-1.10.3.custom.min.css" type="text/css" />
   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" type="text/css" />
   <link rel="stylesheet" href="/css/layout.css" type="text/css" />
@@ -28,7 +28,7 @@
             <li data-target="#myCarousel" data-slide-to="4"></li>
           </ol>
           <div class="carousel-inner">
-            <!-- <div class="item active">
+            <div class="item active">
               <img src="http://lorempixel.com/900/900/abstract/2">
               <div class="container">
                 <div id='branding'>
@@ -36,8 +36,8 @@
                   <br/>
                 </div>
               </div>
-            </div> -->
-            <div class="item active">
+            </div>
+            <div class="item">
               <img src="http://lorempixel.com/900/900/technics">
               <div class="container">
                 <div class="carousel-caption">
@@ -90,15 +90,14 @@
       </div>
       <div class='container'>
         <div id='stats-wrap' class='row col-md-offset-3'>
-          <div class='card col-md-2 col-sm-3 col-xs-3'><span><h1>100</h1></span><h4>Viewers</h4></div>
-          <div class='card col-md-2 col-sm-3 col-xs-3'><span><h1>100</h1></span><h4>Registered</h4></div>
-          <div class='card col-md-2 col-sm-3 col-xs-3'><span><h1>100</h1></span><h4>Votes</h4></div>
-          <div class='card col-md-2 col-sm-3 col-xs-3'><span><h1>100</h1></span><h4>Polls</h3></div>
+          <div class='card col-md-2 col-sm-3 col-xs-3'><span><h1 id='nViewers'>1</h1></span><h4>Viewers</h4></div>
+          <div class='card col-md-2 col-sm-3 col-xs-3'><span><h1 id='nAccounts'>0</h1></span><h4>Accounts</h4></div>
+          <div class='card col-md-2 col-sm-3 col-xs-3'><span><h1 id='nVotes'>0</h1></span><h4>Votes</h4></div>
+          <div class='card col-md-2 col-sm-3 col-xs-3'><span><h1 id='nPolls'>0</h1></span><h4>Polls</h3></div>
           <!-- <div class='card col-md-2'><span><h1>100</h1></span><h3>Anonymous</h3></div> -->
         </div>
       </div>
     </div>
-    <!-- <div id='polls-wrap' class='wrap'></div> -->
     <div class="table-responsive container">
       <table class="table table-striped">
         <thead>
@@ -129,7 +128,7 @@
   <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
   <script src="/js/colors.js"></script>
   <script src="/js/landing.js"></script>
-<!--  <script>$('#dash').load('/views/dash.html')</script>
-  <script>$('#footer').load('/views/footer.html')</script>-->
+  <script>$('#dash').load('/views/dash.html')</script>
+  <script>$('#footer').load('/views/footer.html')</script>
 </body>
 </html>
