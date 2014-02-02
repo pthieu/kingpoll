@@ -111,7 +111,7 @@
 #search{
     margin-left: 0.4rem;
 }
-#search button:hover{
+#search button:hover, #dash input[type='submit']:hover{
     background-color: #fff;
     color: #555;
 }
