@@ -126,11 +126,6 @@
 .container{
   padding:0;
 }
-#polls-wrap .btn{
-  /*margin:8px;*/
-  font-weight: bold;
-  border:none;
-}
 /*td{
   vertical-align: middle;
   line-height: 6;
@@ -140,16 +135,16 @@
   margin:0;
   padding:0;
 }
-
 .table-striped>tbody>tr:nth-child(odd)>td {
   background-color: transparent;
 }
 .table-striped>tbody>tr:nth-child(even)>td{
   background-color: transparent;
 }
-.table-striped>tbody>tr:nth-child(4n+1)>td{
+/*.table-striped>tbody>tr:nth-child(4n+1)>td{
   background-color: #555;
   color:white;
+  color:#555;
 }
 .table-striped>tbody>tr:nth-child(4n-1)>td{
   color:#555;
@@ -159,10 +154,34 @@
 }
 .table-striped>tbody>tr:nth-child(4n+1):hover{
   opacity:0.8;
+}*/
+.poll:hover{
+  background-color: #555;
+  color:#fff;
 }
+.poll:hover .btn{
+  color:#fff;
+}
+.poll .btn{
+  font-weight: bold;
+  background-color: transparent;
+}
+.poll .btn:hover{
+  border: 1px solid #fff;
+  background-color: #fff;
+  color: #555;
+}
+.poll .btn:active{
+  background-color: #555;
+  color: #fff;
+}
+
 .table *{
   font-size:1rem;
 }
 .table:last-child{
   margin-bottom: 5rem;
+}
+#polls-wrap>tr>td:nth-child(2){
+  text-align: left;
 }

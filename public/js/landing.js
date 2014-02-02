@@ -40,7 +40,7 @@ $(document).ready(function(){
 
     socket.on('listpoll', function (poll) {
         for(var i in poll){
-            $('#polls-wrap').append('<tr class="poll border-fade" poll-id='+poll[i].p_id+'><td class="extras"></td><td>'+poll[i].p_q+'</td>     \
+            $('#polls-wrap').append('<tr class="poll" poll-id='+poll[i].p_id+'><td class="extras"></td><td>'+poll[i].p_q+'</td>     \
                 <td>'+poll[i].p_total+'</td>    \
                 <td>'+Math.round(poll[i].s_tavg)/1000+'s</td>    \
                 <td><a href="/p/'+poll[i].p_id+'" class="btn btn-default btn-xs">Go!</a></td>      \
@@ -53,7 +53,8 @@ $(document).ready(function(){
             $('.polldesc[poll-id='+$(this).parent().attr('poll-id')+']').parent().slideToggle(100);
             $('.polldesc[poll-id='+$(this).parent().attr('poll-id')+']').slideToggle(100);
         });
-        $('#polls-wrap .btn').css({'color':'#'+solocolor});
+        // $('#polls-wrap .btn').css({'color':'#'+solocolor});
+        // $('#polls-wrap .btn').css();
     });
 
     $('.card').each(function () {
