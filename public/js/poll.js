@@ -455,6 +455,7 @@ $(document).ready(function(){
 
             //create buttons
             if(!voted){
+                console.log('created')
                 $('#choices .radio').html('');
                 for(i in choice_colors){
                     $('#choices .radio').append('<input id="c'+ i +'"class="btnChoice" type="radio" name="vote" value="'+ i +'" /><label for="c'+i+'" style="background-color:#'+choice_colors[i].color+'"><div><div>'+choice_colors[i].c_text+'</div></div></label>');
@@ -462,12 +463,14 @@ $(document).ready(function(){
             }
             //BUTTON CHANGES
             socket.on('setVoted', function (d) {
-                if(d != null){
-                    console.log('in')
-                    $('#c'+d).click();
-                    $('input[name="vote"]').attr({'disabled': 'true'});
-                    voted = true;
-                }
+                setTimeout(function () {
+                    if(d != null){
+                        console.log('in');
+                        $('label[for="c'+d+'"]').click();
+                        $('input[name="vote"]').attr({'disabled': 'true'});
+                        voted = true;
+                    }
+                }, 100);
             });
             //graphs done drawing, grab time
             votetime = $.now();

@@ -66,7 +66,6 @@ exports.vote = function (dataVote, client, io) {
                         user.s_tmax = Math.max(user.s_tmax, dataVote.s_vtime);
                         user.s_tavg = help.averager(dataVote.s_vtime, user.s_tavg, user.s_vtotal);
                         user.s_vtotal += 1;
-                        console.log(user.s_tavg);
                         console.log('Found user account!');
                     }
                     Vote.findOne({'u_id': user._id, 'p_id':dataVote.p_id[0]}).exec(function (err, vote){
@@ -95,7 +94,7 @@ exports.vote = function (dataVote, client, io) {
                                 help.savedoc(item, voted, function (emit_item) {//save vote
                                     // client.emit("setVoted", emit_item); //set what user voted on
                                     console.log('Trying to increment poll: ' + newvote.p_id + ' -- ' + newvote.u_loc[0] + ', ' + newvote.u_loc[3] + ', choice ' + newvote.v_choice);
-                                    help.incPoll(Poll, newvote, io); // increment only after vote saved success
+                                    help.incPoll(Poll, newvote, client, io); // increment only after vote saved success
                                 });
                             });
                         }

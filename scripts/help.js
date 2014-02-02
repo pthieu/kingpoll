@@ -30,7 +30,7 @@ var savedoc = function (item, cbitem, callback){
         }
     });
 }
-var incPoll = function (Poll, newvote, io) {
+var incPoll = function (Poll, newvote, client, io) {
     Poll.findOne({'_id':newvote.p_id}).exec(function(err, poll) {
         if (err) console.err(err);
         var country = newvote.u_loc[1].toUpperCase();
