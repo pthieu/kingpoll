@@ -47,7 +47,7 @@ $(document).ready(function(){
                 </tr>');
             var tmpdesc = (poll[i].p_desc) ? poll[i].p_desc : "Poll King did not provide a description.";
             var th_colspan = $('thead tr td').length;
-            $('#polls-wrap').append('<td colspan="'+th_colspan+1+'" style="display:none"><div class="polldesc" style="display: none" poll-id='+poll[i].p_id+'>'+tmpdesc+'</div></td>');
+            $('#polls-wrap').append('<td colspan="'+(th_colspan+1)+'" style="display:none"><div class="polldesc" style="display: none" poll-id='+poll[i].p_id+'>'+tmpdesc+'</div></td>');
         }
         $('.poll *:not(a)').click(function () {
             $('.polldesc[poll-id='+$(this).parent().attr('poll-id')+']').parent().slideToggle(100);
