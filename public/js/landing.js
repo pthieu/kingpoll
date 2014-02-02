@@ -42,7 +42,7 @@ $(document).ready(function(){
         for(var i in poll){
             $('#polls-wrap').append('<tr class="poll border-fade" poll-id='+poll[i].p_id+'><td class="extras"></td><td>'+poll[i].p_q+'</td>     \
                 <td>'+poll[i].p_total+'</td>    \
-                <td>'+poll[i].s_tavg/1000+'s</td>    \
+                <td>'+Math.round(poll[i].s_tavg)/1000+'s</td>    \
                 <td><a href="/p/'+poll[i].p_id+'" class="btn btn-default btn-xs">Go!</a></td>      \
                 </tr>');
             var tmpdesc = (poll[i].p_desc) ? poll[i].p_desc : "Poll King did not provide a description.";

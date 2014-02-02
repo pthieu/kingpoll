@@ -332,7 +332,6 @@ $(document).ready(function(){
             // })() : null;
             (lastpoll != pollid) ? history.replaceState({}, data.p_q, pollid) : null;
 
-            $('#choices .radio').html('');
             // we use an array instead of a key/value pair because we want the buttons that
             // are added later to actually sync up with the colors in the array objects
             // not sure if the for(i in obj) will progress in an orderly way
@@ -345,8 +344,6 @@ $(document).ready(function(){
             }
             $('.tbDescription').html(data.p_desc);
             $('#question').html(data.p_q);
-//BUTTON CHANGES
-            socket.on('setVoted')
 
 //PIE CHANGES
             //if same poll, update stats
@@ -457,9 +454,20 @@ $(document).ready(function(){
             // });
 
             //create buttons
-            for(i in choice_colors){
-                $('#choices .radio').append('<input id="c'+ i +'"class="btnChoice" type="radio" name="vote" value="'+ i +'" /><label for="c'+i+'" style="background-color:#'+choice_colors[i].color+'"><div><div>'+choice_colors[i].c_text+'</div></div></label>');
+            if(!voted){
+                $('#choices .radio').html('');
+                for(i in choice_colors){
+                    $('#choices .radio').append('<input id="c'+ i +'"class="btnChoice" type="radio" name="vote" value="'+ i +'" /><label for="c'+i+'" style="background-color:#'+choice_colors[i].color+'"><div><div>'+choice_colors[i].c_text+'</div></div></label>');
+                }
             }
+            //BUTTON CHANGES
+            socket.on('setVoted', function (d) {
+                if(d.toString()){
+                    $('#c'+d).click();
+                    $('input[name="vote"]').attr({'disabled': 'true'});
+                    voted = true;
+                }
+            });
             //graphs done drawing, grab time
             votetime = $.now();
             $('input[name="vote"]').click(function(){

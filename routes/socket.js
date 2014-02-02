@@ -10,8 +10,7 @@ exports.getVoted = function (data, client) {
     Poll.findOne({'p_id': data.p_id}, function (err, poll) {
         Vote.findOne({u_email: data.u_email, p_id: poll._id}, function (err, vote) {
             if (err) return console.error(err);
-            (vote)?client.emit('setVoted', vote.v_choice):client.emit('setVoted');
-            console.log('setvotetime');
+            (vote)?client.emit('setVoted', (vote.v_choice.toString()):client.emit('setVoted');
             (vote)?client.emit('setVoteTime', vote.s_vtime):client.emit('setVoteTime');
         });
     });
@@ -94,7 +93,7 @@ exports.vote = function (dataVote, client, io) {
                                 client.emit('setID', user._id);
                                 console.log('Trying to save vote');
                                 help.savedoc(item, voted, function (emit_item) {//save vote
-                                    client.emit("setVoted", emit_item); //set what user voted on
+                                    // client.emit("setVoted", emit_item); //set what user voted on
                                     console.log('Trying to increment poll: ' + newvote.p_id + ' -- ' + newvote.u_loc[0] + ', ' + newvote.u_loc[3] + ', choice ' + newvote.v_choice);
                                     help.incPoll(Poll, newvote, io); // increment only after vote saved success
                                 });
@@ -102,7 +101,6 @@ exports.vote = function (dataVote, client, io) {
                         }
                         else{
                             console.log('User voted already, break');
-                            client.emit("setVoted", voted);
                         }
                     });
                 });
