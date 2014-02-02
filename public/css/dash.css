@@ -67,6 +67,9 @@
     border:none;
     text-align: center;
 }
+.navbar-fixed-top input{
+    border:1px solid #fff;
+}
 #nav{
     visibility: hidden;
 }

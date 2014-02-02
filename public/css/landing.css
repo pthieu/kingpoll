@@ -126,9 +126,10 @@
 .container{
   padding:0;
 }
-.btn{
+#polls-wrap .btn{
   /*margin:8px;*/
   font-weight: bold;
+  border:none;
 }
 /*td{
   vertical-align: middle;
