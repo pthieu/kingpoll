@@ -82,6 +82,7 @@ exports.newpoll = function(req, res) {
     // console.log(req.body);
     var newpoll = new Poll({
         _id: new_pid,
+        't_created': new_pid.getTimestamp(),
         'p_q': req.body.p_q,
         'p_desc': req.body.p_desc,
         'c_n': req.body.c_n,

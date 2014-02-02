@@ -24,6 +24,7 @@ exports.vote = function (dataVote, client, io) {
             console.log('Found poll: poll.p_id');
             var newvote = new Vote({
                 _id         : new_vid,
+                't_created' : new_vid.getTimestamp(),
                 'p_id'      : dataVote.p_id[0],
                 'u_email'   : u_email,
                 'u_loc'     : dataVote.u_loc,
@@ -32,7 +33,7 @@ exports.vote = function (dataVote, client, io) {
                 'v_choice'  : dataVote.v_choice,
                 'v_hex'     : dataVote.v_hex,
                 'v_text'    : dataVote.v_text,
-                's_vtime'   : dataVote.s_vtime/1000
+                's_vtime'   : dataVote.s_vtime
             });
             var voted = {};
             voted[newvote.p_id] = newvote.v_choice; //using associative array for the field/value 
@@ -51,17 +52,17 @@ exports.vote = function (dataVote, client, io) {
                             'u_email'   : u_email,
                             'u_created' : new_uid.getTimestamp(),
                             'u_loc'     : dataVote.u_loc,
-                            's_tavg'    : dataVote.s_vtime/1000,
-                            's_tmin'    : dataVote.s_vtime/1000,
-                            's_tmax'    : dataVote.s_vtime/1000,
+                            's_tavg'    : dataVote.s_vtime,
+                            's_tmin'    : dataVote.s_vtime,
+                            's_tmax'    : dataVote.s_vtime,
                             's_vtotal'  : 1
                         });
                         user.u_salt.push(shortid.generate());
                         user.markModified('u_salt');
                     }
                     else{
-                        user.s_tmin = Math.min(user.s_tmin, dataVote.s_vtime/1000);
-                        user.s_tmax = Math.max(user.s_tmax, dataVote.s_vtime/1000);
+                        user.s_tmin = Math.min(user.s_tmin, dataVote.s_vtime);
+                        user.s_tmax = Math.max(user.s_tmax, dataVote.s_vtime);
                         user.s_tavg = help.averager(dataVote.s_vtime, user.s_tavg, user.s_vtotal);
                         user.s_vtotal += 1;
                         console.log(user.s_tavg);

@@ -314,6 +314,8 @@ $(document).ready(function(){
         if (poll){
             //set up data !IMPORTANT
             data = poll;
+            data.s_vtime = data.s_vtime/1000;
+            data.s_tavg = data.s_tavg/1000;
             lastpoll = (pollid) ? pollid : data.p_id;
             last_votes = data.c_total;
             pollid = data.p_id;
@@ -386,7 +388,7 @@ $(document).ready(function(){
             voteTimeData = [{name:'Average', value: data.s_tavg}, {name:'You', value: s_vtime}];
             drawVoteTime(chart, voteTimeData, y, yAxis);
             socket.on('setVoteTime', function (time) {
-                s_vtime = (time) ? time : 0;
+                s_vtime = (time) ? time/1000 : 0;
                 voteTimeData = [{name:'Average', value: data.s_tavg}, {name:'You', value: s_vtime}];
                 drawVoteTime(chart, voteTimeData, y, yAxis);
             });

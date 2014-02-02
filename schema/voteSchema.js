@@ -4,6 +4,7 @@ var mongoose = require('mongoose');
 var voteSchema = new mongoose.Schema({
     'u_id'      : {type:mongoose.Schema.Types.ObjectId, required:true},
     'p_id'      : {type:mongoose.Schema.Types.ObjectId, required:true},
+    't_created' : {type:Date, required:true},
     'u_email'   : {type:String, required:true},
     'u_loc'     : [{type:String}],
     'u_longlat' : [{type:Number}],
