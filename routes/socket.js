@@ -10,7 +10,7 @@ exports.getVoted = function (data, client) {
     Poll.findOne({'p_id': data.p_id}, function (err, poll) {
         Vote.findOne({u_email: data.u_email, p_id: poll._id}, function (err, vote) {
             if (err) return console.error(err);
-            (vote)?client.emit('setVoted', (vote.v_choice.toString()):client.emit('setVoted');
+            (vote)?client.emit('setVoted', (vote.v_choice)):client.emit('setVoted');
             (vote)?client.emit('setVoteTime', vote.s_vtime):client.emit('setVoteTime');
         });
     });

@@ -35,5 +35,8 @@ var checkResize = function () {
 }
 
 $(document).ready(function () {
-
+    $('#randompoll').click(function () {
+        voted = false;
+        console.log('voted:'+voted);
+    });
 });

@@ -462,7 +462,8 @@ $(document).ready(function(){
             }
             //BUTTON CHANGES
             socket.on('setVoted', function (d) {
-                if(d.toString()){
+                if(d != null){
+                    console.log('in')
                     $('#c'+d).click();
                     $('input[name="vote"]').attr({'disabled': 'true'});
                     voted = true;
