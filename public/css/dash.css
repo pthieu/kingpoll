@@ -115,6 +115,10 @@
     background-color: #fff;
     color: #555;
 }
+#dash input[type='submit']{
+    padding-left: 0.3rem;
+    padding-right: 0.3rem;
+}
 #search *, .dropdown *{
     background-color: #555;
 }

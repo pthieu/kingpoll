@@ -76,8 +76,6 @@ $(document).ready(function(){
     u_email = getLocalVar('u_email');
     // socket.emit('getID');
 
-
-
 //set up empty graphs
 //PIE CHART - VOTE TOTALS
     donut = function module(_sel, r1, r2, w, h, color, _callback, _cbparam) {
@@ -389,7 +387,7 @@ $(document).ready(function(){
             drawVoteTime(chart, voteTimeData, y, yAxis);
             socket.on('setVoteTime', function (time) {
                 s_vtime = (time) ? time/1000 : 0;
-                voteTimeData = [{name:'Average', value: data.s_tavg}, {name:'You', value: s_vtime}];
+                voteTimeData = [{name:'Average', value: Math.round(data.s_tavg*1000)/1000}, {name:'You', value: s_vtime}];
                 drawVoteTime(chart, voteTimeData, y, yAxis);
             });
             $('.barchart rect').css('fill','#'+chart_solocolor);
@@ -399,7 +397,6 @@ $(document).ready(function(){
                                                        + ', 1px 1px #'+chart_solocolor);
 
 //VIEWERS COUNT CHANGES
-console.log(pollid)
             socket.emit('getViewers', pollid);
             $('#activeViewers text tspan').css("fill", "#"+chart_solocolor);
             socket.on('setViewers', function (d) {
@@ -466,7 +463,7 @@ console.log(pollid)
                 //get time once
                 if (votetime>1383809658764){
                     votetime = (s_vtime) ? s_vtime*1000 :($.now()-votetime); //get votetime once
-                    voteTimeData = [{name:'Average', value: data.s_tavg}, {name:'You', value: votetime/1000}];
+                    voteTimeData = [{name:'Average', value: Math.round(dual.averager(votetime, data.s_tavg*1000, data.p_total))/1000}, {name:'You', value: votetime/1000}];
                     drawVoteTime(chart, voteTimeData, y, yAxis);
                 }
 
@@ -486,7 +483,7 @@ console.log(pollid)
                     });
                 }
                 else{
-                    getSignUpBox(lblVote);
+                    getSignUpBox($('label[for="' + $(this).attr('id') + '"]'));
                 }
             });
         }
@@ -568,17 +565,18 @@ function getMap(map, _name, rgn_color){
         return map;
 }
 
-function setEmail(u_email){
-    localStorage.setItem('u_email', u_email);
+function setEmail(_email){
+    localStorage.setItem('u_email', _email);
+    u_email = _email;
 }
 
-function getSignUpBox(css){
+function getSignUpBox(sel){
     $('#signup_box').css({
         "visibility": "visible"
     });
     $('#signup_box').dialog({
         resizable: false,
-        position: {my:'top', at:'center', of:css},
+        position: {my:'top', at:'center', of:sel},
         width: 250,
         minHeight: 0,
         buttons:{

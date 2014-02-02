@@ -21,6 +21,10 @@
   display:none;
 }
 
+#signup_box input{
+  border: 1px solid #ddd;
+}
+
 #results_chart>path{
   opacity:1;
   pointer-events: all;
