@@ -582,7 +582,7 @@ function getMap(map, _name, rgn_color){
                     label.html('<div class="map_label"><div style="border-bottom: 1px solid; margin-bottom:0.2rem">'
                         +'<span class="h5"><b>'+region_name+'</b></span><br/>'
                         +'<span class="h6"><b>Total Votes: '+region_total+'</b></span></div>'
-                        +'<table class="align-right">'+region_c_n+'</table>'
+                        +'<div><table style="margin:auto" class="align-right">'+region_c_n+'</table></div>'
                         +'</div>');
                 }
             },
