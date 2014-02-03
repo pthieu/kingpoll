@@ -105,6 +105,15 @@
   background-color: #555;
   text-align: justify;
   padding: 0.3rem;
+  border: 1px solid #fff;
+}
+.map_label .legend-color{
+  display:block;
+  padding:0;
+  margin-top: 0.1rem;
+  margin-bottom: 0.1rem;
+  width: 1rem;
+  height:1rem;
 }
 .h5{
   font-size:1rem;
@@ -115,7 +124,7 @@
 .align-right{
   text-align: right;
 }
-.align-right{
+.align-left{
   text-align: left;
 }
 .map_label td{

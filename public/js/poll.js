@@ -577,12 +577,12 @@ function getMap(map, _name, rgn_color){
                         region_total += d;
                     });
                     $.each(region_results, function(i, d) {
-                        region_c_n += "<tr><td>"+data.c_text[i]+":</td><td>"+d+"</td><td>("+Math.round(d/((region_total==0)?1:region_total)*100*100)/100+"%)</td></tr>";
+                        region_c_n += "<tr><td>"+data.c_text[i]+":</td><td>"+d+"</td><td>("+Math.round(d/((region_total==0)?1:region_total)*100*100)/100+"%)</td><td class=\"legend-color\" style=\"background-color:#"+data.c_hex[i]+";\"></td></tr>";
                     });
-                    label.html('<div class="map_label">'
+                    label.html('<div class="map_label"><div style="border-bottom: 1px solid; margin-bottom:0.2rem">'
                         +'<span class="h5"><b>'+region_name+'</b></span><br/>'
-                        +'<span class="h6"><b>Total Votes: '+region_total+'</b></span><br/>'
-                        +'<table class="align-right" style="border-top: 1px solid">'+region_c_n+'</table>'
+                        +'<span class="h6"><b>Total Votes: '+region_total+'</b></span></div>'
+                        +'<table class="align-right">'+region_c_n+'</table>'
                         +'</div>');
                 }
             },
