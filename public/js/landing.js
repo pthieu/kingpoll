@@ -54,7 +54,6 @@ $(document).ready(function(){
             $('.polldesc[poll-id='+$(this).parent().attr('poll-id')+']').slideToggle(100);
         });
         // $('#polls-wrap .btn').css({'color':'#'+solocolor});
-        // $('#polls-wrap .btn').css();
     });
 
     $('.card').each(function () {

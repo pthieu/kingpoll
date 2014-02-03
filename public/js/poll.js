@@ -435,6 +435,9 @@ $(document).ready(function(){
                 map[i].series.regions[0].setValues(rgn_color[i]);
             }
 
+            $('.jvectormap-region[data-code="YT"]').attr({'title':'test', 'data-html':'true'});
+            $('.jvectormap-region[data-code="YT"]').tooltip();
+
             // $('#click').click(function () {
             //     for (i in rgn_color){
             //         var tmp = [];
@@ -453,19 +456,17 @@ $(document).ready(function(){
             //     $(".jvectormap-region[data-code='US-WA']").attr("fill","#cc0000");
             // });
 
+//BUTTON CHANGES
             //create buttons
             if(!voted){
-                console.log('created')
                 $('#choices .radio').html('');
                 for(i in choice_colors){
                     $('#choices .radio').append('<input id="c'+ i +'"class="btnChoice" type="radio" name="vote" value="'+ i +'" /><label for="c'+i+'" style="background-color:#'+choice_colors[i].color+'"><div><div>'+choice_colors[i].c_text+'</div></div></label>');
                 }
             }
-            //BUTTON CHANGES
             socket.on('setVoted', function (d) {
                 setTimeout(function () {
                     if(d != null){
-                        console.log('in');
                         $('label[for="c'+d+'"]').click();
                         $('input[name="vote"]').attr({'disabled': 'true'});
                         voted = true;
@@ -566,6 +567,28 @@ function getMap(map, _name, rgn_color){
                 e.preventDefault();
                 var opacity = $(".jvectormap-region[data-code='"+code+"']").attr("fill-opacity", 1);
             },
+            onRegionLabelShow: function(e, label, code){
+                //we only support canada and US for now
+                var country = $('[data-code="'+code+'"]').attr('data-country');
+                if (country === "CA" || country === "US"){
+                    var map = $('#map'+country).vectorMap('get', 'mapObject');
+                    var region_name = map.getRegionName(code);
+                    var region_results = data.data[country][code];
+                    var region_total = 0;
+                    var region_c_n = "";
+                    $.each(region_results, function(i, d) {
+                        region_total += d;
+                    });
+                    $.each(region_results, function(i, d) {
+                        region_c_n += "<br/><span>"+data.c_text[i]+": "+d+" ("+Math.round(d/((region_total==0)?1:region_total)*100*100)/100+"%)</span>";
+                    });
+                    label.html('<div>'
+                        +'<span><b>'+region_name+'</b></span><br/>'
+                        +'<span>Total: '+region_total+'</span>'
+                        + region_c_n
+                        +'</div>');
+                }
+            },
             regionStyle:{
                 initial:{
                     fill: rgn_fill, //global var
@@ -581,6 +604,7 @@ function getMap(map, _name, rgn_color){
                     attribute: 'fill'}]
             }
         });
+        $('#map'+_name+' .jvectormap-region').attr('data-country', _name);
         return map;
 }
 

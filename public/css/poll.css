@@ -142,6 +142,9 @@
   background-color: #000;
 }
 
+.jvectormap-label {
+  z-index:11;
+}
 svg path:hover{
   cursor: pointer;
 }
