@@ -435,9 +435,6 @@ $(document).ready(function(){
                 map[i].series.regions[0].setValues(rgn_color[i]);
             }
 
-            $('.jvectormap-region[data-code="YT"]').attr({'title':'test', 'data-html':'true'});
-            $('.jvectormap-region[data-code="YT"]').tooltip();
-
             // $('#click').click(function () {
             //     for (i in rgn_color){
             //         var tmp = [];
@@ -580,12 +577,12 @@ function getMap(map, _name, rgn_color){
                         region_total += d;
                     });
                     $.each(region_results, function(i, d) {
-                        region_c_n += "<br/><span>"+data.c_text[i]+": "+d+" ("+Math.round(d/((region_total==0)?1:region_total)*100*100)/100+"%)</span>";
+                        region_c_n += "<tr><td>"+data.c_text[i]+":</td><td>"+d+"</td><td>("+Math.round(d/((region_total==0)?1:region_total)*100*100)/100+"%)</td></tr>";
                     });
-                    label.html('<div>'
-                        +'<span><b>'+region_name+'</b></span><br/>'
-                        +'<span>Total: '+region_total+'</span>'
-                        + region_c_n
+                    label.html('<div class="map_label">'
+                        +'<span class="h5"><b>'+region_name+'</b></span><br/>'
+                        +'<span class="h6"><b>Total Votes: '+region_total+'</b></span><br/>'
+                        +'<table class="align-right" style="border-top: 1px solid">'+region_c_n+'</table>'
                         +'</div>');
                 }
             },
