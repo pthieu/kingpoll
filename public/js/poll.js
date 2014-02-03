@@ -483,7 +483,7 @@ $(document).ready(function(){
                     };
                 }
 
-                if(u_email){
+                if((u_email) && !voted){
                     socket.emit('vote', {
                         'p_id'      :[data._id, data.p_id],
                         'u_id'      :u_id,
@@ -499,7 +499,7 @@ $(document).ready(function(){
                     });
                     voted = true;
                 }
-                else{
+                else if(!(u_email)){
                     getSignUpBox($('label[for="' + $(this).attr('id') + '"]'));
                 }
             });
