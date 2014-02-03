@@ -123,6 +123,7 @@
     background-color: #555;
 }
 #dash input, #dash button{
+    border-color: #fff;
 }
 #dash .divider{
     background-color:white;
