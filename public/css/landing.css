@@ -186,3 +186,7 @@
 #polls-wrap>tr>td:nth-child(2){
   text-align: left;
 }
+#carousel-polls .container{
+  background-color: #fff;
+  height: auto;
+}

@@ -18,14 +18,14 @@
     <div class='top'>
       <!-- Main jumbotron for a primary marketing message or call to action -->
       <div class="jumbotron container">
-        <div id="myCarousel" class="carousel slide">
+        <div id="carousel-main" class="carousel slide">
           <!-- Indicators -->
           <ol class="carousel-indicators">
-            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-            <li data-target="#myCarousel" data-slide-to="1"></li>
-            <li data-target="#myCarousel" data-slide-to="2"></li>
-            <li data-target="#myCarousel" data-slide-to="3"></li>
-            <li data-target="#myCarousel" data-slide-to="4"></li>
+            <li data-target="#carousel-main" data-slide-to="0" class="active"></li>
+            <li data-target="#carousel-main" data-slide-to="1"></li>
+            <li data-target="#carousel-main" data-slide-to="2"></li>
+            <li data-target="#carousel-main" data-slide-to="3"></li>
+            <li data-target="#carousel-main" data-slide-to="4"></li>
           </ol>
           <div class="carousel-inner">
             <div class="item active">
@@ -79,10 +79,10 @@
             </div>
           </div>
           <!-- Controls -->
-          <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+          <a class="left carousel-control" href="#carousel-main" data-slide="prev">
             <span class="icon-prev opacity-full"></span>
           </a>
-          <a class="right carousel-control" href="#myCarousel" data-slide="next">
+          <a class="right carousel-control" href="#carousel-main" data-slide="next">
             <span class="icon-next opacity-full"></span>
           </a>  
         </div>
@@ -98,19 +98,44 @@
         </div>
       </div>
     </div>
-    <div class="table-responsive container">
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <td></td>
-            <td><b>Question</b></td>
-            <td><b>Votes</b></td>
-            <td><b>Avg. Vote Time</b></td>
-          </tr>
-        </thead>
-        <tbody id='polls-wrap'>
-        </tbody>
-      </table>
+    <div id="carousel-polls" class="carousel slide">
+      <ol class="carousel-indicators">
+        <li data-target="#carousel-polls" data-slide-to="0" class="active"></li>
+        <li data-target="#carousel-polls" data-slide-to="1"></li>
+        <li data-target="#carousel-polls" data-slide-to="2"></li>
+        <li data-target="#carousel-polls" data-slide-to="3"></li>
+        <li data-target="#carousel-polls" data-slide-to="4"></li>
+      </ol>
+      <div class="carousel-inner">
+        <div class="table-responsive container item active">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <td></td>
+                <td><b>Question</b></td>
+                <td><b>Votes</b></td>
+                <td><b>Avg. Vote Time</b></td>
+              </tr>
+            </thead>
+            <tbody id='polls-wrap'>
+            </tbody>
+          </table>
+        </div>
+      <div class="table-responsive container item">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <td></td>
+                <td><b>Question</b></td>
+                <td><b>Votes</b></td>
+                <td><b>Avg. Vote Time</b></td>
+              </tr>
+            </thead>
+            <tbody id='polls-wrap'>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </div>
   <!-- <div id="disqus_thread"></div> -->
