@@ -165,6 +165,7 @@
 .poll .btn{
   font-weight: bold;
   background-color: transparent;
+  color:#555;
 }
 .poll .btn:hover{
   border: 1px solid #fff;
