@@ -88,9 +88,9 @@
   width              : 1rem;
 
   opacity            : 0;
-  border-color       : inherit;
   border-bottom      : 0.5rem transparent solid;
   border-left        : 0.5rem transparent solid;
+  border-color       : inherit;
 
   transform          : rotate(45deg);
   transition         : 0.15s ease opacity;
@@ -127,10 +127,10 @@
   height        : 1rem;
   width         : 1rem;
   margin-top    : 0.1rem;
-  margin-bottom : 0.1rem;
   margin-right  : 0.2rem;
+  margin-bottom : 0.1rem;
   margin-left   : 0.2rem;
-}0
+}
 .h5{
   font-size : 1rem;
 }
