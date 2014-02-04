@@ -37,7 +37,7 @@ var chartW = $('#pieTotal').width()  - chartMargin.left - chartMargin.right;
 var chartH = $('#pieTotal').height() - chartMargin.top/2 - chartMargin.bottom/2;
 var barWidth = 20;
 var barOffset = 6;
-var dur = 500; //transition duration
+var dur = 300; //transition duration
 var chart_solocolor = colors_hex[randColor(colors_hex)];
 var s_vtime = 0;
 
