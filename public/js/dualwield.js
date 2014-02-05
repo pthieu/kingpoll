@@ -6,7 +6,7 @@ if(typeof exports == 'undefined'){
 	exports.linkify = function(_text) {  
 	    var urlRegex =/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;  
 	    return _text.replace(urlRegex, function(url) {  
-			return '<a href="' + url + '">' + '[link]' + '</a>';  
+			return '<a href="' + url + '" target="_blank">' + '[link]' + '</a>';  
 		});
 	};
 	exports.averager = function (val, avg, div){//val in ms
