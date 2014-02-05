@@ -38,4 +38,19 @@ $(document).ready(function () {
     $('#randompoll').click(function () {
         voted = false;
     });
+
+    socket.emit('getAuth');
+
+    socket.on('authStatus', function (status, userId) {
+        var authorized = status;
+        var id = userId
+
+        if(status) {
+            document.getElementById('welcome-text').innerHTML="Welcome, " + userId + "<b class=\"caret\">";
+            document.getElementById('authorized').style.display='block';
+        } else {
+            document.getElementById('sign-in-list').style.display='block';
+        }
+
+    });
 });

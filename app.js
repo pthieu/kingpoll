@@ -13,6 +13,8 @@ var shortid = require('shortid');
 var poll_comments = require('./routes/poll_comments');
 var pass = require('./routes/login_auth.js')
 var passport = require('passport');
+var MongoStore = require('connect-mongo')(express);
+var passportSocketIo = require("passport.socketio");
 
 var Poll = require('./schema/pollSchema').Poll;
 var User = require('./schema/userSchema').User;
@@ -29,22 +31,30 @@ db.once('open', function callback() {
     console.log('Connected to mongodb://localhost/test');
 });
 
+var sessionStore = new MongoStore({
+    mongoose_connection: mongoose.connections[0]
+});
+
 //this has to be after mongoose connect because it needs connect alive to grab schema
 var routes = require('./routes');
 var socket = require('./routes/socket.js');
 var userRoute = require('./routes/login.js');
+var userAuth = require('./routes/login_auth.js');
+
+//var MemoryStore = express.session.MemoryStore;
+//var memStore = new MemoryStore();
 
 app.use(express.logger());
 app.use(express.static(__dirname + '/public'));
 app.use(express.bodyParser());
 app.use(expressValidator());
 app.use(express.cookieParser());
-app.use(express.session({ secret: 'kingpoll' }));
+app.use(express.session({key: 'express.sid', secret: 'kingpoll', store: sessionStore}));
 app.use(passport.initialize());
 app.use(passport.session());
 
 app.get('/', routes.landing);
-app.get('/about', routes.about);
+app.get('/about', userAuth.ensureAuthenticated, routes.about);
 app.get('/new', routes.createpoll);
 app.get('/listpoll', routes.listpoll);
 app.get('/p/:id', routes.getpoll);
@@ -56,31 +66,55 @@ app.post('/new', routes.newpoll);
 app.post('/signup', routes.newuser);
 app.get('/login', userRoute.getlogin);
 app.post('/login', userRoute.postlogin);
+app.get('/logout', userRoute.logout);
 
 
 http.listen(appPort);
 console.log('listening on port: ' + appPort);
 
+io.configure(function (){
+    console.log("io passport config start");
+    io.set("authorization", passportSocketIo.authorize({
+        cookieParser: express.cookieParser,
+        key:    'express.sid',       //the cookie where express (or connect) stores its session id.
+        secret: 'kingpoll', //the session secret to parse the cookie
+        store:   sessionStore,     //the session store that express uses
+        success: onAuthorizeSuccess,
+        fail: onAuthorizeFail
+    }));
+    console.log("io passport config end");
+});
+
+function onAuthorizeSuccess(data, accept){
+  console.log('successful connection to socket.io');
+
+  // The accept-callback still allows us to decide whether to
+  // accept the connection or not.
+  accept(null, true);
+}
+
+function onAuthorizeFail(data, message, error, accept){
+  console.log('failed connection to socket.io:', message);
+  console.log(data);
+  //if(error)
+  //  throw new Error(message);
+
+  // We use this callback to log all of our failed connections.
+  accept(null, true);
+}
+
+
 io.set('log level', 0); // Delete this row if you want to see debug messages
-
-
-var total_polls=0;
-var total_users=0;
-var total_votes=0;
-setInterval(function () {
-    Poll.find({}, function (err, polls) {
-        total_polls = (polls)?polls.length:0;
-    });
-    Vote.find({}, function (err, votes) {
-        total_votes = (votes)?votes.length:0;
-    });
-    User.find({}, function (err, users) {
-        total_users = (users)?users.length:0;
-    });
-}, 5000);
 
 //Listen for incoming connections from clients
 io.sockets.on('connection', function (client) {
+    console.log("Socket io connection");
+    //console.log(socket.handshake.user.username);
+
+    client.on('joinlanding', function () {
+        client.join('landing');
+        console.log(io.sockets.manager.rooms);
+    });
     var pollid;
     client.on('getPoll', function (pollID) {
         Poll.findOne({'p_id':pollID}, function(err, poll) {
@@ -93,10 +127,6 @@ io.sockets.on('connection', function (client) {
                 console.log(io.sockets.manager.rooms);
             }
         });
-    });
-    client.on('joinlanding', function () {
-        client.join('landing');
-        console.log(io.sockets.manager.rooms);
     });
     client.on('getRandPoll', function (pollpage) {
         Poll.count( function(err,count) {
@@ -116,6 +146,9 @@ io.sockets.on('connection', function (client) {
     });
     //get list of all the available polls and display to user
     client.on('getlistpoll', function (limit, skip, scroll) {
+        console.log("Socket io connection");
+        console.log(client.handshake);
+        //console.log(socket.handshake.user.username);
         Poll.find({},{},{limit: limit, skip: skip}, function(err, poll) {
             if (err) return console.error(err);
             client.emit('listpoll', poll);
@@ -136,24 +169,25 @@ io.sockets.on('connection', function (client) {
     client.on('iploc', function (iploc) {
         console.log(iploc);
     });
-    client.on('getViewers', function (d) {
-        client.emit('setViewers', io.sockets.clients(d).length);
+    client.on('getViewers', function () {
+        client.emit('setViewers', io.sockets.clients(pollid).length);
     });
-    client.on('getUsers', function () {
-        client.emit('setUsers', total_users);
-    });
-    client.on('getVotes', function () {
-        client.emit('setVotes', total_votes);
-    });
-    client.on('getPolls', function () {
-        client.emit('setPolls', total_polls);
-    });
-    client.on('getVoted', function (data) {
+    client.on('getVoteTime', function (data) {
         socket.getVoted(data, client);
     });
     client.on('disconnect', function (iploc) {
         client.leave(pollid);
         client.leave('landing');
+    });
+    client.on('getAuth', function () {
+        console.log('auth start');
+
+        if (client.handshake.user.logged_in){
+            client.emit('authStatus', client.handshake.user.logged_in, client.handshake.user.u_id);
+        } else {
+            client.emit('authStatus', client.handshake.user.logged_in, null);
+        }
+        console.log('auth end');
     });
 });
 
