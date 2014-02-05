@@ -164,7 +164,7 @@ io.sockets.on('connection', function (client) {
         console.log("Socket io connection");
         console.log(client.handshake);
         //console.log(socket.handshake.user.username);
-        Poll.find({},{},{limit: limit, skip: skip}, function(err, poll) {
+        Poll.find({},{},{limit: limit, skip: skip}).sort('-_id').exec(function(err, poll) {
             if (err) return console.error(err);
             client.emit('listpoll', poll);
         });
