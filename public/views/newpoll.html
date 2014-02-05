@@ -2,33 +2,33 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-  scale=1.0">
+  <meta name="viewport" content="width=device-width">
   <title>kingpoll.</title>
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" type="text/css" />
-    <link rel="stylesheet" href="/css/layout.css" type="text/css" />
-    <link rel="stylesheet" href="/css/radiobutton.css" type="text/css" />
-    <link rel="stylesheet" href="/css/newpoll.css" type="text/css" />
-    <link rel="stylesheet" href="/css/dash.css" type="text/css" />
-    <link rel="stylesheet" href="/css/footer.css" type="text/css" />
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" type="text/css" />
+  <link rel="stylesheet" href="/css/layout.css" type="text/css" />
+  <link rel="stylesheet" href="/css/radiobutton.css" type="text/css" />
+  <link rel="stylesheet" href="/css/newpoll.css" type="text/css" />
+  <link rel="stylesheet" href="/css/dash.css" type="text/css" />
+  <link rel="stylesheet" href="/css/footer.css" type="text/css" />
 </head>
 <body>
   <div id='dash'></div>
   <div id='wrapper'>
-    <form method="post" id='newpoll'>
+    <form method="post" id='newpoll' class='form-horizontal' role='form'>
       <div id='template' class='radio'>
         <input id='template1' type='radio' name='template_choice' value='1' /><label for="template1">Yes/No</label><!-- <input id='template2' type='radio' name='template_choice' value='2' /><label for="template2">Simple</label> --><input id='template3' type='radio' name='template_choice' value='3'/><label for="template3">Custom</label>
       </div>
-    	<div id='newpollopt'>
-    		<div class='radio nchoice'><div>How many options to vote for?</div>
-  			<input id='nchoice2' type='radio' name='nchoice' data-text='2' value='2' /><label for="nchoice2" class="nchoice-label">2</label><input id='nchoice3' type='radio' name='nchoice' data-text='3' value='3' /><label for="nchoice3" class="nchoice-label">3</label><input id='nchoice4' type='radio' name='nchoice' data-text='4' value='4' /><label for="nchoice4" class="nchoice-label">4</label><input id='nchoice5' type='radio' name='nchoice' data-text='5' value='5' /><label for="nchoice5" class="nchoice-label">5</label><input id='nchoice6' type='radio' name='nchoice' data-text='6' value='6' /><label for="nchoice6" class="nchoice-label">6</label>
-    		</div>
-        <div id='textconfig'>
-          <div id='textchoice' class='radio'>Options & Color:<br/>
-          </div>
+      <div id='newpollopt'>
+        <div class='radio nchoice'><div>How many options to vote for?</div>
+        <input id='nchoice2' type='radio' name='nchoice' data-text='2' value='2' /><label for="nchoice2" class="nchoice-label">2</label><input id='nchoice3' type='radio' name='nchoice' data-text='3' value='3' /><label for="nchoice3" class="nchoice-label">3</label><input id='nchoice4' type='radio' name='nchoice' data-text='4' value='4' /><label for="nchoice4" class="nchoice-label">4</label><input id='nchoice5' type='radio' name='nchoice' data-text='5' value='5' /><label for="nchoice5" class="nchoice-label">5</label><input id='nchoice6' type='radio' name='nchoice' data-text='6' value='6' /><label for="nchoice6" class="nchoice-label">6</label>
+      </div>
+      <div id='textconfig'>
+        <div id='textchoice' class='radio'>Options & Color:<br/>
         </div>
-    	</div>
-      <div id='questionconfig'>Your Question:
-        <div id='yesno' class="checkradio">
+      </div>
+    </div>
+    <!-- <div id='questionconfig'>Your Question: -->
+<!--         <div id='yesno' class="checkradio">
         </div>
         <div id='simple'>
           <div id='simple_q'>
@@ -41,17 +41,33 @@
             <input type='radio' id='cb4' class='radio-cb' name='cb' value='sq4' />
             <label for='cb4' class='radio-cb-label'>What do you prefer?</label>
           </div>
+        </div> -->
+        <div id='custom' class='form-group col-md-10 col-md-offset-2'>
+          <!-- <textarea id='custom_question' name="question" class="tb" maxlength='140' required></textarea><div><span>Left: 140</span></div> -->
+          <label for="custom_question" class="col-sm-2 control-label">Question:</label>
+          <div class="col-sm-10">
+            <input id='custom_question' name="question" class="tb form-control col-md-2" maxlength='140' required>
+            <div><span>Left: 140</span></div>
+          </div>
+          <label for="main-link" class="col-sm-2 control-label">Link (Optional):</label>
+          <div class="col-sm-10">
+            <input id='main-link' name="main-link" class="tb form-control col-md-2">
+          </div>
         </div>
-        <div id='custom'>
-          <textarea id='custom_question' name="question" class="tb" maxlength='140' required></textarea><div><span>Left: 140</span></div>
+        <div class='form-group col-md-10 col-md-offset-2'>
+          <label for="tbDescription" class="col-sm-2 control-label">Description:</label>
+          <div class="col-sm-10">
+            <textarea type="text" id='tbDescription' name="description" class='tbDesc tb form-control' rows="7" placeholder="Links will automatically be changed<b>test</b>" maxlength='1024'></textarea>
+            <div><span>Left: 1024</span></div>
+          </div>
         </div>
-        Description:<br/>
-        <textarea id='tbDescription' name="description" class='tbDesc tb' maxlength='512'></textarea><div><span>Left: 512</span></div>
       </div>
-      <div id='preview'>Preview:
-        <div id='preview_question'></div>
-        <div class='radio'></div>
-        <div id='prvw_tbDescription' class='tbDescription' readonly='readonly'></div>
+      <div class='form-group'>
+        <div id='preview'>Preview:
+          <div id='preview_question'></div>
+          <div class='radio'></div>
+          <div id='prvw_tbDescription' class='tbDescription' readonly='readonly'></div>
+        </div>
       </div>
       <div id='makepoll'>
         <button type='submit' id='submit'>Make Poll!</button>

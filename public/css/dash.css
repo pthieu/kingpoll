@@ -32,6 +32,7 @@
 .dropdown-menu{
     text-align: justify;
     padding-top: 0;
+    padding-bottom: 0;
     border:1px #fff solid;
 }
 #dash .dropdown-toggle:hover .caret{
@@ -122,7 +123,8 @@
 #search *, .dropdown *{
     background-color: #555;
 }
-#dash input, #dash button{
+#dash input{}
+#dash button{
     border-color: #fff;
 }
 #dash .divider{

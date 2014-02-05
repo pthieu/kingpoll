@@ -106,6 +106,21 @@ function onAuthorizeFail(data, message, error, accept){
 
 io.set('log level', 0); // Delete this row if you want to see debug messages
 
+var total_polls=0;
+var total_users=0;
+var total_votes=0;
+setInterval(function () {
+    Poll.count({}, function (err, polls) {
+        total_polls = (polls)?polls:0;
+    });
+    Vote.count({}, function (err, votes) {
+        total_votes = (votes)?votes:0;
+    });
+    User.count({}, function (err, users) {
+        total_users = (users)?users:0;
+    });
+}, 5000);
+
 //Listen for incoming connections from clients
 io.sockets.on('connection', function (client) {
     console.log("Socket io connection");
@@ -169,10 +184,19 @@ io.sockets.on('connection', function (client) {
     client.on('iploc', function (iploc) {
         console.log(iploc);
     });
-    client.on('getViewers', function () {
-        client.emit('setViewers', io.sockets.clients(pollid).length);
+    client.on('getViewers', function (d) {
+        client.emit('setViewers', io.sockets.clients(d).length);
     });
-    client.on('getVoteTime', function (data) {
+    client.on('getUsers', function () {
+        client.emit('setUsers', total_users);
+    });
+    client.on('getVotes', function () {
+        client.emit('setVotes', total_votes);
+    });
+    client.on('getPolls', function () {
+        client.emit('setPolls', total_polls);
+    });
+    client.on('getVoted', function (data) {
         socket.getVoted(data, client);
     });
     client.on('disconnect', function (iploc) {

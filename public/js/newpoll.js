@@ -143,7 +143,7 @@ $(document).ready(function() {
         $('#preview_question').text($('.radio-cb:checked + label').text());
     });
 
-    $('textarea').on('change keydown keypress keyup',function() {
+    $('textarea, input').on('change keydown keypress keyup',function() {
         $(this).next().find('span').text("Left: "+($(this).attr('maxlength')-$(this).val().length));
     });
 

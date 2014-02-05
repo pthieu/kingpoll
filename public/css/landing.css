@@ -42,7 +42,7 @@
   cursor: pointer;
 }
 .polldesc{
-  padding: 0.25rem;
+  padding: 0.5rem;
   border-top: 1px solid #ddd;
   text-align: justify;
 }
@@ -140,6 +140,10 @@
 }
 .table-striped>tbody>tr:nth-child(even)>td{
   background-color: transparent;
+}
+.table-striped>tbody>tr>td{
+  vertical-align: middle;
+  padding: 0.2rem;
 }
 /*.table-striped>tbody>tr:nth-child(4n+1)>td{
   background-color: #555;

@@ -172,27 +172,36 @@ input[name="textchoice"]{
   margin: auto;
 }
 
-
 #custom_question{
-    resize: none;
+    /*resize: none;
     width: 30rem;
-    height: 2.5rem;
+    height: 2.5rem;*/
+}
+.single-line{
+  line-height: 1;
 }
 textarea{
     font-family: inherit;
 }
-textarea+div{
+/*textarea+div{
     display:inline;
     position:relative;
+}*/
+.form-group{
+  margin-top: 0.5rem;
 }
-textarea+div>span{
+.tb+div{
+  text-align: left;
+  font-size: 0.75rem;
+}
+/*textarea+div>span{
     position:absolute;
     top:-0.1rem;
     left:0.15rem;
     font-size: 0.75rem;
     width:3rem;
     text-align: left;
-}
+}*/
 #preview{
    border-top: 1px #ddd solid;
    border-bottom: 1px #ddd solid;
@@ -248,11 +257,12 @@ textarea+div>span{
 }
 .tbDesc{
   resize:none;
-  height: 6rem;
-  width: 35rem;
+  /*height: 6rem;
+  width: 35rem;*/
 }
 .tb{
   border: 1px #aaa solid;
+  display:inline-block;
 }
 
 #submit{
