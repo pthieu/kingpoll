@@ -6,16 +6,17 @@ $(document).ready(function() {
     var nchoice_pick;
     var c_random = 0;
     //check max choices, insert questionbox and color options
+    var add = "<div class='form-group'><table><tbody>";
     for(i=0; i<=nchoice_max; i++){
-        var add;
-        add = ("<div><input type='text' id='c" + (i+1) + "' name='textchoice' maxlength='40'/>");
+        add += ("<tr><td><input type='text' id='c" + (i+1) + "' name='textchoice' maxlength='40'/></td><td>");
         for(j=0; j<colors_hex.length; j++){
             var cc_id = "c" + (i+1) + "_color" + j;
             var cc_class = colors_name[j];
             add+=("<input type='radio' id='" + cc_id + "' class='colorchoice' name='c" + (i+1) + "_color' data-previewbtn='c" +(i+1)+ "' value='" +colors_hex[j]+ "'\\>" + "<label for='"+cc_id+"' class='colorchoice-label "+cc_class+"'></label>");
         }
-        $('#textchoice').append(add+"</div>");
+        add += "</td></tr>";
     }
+    $('#textchoice').append(add+"</tbody></table>");
     $('#textchoice').append("<label class='radio' id='rngclr'>Random!</label>");
     $('#rngclr').mousedown(function() {
         c_random++;

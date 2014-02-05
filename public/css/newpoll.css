@@ -10,6 +10,9 @@ label{
 #wrapper>div{
   font-size: 1.5rem;
 }
+.radio{
+  padding-left:0;
+}
 #template{
   margin-top:4rem;
 }
@@ -48,15 +51,16 @@ input[name="nchoice"] + label::after{
   margin:0;
   padding:0;
 }
+#textconfig tr{
+  margin: 20px;
+line-height: inherit;
+}
 
 input[name="textchoice"]{
   margin-right: 0.25rem;
-  padding: 0;
   position:relative;
   display:inline-block;
-  top:-0.54rem;
   font-size:1.25rem;
-  width: 20rem;
   border: 1px #aaa solid;
 }
 #textchoice label:not(#rngclr){
