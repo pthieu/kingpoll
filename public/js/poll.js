@@ -67,6 +67,8 @@ $(document).ready(function(){
     socket.emit('getPoll', pollid);
     disqus_identifier = pollid;
 
+    socket.emit('getComments', pollid);
+
     $('.tbDescription').hover(function () {
         $(this).css({'border-color': "#"+chart_solocolor});
     }, function () {
@@ -511,6 +513,40 @@ $(document).ready(function(){
 //DISQUS
         // poll?setTimeout(loaddisqus, 1500):$('#messages>span').text("No poll, no comments :c");
     });
+});
+
+socket.on('getCommentsResult', function(result) {
+    // Clear the comments first
+    $('#messages').html('');
+
+    var parsedResult = JSON.parse(result);
+    parsedResult.forEach(function(json) {
+        $('#messages').html($('#messages').html() + '<br/>' + json.message);
+    });
+});
+
+socket.on('addCommentResult', function(result) {
+    console.log(result);
+    $('#messages').html($('#messages').html() + '<br/>' + result);
+});
+
+$('#comment-form').submit(function(e) {
+    e.preventDefault();
+
+    var pollId = (window.location.href).split('/')[4];
+
+    var commentInput = $('#comment-form input[name=comment]');
+    var commentString = commentInput.val();
+    commentInput.val('');
+
+    var comment = {
+        parent_poll_id    : pollId,
+        parent_comment_id : null,
+        message           : commentString
+    };
+
+    //console.log(JSON.stringify(comment));
+    socket.emit('addComment', JSON.stringify(comment));
 });
 
 function drawVoteTime(chart, data, y_scale, yAxis){

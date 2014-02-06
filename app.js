@@ -19,6 +19,7 @@ var passportSocketIo = require("passport.socketio");
 var Poll = require('./schema/pollSchema').Poll;
 var User = require('./schema/userSchema').User;
 var Vote = require('./schema/voteSchema').Vote;
+var Comment = require('./models/comments').Comment;
 
 var help = require('./scripts/help.js');
 var dual = require('./public/js/dualwield.js');
@@ -212,6 +213,38 @@ io.sockets.on('connection', function (client) {
             client.emit('authStatus', client.handshake.user.logged_in, null);
         }
         console.log('auth end');
+    });
+    client.on('getComments', function (pollId) {
+        console.log("Getting comments for pollId: " + pollId);
+
+        Comment.find({ parent_poll_id: pollId }, function(err, result) {
+            //console.log('Result: '+ JSON.stringify(result));
+            console.log(JSON.stringify(result));
+            if (!err) {
+                client.emit('getCommentsResult', JSON.stringify(result));
+            } else {
+                handleError(res, err);
+            }
+        });
+    });
+    client.on('addComment', function(params) {
+        var json = JSON.parse(params);
+        //console.log(json);
+
+        var comment = new Comment({
+            parent_poll_id    : json.parent_poll_id,
+            parent_comment_id : json.parent_comment_id,
+            message           : json.message
+        });
+
+        comment.save(function(err) {
+            if (err) {
+                console.log(err);
+            } else {
+                //io.sockets.in(poll.p_id).emit('commentAdded', comment);
+                client.emit('addCommentResult', JSON.stringify(comment));
+            }
+        });
     });
 });
 

@@ -92,29 +92,13 @@ exports.addComment = function(req, res) {
             if (err) {
                 return handleError(err);
             } else {
-                io.sockets.in(poll.p_id).emit('commentAdded', comment);
-                addCommentToPoll(comment._id);
-
+                //io.sockets.in(poll.p_id).emit('commentAdded', comment);
                 if (req.params.comment_id !== undefined) {
                     addCommentToComment(comment._id);
                 }
             }
         });
         res.send(comment);
-    }
-
-    var addCommentToPoll = function(commentId) {
-        Poll.findOneAndUpdate(
-            { p_id: req.params.poll_id },
-            { $push: { comments: commentId }},
-            function(err, result) {
-                if (!err) {
-                } else {
-                    // TODO We can have inconsistencies if this fails
-                    console.log(err);
-                }
-            }
-        );
     }
 
     var addCommentToComment = function(commentId) {
@@ -150,7 +134,7 @@ exports.deleteComment = function(req, res) {
     Comment.findOneAndRemove({ _id: req.params.comment_id }, function(err, result) {
         if (!err) {
             res.send(204);
-            io.sockets.in(poll.p_id).emit('commentDeleted', result);
+            //io.sockets.in(poll.p_id).emit('commentDeleted', result);
 
             Comment.findOneAndUpdate({ p_id: result.parent_comment_id },
                 { $pull: { comments: result._id } },
@@ -188,7 +172,7 @@ exports.editComment = function(req, res) {
         function(err, result) {
             if (!err) {
                 res.send(result);
-                io.sockets.in(poll.p_id).emit('commentEdited', result);
+                //io.sockets.in(poll.p_id).emit('commentEdited', result);
             } else {
                 handleError(res, err);
             }
