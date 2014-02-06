@@ -9,7 +9,7 @@ if(typeof exports == 'undefined'){
 	    var urlRegex =/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
 	    return {text: _text.replace(urlRegex, function(url) {
 	    	linkarr.push(url);
-			return ('<a href="' + url + '" target="_blank">' + '[link '+(++count)+']' + '</a>');
+			return ('<a href="' + url + '" target="_blank">' + '[Link '+(++count)+']' + '</a>');
 		}), linkarr:linkarr};
 	};
 	exports.averager = function (val, avg, div){//val in ms

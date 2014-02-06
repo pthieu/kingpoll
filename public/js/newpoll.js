@@ -129,6 +129,7 @@ $(document).ready(function() {
         $('#preview_question').text($(this).val());
     });
     $('#prvw_tbDescription').hide();
+    var scraper_timeout;
     $('#tbDescription').on('input', function() {
         //slideup/down desc. position of val important for smooth animation
         if($(this).val().length <= 0){
@@ -142,14 +143,23 @@ $(document).ready(function() {
         var _scrapedtext = "";
         _desctext +=  "<div>Link descriptions:<ol class='link-list'>";
         for(var i in _d.linkarr){
-            scraper(_d.linkarr[i], i, function(results, _i) {  
-                $('.linkpreview[data-value="'+_i+'"]').html(results);
-            });
-            _desctext += "<li class='linkpreview' data-value='"+i+"'>Loading snippet...</li>"
+                // scraper(_d.linkarr[i], i, function(results, _i) {  
+                //     $('.linkpreview[data-value="'+_i+'"]').html(results);
+                // });
+                _desctext += "<li class='linkpreview' data-value='"+i+"'>Waiting for user...</li>"
         }
+        window.clearTimeout(scraper_timeout);
+        scraper_timeout = setTimeout(function(){
+            for(var i in _d.linkarr){
+                scraper(_d.linkarr[i], i, function(results, _i) {  
+                    $('.linkpreview[data-value="'+_i+'"]').html(results);
+                });
+            }
+        }, 5000);
         _desctext += "</ol></div>";
         $('#prvw_tbDescription').html(_desctext);
     });
+
     // grab which simple choice selected
     $('.radio-cb').click(function() {
         $('#preview_question').text($('.radio-cb:checked + label').text());
