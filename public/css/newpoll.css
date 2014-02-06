@@ -261,6 +261,9 @@ textarea{
   border: 1px #aaa solid;
   display:inline-block;
 }
+.linkdesclist{
+  margin-top: 0.25rem;
+}
 
 #submit{
   color:white;

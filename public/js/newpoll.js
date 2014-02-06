@@ -130,6 +130,9 @@ $(document).ready(function() {
     });
     $('#prvw_tbDescription').hide();
     var scraper_timeout;
+    var linkref = [];
+    var linkchanged_flag = false;
+    var linkhtmlref = "";
     $('#tbDescription').on('input', function() {
         //slideup/down desc. position of val important for smooth animation
         if($(this).val().length <= 0){
@@ -140,25 +143,34 @@ $(document).ready(function() {
         }
         var _d = dual.linkify($(this).val());
         var _desctext = _d.text;
+        var _desclinktext = "";
         var _scrapedtext = "";
-        _desctext +=  "<div>Link descriptions:<ol class='link-list'>";
+        _desclinktext +=  "<div class='linkdesclist'><em>Link descriptions:</em><ol class='link-list'>";
         for(var i in _d.linkarr){
-                // scraper(_d.linkarr[i], i, function(results, _i) {  
-                //     $('.linkpreview[data-value="'+_i+'"]').html(results);
-                // });
-                _desctext += "<li class='linkpreview' data-value='"+i+"'>Waiting for user...</li>"
+                if (linkref[i] !== _d.linkarr[i]){
+                    linkref[i] = _d.linkarr[i];
+                    linkchanged_flag = true;
+                }
+                _desclinktext += "<li class='linkpreview' data-value='"+i+"'>Loading link snippet...</li>"
+            linkhtmlref = $('.linkdesclist').html();
         }
-        window.clearTimeout(scraper_timeout);
-        scraper_timeout = setTimeout(function(){
+        if(linkchanged_flag){
             for(var i in _d.linkarr){
                 scraper(_d.linkarr[i], i, function(results, _i) {  
                     $('.linkpreview[data-value="'+_i+'"]').html(results);
+                    linkhtmlref = $('.linkdesclist').html();
                 });
             }
-        }, 5000);
-        _desctext += "</ol></div>";
-        $('#prvw_tbDescription').html(_desctext);
+            linkchanged_flag = false;
+            _desclinktext += "</ol></div>";
+        }
+        else{
+            _desclinktext = "";
+        }
+        $('#prvw_tbDescription').html(_desctext + ((_desclinktext)?_desclinktext:("<div class='linkdesclist'>"+linkhtmlref+"</div>")));
+        _desclinktext = "";
     });
+    
 
     // grab which simple choice selected
     $('.radio-cb').click(function() {
