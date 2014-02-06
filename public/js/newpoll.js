@@ -131,12 +131,14 @@ $(document).ready(function() {
     $('#prvw_tbDescription').hide();
     var scraper_timeout;
     var linkref = [];
-    var linkchanged_flag = false;
+    var linkchanged_flag = {url:false, count:0};
     var linkhtmlref = "";
     $('#tbDescription').on('input', function() {
         //slideup/down desc. position of val important for smooth animation
         if($(this).val().length <= 0){
             $('#prvw_tbDescription').slideUp('fast');
+            $('.linkdesclist').html('')
+            linkhtmlref = "";
         }
         else{
             $('#prvw_tbDescription').slideDown('fast');
@@ -147,27 +149,32 @@ $(document).ready(function() {
         var _scrapedtext = "";
         _desclinktext +=  "<div class='linkdesclist'><em>Link descriptions:</em><ol class='link-list'>";
         for(var i in _d.linkarr){
-                if (linkref[i] !== _d.linkarr[i]){
-                    linkref[i] = _d.linkarr[i];
-                    linkchanged_flag = true;
-                }
-                _desclinktext += "<li class='linkpreview' data-value='"+i+"'>Loading link snippet...</li>"
-            linkhtmlref = $('.linkdesclist').html();
+            if (linkref[i] !== _d.linkarr[i]){
+                linkref[i] = _d.linkarr[i];
+                linkchanged_flag.url = true;
+            }
+            _desclinktext += "<li class='linkpreview' data-value='"+i+"'>Loading link snippet...</li>"
         }
-        if(linkchanged_flag){
+        linkhtmlref = $('.linkdesclist').html();
+        if(linkchanged_flag.url){
             for(var i in _d.linkarr){
                 scraper(_d.linkarr[i], i, function(results, _i) {  
                     $('.linkpreview[data-value="'+_i+'"]').html(results);
                     linkhtmlref = $('.linkdesclist').html();
                 });
             }
-            linkchanged_flag = false;
+            linkchanged_flag.url = false;
             _desclinktext += "</ol></div>";
         }
         else{
             _desclinktext = "";
         }
-        $('#prvw_tbDescription').html(_desctext + ((_desclinktext)?_desclinktext:("<div class='linkdesclist'>"+linkhtmlref+"</div>")));
+        linkhtmlref = (_d.linkarr)?linkhtmlref:"";
+        console.log(linkhtmlref)
+        $('#prvw_tbDescription').html(_desctext + ((_desclinktext)?_desclinktext:
+                                                        ((_d.linkarr)?("<div class='linkdesclist'>"+linkhtmlref+"</div>"):"")
+                                                  )
+                                     );
         _desclinktext = "";
     });
     
