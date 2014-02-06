@@ -139,9 +139,13 @@ $(document).ready(function() {
         }
         var _d = dual.linkify($(this).val());
         var _desctext = _d.text;
-        _desctext +=  "<div>Links:<ol class='link-list'>";
+        var _scrapedtext = "";
+        _desctext +=  "<div>Link descriptions:<ol class='link-list'>";
         for(var i in _d.linkarr){
-            _desctext += "<li>"+_d.linkarr[i]+"</li>"
+            scraper(_d.linkarr[i], i, function(results, _i) {  
+                $('.linkpreview[data-value="'+_i+'"]').html(results);
+            });
+            _desctext += "<li class='linkpreview' data-value='"+i+"'></li>"
         }
         _desctext += "</ol></div>";
         $('#prvw_tbDescription').html(_desctext);
@@ -250,4 +254,26 @@ function shuffle(array) {
   }
 
   return array;
+}
+
+// Accepts a url and a callback function to run.  
+function scraper( _site, _i, _cb ) {
+    var _sitehref = '<a href="'+_site+'" target="_blank">';
+    $.getJSON('http://whateverorigin.org/get?url=' + 
+    encodeURIComponent(_site) + '&callback=?', function(_d){
+        // If we have something to work with...  
+        if ( _d.contents ) {  
+            // Strip out all script tags, for security reasons.  
+            // BE VERY CAREFUL. This helps, but we should do more.   
+            // _d.contents = _d.contents.replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '');
+            _d.contents = _d.contents.replace(/<title[^>]*>(.*?)<\/title>/gi, function(match, $1, offset, original) {
+                _cb(_sitehref+$1+'</a>',_i);
+            });
+        }
+        else{
+            _cb(("Preview not available: "+_sitehref+'</a>'), _i);
+        }
+        // Else, Maybe we requested a site that doesn't exist, and nothing returned.  
+        // else throw new Error('Nothing returned from getJSON.');  
+    });
 }
