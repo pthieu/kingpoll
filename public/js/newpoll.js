@@ -145,7 +145,7 @@ $(document).ready(function() {
             scraper(_d.linkarr[i], i, function(results, _i) {  
                 $('.linkpreview[data-value="'+_i+'"]').html(results);
             });
-            _desctext += "<li class='linkpreview' data-value='"+i+"'></li>"
+            _desctext += "<li class='linkpreview' data-value='"+i+"'>Loading snippet...</li>"
         }
         _desctext += "</ol></div>";
         $('#prvw_tbDescription').html(_desctext);
@@ -259,7 +259,7 @@ function shuffle(array) {
 // Accepts a url and a callback function to run.  
 function scraper( _site, _i, _cb ) {
     var _sitehref = '<a href="'+_site+'" target="_blank">';
-    $.getJSON('http://whateverorigin.org/get?url=' + 
+    var _jsoncall = $.getJSON('http://whateverorigin.org/get?url=' + 
     encodeURIComponent(_site) + '&callback=?', function(_d){
         // If we have something to work with...  
         if ( _d.contents ) {  
@@ -276,4 +276,5 @@ function scraper( _site, _i, _cb ) {
         // Else, Maybe we requested a site that doesn't exist, and nothing returned.  
         // else throw new Error('Nothing returned from getJSON.');  
     });
+    setTimeout(function(){ _jsoncall.abort(); _cb((_sitehref+"Preview not available: "+_site+'</a>'), _i); }, 7000);
 }
