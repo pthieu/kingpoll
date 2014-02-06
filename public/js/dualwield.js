@@ -4,10 +4,13 @@ if(typeof exports == 'undefined'){
 
 (function(exports){
 	exports.linkify = function(_text) {  
+		var count=0;
+		var linkarr=[];
 	    var urlRegex =/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;  
-	    return _text.replace(urlRegex, function(url) {  
-			return '<a href="' + url + '" target="_blank">' + '[link]' + '</a>';  
-		});
+	    return {text: _text.replace(urlRegex, function(url) {
+	    	linkarr.push(url);
+			return ('<a href="' + url + '" target="_blank">' + '[link '+(count++)+']' + '</a>');
+		}), linkarr:linkarr};
 	};
 	exports.averager = function (val, avg, div){//val in ms
     	//val is in ms

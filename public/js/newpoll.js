@@ -8,7 +8,7 @@ $(document).ready(function() {
     //check max choices, insert questionbox and color options
     var add = "<div class='form-group'><table><tbody>";
     for(i=0; i<=nchoice_max; i++){
-        add += ("<tr><td><input type='text' id='c" + (i+1) + "' name='textchoice' maxlength='40'/></td><td>");
+        add += ("<tr><td><input type='text' id='c" + (i+1) + "' name='textchoice' maxlength='40' class='tb form-control right-align'/></td><td>");
         for(j=0; j<colors_hex.length; j++){
             var cc_id = "c" + (i+1) + "_color" + j;
             var cc_class = colors_name[j];
@@ -17,7 +17,7 @@ $(document).ready(function() {
         add += "</td></tr>";
     }
     $('#textchoice').append(add+"</tbody></table>");
-    $('#textchoice').append("<label class='radio' id='rngclr'>Random!</label>");
+    $('#textchoice').append("<label class='radio col-md-offset-7 col-sm-offset-8 col-xs-offset-8' id='rngclr'>Random Color!</label>");
     $('#rngclr').mousedown(function() {
         c_random++;
         rngcolors();
@@ -39,8 +39,8 @@ $(document).ready(function() {
     $('input[name="nchoice"]').click(function(){
         if($(this).prop('disabled') === false){
             nchoice_pick = parseInt($(this).data('text'));
-            $('#textchoice div:gt('+(nchoice_pick-1)+')').fadeOut('fast');
-            $('#textchoice div:lt('+nchoice_pick+')').fadeIn('fast');
+            $('#textchoice tr:gt('+(nchoice_pick-1)+')').fadeOut('fast');
+            $('#textchoice tr:lt('+nchoice_pick+')').fadeIn('fast');
             $('#rngclr').css("visibility","visible");
             // $('input[name="textchoice"]:visible').attr('required', true);
             // setTimeout(function () {
@@ -137,7 +137,14 @@ $(document).ready(function() {
         else{
             $('#prvw_tbDescription').slideDown('fast');
         }
-        $('#prvw_tbDescription').html(dual.linkify($(this).val()));
+        var _d = dual.linkify($(this).val());
+        var _desctext = _d.text;
+        _desctext +=  "<div>Links:<ol class='link-list'>";
+        for(var i in _d.linkarr){
+            _desctext += "<li>"+_d.linkarr[i]+"</li>"
+        }
+        _desctext += "</ol></div>";
+        $('#prvw_tbDescription').html(_desctext);
     });
     // grab which simple choice selected
     $('.radio-cb').click(function() {

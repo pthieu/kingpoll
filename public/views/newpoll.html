@@ -15,22 +15,22 @@
   <div id='dash'></div>
   <div id='wrapper' class='container'>
     <form method="post" id='newpoll' class='form-horizontal' role='form'>
-      <div class="col-sm-offset col-md-9 col-md-offset-2 col-lg-8 form-horizontal">
         <div id='template' class='radio'>
           <input id='template1' type='radio' name='template_choice' value='1' /><label for="template1">Yes/No</label><!-- <input id='template2' type='radio' name='template_choice' value='2' /><label for="template2">Simple</label> --><input id='template3' type='radio' name='template_choice' value='3'/><label for="template3">Custom</label>
         </div>
+      <div class="">
         <div id='newpollopt'>
           <div class='radio nchoice'>
             <div>How many options to vote for?</div>
             <input id='nchoice2' type='radio' name='nchoice' data-text='2' value='2' /><label for="nchoice2" class="nchoice-label">2</label><input id='nchoice3' type='radio' name='nchoice' data-text='3' value='3' /><label for="nchoice3" class="nchoice-label">3</label><input id='nchoice4' type='radio' name='nchoice' data-text='4' value='4' /><label for="nchoice4" class="nchoice-label">4</label><input id='nchoice5' type='radio' name='nchoice' data-text='5' value='5' /><label for="nchoice5" class="nchoice-label">5</label><input id='nchoice6' type='radio' name='nchoice' data-text='6' value='6' /><label for="nchoice6" class="nchoice-label">6</label>
           </div>
           <div id='textconfig'>
-            <label for="textchoice" class="col-sm-2 control-label">Options & Color:</label>
-            <div id='textchoice' class='radio form-control'></div>
+            <label for="textchoice" class="control-label">Options & Color:</label>
+            <div id='textchoice' class='radio'></div>
           </div>
         </div>
       </div>
-      <div class='col-sm-11 col-md-10 col-md-offset-1 col-lg-9 col-lg-offset-1'>
+      <div class='col-xs-12 col-sm-12 col-md-11 col-md-offset-0 col-lg-9 col-lg-offset-1'>
         <div id='custom' class='form-group'>
           <!-- <textarea id='custom_question' name="question" class="tb" maxlength='140' required></textarea><div><span>Left: 140</span></div> -->
           <label for="custom_question" class="col-sm-2 control-label">Question:</label>
@@ -51,7 +51,7 @@
           </div>
         </div>
       </div>
-      <div class='col-md-10 col-sm-10 col-xs-10 col-lg-10'>
+      <div class='col-md-12 col-sm-12 col-xs-12 col-lg-12'>
         <div class='form-group'>
           <div id='preview'>Preview:
             <div id='preview_question'></div>
@@ -60,7 +60,7 @@
           </div>
         </div>
       </div>
-      <div id='makepoll'>
+      <div id='makepoll' class='col-md-12 col-sm-12 col-xs-12 col-lg-12'>
         <button type='submit' id='submit'>Make Poll!</button>
       </div>
     </form>

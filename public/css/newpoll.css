@@ -6,9 +6,11 @@ label{
     -ms-user-select: none;
     user-select: none;
 }
-
 #wrapper>div{
   font-size: 1.5rem;
+}
+.right-align{
+  text-align: right;
 }
 .radio{
   padding-left:0;
@@ -42,26 +44,16 @@ input[name="nchoice"] + label::after, input[name="template_choice"] + label::aft
   -o-transform: rotate(-45deg);
   transform: rotate(-45deg);
 }
-input[name="nchoice"] + label::after{
-      left: 37%;
-}
-
-#textconfig>div{
-  display:inline-block;
-  margin:0;
-  padding:0;
-}
 #textconfig tr{
-  margin: 20px;
-line-height: inherit;
+  padding:0;
+  margin:0;
+  line-height: 0;
 }
 
 input[name="textchoice"]{
-  margin-right: 0.25rem;
+  margin-right: 0.5rem;
   position:relative;
   display:inline-block;
-  font-size:1.25rem;
-  border: 1px #aaa solid;
 }
 #textchoice label:not(#rngclr){
   margin:0;
@@ -73,7 +65,8 @@ input[name="textchoice"]{
   display:none;
 }
 #textchoice div{
-  display:none;
+  margin:auto;
+  display:inline-block;
 }
 .colorchoice-label:hover{
     -webkit-transform: translateY(-0.3rem);
@@ -83,11 +76,11 @@ input[name="textchoice"]{
     transform: translateY(-0.3rem);
 }
 #rngclr{
-  font-size: 1.5rem;
+  font-size: 1.3rem;
+  line-height: 1;
   font-weight: bold;
-  float: right;
   display: table;
-  padding: 1rem;
+  padding: 0.75rem;
   background-color: red;
   visibility: collapse;
 }
@@ -164,7 +157,7 @@ input[name="textchoice"]{
     100% {left: 3rem;}
 }
 
-#yesno, #simple {
+/*#yesno, #simple {
   display: none; 
 }
 #simple input{
@@ -175,7 +168,7 @@ input[name="textchoice"]{
   width: 32rem;
   margin: auto;
 }
-
+*/
 #custom_question{
     /*resize: none;
     width: 30rem;
