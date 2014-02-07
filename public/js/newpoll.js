@@ -170,7 +170,9 @@ $(document).ready(function() {
         else{
             _desclinktext = "";
         }
-        linkhtmlref = (_d.linkarr)?linkhtmlref:"";
+        linkhtmlref = (_d.linkarr.length>=1)?linkhtmlref:"";
+        console.log(_d.linkarr)
+        console.log(_d.linkarr.length)
         console.log(linkhtmlref)
         $('#prvw_tbDescription').html(_desctext + ((_desclinktext)?_desclinktext:
                                                         ((_d.linkarr)?("<div class='linkdesclist'>"+linkhtmlref+"</div>"):"")
