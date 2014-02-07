@@ -30,6 +30,8 @@ var userSchema = new mongoose.Schema({
     's_tmin'    : {type:Number, default:0}, //lowest voting time stat
     's_cred'    : {type:Number, default:50}, //user credibility stat 0-100%
     's_credpt'  : {type:Number, default:0}, //user credibility points stat
+    'u_thirdId' : {type:String, unique:true}, //This is used to store the third party Id for users login via FB or Twitter
+    'u_thirdParty': {type:String}, //determine if account is FB or twitter
     // 'a_badges'   : [{type: Number}] //user individual achievements
 });
 
@@ -37,7 +39,7 @@ var userSchema = new mongoose.Schema({
 userSchema.pre('save', function(next) {
         var user = this;
 
-        if(!user.isModified('u_password')) return next();
+        if(!user.isModified('u_password') || user.u_thirdParty.equals("facebook")) return next();
 
         var saltval = salt.generate_salt();
         user.u_salt = saltval;

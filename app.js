@@ -69,6 +69,10 @@ app.get('/login', userRoute.getlogin);
 app.post('/login', userRoute.postlogin);
 app.get('/logout', userRoute.logout);
 
+app.get('/auth/facebook', passport.authenticate('facebook'));
+
+app.get('/auth/facebook/callback', 
+  passport.authenticate('facebook', { successRedirect: '/', failureRedirect: '/signup' }));
 
 http.listen(appPort);
 console.log('listening on port: ' + appPort);
