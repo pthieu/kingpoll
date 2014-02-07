@@ -264,6 +264,9 @@ textarea{
 .linkdesclist{
   margin-top: 0.25rem;
 }
+iframe, object, embed {
+        max-width: 100%;
+}
 
 #submit{
   color:white;

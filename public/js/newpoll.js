@@ -156,7 +156,7 @@ $(document).ready(function() {
             _desclinktext += "<li class='linkpreview' data-value='"+i+"'>Loading link snippet...</li>"
         }
         linkhtmlref = $('.linkdesclist').html();
-        if(linkchanged_flag.url){
+        if(linkchanged_flag.url || linkchanged_flag.count !== _d.linkarr.length){
             for(var i in _d.linkarr){
                 scraper(_d.linkarr[i], i, function(results, _i) {  
                     $('.linkpreview[data-value="'+_i+'"]').html(results);
@@ -165,6 +165,7 @@ $(document).ready(function() {
             }
             linkchanged_flag.url = false;
             _desclinktext += "</ol></div>";
+            linkchanged_flag.count = _d.linkarr.length;
         }
         else{
             _desclinktext = "";
@@ -186,6 +187,13 @@ $(document).ready(function() {
 
     $('textarea, input').on('change keydown keypress keyup',function() {
         $(this).next().find('span').text("Left: "+($(this).attr('maxlength')-$(this).val().length));
+    });
+
+    $('label').click(function () {
+        var _embed = dual.embedify($('#embed-link').val());
+        if (_embed){
+            $('.embed').html(_embed);
+        }
     });
 
     //submit
