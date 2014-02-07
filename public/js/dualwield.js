@@ -3,7 +3,7 @@ if(typeof exports == 'undefined'){
 }
 
 (function(exports){
-  exports.linkify = function(_text) {  
+  exports.linkify = function(_text, _format) {  
     var count=0;
     var linkarr=[];
     var urlRegex =/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
@@ -11,7 +11,7 @@ if(typeof exports == 'undefined'){
     _text = _text.replace(/\r?\n/g, '<br />');
     return {text: _text.replace(urlRegex, function(url) {
       linkarr.push(url);
-      return ('<a href="' + url + '" target="_blank">' + '[Link '+(++count)+']' + '</a>');
+      return ('<a href="' + url + '" target="_blank">' + ((_format===1)?url:('[Link '+(++count)+']')) + '</a>');
     }), linkarr:linkarr};
   };
   exports.embedify = function(_text) {

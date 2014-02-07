@@ -52,7 +52,7 @@ $(document).ready(function() {
     //adds the preview buttons
     //this removes all preview buttons, then adds then again
     $('input[name="nchoice"]').click(function() {
-            $('#preview div *').remove();
+            $('#preview div:not(.embed-wrap) *').remove();
             for (i=0; i<nchoice_pick; i++){
             $('#preview .radio').append('<input id="preview_c'+ (i+1) +'" type="radio" name="preview_btn" /><label for="preview_c'+ (i+1) +'" class="grey"><div><div>'+$('#c'+(i+1)).val()+'</div></div></label>');
         }
@@ -171,9 +171,6 @@ $(document).ready(function() {
             _desclinktext = "";
         }
         linkhtmlref = (_d.linkarr.length>=1)?linkhtmlref:"";
-        console.log(_d.linkarr)
-        console.log(_d.linkarr.length)
-        console.log(linkhtmlref)
         $('#prvw_tbDescription').html(_desctext + ((_desclinktext)?_desclinktext:
                                                         ((_d.linkarr)?("<div class='linkdesclist'>"+linkhtmlref+"</div>"):"")
                                                   )
@@ -191,10 +188,22 @@ $(document).ready(function() {
         $(this).next().find('span').text("Left: "+($(this).attr('maxlength')-$(this).val().length));
     });
 
-    $('label').click(function () {
-        var _embed = dual.embedify($('#embed-link').val());
-        if (_embed){
-            $('.embed').html(_embed);
+    var embedref = "";
+    var embedtimeout;
+    $('#embed-link').on('input', function () {
+        var embedinput = $('#embed-link').val().split(' ')[0];
+        var _embed = dual.embedify(embedinput);
+        if (_embed && embedref !== embedinput){
+            clearTimeout(embedtimeout);
+            embedtimeout = setTimeout(function () {
+                $('.embed').html(_embed);
+            }, 1111);
+            embedref = embedinput;
+            $('.embed-href').html((dual.linkify(embedinput,1)).text);
+        }
+        else if(!_embed){
+            $('.embed-href').html('');
+            $('.embed').html('');
         }
     });
 
