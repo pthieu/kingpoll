@@ -190,8 +190,9 @@ $(document).ready(function() {
 
     var embedref = "";
     var embedtimeout;
+    var embedinput
     $('#embed-link').on('input', function () {
-        var embedinput = $('#embed-link').val().split(' ')[0];
+        embedinput = $('#embed-link').val().split(' ')[0];
         var _embed = dual.embedify(embedinput);
         if (_embed && embedref !== embedinput){
             clearTimeout(embedtimeout);
@@ -204,6 +205,7 @@ $(document).ready(function() {
         else if(!_embed){
             $('.embed-href').html('');
             $('.embed').html('');
+            embedinput = '';
         }
     });
 
@@ -244,6 +246,7 @@ $(document).ready(function() {
                         'textchoice': post_textchoice,
                         'c_random': c_random,
                         'p_q': post_question,
+                        'p_embed': embedinput,
                         'p_desc': post_description
                 },
                 dataType: "html"

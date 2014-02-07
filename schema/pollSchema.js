@@ -12,6 +12,7 @@ var pollSchema = new mongoose.Schema({
     'p_cat'     : [{type:String}], //poll categories i.e. top10, general, fuck, gaming
     'p_tag'     : [{type:String}], //poll #tags for twitter
     'p_q'       : {type:String, required: true, default:"OP forgot question."}, //poll question
+    'p_embed'   : {type:String}, //embed link
     'p_desc'    : {type:String}, // poll description
     'p_total'   : {type:Number, default:0}, //votes total used for top100 later on
     //vote choice param
