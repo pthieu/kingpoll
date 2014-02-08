@@ -344,7 +344,10 @@ $(document).ready(function(){
             if(data.p_desc){
                 $('#tbDescription').show();
             }
-            $('.tbDescription').html(data.p_desc);
+            $('.tbDescription').html(dual.linkify(data.p_desc).text);
+            if(data.p_embed){
+                
+            }
             $('#question').html(data.p_q);
 
 //PIE CHANGES

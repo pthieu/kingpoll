@@ -21,6 +21,9 @@
   display       : none;
   border-bottom : 1px #ddd solid;
 }
+iframe, object, embed {
+        max-width: 100%;
+}
 
 #signup_box input{
   border : 1px solid #ddd;
