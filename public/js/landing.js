@@ -47,11 +47,21 @@ $(document).ready(function(){
                 </tr>');
             var tmpdesc = (poll[i].p_desc) ? poll[i].p_desc : "Poll King did not provide a description.";
             var th_colspan = $('thead tr td').length;
-            $('#polls-wrap').append('<td colspan="'+(th_colspan+1)+'" style="display:none"><div class="polldesc" style="display: none" poll-id='+poll[i].p_id+'>'+tmpdesc+'</div></td>');
+            var _embeddata = poll[i].p_embed;
+            $('#polls-wrap').append('<td colspan="'+(th_colspan+1)+'"><div class="polldesc" style="display: none" poll-id='+poll[i].p_id+" "+((_embeddata)?("embed-data=\""+_embeddata+"\""):"")+'>'+tmpdesc+'</div></td>');
         }
+        $('.polldesc').each(function () {
+            $(this).html("<div>"+dual.linkify($(this).html()).text+"</div>")
+        });
         $('.poll *:not(a)').click(function () {
-            $('.polldesc[poll-id='+$(this).parent().attr('poll-id')+']').parent().slideToggle(100);
-            $('.polldesc[poll-id='+$(this).parent().attr('poll-id')+']').slideToggle(100);
+            $('.polldesc[poll-id='+$(this).parent().attr('poll-id')+']').slideToggle(100,"",function () {
+                if ($(this).is(':visible') && $(this).attr('data-loaded') !== 'true'){
+                    if($(this).attr("embed-data")){
+                        $(this).append("<div class='embed'>"+dual.embedify($(this).attr("embed-data"))+"</div>");
+                    }
+                    $(this).attr('data-loaded','true');
+                }
+            });
         });
         // $('#polls-wrap .btn').css({'color':'#'+solocolor});
     });
