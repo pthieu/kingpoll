@@ -84,6 +84,7 @@ exports.newpoll = function(req, res) {
         _id: new_pid,
         't_created': new_pid.getTimestamp(),
         'p_q': req.body.p_q,
+        'p_embed': req.body.p_embed.split(' ')[0],
         'p_desc': req.body.p_desc,
         'c_n': req.body.c_n,
         't_created': new_pid.getTimestamp(),
