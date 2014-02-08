@@ -40,10 +40,10 @@
 }
 .poll{
   cursor: pointer;
+  border: none;
 }
 .polldesc{
   padding: 0.5rem;
-  border-top: 1px solid #ddd;
   text-align: justify;
 }
 .embed-wrap{
