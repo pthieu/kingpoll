@@ -343,10 +343,13 @@ $(document).ready(function(){
             }
             if(data.p_desc){
                 $('#tbDescription').show();
+                $('.tbDescription').html(dual.linkify(data.p_desc).text);
             }
-            $('.tbDescription').html(dual.linkify(data.p_desc).text);
             if(data.p_embed){
-                
+                $('.embed-wrap').show();
+                console.log(data.p_embed)
+                $('.embed-href').html(dual.linkify(data.p_embed,1).text);
+                $('.embed').html(dual.embedify(data.p_embed));
             }
             $('#question').html(data.p_q);
 

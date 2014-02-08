@@ -7,6 +7,7 @@ if(typeof exports == 'undefined'){
     var count=0;
     var linkarr=[];
     var urlRegex =/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+    console.log(_text);
     _text = _text.replace(/(<([^>]+)>)/ig,"");
     _text = _text.replace(/\r?\n/g, '<br />');
     return {text: _text.replace(urlRegex, function(url) {
