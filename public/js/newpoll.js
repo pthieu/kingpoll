@@ -158,7 +158,7 @@ $(document).ready(function() {
         linkhtmlref = $('.linkdesclist').html();
         if(linkchanged_flag.url || linkchanged_flag.count !== _d.linkarr.length){
             for(var i in _d.linkarr){
-                scraper(_d.linkarr[i], i, function(results, _i) {  
+                dual.scraper(_d.linkarr[i], i, function(results, _i) {  
                     $('.linkpreview[data-value="'+_i+'"]').html(results);
                     linkhtmlref = $('.linkdesclist').html();
                 });
@@ -307,33 +307,3 @@ function shuffle(array) {
   return array;
 }
 
-// Accepts a url and a callback function to run.  
-function scraper( _site, _i, _cb ) {
-    var _sitehref = '<a href="'+_site+'" target="_blank">';
-    // var _timeout = setTimeout(function(){ _jsoncall.abort(); _cb((_sitehref+"Preview not available: "+_site+'</a>'), _i); }, 7000);
-    var _url = 'http://whateverorigin.org/get?url=' + encodeURIComponent(_site) + '&callback=?';
-    var _jsoncall = $.ajax({
-        url: _url, 
-        dataType: 'json',
-        success: function(_d){
-            // If we have something to work with...  
-            if ( _d.contents ) {  
-                // Strip out all script tags, for security reasons.  
-                // BE VERY CAREFUL. This helps, but we should do more.   
-                // _d.contents = _d.contents.replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '');
-                _d.contents = _d.contents.replace(/<title[^>]*>(.*?)<\/title>/gi, function(match, $1, offset, original) {
-                    _cb(_sitehref+$1+'</a>',_i);
-                });
-            }
-            else{
-                _cb((_sitehref+"Preview not available: "+_site+'</a>'), _i);
-            }
-            // Else, Maybe we requested a site that doesn't exist, and nothing returned.  
-            // else throw new Error('Nothing returned from getJSON.');  
-        },
-        error: function (qXHR, status, errorThrown) {
-            _cb((_sitehref+"Preview not available: "+_site+'</a>'), _i);
-        },
-        timeout: 7000
-    });
-}

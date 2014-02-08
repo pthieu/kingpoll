@@ -7,7 +7,6 @@ if(typeof exports == 'undefined'){
     var count=0;
     var linkarr=[];
     var urlRegex =/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
-    console.log(_text);
     _text = _text.replace(/(<([^>]+)>)/ig,"");
     _text = _text.replace(/\r?\n/g, '<br />');
     return {text: _text.replace(urlRegex, function(url) {
@@ -44,6 +43,36 @@ if(typeof exports == 'undefined'){
     }
     return (_embed)?_embed:"";
   };
+  // Accepts a url and a callback function to run.  
+  exports.scraper = function( _site, _i, _cb ) {
+      var _sitehref = '<a href="'+_site+'" target="_blank">';
+      // var _timeout = setTimeout(function(){ _jsoncall.abort(); _cb((_sitehref+"Preview not available: "+_site+'</a>'), _i); }, 7000);
+      var _url = 'http://whateverorigin.org/get?url=' + encodeURIComponent(_site) + '&callback=?';
+      var _jsoncall = $.ajax({
+          url: _url, 
+          dataType: 'json',
+          success: function(_d){
+              // If we have something to work with...  
+              if ( _d.contents ) {  
+                  // Strip out all script tags, for security reasons.  
+                  // BE VERY CAREFUL. This helps, but we should do more.   
+                  // _d.contents = _d.contents.replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '');
+                  _d.contents = _d.contents.replace(/<title[^>]*>(.*?)<\/title>/gi, function(match, $1, offset, original) {
+                      _cb(_sitehref+$1+'</a>',_i);
+                  });
+              }
+              else{
+                  _cb((_sitehref+"Preview not available: "+_site+'</a>'), _i);
+              }
+              // Else, Maybe we requested a site that doesn't exist, and nothing returned.  
+              // else throw new Error('Nothing returned from getJSON.');  
+          },
+          error: function (qXHR, status, errorThrown) {
+              _cb((_sitehref+"Preview not available: "+_site+'</a>'), _i);
+          },
+          timeout: 7000
+      });
+  }
   exports.averager = function (val, avg, div){//val in ms
       //val is in ms
       return Math.round(((avg*div)+val/1000)/(div+1)*1000)/1000;

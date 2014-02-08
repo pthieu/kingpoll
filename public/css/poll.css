@@ -21,6 +21,12 @@
   display       : none;
   border-bottom : 1px #ddd solid;
 }
+.linkdesclist{
+  margin-top: 0.25rem;
+}
+.linkdesclist ol{
+  padding-left: 3rem;
+}
 iframe, object, embed {
         max-width: 100%;
 }

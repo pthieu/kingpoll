@@ -343,7 +343,18 @@ $(document).ready(function(){
             }
             if(data.p_desc){
                 $('#tbDescription').show();
-                $('.tbDescription').html(dual.linkify(data.p_desc).text);
+                var _d = dual.linkify(data.p_desc);
+                $('.tbDescription').html(_d.text);
+                var _desclinktext = "<div class='linkdesclist'><em>Link descriptions:</em><ol class='link-list'>";
+                for(var i in _d.linkarr){
+                    _desclinktext += "<li class='linkpreview' data-value='"+i+"'>Loading link snippet...</li>"
+                    dual.scraper(_d.linkarr[i], i, function(results, _i) {  
+                        $('.linkpreview[data-value="'+_i+'"]').html(results);
+                        linkhtmlref = $('.linkdesclist').html();
+                    });
+                }
+                _desclinktext += "</ol></div>";
+                $('.tbDescription').append(_desclinktext);
             }
             if(data.p_embed){
                 $('.embed-wrap').show();
