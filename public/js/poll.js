@@ -355,6 +355,7 @@ $(document).ready(function(){
                 }
                 _desclinktext += "</ol></div>";
                 $('.tbDescription').append(_desclinktext);
+                ($('.linkpreview').length!==0)?(function () {$('.linkdesclist').show();})():null;
             }
             if(data.p_embed){
                 $('.embed-wrap').show();

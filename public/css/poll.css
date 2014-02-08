@@ -23,6 +23,7 @@
 }
 .linkdesclist{
   margin-top: 0.25rem;
+  display: none;
 }
 .linkdesclist ol{
   padding-left: 3rem;
