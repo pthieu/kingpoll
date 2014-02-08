@@ -33,9 +33,11 @@ if(typeof exports == 'undefined'){
           case "youtube.com":
             var _id = _url.split('v=')[1];
             _embed = (_id)?'<iframe width="'+_w+'" height="'+_h+'" src="//www.youtube.com/embed/'+_id+'" frameborder="0" allowfullscreen></iframe>':"";
-          break;
-          case "twich.tv":
-          break;
+            break;
+          case "twitch.tv":
+            var _id = _url.split('www.twitch.tv/')[1];
+            _embed = (_id)?'<object type="application/x-shockwave-flash" height="'+_h+'" width="'+_w+'" id="live_embed_player_flash" data="http://www.twitch.tv/widgets/live_embed_player.swf?channel='+_id+'" bgcolor="#000000"><param name="allowFullScreen" value="true" /><param name="allowScriptAccess" value="always" /><param name="allowNetworking" value="all" /><param name="movie" value="http://www.twitch.tv/widgets/live_embed_player.swf" /><param name="flashvars" value="hostname=www.twitch.tv&channel='+_id+'&auto_play=false&start_volume=25" /></object>':"";
+            break;
         }
       }
     }
