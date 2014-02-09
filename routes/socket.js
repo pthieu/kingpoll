@@ -6,6 +6,8 @@ var shortid = require('shortid');
 var help = require('../scripts/help.js');
 var email = require('../scripts/email.js');
 
+var ObjectId = require('mongoose').Types.ObjectId; 
+
 exports.getVoted = function (data, client) {
     Poll.findOne({'p_id': data.p_id}, function (err, poll) {
         Vote.findOne({u_email: data.u_email, p_id: poll._id}, function (err, vote) {
@@ -108,6 +110,26 @@ exports.vote = function (dataVote, client, io) {
                 //emit fail and tell user to re log
                 console.log('Vote has no email');
                 client.emit("voteNoEmail");
+            }
+        }
+    });
+}
+exports.getValidationList = function (_data, client, io) {
+    var email = _data.u_id;
+    User.findOne({'u_email':email}, function (err, users) {
+        //check if user not registered (v_left = -1 for registered)
+        if(users.v_left > 0){
+            for(i in users.u_salt){
+                Vote.find({'v_valid':users.u_salt[i]},{'_id':1,'p_id':1,'v_valid':1,'v_text':1,'v_date':1,'v_anon':1}, function (err, votes) {
+                    //check just in case if vote exists
+                    if(votes){
+                        for(i in votes){
+                            Poll.findOne({'_id':votes[i].p_id}, {'p_q':1, 'p_id':1, '_id':0}, function (err, _poll) {
+                                client.emit('setVoteGroup', {votegroup:votes[i], poll:_poll});
+                            });
+                        }
+                    }
+                });
             }
         }
     });

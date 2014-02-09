@@ -12,5 +12,5 @@ $(document).ready(function() {
     console.log(u_id);
     console.log(v_id);
 
-    socket.emit('getValidationList',{g_id:g_id, u_id:u_id, u_id:u_id});
+    socket.emit('getValidationList',{'g_id':g_id, 'u_id':u_id, 'u_id':u_id});
 });

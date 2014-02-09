@@ -13,7 +13,8 @@ var voteSchema = new mongoose.Schema({
     'v_hex'     : {type:String},
     'v_text'    : {type:String},
     'v_date'    : {type:Date},
-    'v_valid'   : {type:String, default: 'false'}, //for non-reg users, false:check for confirm true:good, using string because might at statuses later
+    'v_valid'   : {type:String, default: 'false'},  //for non-reg users, false:check for confirm true:good, 
+                                                    //if string is a hash, this value is used for validation purposes
     's_vtime'   : {type:Number, default: 0} //how long user took to vote
 });
 

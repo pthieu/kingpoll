@@ -1,8 +1,7 @@
 //process.env.PORT for server port
 var appPort =  process.env.PORT || process.env.VCAPP_APP_PORT || 8888;
 
-var express = require('express'), app = express();
-var expressValidator = require('express-validator');
+var express = require('express'), app = express();var expressValidator = require('express-validator');
 var http = require('http').createServer(app);
 var io = require('socket.io').listen(http);
 var UUID = require('node-uuid');
@@ -205,18 +204,8 @@ io.sockets.on('connection', function (client) {
         socket.getVoted(data, client);
     });
     //validation
-    client.on('getgetValidationList', function (_data) {
-        User.findOne({_id:u_id}, function (_user) {
-            //check if user not registered
-            console.log(_user);
-            if(!_user.u_password){
-                for(i in _user.u_salt){
-                    Vote.find({},{_id:1,}, function (_vote) {
-                        console.log(_vote);
-                    });
-                }
-            }
-        });
+    client.on('getValidationList', function (data) {
+        socket.getValidationList(data, client, io);
     });
     client.on('disconnect', function (iploc) {
         client.leave(pollid);
