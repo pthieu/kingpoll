@@ -36,6 +36,7 @@ exports.vote = function (dataVote, client, io) {
                 'v_choice'  : dataVote.v_choice,
                 'v_hex'     : dataVote.v_hex,
                 'v_text'    : dataVote.v_text,
+                'v_date'    : new_vid.getTimestamp(),
                 's_vtime'   : dataVote.s_vtime
             });
             var voted = {};

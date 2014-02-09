@@ -1,5 +1,6 @@
 var socket = io.connect();
 var tmp = colors_hex[randColor(colors_hex)];
+var date;
 
 $(document).ready(function() {
     var code = (window.location.href).split('/')[4];
@@ -8,14 +9,10 @@ $(document).ready(function() {
     var g_id = dual.getURLParameter('g');
     var u_id = dual.getURLParameter('u');
     var v_id = dual.getURLParameter('v');
-    console.log(g_id);
-    console.log(u_id);
-    console.log(v_id);
 
     socket.emit('getValidationList',{'g_id':g_id, 'u_id':u_id, 'u_id':u_id});
     socket.on('setVoteGroup', function (_data) {
-    	console.table(_data)
-    	var v_date = $.now();
+    	var v_date = new Date(_data.vote.v_date);
     	$('.validation-list').append(
     		'<tr>'+
     		'<td class="right-align"><a href="/p/'+_data.poll.p_id+'" target="_blank">'+_data.poll.p_q+'</a></td>'+
@@ -27,6 +24,7 @@ $(document).ready(function() {
     		'<td>'+v_date+'</td>'+
     		'</tr>'
 		);
+		if(_data.vote.v_date){date=_data.vote.v_date}
 		$('.radio-cb-label').css({'color': "#"+tmp,'border-color': "#"+tmp});
     });
 });
