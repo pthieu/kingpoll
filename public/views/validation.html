@@ -5,47 +5,54 @@
   <meta name="viewport" content="width=device-width">
   <title>kingpoll.</title>
   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" type="text/css" />
-    <link rel="stylesheet" href="/flat-ui/jquery-ui-1.10.3.custom.min.css" type="text/css" />
-    <link rel="stylesheet" href="/css/layout.css" type="text/css" />
-    <link rel="stylesheet" href="/css/validation.css" type="text/css" />
-    <link rel="stylesheet" href="/css/dash.css" type="text/css" />
-    <link rel="stylesheet" href="/css/footer.css" type="text/css" />
+  <link rel="stylesheet" href="/flat-ui/jquery-ui-1.10.3.custom.min.css" type="text/css" />
+  <link rel="stylesheet" href="/css/layout.css" type="text/css" />
+  <link rel="stylesheet" href="/css/radiobutton.css" type="text/css" />
+  <link rel="stylesheet" href="/css/validation.css" type="text/css" />
+  <link rel="stylesheet" href="/css/dash.css" type="text/css" />
+  <link rel="stylesheet" href="/css/footer.css" type="text/css" />
 </head>
 <body>
   <div id='dash'></div>
-  <div id='wrapper'>
+  <div id='wrapper' class='container-fluid'>
     <div id='branding'>
       <span id='nameLogo'>kingpoll.</span><div id='wrapLogo'><img src="/images/kingstache_666.png" alt="There's a poll for that." id='imgLogo'></div>
       <br/><!-- <span id='slogan'>There's a poll for that.</span> -->
     </div>
-    <div class='card'>
-      <div class='card-head'>Thanks for Voting!</div>
-      <div class='card-text'>Sign up to track your votes and get cred! You also get rid of these annoying validation e-mails!</div>
-      <div class='card-text'><a href="/signup"><label class='btnSolo'>Signup!</label></div></a>
-    </div>
-    <div class='card container'>
-      <div class='card-text'>Select which votes to validate. The rest will be deleted when you click submit:</div>
-      <div class="table-responsive">
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <td><b>Question</b></td>
-              <td><b>Your Vote</b></td>
-              <td><b>Date Voted</b></td>
-            </tr>
-            <tbody class='validation-list'>
-              
-            </tbody>
-          </thead>
-        </table>
+    <div class='col-sm-8 col-sm-offset-2 row'>
+      <div class='card'>
+        <div class='card-head'>Thanks for Voting!</div>
+        <div class='card-text'>Sign up to track your votes and get cred! You also get rid of these annoying validation e-mails!</div>
+        <div class='card-text'><a href="/signup"><label class='btnSolo'>Signup!</label>
+        </a></div>
       </div>
-<!--       <div id='polls' class='card-text card-list'>
-        <ul>
-          <li>1</li>
-          <li>2</li>
-          <li>3</li>
-        </ul>
-      </div> -->
+    </div>
+    <div class='col-sm-10 col-sm-offset-1 row'>
+      <div class='card'>
+        <div class='card-text'>Select which votes to validate. The rest will be deleted when you click submit:</div>
+        <div>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <td><b>Question</b></td>
+                <td><b>Your Vote</b></td>
+                <td><b>Verify</b></td>
+                <td><b>Delete</b></td>
+                <td><b>Date Voted</b></td>
+              </tr>
+              <tbody class='validation-list'>
+              </tbody>
+            </thead>
+          </table>
+        </div>
+  <!--       <div id='polls' class='card-text card-list'>
+          <ul>
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+          </ul>
+        </div> -->
+      </div>
     </div>
   </div>
   <div class="navbar navbar-inverse navbar-bottom">

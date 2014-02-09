@@ -8,7 +8,7 @@
 .card {
   position:relative;
   width:100%;
-  max-width: 40rem;
+  /*max-width: 40rem;*/
   margin: 2rem auto;
   background: white;
   box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.1);
@@ -50,4 +50,38 @@
 }
 .btnSolo:active{
   opacity:1;
+}
+.right-align{
+  text-align: right;
+}
+.left-align{
+  text-align: left;
+}
+.radio-cb-label{
+  width:auto;
+  margin:0;
+}
+td{
+  vertical-align: middle !important;
+}
+.cb{
+  padding-left: 0rem !important;
+  padding-right: 0rem !important;
+  width:0.1rem;
+}
+.radio-cb-label::before{
+  top:-0.8rem;
+}
+.radio-cb-label::after{
+  border:0.6rem solid;
+  border-top:none;
+  border-left:none;
+  width: 1.38rem;
+  height: 2rem;
+  left:0;
+  top:-1.7rem;
+}
+
+.row:last-of-type{
+  margin-bottom:5rem;
 }

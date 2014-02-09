@@ -70,7 +70,9 @@ label{
     left:1em;
     border: 1px black solid;
 }
-
+.radio-cb{
+  display:none;
+}
 .radio-cb:checked + .radio-cb-label::after{
   opacity:1;
 }
@@ -98,6 +100,7 @@ label{
 }
 .radio-cb-label::after{
   content:"";
+  color:inherit;
   position: absolute;
   padding: 0;
   width: 1.5rem;
