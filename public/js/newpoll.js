@@ -8,7 +8,7 @@ $(document).ready(function() {
     //check max choices, insert questionbox and color options
     var add = "<div class='form-group'><table><tbody>";
     for(i=0; i<=nchoice_max; i++){
-        add += ("<tr><td><input type='text' id='c" + (i+1) + "' name='textchoice' maxlength='40' class='tb form-control right-align'/></td><td>");
+        add += ("<tr><td><input type='text' id='c" + (i+1) + "' name='textchoice' maxlength='40' class='tb form-control right-align' required/></td><td>");
         for(j=0; j<colors_hex.length; j++){
             var cc_id = "c" + (i+1) + "_color" + j;
             var cc_class = colors_name[j];
@@ -39,21 +39,21 @@ $(document).ready(function() {
     $('input[name="nchoice"]').click(function(){
         if($(this).prop('disabled') === false){
             nchoice_pick = parseInt($(this).data('text'));
-            $('#textchoice tr:gt('+(nchoice_pick-1)+')').fadeOut('fast');
-            $('#textchoice tr:lt('+nchoice_pick+')').fadeIn('fast');
+            $('#textchoice tr:gt('+(nchoice_pick-1)+')').fadeOut(100);
+            $('#textchoice tr:lt('+nchoice_pick+')').fadeIn(100);
             $('#rngclr').css("visibility","visible");
-            // $('input[name="textchoice"]:visible').attr('required', true);
-            // setTimeout(function () {
-            //     $('input[name="textchoice"]:hidden').removeAttr('required');
-            // }, 300);
+            $('input[name="textchoice"]:visible').attr('required', true);
+            setTimeout(function () {
+                $('input[name="textchoice"]:hidden').removeAttr('required');
+            }, 300);
             rngcolors();
         }
     });
     //adds the preview buttons
     //this removes all preview buttons, then adds then again
     $('input[name="nchoice"]').click(function() {
-            $('#preview div:not(.embed-wrap) *').remove();
-            for (i=0; i<nchoice_pick; i++){
+        $('#preview div:not(.embed-wrap) *').remove();
+        for (i=0; i<nchoice_pick; i++){
             $('#preview .radio').append('<input id="preview_c'+ (i+1) +'" type="radio" name="preview_btn" /><label for="preview_c'+ (i+1) +'" class="grey"><div><div>'+$('#c'+(i+1)).val()+'</div></div></label>');
         }
         preview_colors();
@@ -119,6 +119,13 @@ $(document).ready(function() {
     //autochange button text when typing
     $('#textchoice input[type="text"]').on('input', function() {
         $('label[for="preview_'+$(this).attr('id')+'"] div div').text($(this).val());
+        if($(this).is(":visible") && !($(this).val()) ){
+            console.log($(this));
+            this.setCustomValidity("Please fill this in or choose a lesser number");
+        }
+        else{
+            this.setCustomValidity("");
+        }
     });
     //change button color
     $('.colorchoice').click(function() {
@@ -215,50 +222,50 @@ $(document).ready(function() {
         //get local storage/cookie
         post_uid = localStorage.getItem('u_id');
         post_email = localStorage.getItem('u_email');
-            // Get some values from elements on the page:
-            var form = $(this);
-            var post_email, // grab this from button press
-                post_template,
-                post_nchoice,
-                post_question,
-                post_text,
-                post_color,
-                post_description;
-            //make anon checkbox
-            post_template = form.find("input[name='template_choice']:checked").val();
-            post_nchoice = form.find("input[name='nchoice']:checked").val();
-            post_question = $("#custom_question").val();
-            post_description = $("#tbDescription").val();
-            var post_textchoice = [];
-            for (i=0; i<post_nchoice; i++){
-                post_text = form.find("input[id='c"+(i+1)+"']").val();
-                post_color = form.find("input[name='c"+(i+1)+"_color']:checked").val();
-                post_textchoice.push({'c_text':post_text, 'c_hex':post_color});
+        // Get some values from elements on the page:
+        var form = $(this);
+        var post_email, // grab this from button press
+            post_template,
+            post_nchoice,
+            post_question,
+            post_text,
+            post_color,
+            post_description;
+        //make anon checkbox
+        post_template = form.find("input[name='template_choice']:checked").val();
+        post_nchoice = form.find("input[name='nchoice']:checked").val();
+        post_question = $("#custom_question").val();
+        post_description = $("#tbDescription").val();
+        var post_textchoice = [];
+        for (i=0; i<post_nchoice; i++){
+            post_text = form.find("input[id='c"+(i+1)+"']").val();
+            post_color = form.find("input[name='c"+(i+1)+"_color']:checked").val();
+            post_textchoice.push({'c_text':post_text, 'c_hex':post_color});
+        }
+        var posting = $.ajax({
+            url: '/new',
+            type: 'POST',
+            data:{
+                    'template_choice': post_template,
+                    'u_id': post_uid,
+                    'u_email': post_email,
+                    'c_n': post_nchoice,
+                    'textchoice': post_textchoice,
+                    'c_random': c_random,
+                    'p_q': post_question,
+                    'p_embed': embedinput,
+                    'p_desc': post_description
+            },
+            dataType: "html"
+        }).done(function (data) {
+            window.location.href = data;
+        }).fail(function (data) {
+            switch(data.responseText){
+                case 'c_n length does not match':
+                    alert('Please fill all visible textboxes with text and choose a color!');
+                    break;
             }
-            var posting = $.ajax({
-                url: '/new',
-                type: 'POST',
-                data:{
-                        'template_choice': post_template,
-                        'u_id': post_uid,
-                        'u_email': post_email,
-                        'c_n': post_nchoice,
-                        'textchoice': post_textchoice,
-                        'c_random': c_random,
-                        'p_q': post_question,
-                        'p_embed': embedinput,
-                        'p_desc': post_description
-                },
-                dataType: "html"
-            }).done(function (data) {
-                window.location.href = data;
-            }).fail(function (data) {
-                switch(data.responseText){
-                    case 'c_n length does not match':
-                        alert('Please fill all visible textboxes with text and choose a color!');
-                        break;
-                }
-            });
+        });
     });
 });
 
