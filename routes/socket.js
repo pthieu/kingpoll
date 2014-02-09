@@ -125,7 +125,7 @@ exports.getValidationList = function (_data, client, io) {
                     if(votes){
                         for(i in votes){
                             Poll.findOne({'_id':votes[i].p_id}, {'p_q':1, 'p_id':1, '_id':0}, function (err, _poll) {
-                                client.emit('setVoteGroup', {votegroup:votes[i], poll:_poll});
+                                client.emit('setVoteGroup', {'vote':votes[i], 'poll':_poll});
                             });
                         }
                     }

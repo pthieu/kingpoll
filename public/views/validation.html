@@ -23,8 +23,22 @@
       <div class='card-text'>Sign up to track your votes and get cred! You also get rid of these annoying validation e-mails!</div>
       <div class='card-text'><a href="/signup"><label class='btnSolo'>Signup!</label></div></a>
     </div>
-    <div class='card'>
-      <div class='card-text'>Select which votes to validate. The rest will be deleted when you click submit: {{testtext}}</div>
+    <div class='card container'>
+      <div class='card-text'>Select which votes to validate. The rest will be deleted when you click submit:</div>
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <td><b>Question</b></td>
+              <td><b>Your Vote</b></td>
+              <td><b>Date Voted</b></td>
+            </tr>
+            <tbody class='validation-list'>
+              
+            </tbody>
+          </thead>
+        </table>
+      </div>
 <!--       <div id='polls' class='card-text card-list'>
         <ul>
           <li>1</li>

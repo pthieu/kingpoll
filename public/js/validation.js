@@ -13,4 +13,14 @@ $(document).ready(function() {
     console.log(v_id);
 
     socket.emit('getValidationList',{'g_id':g_id, 'u_id':u_id, 'u_id':u_id});
+    socket.on('setVoteGroup', function (_data) {
+    	var v_date = $.now();
+    	$('.validation-list').append(
+    		'<tr>'+
+    		'<td>'+_data.poll.p_q+'</td>'+
+    		'<td>'+_data.vote.v_text+'</td>'+
+    		'<td>'+v_date+'</td>'+
+    		'</tr>'
+		);
+    });
 });
