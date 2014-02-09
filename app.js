@@ -60,7 +60,7 @@ app.get('/new', routes.createpoll);
 app.get('/listpoll', routes.listpoll);
 app.get('/p/:id', routes.getpoll);
 app.get('/signup', routes.signup);
-app.get('/verify/v/:code', routes.verifyvote);
+app.get('/verify/v', routes.verifyvote);
 app.get('/search', routes.searchpoll);
 // app.get('*', routes.about);
 app.post('/new', routes.newpoll);
@@ -128,26 +128,13 @@ setInterval(function () {
 
 //Listen for incoming connections from clients
 io.sockets.on('connection', function (client) {
-    console.log("Socket io connection");
+    // console.log("Socket io connection");
     //console.log(socket.handshake.user.username);
-
     client.on('joinlanding', function () {
         client.join('landing');
         console.log(io.sockets.manager.rooms);
     });
     var pollid;
-    client.on('getPoll', function (pollID) {
-        Poll.findOne({'p_id':pollID}, function(err, poll) {
-            if (err) return console.error(err);
-            client.emit('pollID', poll);
-            if(poll){
-                pollid = poll.p_id;
-                client.leave('landing');
-                client.join(pollid);//join socket.io room
-                console.log(io.sockets.manager.rooms);
-            }
-        });
-    });
     client.on('getRandPoll', function (pollpage) {
         Poll.count( function(err,count) {
             Poll.find({},{},{limit: 1, skip: Math.floor((Math.random()*(count)))}, function(err, poll) {
@@ -181,7 +168,19 @@ io.sockets.on('connection', function (client) {
             client.emit('listsearchpoll', poll);
         });
     });
-    // console.log(client.id);
+    //poll.html
+    client.on('getPoll', function (pollID) {
+        Poll.findOne({'p_id':pollID}, function(err, poll) {
+            if (err) return console.error(err);
+            client.emit('pollID', poll);
+            if(poll){
+                pollid = poll.p_id;
+                client.leave('landing');
+                client.join(pollid);//join socket.io room
+                console.log(io.sockets.manager.rooms);
+            }
+        });
+    });
     client.on('vote', function (dataVote){
         console.log('voting');
         socket.vote(dataVote, client, io);
@@ -189,6 +188,7 @@ io.sockets.on('connection', function (client) {
     client.on('iploc', function (iploc) {
         console.log(iploc);
     });
+    //landing
     client.on('getViewers', function (d) {
         client.emit('setViewers', io.sockets.clients(d).length);
     });
@@ -203,6 +203,20 @@ io.sockets.on('connection', function (client) {
     });
     client.on('getVoted', function (data) {
         socket.getVoted(data, client);
+    });
+    //validation
+    client.on('getgetValidationList', function (_data) {
+        User.findOne({_id:u_id}, function (_user) {
+            //check if user not registered
+            console.log(_user);
+            if(!_user.u_password){
+                for(i in _user.u_salt){
+                    Vote.find({},{_id:1,}, function (_vote) {
+                        console.log(_vote);
+                    });
+                }
+            }
+        });
     });
     client.on('disconnect', function (iploc) {
         client.leave(pollid);

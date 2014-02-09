@@ -34,32 +34,33 @@ exports.signup = function (req, res) {
     res.sendfile('public/views/signup.html');
 };
 exports.verifyvote = function (req, res) {
-    var data = [];
-    data = req.params.code.split('+');
-    var v_salt = data[0];
-    var u_id = data[1];
-    var v_id = data[2];
+    // var data = [];
+    // data = req.params.code.split('+');
+    // var v_salt = data[0];
+    // var u_id = data[1];
+    // var v_id = data[2];
 
-    Vote.update({u_id:u_id, v_valid:v_salt}, {$set:{v_valid:'true'}}, {multi:true}, function (err, nUpdated) {
-        if (err) console.error(err);
-        User.findOne({_id:u_id}, function (err, user) {
-            if(user){
-                console.log('Number of votes validated: '+nUpdated);
-                user.v_left -= nUpdated;
-                user.v_left = (user.v_left < 0) ? 0 : user.v_left; // make sure it's not < 0
-                user.u_salt.shift();
-                user.markModified('u_salt');
-                user.save(function (err) {
-                    if (err) console.error(err);
+    // Vote.update({u_id:u_id, v_valid:v_salt}, {$set:{v_valid:'true'}}, {multi:true}, function (err, nUpdated) {
+    //     if (err) console.error(err);
+    //     User.findOne({_id:u_id}, function (err, user) {
+    //         if(user){
+    //             console.log('Number of votes validated: '+nUpdated);
+    //             user.v_left -= nUpdated;
+    //             user.v_left = (user.v_left < 0) ? 0 : user.v_left; // make sure it's not < 0
+    //             user.u_salt.shift();
+    //             user.markModified('u_salt');
+    //             user.save(function (err) {
+    //                 if (err) console.error(err);
                     res.sendfile('public/views/validation.html');
-                });
-            }
-            else{
-                console.log('No Votes found');
-                res.sendfile('public/views/validation.html');
-            }
-        });
-    });
+    //             });
+    //         }
+    //         else{
+    //             console.log('No Votes found');
+    //             res.sendfile('public/views/validation.html');
+    //         }
+    //     });
+    // });
+    
     // Vote.find({u_id:u_id, v_valid:v_salt}, function (err, vote) {
     //     for(i=0; i<vote.length; i++){
     //         vote[i].v_valid = true;

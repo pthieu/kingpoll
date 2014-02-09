@@ -4,7 +4,6 @@ var mongoose = require('mongoose');
 var voteSchema = new mongoose.Schema({
     'u_id'      : {type:mongoose.Schema.Types.ObjectId, required:true},
     'p_id'      : {type:mongoose.Schema.Types.ObjectId, required:true},
-    't_created' : {type:Date, required:true},
     'u_email'   : {type:String, required:true},
     'u_loc'     : [{type:String}],
     'u_longlat' : [{type:Number}],
@@ -14,7 +13,7 @@ var voteSchema = new mongoose.Schema({
     'v_hex'     : {type:String},
     'v_text'    : {type:String},
     'v_date'    : {type:Date},
-    'v_valid'   : {type:String, default: 'false'}, //for non-reg users, 0:check for confirm 1:good
+    'v_valid'   : {type:String, default: 'false'}, //for non-reg users, false:check for confirm true:good, using string because might at statuses later
     's_vtime'   : {type:Number, default: 0} //how long user took to vote
 });
 

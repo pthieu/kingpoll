@@ -72,9 +72,12 @@ if(typeof exports == 'undefined'){
           },
           timeout: 7000
       });
-  }
+  };
   exports.averager = function (val, avg, div){//val in ms
       //val is in ms
       return Math.round(((avg*div)+val/1000)/(div+1)*1000)/1000;
-    }
+  };
+  exports.getURLParameter = function(name) {
+    return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null
+  } ;
   })(typeof exports === 'undefined'? this['mymodule']={}: exports);

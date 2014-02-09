@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width">
@@ -24,7 +24,7 @@
       <div class='card-text'><a href="/signup"><label class='btnSolo'>Signup!</label></div></a>
     </div>
     <div class='card'>
-      <div class='card-text'>You have validated your votes on the following polls:</div>
+      <div class='card-text'>Select which votes to validate. The rest will be deleted when you click submit: {{testtext}}</div>
 <!--       <div id='polls' class='card-text card-list'>
         <ul>
           <li>1</li>
@@ -40,8 +40,10 @@
   <script src="/socket.io/socket.io.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
   <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
   <script src="/js/jquery.cookie.js"></script>
+  <script src="/js/dualwield.js"></script>
   <script src="/js/colors.js"></script>
   <script src="/js/validation.js"></script>
   <script type="text/javascript" src="/js/dashboard.js"></script>

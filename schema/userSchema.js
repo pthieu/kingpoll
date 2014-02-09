@@ -12,8 +12,10 @@ var userSchema = new mongoose.Schema({
     'u_password': {type:String}, //some sort of encrypted password
     'u_birth'   : {type:Date}, //Birthday
     't_created' : {type:Date}, //account creation date
-    'u_age'     : {type:Number}, 
+    'u_age'     : {type:Number},
     'u_sex'     : {type:String}, //m/f/other?
+    'u_height'  : {type:Number}, //in cm, convert in client
+    'u_weight'  : {type:Number}, //in kg, convert in client
     'u_race'    : {type:String}, //user ethnicity (we'll sneak this one in)
     'u_loc'     : [{type:String}], //location to fall back on incase json ip loc fails
     'u_ip'      : [{type:String}], //list of IP's user logged in from, hold last 5
@@ -37,27 +39,27 @@ var userSchema = new mongoose.Schema({
 
 // Bcrypt middleware
 userSchema.pre('save', function(next) {
-        var user = this;
+    var user = this;
 
-        if(!user.isModified('u_password') || user.u_thirdParty.equals("facebook")) return next();
+    if(!user.isModified('u_password') || user.u_thirdParty.equals("facebook")) return next();
 
-        var saltval = salt.generate_salt();
-        user.u_salt = saltval;
-        console.log(user.u_salt);
-        user.u_password = salt.get_hashed_password(user.u_password, saltval);
-        console.log(user.u_password);
-        next();
+    var saltval = salt.generate_salt();
+    user.u_salt = saltval;
+    console.log(user.u_salt);
+    user.u_password = salt.get_hashed_password(user.u_password, saltval);
+    console.log(user.u_password);
+    next();
 });
 
 //Password Verification function
 userSchema.methods.comparePassword = function(candidatePassword, cb) {
-        var inputpassword = salt.get_hashed_password(candidatePassword, this.u_salt);
+    var inputpassword = salt.get_hashed_password(candidatePassword, this.u_salt);
 
-        if (this.u_password == inputpassword) {
-            cb(null, true);
-        } else {
-            cb(null, false);
-        }
+    if (this.u_password == inputpassword) {
+        cb(null, true);
+    } else {
+        cb(null, false);
+    }
 };
 
 //make object and apply schema to it, creates consctrutor
