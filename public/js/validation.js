@@ -14,6 +14,7 @@ $(document).ready(function() {
 
     socket.emit('getValidationList',{'g_id':g_id, 'u_id':u_id, 'u_id':u_id});
     socket.on('setVoteGroup', function (_data) {
+    	console.table(_data)
     	var v_date = $.now();
     	$('.validation-list').append(
     		'<tr>'+

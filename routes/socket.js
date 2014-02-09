@@ -118,16 +118,22 @@ exports.getValidationList = function (_data, client, io) {
     var email = _data.u_id;
     User.findOne({'u_email':email}, function (err, users) {
         //check if user not registered (v_left = -1 for registered)
-        if(users.v_left > 0){
+        if((users)?users.v_left:-1 > 0){
+            //don't use for because it is synchronous, use forEach and it will keep the element's
+            //value on each loop
+            //this for only works because we use the element's values for the find call, which
+            //occurs before the asynchronous callback occurs.
             for(i in users.u_salt){
                 Vote.find({'v_valid':users.u_salt[i]},{'_id':1,'p_id':1,'v_valid':1,'v_text':1,'v_date':1,'v_anon':1}, function (err, votes) {
+                    console.log(votes);
                     //check just in case if vote exists
                     if(votes){
-                        for(i in votes){
-                            Poll.findOne({'_id':votes[i].p_id}, {'p_q':1, 'p_id':1, '_id':0}, function (err, _poll) {
-                                client.emit('setVoteGroup', {'vote':votes[i], 'poll':_poll});
+                        votes.forEach(function(vote){
+                            Poll.findOne({'_id':vote.p_id}, {'p_q':1, 'p_id':1, '_id':0}, function (err, _poll) {
+                                console.log(vote);
+                                client.emit('setVoteGroup', {'vote':vote, 'poll':_poll});
                             });
-                        }
+                        });
                     }
                 });
             }
