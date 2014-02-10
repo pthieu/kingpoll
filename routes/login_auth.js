@@ -3,8 +3,8 @@ var LocalStrategy = require('passport-local').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
 var User = require('../schema/userSchema').User;
 
-var FACEBOOK_APP_ID = "412753895526149";
-var FACEBOOK_APP_SECRET = "bdd6ef38621a4f6b76aa3885c93a233c";
+var FACEBOOK_APP_ID = "1447667995463132";
+var FACEBOOK_APP_SECRET = "2e522013d815555efb0db2673c4ff034";
 
 passport.serializeUser(function(user, done) {
   console.log("serialize authenticated...");
