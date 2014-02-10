@@ -98,7 +98,7 @@ exports.newpoll = function(req, res) {
             console.log('Poll Save: FAILED -- c_n and text/hex lengths do not match')
             res.send(500, 'c_n length does not match');
             res.end();
-            return;            
+            return;
         }
         // we don't use push() because we need to ensure order
         newpoll['c_text'][i] = req.body.textchoice[i].c_text;
@@ -135,17 +135,22 @@ exports.newpoll = function(req, res) {
         });
     });
 };
-exports.newuser = function(req, res) {
+
+exports.validateVote = function (req,res) {
     console.log(req.body);
-    console.log(req.body.req.u_email);
+    // var v_id = _data.v_id;
+    // var p_id = _data.p_id;
+    // Vote.findOne({'_id': ObjectId(v_id)},function (vote) {
+    //     console.log(vote);
+    // });
+}
+
+exports.newuser = function(req, res) {
     var newuser = new User({
         'u_email': req.body.req.u_email,
         'u_id': req.body.req.u_id,
         'u_password': req.body.req.u_password
     });
-
-    console.log(newuser);
-
     newuser.save(function (err, user, count) {
         if (err){
             console.log(err);

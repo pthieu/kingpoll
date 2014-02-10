@@ -23,29 +23,34 @@
       <div class='card'>
         <div class='card-head'>Thanks for Voting!</div>
         <div class='card-text'>Sign up to track your votes and get points! Points will come useful in the future for trading in. You also get rid of these annoying validation e-mails!</div>
-        <div class='card-text'><a href="/signup"><label class='btnSolo'>Signup!</label>
-        </a></div>
-      </div>
-    </div>
-    <div class='col-sm-10 col-sm-offset-1 row'>
-      <div class='card'>
-        <div class='card-head'>Votes awaiting validation</div>
-        <div class='card-text'>Select which votes to validate. The rest will be deleted when you click submit.</div>
-        <div>
-          <table class="table table-striped">
-            <thead>
-              <tr>
-                <td><b>Question</b></td>
-                <td><b>Your Vote</b></td>
-                <td><b>Verify</b></td>
-                <td><b>Delete</b></td>
-                <td><b>Date Voted</b></td>
-              </tr>
-              <tbody class='validation-list'>
-              </tbody>
-            </thead>
-          </table>
+        <div class='card-text'>
+          <a href="/signup"><label class='btnSolo'>Signup!</label>
+          </a></div>
         </div>
+      </div>
+      <div class='col-sm-10 col-sm-offset-1 row'>
+        <div class='card'>
+          <div class='card-head'>Votes awaiting validation</div>
+          <div class='card-text'>Select which votes to validate. The rest will be deleted when you click submit.</div>
+          <div>
+            <form action="/validateVote" method="post" class='submit' name="">
+              <button type='submit' class='submit'>Validate!</button>
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <td><b>Question</b></td>
+                    <td><b>Your Vote</b></td>
+                    <td><b>Verify</b></td>
+                    <td><b>Delete</b></td>
+                    <td><b>Date Voted</b></td>
+                  </tr>
+                  <tbody class='validation-list'>
+                  </tbody>
+                </thead>
+              </table>
+              <button type='submit' class='submit'>Validate!</button>
+            </form>
+          </div>
   <!--       <div id='polls' class='card-text card-list'>
           <ul>
             <li>1</li>

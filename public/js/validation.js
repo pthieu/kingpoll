@@ -17,9 +17,9 @@ $(document).ready(function() {
     		'<tr>'+
     		'<td class="right-align"><a href="/p/'+_data.poll.p_id+'" target="_blank">'+_data.poll.p_q+'</a></td>'+
     		'<td>'+_data.vote.v_text+'</td>'+
-    		'<td class="cb" data-valgroup="'+_data.vote.v_valid+'"><input type="radio" id="'+_data.poll.p_id+'-verify" class="radio-cb" name="'+_data.poll.p_id+'" checked/>'+
+    		'<td class="cb" data-valgroup="'+_data.vote.v_valid+'"><input type="radio" id="'+_data.poll.p_id+'-verify" class="radio-cb" name="'+_data.vote._id+'" value="verify" checked/>'+
             '<label for="'+_data.poll.p_id+'-verify" class="radio-cb-label"></label></td>"'+
-            '<td class="cb" data-valgroup="'+_data.vote.v_valid+'"><input type="radio" id="'+_data.poll.p_id+'-delete" class="radio-cb" name="'+_data.poll.p_id+'"/>'+
+            '<td class="cb" data-valgroup="'+_data.vote.v_valid+'"><input type="radio" id="'+_data.poll.p_id+'-delete" class="radio-cb" name="'+_data.vote._id+'" value="delete" />'+
             '<label for="'+_data.poll.p_id+'-delete" class="radio-cb-label"></label></td>"'+
     		'<td>'+v_date+'</td>'+
     		'</tr>'
@@ -27,4 +27,23 @@ $(document).ready(function() {
 		if(_data.vote.v_date){date=_data.vote.v_date}
 		$('.radio-cb-label').css({'color': "#"+tmp,'border-color': "#"+tmp});
     });
+
+     $('.submit').submit(function(e) {
+        // e.preventDefault();
+        var POST = $.ajax({
+            url: '/validateVote',
+            type: 'POST',
+            data:{
+                
+            },
+            dataType: "html"
+        }).done(function (data) {
+            // window.location.href = data;
+        }).fail(function (data) {
+            switch(data.responseText){
+                case '':
+                    break;
+            }
+        });
+     });
 });

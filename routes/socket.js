@@ -126,12 +126,10 @@ exports.getValidationList = function (_data, client, io) {
             //occurs before the asynchronous callback occurs.
             for(i in users.u_salt){
                 Vote.find({'v_valid':users.u_salt[i]},{'_id':1,'p_id':1,'v_valid':1,'v_text':1,'v_date':1,'v_anon':1}, function (err, votes) {
-                    console.log(votes);
                     //check just in case if vote exists
                     if(votes){
                         votes.forEach(function(vote){
                             Poll.findOne({'_id':vote.p_id}, {'p_q':1, 'p_id':1, '_id':0}, function (err, _poll) {
-                                console.log(vote);
                                 client.emit('setVoteGroup', {'vote':vote, 'poll':_poll});
                             });
                         });

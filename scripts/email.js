@@ -15,7 +15,7 @@ var smtpTransport =  nodemailer.createTransport("SMTP",{
 module.exports = {
     send_email_confirmation: function (email, u_id, v_id, v_valid){
         User.findOne({'u_email':email}, function (err, user) {
-            url = 'http://localhost:8888/verify/v?g='+v_valid+'u='+email+'v='+v_id; // use below line for production
+            url = 'http://localhost:8888/verify/v?g='+v_valid+'&u='+email+'&v='+v_id; // use below line for production
             // url = 'http://www.kingpoll.com/verify/v/'+v_valid+'+'+u_id+'+'+v_id;
             //Logic to determine poll information from poll_id, and the confirmation URL
             subject = 'KingPoll: Validate your vote now!';

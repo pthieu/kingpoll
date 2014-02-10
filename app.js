@@ -67,6 +67,7 @@ app.post('/signup', routes.newuser);
 app.get('/login', userRoute.getlogin);
 app.post('/login', userRoute.postlogin);
 app.get('/logout', userRoute.logout);
+app.post('/validateVote', routes.validateVote);
 
 app.get('/auth/facebook', passport.authenticate('facebook'));
 
