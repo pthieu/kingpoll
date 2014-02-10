@@ -28,22 +28,36 @@ $(document).ready(function() {
 		$('.radio-cb-label').css({'color': "#"+tmp,'border-color': "#"+tmp});
     });
 
-     $('.submit').submit(function(e) {
-        // e.preventDefault();
-     //    var POST = $.ajax({
-     //        url: '/validateVote',
-     //        type: 'POST',
-     //        data:{
-                
-     //        },
-     //        dataType: "html"
-     //    }).done(function (data) {
-     //        window.location.href = data;
-     //    }).fail(function (data) {
-     //        switch(data.responseText){
-     //            case '':
-     //                break;
-     //        }
-     //    });
-     // });
+    $.fn.chainer = function(cb) {
+        return this.queue(function(next) {
+            // do a bunch of stuff with the text var
+            cb();
+            next();
+        });
+    }
+    $('.submit').submit(function(e) {
+        e.preventDefault();
+        var postdata = {};
+        $({})
+            .chainer(function () {
+                $('.cb input:checked').each(function () {
+                    postdata[$(this).attr('name')] = $(this).val();
+                });
+            })
+            .chainer(function () {
+                var POST = $.ajax({
+                    url: '/validateVote',
+                    type: 'POST',
+                    data: postdata,
+                    dataType: "html"
+                }).done(function (data) {
+                    window.location.href = data;
+                }).fail(function (data) {
+                    switch(data.responseText){
+                        case '':
+                            break;
+                    }
+                });
+            })
+    });
 });

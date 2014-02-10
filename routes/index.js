@@ -138,6 +138,7 @@ exports.newpoll = function(req, res) {
 };
 
 exports.validateVote = function (req,res) {
+    // console.log(req.headers.referer) // this is to get exact url
     var voteObj = req.body;
     var votes = [];
     for(i in voteObj){
@@ -146,28 +147,39 @@ exports.validateVote = function (req,res) {
     votes.forEach(function (vote, i, votes) {
         Vote.findById(vote.id, function (err, _vote) {
             if (err) return console.error(err);
-            
-            if(vote.action === "verify"){
-                if((_vote) && (_vote.v_valid !== "true")){
-                    _vote.v_valid = 'true';
-                    // _vote.save();
+            if(_vote){
+                if(vote.action === "verify"){
+                    if((_vote) && (_vote.v_valid !== "true")){
+                        var v_validref = _vote.v_valid;
+                        _vote.v_valid = 'true';
+                        User.update({'_id':_vote.u_id}, {$inc: {v_left:-1}}, function (err, n, raw) {
+                        });
+                        Vote.update({'_id':_vote._id}, {'v_valid':'true'}, function (err, n, raw) {
+                            if (err) return console.error(err);
+                            Vote.find({'u_id':_vote.u_id, 'v_valid':v_validref}, function (err, votes) {
+                                if(votes.length > 0){
+                                    console.log('still votes exist');
+                                }
+                                else{
+                                    console.log('splicing hash')
+                                    //save user only if changing hash
+                                }
+                            });
+                        });
+                    }
                 }
-            }
-            else if(vote.action === "delete"){
-                console.log('removeing vote: ' + _vote.id);
-                _vote.remove();
-            }
-            else{
+                else if(vote.action === "delete"){
+                    // console.log('removeing vote: ' + _vote.id);
+                    // _vote.remove();
+                }
+                else{
+                }
             }
         });
     });
-    res.send(200);
-    res.end();
-    // var v_id = _data.v_id;
-    // var p_id = _data.p_id;
-    // Vote.findOne({'_id': ObjectId(v_id)},function (vote) {
-    //     console.log(vote);
-    // });
+    // var redirect = '/';
+    // res.header('Content-Length', Buffer.byteLength(redirect));
+    // res.send(redirect, 200);
 }
 
 exports.newuser = function(req, res) {
