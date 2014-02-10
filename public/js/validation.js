@@ -30,20 +30,20 @@ $(document).ready(function() {
 
      $('.submit').submit(function(e) {
         // e.preventDefault();
-        var POST = $.ajax({
-            url: '/validateVote',
-            type: 'POST',
-            data:{
+     //    var POST = $.ajax({
+     //        url: '/validateVote',
+     //        type: 'POST',
+     //        data:{
                 
-            },
-            dataType: "html"
-        }).done(function (data) {
-            // window.location.href = data;
-        }).fail(function (data) {
-            switch(data.responseText){
-                case '':
-                    break;
-            }
-        });
-     });
+     //        },
+     //        dataType: "html"
+     //    }).done(function (data) {
+     //        window.location.href = data;
+     //    }).fail(function (data) {
+     //        switch(data.responseText){
+     //            case '':
+     //                break;
+     //        }
+     //    });
+     // });
 });

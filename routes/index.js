@@ -5,6 +5,7 @@ var Vote = mongoose.model( 'vote' );
 var shortid = require('shortid');
 var help = require('../scripts/help.js');
 
+var ObjectId = require('mongoose').Types.ObjectId;
 var numonly = /\d+/; //test for number pattern
 
 /********** GET STUFF **********/
@@ -137,7 +138,31 @@ exports.newpoll = function(req, res) {
 };
 
 exports.validateVote = function (req,res) {
-    console.log(req.body);
+    var voteObj = req.body;
+    var votes = [];
+    for(i in voteObj){
+        votes.push({'id':i, 'action': voteObj[i]});
+    }
+    votes.forEach(function (vote, i, votes) {
+        Vote.findById(vote.id, function (err, _vote) {
+            if (err) return console.error(err);
+            
+            if(vote.action === "verify"){
+                if((_vote) && (_vote.v_valid !== "true")){
+                    _vote.v_valid = 'true';
+                    // _vote.save();
+                }
+            }
+            else if(vote.action === "delete"){
+                console.log('removeing vote: ' + _vote.id);
+                _vote.remove();
+            }
+            else{
+            }
+        });
+    });
+    res.send(200);
+    res.end();
     // var v_id = _data.v_id;
     // var p_id = _data.p_id;
     // Vote.findOne({'_id': ObjectId(v_id)},function (vote) {

@@ -6,7 +6,7 @@ var shortid = require('shortid');
 var help = require('../scripts/help.js');
 var email = require('../scripts/email.js');
 
-var ObjectId = require('mongoose').Types.ObjectId; 
+var ObjectId = require('mongoose').Types.ObjectId;
 
 exports.getVoted = function (data, client) {
     Poll.findOne({'p_id': data.p_id}, function (err, poll) {
