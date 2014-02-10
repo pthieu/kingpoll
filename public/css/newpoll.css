@@ -79,7 +79,7 @@ input[name="textchoice"]{
   font-size: 1.3rem;
   line-height: 1;
   font-weight: bold;
-  display: table;
+  /*display: table;*/
   padding: 0.75rem;
   background-color: red;
   visibility: collapse;
