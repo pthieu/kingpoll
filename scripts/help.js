@@ -91,6 +91,22 @@ var deleteVote = function (_vote, Poll, req, res, cb) {
         _vote.remove(function (err, vote) {
             User.update({'_id': vote.u_id},{$pull:{'u_salt': vote.v_valid}, $inc:{v_left:-1}}, function (err, n, raw) {
             });
+            //update poll vote average
+            Votes.find({p_id: vote.p_id}, function (err, votes) {
+                console.log('recalculating average for poll: ' vote.p_id);
+                var v_total = 0;
+                var v_time = 0;
+                if(votes){
+                    for (i in votes){
+                        v_time += votes[i].s_vtime;
+                    }
+                }
+                var s_tavg = v_time/votes.length;
+                console.log(s_tavg);
+                Poll.update({'_id': vote.p_id},{$set:{'s_tavg':s_tavg}}, function (err, n, raw) {
+                    console.log(n);
+                });
+            });
         });
         if(typeof(cb) == "function"){
             cb();
