@@ -96,7 +96,7 @@ var deleteVote = function (_vote, Poll, req, res, cb) {
             Vote.find({p_id: vote.p_id}, function (err, votes) {
                 var v_total = 0;
                 var v_time = 0;
-                if(votes){
+                if(votes.length > 0){
                     for (i in votes){
                         v_time += votes[i].s_vtime;
                     }
