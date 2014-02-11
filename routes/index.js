@@ -161,7 +161,8 @@ exports.validateVote = function (req,res) {
                                     console.log('still votes exist');
                                 }
                                 else{
-                                    console.log('splicing hash')
+                                    User.update({'_id': _vote.u_id},{$pull:{'u_salt': v_validref}}, function (err, n, raw) {
+                                    });
                                     //save user only if changing hash
                                 }
                             });

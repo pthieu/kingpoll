@@ -61,8 +61,6 @@ exports.vote = function (dataVote, client, io) {
                             's_tmax'    : dataVote.s_vtime,
                             's_vtotal'  : 1
                         });
-                        user.u_salt.push(shortid.generate());
-                        user.markModified('u_salt');
                     }
                     else{
                         user.s_tmin = Math.min(user.s_tmin, dataVote.s_vtime);
@@ -79,7 +77,7 @@ exports.vote = function (dataVote, client, io) {
                                 user.v_left += 1; //increment outstanding votes
                                 console.log(newvote);
                                 //VOTE LOGIC, DISABLE FOR DEVELOPMENT
-                                if ((user.v_left%10) === 1){
+                                if ((user.v_left%10) === 1 || (user.u_salt <= 0)){
                                     console.log('Sending vote verification...');
                                     user.u_salt.push(shortid.generate()); //generate new salt at mod=0
                                     user.markModified('u_salt'); //tell mongoose it's modified
