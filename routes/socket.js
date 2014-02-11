@@ -115,7 +115,7 @@ exports.vote = function (dataVote, client, io) {
 }
 exports.getValidationList = function (_data, client, io) {
     var email = _data.u_id;
-    User.findOne({'u_email':email}, function (err, users) {
+    User.findOne({'u_email':email, 'u_salt':_data.g_id}, function (err, users) {
         //check if user not registered (v_left = -1 for registered)
         if((users)?users.v_left:-1 > 0){
             //don't use for because it is synchronous, use forEach and it will keep the element's
