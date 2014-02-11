@@ -158,7 +158,7 @@ exports.validateVote = function (req,res) {
                             if (err) return console.error(err);
                             Vote.find({'u_id':_vote.u_id, 'v_valid':v_validref}, function (err, votes) {
                                 if(votes.length > 0){
-                                    console.log('still votes exist');
+                                    //votes still exist so do nothing
                                 }
                                 else{
                                     User.update({'_id': _vote.u_id},{$pull:{'u_salt': v_validref}}, function (err, n, raw) {
@@ -170,7 +170,6 @@ exports.validateVote = function (req,res) {
                     }
                 }
                 else if(vote.action === "delete"){
-                    console.log('removeing vote: ' + _vote.id);
                     help.deleteVote(_vote, Poll, req, res);
                 }
                 else{
@@ -178,9 +177,9 @@ exports.validateVote = function (req,res) {
             }
         });
     });
-    // var redirect = '/';
-    // res.header('Content-Length', Buffer.byteLength(redirect));
-    // res.send(redirect, 200);
+    var redirect = '/';
+    res.header('Content-Length', Buffer.byteLength(redirect));
+    res.send(redirect, 200);
 }
 
 exports.newuser = function(req, res) {

@@ -1,3 +1,5 @@
+var User = require('mongoose').model( 'user' );
+
 var findUniqueHex = function (hex_pid, Model, id, callback){
     Model.findOne().where(id, hex_pid).exec(function (err, doc) {
         if(err){
@@ -86,7 +88,10 @@ var deleteVote = function (_vote, Poll, req, res, cb) {
     inc['c_total'+'.'+_vote.v_choice] = -1;
     
     Poll.update({'_id': _vote.p_id}, {$inc:inc}, function (err, n, raw) {
-        _vote.remove();
+        _vote.remove(function (err, vote) {
+            User.update({'_id': vote.u_id},{$pull:{'u_salt': vote.v_valid}, $inc:{v_left:-1}}, function (err, n, raw) {
+            });
+        });
         if(typeof(cb) == "function"){
             cb();
         }
