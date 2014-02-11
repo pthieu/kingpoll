@@ -70,9 +70,11 @@ app.get('/logout', userRoute.logout);
 app.post('/validateVote', routes.validateVote);
 
 app.get('/auth/facebook', passport.authenticate('facebook'));
-
 app.get('/auth/facebook/callback', 
   passport.authenticate('facebook', { successRedirect: '/', failureRedirect: '/signup' }));
+app.get('/auth/twitter', passport.authenticate('twitter'));
+app.get('/auth/twitter/callback', 
+  passport.authenticate('twitter', { successRedirect: '/', failureRedirect: '/signup' }));
 
 http.listen(appPort);
 console.log('listening on port: ' + appPort);
