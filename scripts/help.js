@@ -1,4 +1,5 @@
 var User = require('mongoose').model( 'user' );
+var Vote = require('mongoose').model( 'vote' );
 
 var findUniqueHex = function (hex_pid, Model, id, callback){
     Model.findOne().where(id, hex_pid).exec(function (err, doc) {
@@ -92,8 +93,7 @@ var deleteVote = function (_vote, Poll, req, res, cb) {
             User.update({'_id': vote.u_id},{$pull:{'u_salt': vote.v_valid}, $inc:{v_left:-1}}, function (err, n, raw) {
             });
             //update poll vote average
-            Votes.find({p_id: vote.p_id}, function (err, votes) {
-                console.log('recalculating average for poll: ' vote.p_id);
+            Vote.find({p_id: vote.p_id}, function (err, votes) {
                 var v_total = 0;
                 var v_time = 0;
                 if(votes){
