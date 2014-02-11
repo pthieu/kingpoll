@@ -100,11 +100,12 @@ var deleteVote = function (_vote, Poll, req, res, cb) {
                     for (i in votes){
                         v_time += votes[i].s_vtime;
                     }
+                    var s_tavg = v_time/votes.length;
                 }
-                var s_tavg = v_time/votes.length;
-                console.log(s_tavg);
+                else{
+                    var s_tavg = 0;
+                }
                 Poll.update({'_id': vote.p_id},{$set:{'s_tavg':s_tavg}}, function (err, n, raw) {
-                    console.log(n);
                 });
             });
         });
