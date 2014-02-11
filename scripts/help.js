@@ -64,6 +64,35 @@ var incPoll = function (Poll, newvote, client, io) {
         });
     });
 }
+
+var deleteVote = function (_vote, Poll, req, res, cb) {
+    var country = (_vote.u_loc[1])?_vote.u_loc[1].toUpperCase():'hiding';
+    var region = (_vote.u_loc[3])?_vote.u_loc[3].toUpperCase():'hiding';
+    var inc = {};
+    switch(country){
+        case 'US':
+            region = "US-"+region; // add prefix
+            break;
+        case 'CA':
+            break;
+    }
+    if(country == "US" || country == "CA"){
+        inc['data.'+country+'.'+region+'.'+_vote.v_choice] = -1;
+    }
+    else{
+        inc['data.'+'hiding'+'.'+_vote.v_choice] = -1;
+    }
+    inc['p_total'] = -1;
+    inc['c_total'+'.'+_vote.v_choice] = -1;
+    
+    Poll.update({'_id': _vote.p_id}, {$inc:inc}, function (err, n, raw) {
+        _vote.remove();
+        if(typeof(cb) == "function"){
+            cb();
+        }
+    });
+}
+
 var averager = function (val, avg, div){//val in ms
     //val is in ms
     return Math.round(((avg*div)+val/1000)/(div+1)*1000)/1000;
@@ -73,5 +102,6 @@ module.exports = {
     findUniqueHex: findUniqueHex,
     savedoc: savedoc,
     incPoll: incPoll,
+    deleteVote: deleteVote,
     averager: averager
 }

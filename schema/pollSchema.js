@@ -99,7 +99,6 @@ var pollSchema = new mongoose.Schema({
             'US-WV' :[{type: Number}],
             'US-WY' :[{type: Number}]
         },
-        'europe':{},
         'hiding':[{type: Number}]
     }
 });

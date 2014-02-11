@@ -124,7 +124,7 @@ exports.newpoll = function(req, res) {
         newpoll['p_id'] = hex_pid;
         newpoll.save(function (err, poll, count) {
             if (err){
-                console.log(err);
+                console.error(err);
                 res.status(500).json({status:'Poll Save: failed'});
             }
             else{
@@ -170,8 +170,8 @@ exports.validateVote = function (req,res) {
                     }
                 }
                 else if(vote.action === "delete"){
-                    // console.log('removeing vote: ' + _vote.id);
-                    // _vote.remove();
+                    console.log('removeing vote: ' + _vote.id);
+                    help.deleteVote(_vote, Poll, req, res);
                 }
                 else{
                 }
