@@ -6,9 +6,11 @@ var User = require('../schema/userSchema').User;
 
 var FACEBOOK_APP_ID = "1447667995463132";
 var FACEBOOK_APP_SECRET = "2e522013d815555efb0db2673c4ff034";
+var FACEBOOK_APP_CALLBACK = "http://www.kingpoll.com/auth/facebook/callback";
 
 var TWITTER_APP_ID = "gTryKLMlN6NSQ2JkhRrA";
 var TWITTER_APP_SECRET = "aKa4RGbTevidRIalBPKNo6O4H0qV6O5p7MJ4OOtpvc";
+var TWITTER_APP_CALLBACK = "http://www.kingpoll.com/auth/twitter/callback";
 
 passport.serializeUser(function(user, done) {
   console.log("serialize authenticated...");
@@ -49,7 +51,7 @@ passport.use(new LocalStrategy(function(username, password, done) {
 passport.use(new FacebookStrategy({
     clientID: FACEBOOK_APP_ID,
     clientSecret: FACEBOOK_APP_SECRET,
-    callbackURL: "http://localhost:8888/auth/facebook/callback"
+    callbackURL: FACEBOOK_APP_CALLBACK
   },
   function(accessToken, refreshToken, profile, done) {
 
@@ -79,7 +81,7 @@ passport.use(new FacebookStrategy({
 passport.use(new TwitterStrategy({
     consumerKey: TWITTER_APP_ID,
     consumerSecret: TWITTER_APP_SECRET,
-    callbackURL: "http://localhost:8888/auth/twitter/callback"
+    callbackURL: TWITTER_APP_CALLBACK
   },
   function(accessToken, refreshToken, profile, done) {
     console.log("twitter");
