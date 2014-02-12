@@ -24,8 +24,7 @@ var savedoc = function (item, cbitem, callback){
     item.save(function (err, item, count) {
         if (err){
             console.log('Save: failed')
-            console.log(item);
-            throw err;
+            console.error(err);
         }
         else{
             console.log('Save: passed')

@@ -18,7 +18,7 @@ exports.getVoted = function (data, client) {
     });
 }
 exports.vote = function (dataVote, client, io) {
-    var u_email = dataVote.u_email.toLowerCase();
+    var u_email = (dataVote.u_email)?dataVote.u_email.toLowerCase():"";
     var u_id = (dataVote.u_id) ? dataVote.u_id : mongoose.Types.ObjectId();
     var socialID = dataVote.socialID;
     var new_vid = mongoose.Types.ObjectId();
