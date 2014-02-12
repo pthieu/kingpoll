@@ -18,7 +18,7 @@ exports.getVoted = function (data, client) {
     });
 }
 exports.vote = function (dataVote, client, io) {
-    var u_email = (dataVote.u_email)?dataVote.u_email.toLowerCase():"";
+    var u_email = (dataVote.u_email)?dataVote.u_email.toLowerCase():dataVote.socialID.id;
     var u_id = (dataVote.u_id) ? dataVote.u_id : mongoose.Types.ObjectId();
     var socialID = dataVote.socialID;
     var new_vid = mongoose.Types.ObjectId();
@@ -43,17 +43,19 @@ exports.vote = function (dataVote, client, io) {
             var voted = {};
             voted[newvote.p_id] = newvote.v_choice; //using associative array for the field/value 
             // check if user exists
-            // (u_email)
             var count = 0;
             for (i in socialID){
                 count++;
             }
-            if (count>0){
+            if (count>0 || (u_email)){
                 var social = {};
                 console.log('Looking for user: ' + u_email)
-                if(socialID){
+                if(count>0){
                     social['u_thirdId.'+socialID.party] = socialID.id;
                     console.log('or social ID : '+socialID.party+' ID: '+ socialID.id)
+                }
+                else{
+                    social = {'_id': mongoose.Types.ObjectId()};
                 }
                 User.findOne({$or:[{'u_email': u_email}, social]}).exec(function (err, user) {
                     if (err) throw err;
