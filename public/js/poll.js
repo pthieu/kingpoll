@@ -539,13 +539,26 @@ socket.on('getCommentsResult', function(result) {
 
     var parsedResult = JSON.parse(result);
     parsedResult.forEach(function(json) {
-        $('#messages').html($('#messages').html() + '<br/>' + json.message);
+        $('#messages').html($('#messages').html() +
+            '<div>' +
+            '<span class="date">' + formatDate(json['created_date']) + '</span>' +
+            '<span class="message">' + json['message'] + '</span>' +
+            '</div>');
     });
 });
 
+function formatDate(dateString) {
+    var date = new Date(dateString);
+    return date.getDate() + '-' + date.getMonth() + '-' + date.getFullYear();
+}
+
 socket.on('addCommentResult', function(result) {
-    console.log(result);
-    $('#messages').html($('#messages').html() + '<br/>' + result);
+    var json = JSON.parse(result);
+    $('#messages').html($('#messages').html() +
+        '<div>' +
+        '<span class="date">' + formatDate(json['created_date']) + '</span>' +
+        '<span class="message">' + json['message'] + '</span>' +
+        '</div>');
 });
 
 $('#comment-form').submit(function(e) {
@@ -620,7 +633,7 @@ function getMap(map, _name, rgn_color){
             },
             onRegionLabelShow: function(e, label, code){
                 //we only support canada and US for now
-                var country = $('[data-code="'+code+'"]').attr('data-country');
+                /*var country = $('[data-code="'+code+'"]').attr('data-country');
                 if (country === "CA" || country === "US"){
                     var map = $('#map'+country).vectorMap('get', 'mapObject');
                     var region_name = map.getRegionName(code);
@@ -638,7 +651,7 @@ function getMap(map, _name, rgn_color){
                         +'<span class="h6"><b>Total Votes: '+region_total+'</b></span></div>'
                         +'<div><table style="margin:auto" class="align-right">'+region_c_n+'</table></div>'
                         +'</div>');
-                }
+                }*/
             },
             regionStyle:{
                 initial:{
