@@ -342,6 +342,7 @@ $(document).ready(function(){
                 choice_colors[i] = {'c_text':data.c_text[i], 'color':data.c_hex[i], 'votes':0};
             }
             if(data.p_desc){
+                $('.embed-wrap *').html('')
                 $('#tbDescription').show();
                 var _d = dual.linkify(data.p_desc);
                 $('.tbDescription').html(_d.text);
@@ -362,6 +363,10 @@ $(document).ready(function(){
                 console.log(data.p_embed)
                 $('.embed-href').html(dual.linkify(data.p_embed,1).text);
                 $('.embed').html(dual.embedify(data.p_embed));
+            }
+            else{
+                $('.embed-wrap *').html('')
+                $('.embed-wrap').hide();
             }
             $('#question').html(data.p_q);
 
