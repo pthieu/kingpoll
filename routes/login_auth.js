@@ -65,7 +65,7 @@ passport.use(new FacebookStrategy({
         newuser.u_id = profile.username;
         newuser.u_email = profile.username + "@facebook.com";
         newuser.u_name = profile.name.givenName + " " + profile.name.familyName;
-        newuser.u_thirdId = profile.id;
+        newuser.u_thirdId.facebook = profile.id;
         newuser.u_thirdParty = profile.provider;
 
         newuser.save(function(err) {
@@ -98,7 +98,7 @@ passport.use(new TwitterStrategy({
         newuser.u_id = profile._json.name;
         newuser.u_email = profile._json.name + "@twitter.com";
         newuser.u_name = profile._json.screen_name;
-        newuser.u_thirdId = profile._json.id;
+        newuser.u_thirdId.twitter = profile._json.id;
         newuser.u_thirdParty = "twitter";
 
         newuser.save(function(err) {
