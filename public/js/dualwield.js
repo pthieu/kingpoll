@@ -79,5 +79,13 @@ if(typeof exports == 'undefined'){
   };
   exports.getURLParameter = function(name) {
     return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null
-  } ;
+  };
+  exports.isEmpty = function(map) {
+    for(var key in map) {
+      if (map.hasOwnProperty(key)) {
+         return false;
+      }
+    }
+    return true;
+  };
   })(typeof exports === 'undefined'? this['mymodule']={}: exports);

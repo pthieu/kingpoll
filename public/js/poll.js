@@ -8,6 +8,7 @@ var pushstate = {
 var data;
 var lastpoll;
 var pollid;
+var socialID = '';
 var disqus_identifier;
 var map = {};
 var mapdata = {
@@ -57,6 +58,10 @@ socket.on('results', function (results) {
 $.getJSON("http://ip-api.com/json/", function(_geodata) {
     geo_loc = _geodata;
     socket.emit('iploc', _geodata);
+});
+
+socket.on('authStatus', function (status, userId, social) {
+    socialID = social;
 });
 
 $(document).ready(function(){
@@ -508,10 +513,11 @@ $(document).ready(function(){
                     };
                 }
 
-                if((u_email) && !voted){
+                if(((u_email) || !(dual.isEmpty(socialID))) && !voted){
                     socket.emit('vote', {
                         'p_id'      :[data._id, data.p_id],
                         'u_id'      :u_id,
+                        'socialID'  :socialID,
                         'u_email'   :u_email,
                         'u_loc'     :[geo_loc.country, geo_loc.countryCode, geo_loc.regionName, geo_loc.region, geo_loc.city],
                         'u_longlat' :[geo_loc.lon, geo_loc.lat],

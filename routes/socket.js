@@ -18,8 +18,9 @@ exports.getVoted = function (data, client) {
     });
 }
 exports.vote = function (dataVote, client, io) {
-    u_email = dataVote.u_email.toLowerCase();
-    u_id = (dataVote.u_id) ? dataVote.u_id : mongoose.Types.ObjectId();
+    var u_email = dataVote.u_email.toLowerCase();
+    var u_id = (dataVote.u_id) ? dataVote.u_id : mongoose.Types.ObjectId();
+    var socialID = dataVote.socialID;
     var new_vid = mongoose.Types.ObjectId();
     Poll.findOne({'_id': dataVote.p_id[0]}).exec(function (err, poll) {
         if (err) throw err;
@@ -42,9 +43,19 @@ exports.vote = function (dataVote, client, io) {
             var voted = {};
             voted[newvote.p_id] = newvote.v_choice; //using associative array for the field/value 
             // check if user exists
-            if (u_email){
+            // (u_email)
+            var count = 0;
+            for (i in socialID){
+                count++;
+            }
+            if (count>0){
+                var social = {};
                 console.log('Looking for user: ' + u_email)
-                User.findOne({'u_email': u_email}).exec(function (err, user) {
+                if(socialID){
+                    social['u_thirdId.'+socialID.party] = socialID.id;
+                    console.log('or social ID : '+socialID.party+' ID: '+ socialID.id)
+                }
+                User.findOne({$or:[{'u_email': u_email}, social]}).exec(function (err, user) {
                     if (err) throw err;
                     //if u_email doesn't exist, means we gotta make new account, so generate hex
                     if(!user){

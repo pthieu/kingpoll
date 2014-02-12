@@ -216,9 +216,18 @@ io.sockets.on('connection', function (client) {
     });
     client.on('getAuth', function () {
         console.log('auth start');
-
         if (client.handshake.user.logged_in){
-            client.emit('authStatus', client.handshake.user.logged_in, client.handshake.user.u_id);
+            switch(client.handshake.user.u_thirdParty){
+                case 'facebook':
+                    var party = 'facebook';
+                    break;
+                case 'twitter':
+                    var party = 'twitter';
+                    break;
+            }
+            var socialID = {'id':client.handshake.user.u_thirdId[party].toString(), 'party':party};
+
+            client.emit('authStatus', client.handshake.user.logged_in, client.handshake.user.u_id, socialID);
         } else {
             client.emit('authStatus', client.handshake.user.logged_in, null);
         }
