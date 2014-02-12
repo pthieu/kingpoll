@@ -53,6 +53,7 @@ exports.vote = function (dataVote, client, io) {
                         var user = new User({
                             _id         : new_uid,
                             'u_id'      : u_id,
+                            'u_thirdId' : new_uid,
                             'u_email'   : u_email,
                             'u_created' : new_uid.getTimestamp(),
                             'u_loc'     : dataVote.u_loc,
