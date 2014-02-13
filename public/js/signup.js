@@ -68,7 +68,15 @@ $(document).ready(function() {
 
     $('#newuser').submit(function(e){
         e.preventDefault();
-        var posting = $.post("/signup", {'req':{
+
+        var post_email = $('#tbEmail').val();
+        var post_uid = $('#tbUsername').val();
+        var post_password = $('#tbCheckPassword').val();
+        var post_name = $('#tbName').val();
+        var post_sex = $('input[name=gender]:checked').val();
+        var post_team = themecolor;
+
+        /*var posting = $.post("/signup", {'req':{
                             'u_email': $('#tbEmail').val(),
                             'u_id': $('#tbUsername').val(),
                             'u_password': $('#tbCheckPassword').val()},
@@ -78,6 +86,29 @@ $(document).ready(function() {
             ).success(function (data, status) {
             console.log(data);
             window.location.href = data;
+        });*/
+
+        var posting = $.ajax({
+        url: '/signup',
+        type: 'POST',
+        data:{
+                'u_email': post_email,
+                'u_id': post_uid,
+                'u_email': post_email,
+                'u_password': post_password,
+                'u_name': post_name,
+                'u_sex': post_sex,
+                'u_team': post_team
+        },
+            dataType: "html"
+        }).done(function (data) {
+            window.location.href = data;
+        }).fail(function (data) {
+            switch(data.responseText){
+                case 'c_n length does not match':
+                    alert('Please fill all visible textboxes with text and choose a color!');
+                    break;
+            }
         });
     });
 });

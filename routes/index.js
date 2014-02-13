@@ -184,9 +184,9 @@ exports.validateVote = function (req,res) {
 
 exports.newuser = function(req, res) {
     var newuser = new User({
-        'u_email': req.body.req.u_email,
-        'u_id': req.body.req.u_id,
-        'u_password': req.body.req.u_password
+        'u_email': req.body.u_email,
+        'u_id': req.body.u_id,
+        'u_password': req.body.u_password
     });
     newuser.save(function (err, user, count) {
         if (err){

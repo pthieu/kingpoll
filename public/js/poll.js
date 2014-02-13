@@ -60,8 +60,10 @@ $.getJSON("http://ip-api.com/json/", function(_geodata) {
     socket.emit('iploc', _geodata);
 });
 
-socket.on('authStatus', function (status, userId, social) {
+socket.on('authStatus', function (status, user, social) {
     socialID = social;
+    u_id = user.id;
+    u_email = user.email;
 });
 
 $(document).ready(function(){

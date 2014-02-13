@@ -222,18 +222,26 @@ io.sockets.on('connection', function (client) {
     });
     client.on('getAuth', function () {
         console.log('auth start');
+        console.log(client.handshake.user);
         if (client.handshake.user.logged_in){
-            switch(client.handshake.user.u_thirdParty){
-                case 'facebook':
-                    var party = 'facebook';
-                    break;
-                case 'twitter':
-                    var party = 'twitter';
-                    break;
-            }
-            var socialID = {'id':client.handshake.user.u_thirdId[party].toString(), 'party':party};
 
-            client.emit('authStatus', client.handshake.user.logged_in, client.handshake.user.u_id, socialID);
+            var user = {'id':client.handshake.user.u_id.toString(), 'email':client.handshake.user.u_email};
+
+            if(client.handshake.user.u_thirdParty){
+                switch(client.handshake.user.u_thirdParty){
+                    case 'facebook':
+                        var party = 'facebook';
+                        break;
+                    case 'twitter':
+                        var party = 'twitter';
+                        break;
+                }
+                var socialID = {'id':client.handshake.user.u_thirdId[party].toString(), 'party':party};
+
+                client.emit('authStatus', client.handshake.user.logged_in, user, socialID);
+            } else {
+                client.emit('authStatus', client.handshake.user.logged_in, user, null);
+            }
         } else {
             client.emit('authStatus', client.handshake.user.logged_in, null);
         }
