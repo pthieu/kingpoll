@@ -6,11 +6,21 @@ var User = require('../schema/userSchema').User;
 
 var FACEBOOK_APP_ID = "1447667995463132";
 var FACEBOOK_APP_SECRET = "2e522013d815555efb0db2673c4ff034";
-var FACEBOOK_APP_CALLBACK = "http://localhost:8888/auth/facebook/callback";
+if(process.env.NODE_ENV == 'production'){
+  var FACEBOOK_APP_CALLBACK = "http://www.kingpoll.com/auth/facebook/callback";
+}
+else{
+  var FACEBOOK_APP_CALLBACK = "http://localhost:8888/auth/facebook/callback";
+}
 
 var TWITTER_APP_ID = "gTryKLMlN6NSQ2JkhRrA";
 var TWITTER_APP_SECRET = "aKa4RGbTevidRIalBPKNo6O4H0qV6O5p7MJ4OOtpvc";
-var TWITTER_APP_CALLBACK = "http://localhost:8888/auth/twitter/callback";
+if(process.env.NODE_ENV == 'production'){
+  var TWITTER_APP_CALLBACK = "http://www.kingpoll.com/auth/twitter/callback";
+}
+else{
+  var TWITTER_APP_CALLBACK = "http://localhost:8888/auth/twitter/callback";
+}
 
 passport.serializeUser(function(user, done) {
   console.log("serialize authenticated...");

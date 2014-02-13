@@ -24,11 +24,17 @@ var help = require('./scripts/help.js');
 var dual = require('./public/js/dualwield.js');
 var email = require('./scripts/email.js');
 
-mongoose.connect('mongodb://localhost/test'); //connect to db
+if(process.env.NODE_ENV == 'production'){
+    mongoose.connect('mongodb://localhost/production'); //connect to db
+}
+else{
+    mongoose.connect('mongodb://localhost/test'); //connect to db
+}
+
 db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:')); //error check
 db.once('open', function callback() {
-    console.log('Connected to mongodb://localhost/test');
+    console.log('Connected to mongodb://localhost/'+((process.env.NODE_ENV == 'production')?'production':'test'));
 });
 
 var sessionStore = new MongoStore({
