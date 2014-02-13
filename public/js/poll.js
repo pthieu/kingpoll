@@ -644,7 +644,7 @@ function getMap(map, _name, rgn_color){
             },
             onRegionLabelShow: function(e, label, code){
                 //we only support canada and US for now
-                /*var country = $('[data-code="'+code+'"]').attr('data-country');
+                var country = $('[data-code="'+code+'"]').attr('data-country');
                 if (country === "CA" || country === "US"){
                     var map = $('#map'+country).vectorMap('get', 'mapObject');
                     var region_name = map.getRegionName(code);
@@ -662,7 +662,7 @@ function getMap(map, _name, rgn_color){
                         +'<span class="h6"><b>Total Votes: '+region_total+'</b></span></div>'
                         +'<div><table style="margin:auto" class="align-right">'+region_c_n+'</table></div>'
                         +'</div>');
-                }*/
+                }
             },
             regionStyle:{
                 initial:{
