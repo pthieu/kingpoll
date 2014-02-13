@@ -16,8 +16,13 @@ function randomPoll() {
 
     socket.on('randPollID', function (randPollID) {
         var temp = randPollID;
-        var temp2 = (window.location.href).split('/');
-        window.location.href = "/p/" + temp;
+        if(randPollID){
+            var temp2 = (window.location.href).split('/');
+            window.location.href = "/p/" + temp;
+        }
+        else{
+            window.location.href = "/new"
+        }
     });
 }
 
