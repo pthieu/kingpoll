@@ -54,13 +54,14 @@ passport.use(new FacebookStrategy({
     callbackURL: FACEBOOK_APP_CALLBACK
   },
   function(accessToken, refreshToken, profile, done) {
-
-    User.findOne({ 'u_thirdId': profile.id, 'u_thirdParty': 'facebook' }, function(err, user) {
+    User.findOne({ 'u_thirdId.facebook': profile.id, 'u_thirdParty': 'facebook' }, function(err, user) {
 
       if(user) {
         console.log('User: ' + user.u_name + ' found and logged in!');
         return done(null, user);
       } else {
+        console.log(user)
+        console.log('creatintg user!!')
         var newuser = new User();
         newuser.u_id = profile.username;
         newuser.u_email = profile.username + "@facebook.com";
@@ -88,7 +89,7 @@ passport.use(new TwitterStrategy({
     console.log(profile);
     console.log(profile._json);
     console.log(profile._json.id);
-    User.findOne({ 'u_thirdId': profile.id, 'u_thirdParty': 'twitter' }, function(err, user) {
+    User.findOne({ 'u_thirdId.twitter': profile.id, 'u_thirdParty': 'twitter' }, function(err, user) {
 
       if(user) {
         console.log('User: ' + user.u_name + ' found and logged in!');
