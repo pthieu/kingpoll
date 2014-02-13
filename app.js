@@ -154,7 +154,7 @@ io.sockets.on('connection', function (client) {
                     client.join(pollid);
                     client.emit('pollID', poll[0]);
                 } else {
-                    client.emit('randPollID', null);
+                    client.emit('randPollID', (poll[0].p_id)?poll[0].p_id:null);
                 }
             });
         });

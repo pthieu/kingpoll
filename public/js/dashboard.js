@@ -16,6 +16,7 @@ function randomPoll() {
 
     socket.on('randPollID', function (randPollID) {
         var temp = randPollID;
+        console.log(randPollID);
         if(randPollID){
             var temp2 = (window.location.href).split('/');
             window.location.href = "/p/" + temp;
