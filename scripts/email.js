@@ -25,12 +25,11 @@ module.exports = {
             // url = 'http://www.kingpoll.com/verify/v/'+v_valid+'+'+u_id+'+'+v_id;
             //Logic to determine poll information from poll_id, and the confirmation URL
             subject = 'KingPoll: Validate your vote now!';
-            body = "Hi!\n\nYour votes are currently pending validation! We have generated a validation link for you."
+            body = "Hi!\n\nYour votes are currently pending validation! We have generated a validation link for you. "
             + "Please click on the following link to verify you\'re not a robot and validate your votes:\n    " + url
-            + "\n\nYou will receive a validation link every 10 votes."
-            + ""
-            + "\n\nAny votes not validated will be deleted after 24 hours. "
-            + "If you don't want to receive validation e-mails, please sign up!";
+            + "\n\nYou will receive a validation link every 10 votes. "
+            + "Any votes not validated will be deleted after 24 hours. "
+            + "\n\nIf you don't want to receive validation e-mails, please sign up!";
             send_email(email, subject, body);
         });
     }

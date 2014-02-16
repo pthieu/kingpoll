@@ -45,7 +45,7 @@ $(document).ready(function(){
                 <td>'+Math.round(poll[i].s_tavg)/1000+'s</td>    \
                 <td><a href="/p/'+poll[i].p_id+'" class="btn btn-default btn-xs">Go!</a></td>      \
                 </tr>');
-            var tmpdesc = (poll[i].p_desc) ? poll[i].p_desc : "Poll King did not provide a description.";
+            var tmpdesc = (poll[i].p_desc) ? poll[i].p_desc : "User did not provide a description.";
             var th_colspan = $('thead tr td').length;
             var _embeddata = poll[i].p_embed;
             $('#polls-wrap').append('<td class="desc-wrap" colspan="'+(th_colspan+1)+'"><div class="polldesc col-xs-10 col-xs-offset-1" style="display: none" poll-id='+poll[i].p_id+" "+((_embeddata)?("embed-data=\""+_embeddata+"\""):"")+'>'+tmpdesc+'</div></td>');
