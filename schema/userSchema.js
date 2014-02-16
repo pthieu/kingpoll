@@ -44,7 +44,7 @@ var userSchema = new mongoose.Schema({
 userSchema.pre('save', function(next) {
     var user = this;
 
-    if(!user.isModified('u_password') || user.u_thirdParty.equals("facebook")) return next();
+    if(!user.isModified('u_password') || user.u_thirdParty != null) return next();
 
     var saltval = salt.generate_salt();
     user.u_salt = saltval;

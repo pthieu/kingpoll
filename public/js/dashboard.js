@@ -47,12 +47,11 @@ $(document).ready(function () {
 
     socket.emit('getAuth');
 
-    socket.on('authStatus', function (status, userId) {
+    socket.on('authStatus', function (status, user) {
         var authorized = status;
-        var id = userId
 
         if(status) {
-            document.getElementById('welcome-text').innerHTML="Welcome, " + userId + "<b class=\"caret\">";
+            document.getElementById('welcome-text').innerHTML="Welcome, " + user.id + "<b class=\"caret\">";
             document.getElementById('authorized').style.display='block';
         } else {
             document.getElementById('sign-in-list').style.display='block';
