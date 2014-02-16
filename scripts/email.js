@@ -14,16 +14,22 @@ var smtpTransport =  nodemailer.createTransport("SMTP",{
 
 module.exports = {
     send_email_confirmation: function (email, u_id, v_id, v_valid){
+        if(process.env.NODE_ENV == 'production'){
+            var host = 'www.kingpoll.com';
+        }
+        else{
+            var host = 'localhost:8888';
+        }
         User.findOne({'u_email':email}, function (err, user) {
-            url = 'http://localhost:8888/verify/v?g='+v_valid+'&u='+email+'&v='+v_id; // use below line for production
+            url = 'http://'+host+'/verify/v?g='+v_valid+'&u='+email+'&v='+v_id; // use below line for production
             // url = 'http://www.kingpoll.com/verify/v/'+v_valid+'+'+u_id+'+'+v_id;
             //Logic to determine poll information from poll_id, and the confirmation URL
             subject = 'KingPoll: Validate your vote now!';
-            body = "Hi!\n\nYour votes are currently pending validation! "
-            + "Please click on the following link to verify you\'re not a robot and validate up to 10 votes:\n    " + url
-            + "\n\nIf you have voted less than 10 times when you clicked the link, "
-            + "it will validate those votes and you will receive a new validation link (worth 10 votes) on your next vote."
-            + "\n\nIf you don't verify yourself, your vote will be deleted after 24 hours. "
+            body = "Hi!\n\nYour votes are currently pending validation! We have generated a validation link for you."
+            + "Please click on the following link to verify you\'re not a robot and validate your votes:\n    " + url
+            + "\n\nYou will receive a validation link every 10 votes."
+            + ""
+            + "\n\nAny votes not validated will be deleted after 24 hours. "
             + "If you don't want to receive validation e-mails, please sign up!";
             send_email(email, subject, body);
         });
