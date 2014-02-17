@@ -72,8 +72,8 @@ $(document).ready(function(){
         $(this).css({'color':'#666'});
     });
 
-    $('.group').click(function () {
-        $(this).find('span').slideToggle(100);
+    $('h4').click(function () {
+        $(this).parent().find('span').slideToggle(100);
     })
 
 });
