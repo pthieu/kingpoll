@@ -27,7 +27,7 @@ var userSchema = new mongoose.Schema({
     's_vanon'   : {type:Number, default:0}, //number of time user has voted anonymously stat
     's_vtotal'  : {type:Number, default:0}, //total number of votes stat
     // 's_tags' : [{type: String}], //tag people can tag crediblity
-    's_tavg'    : {type:Number, default:0}, //average vote time stat
+    's_ttotal'  : {type:Number, default:0}, //average vote time stat
     's_tmax'    : {type:Number, default:0}, //highest voting time stat
     's_tmin'    : {type:Number, default:0}, //lowest voting time stat
     's_cred'    : {type:Number, default:50}, //user credibility stat 0-100%

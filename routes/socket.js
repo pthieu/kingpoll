@@ -70,7 +70,7 @@ exports.vote = function (dataVote, client, io) {
                             'u_email'   : u_email,
                             'u_created' : new_uid.getTimestamp(),
                             'u_loc'     : dataVote.u_loc,
-                            's_tavg'    : dataVote.s_vtime,
+                            's_ttotal'  : dataVote.s_vtime,
                             's_tmin'    : dataVote.s_vtime,
                             's_tmax'    : dataVote.s_vtime,
                             's_vtotal'  : 1
@@ -79,7 +79,7 @@ exports.vote = function (dataVote, client, io) {
                     else{
                         user.s_tmin = Math.min(user.s_tmin, dataVote.s_vtime);
                         user.s_tmax = Math.max(user.s_tmax, dataVote.s_vtime);
-                        user.s_tavg = help.averager(dataVote.s_vtime, user.s_tavg, user.s_vtotal);
+                        user.s_ttotal = user.s_ttotal + dataVote.s_vtime;
                         user.s_vtotal += 1;
                         console.log('Found user account!');
                     }

@@ -115,7 +115,7 @@ var deleteVote = function (_vote, Poll, req, res, cb) {
     
     Poll.update({'_id': _vote.p_id}, {$inc:inc}, function (err, n, raw) {
         _vote.remove(function (err, vote) {
-            User.update({'_id': vote.u_id},{$pull:{'u_salt': vote.v_valid}, $inc:{v_left:-1}}, function (err, n, raw) {
+            User.update({'_id': vote.u_id},{$pull:{'u_salt': vote.v_valid}, $inc:{v_left:-1, s_vtotal:-1, s_ttotal:-1*vote.s_vtime}}, function (err, n, raw) {
             });
             //update poll vote average
             Vote.find({p_id: vote.p_id}, function (err, votes) {

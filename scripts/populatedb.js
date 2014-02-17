@@ -47,7 +47,7 @@ var polls = [];
 var votes = [];
 
 var nUsers = 3;
-var nPolls = 5;
+var nPolls = 2;
 
 for(var i=0; i<nUsers; i++){
 	var newuser = new User({
@@ -82,7 +82,7 @@ for(var i=0; i<nPolls; i++){
 			'c_n'		: c_n,
 			'c_text'	: c_text,
 			'c_hex'		: c_hex,
-			's_tavg'	: 0
+			's_ttotal'	: 0
 	    });
 
 	var arrInitMap = help.initMapChoice(c_n, newpoll['data'].toObject());
