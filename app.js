@@ -137,12 +137,12 @@ setInterval(function () {
 setInterval(function () {
     var cutoffdate = new Date();
     cutoffdate.setDate(cutoffdate.getDate()-1);
-    Vote.find({'v_date': {$lt: cutoffdate}}, {'v_date':1}, function (err, _votes) {
+    Vote.find({'v_date': {$lt: cutoffdate}, v_valid:{$not:/true/i}}, function (err, _votes) {
         _votes.forEach(function (_vote) {
-            console.log(_vote);
+            help.deleteVote(_vote, Poll)
         });
     });
-}, 1*1000); // every hour, find  unvalidated votes and delete
+}, (3600*1000)); // every hour, find  unvalidated votes and delete
 
 //Listen for incoming connections from clients
 io.sockets.on('connection', function (client) {
