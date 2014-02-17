@@ -319,7 +319,12 @@
 #polls-wrap>tr>td:nth-child(2){
   text-align: left;
 }
-#carousel-polls .container{
+#carousel-polls .wrap{
   background-color: #fff;
   height: auto;
+}
+
+#notes{
+  margin-top:8rem;
+  text-align: left;
 }
