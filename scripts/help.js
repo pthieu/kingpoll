@@ -55,10 +55,9 @@ var incPoll = function (Poll, newvote, client, io) {
     
     Poll.update({'_id': newvote.p_id}, {$inc:inc}, function (err, n, raw) {
         if (err) console.err(err);
-        (io)?io.sockets.in(poll.p_id).emit('pollID', poll):null;
     });
 
-    Poll.findOne({'_id':newvote.p_id}).exec(function(err, poll) {
+    Poll.findOne({'_id':newvote.p_id}, function(err, poll) {
     //     if (err) console.err(err);
     //     var country = newvote.u_loc[1].toUpperCase();
     //     var region = newvote.u_loc[3].toUpperCase();
@@ -87,7 +86,7 @@ var incPoll = function (Poll, newvote, client, io) {
         poll.save(function (err, poll) {
             if(err){console.log(err);}
             console.log('Poll incremented');
-    //         (io)?io.sockets.in(poll.p_id).emit('pollID', poll):null;
+            (io)?io.sockets.in(poll.p_id).emit('pollID', poll):null;
         });
     });
 }
