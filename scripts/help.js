@@ -51,7 +51,7 @@ var incPoll = function (Poll, newvote, client, io) {
     }
     inc['p_total'] = 1;
     inc['c_total'+'.'+newvote.v_choice] = 1;
-    inc['s_tmax'] = newvote.s_vtime;
+    inc['s_ttotal'] = newvote.s_vtime;
     
     Poll.update({'_id': newvote.p_id}, {$inc:inc}, function (err, n, raw) {
         if (err) console.err(err);
@@ -83,7 +83,7 @@ var incPoll = function (Poll, newvote, client, io) {
     //         poll.data.hiding[newvote.v_choice] += 1;
     //         poll.markModified('data.hiding');
     //     }
-        var s_tavg = Math.round(poll.s_tmax/poll.p_total);
+        poll.s_tavg = Math.round(poll.s_ttotal/poll.p_total);
         poll.save(function (err, poll) {
             if(err){console.log(err);}
             console.log('Poll incremented');

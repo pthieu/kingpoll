@@ -323,12 +323,13 @@ $(document).ready(function(){
             //set up data !IMPORTANT
             data = poll;
             data.s_vtime = data.s_vtime/1000;
-            data.s_tavg = data.s_tavg/1000;
+            data.s_tavg = Math.round(data.s_ttotal/data.p_total)/1000;
             lastpoll = (pollid) ? pollid : data.p_id;
             last_votes = data.c_total;
             pollid = data.p_id;
             disqus_identifier = pollid;
 
+console.log(data.s_tavg);
             // (lastpoll != pollid) ? (function(){
             //     (pushstate.current == pushstate.latest) ? (function(){
             //         pushstate.latest++;
@@ -415,11 +416,11 @@ $(document).ready(function(){
             if(u_email && !(voted)){
                 socket.emit('getVoted', {u_email: u_email, p_id: pollid});
             }
-            voteTimeData = [{name:'Average', value: Math.round(data.s_tavg*1000)/1000}, {name:'You', value: s_vtime}];
+            voteTimeData = [{name:'Average', value: data.s_tavg}, {name:'You', value: s_vtime}];
             drawVoteTime(chart, voteTimeData, y, yAxis);
             socket.on('setVoteTime', function (time) {
                 s_vtime = (time) ? time/1000 : 0;
-                voteTimeData = [{name:'Average', value: Math.round(data.s_tavg*1000)/1000}, {name:'You', value: s_vtime}];
+                voteTimeData = [{name:'Average', value: data.s_tavg}, {name:'You', value: s_vtime}];
                 drawVoteTime(chart, voteTimeData, y, yAxis);
             });
             $('.barchart rect').css('fill','#'+chart_solocolor);
@@ -509,7 +510,7 @@ $(document).ready(function(){
                 if (votetime>1383809658764){
                     votetime = (s_vtime) ? s_vtime*1000 :($.now()-votetime); //get votetime once
                     if(!s_vtime){
-                        voteTimeData = [{name:'Average', value: Math.round(dual.averager(votetime, data.s_tavg*1000, data.p_total))/1000}, {name:'You', value: votetime/1000}];
+                        voteTimeData = [{name:'Average', value: Math.round((data.s_ttotal+votetime)/(data.p_total+1))/1000}, {name:'You', value: votetime/1000}];
                         drawVoteTime(chart, voteTimeData, y, yAxis);
                         s_vtime = votetime/1000;
                     };
