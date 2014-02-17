@@ -325,15 +325,12 @@ $(document).ready(function(){
         if (poll){
             //set up data !IMPORTANT
             data = poll;
-            data.s_vtime = data.s_vtime/1000;
             data.s_tavg = Math.round(data.s_ttotal/data.p_total/(sigfig))*(sigfig)/1000;
             lastpoll = (pollid) ? pollid : data.p_id;
             last_votes = data.c_total;
             pollid = data.p_id;
             disqus_identifier = pollid;
 
-console.log(data.s_ttotal/data.p_total);
-console.log(data.s_tavg);
             // (lastpoll != pollid) ? (function(){
             //     (pushstate.current == pushstate.latest) ? (function(){
             //         pushstate.latest++;
@@ -420,11 +417,11 @@ console.log(data.s_tavg);
             if(u_email && !(voted)){
                 socket.emit('getVoted', {u_email: u_email, p_id: pollid});
             }
-            voteTimeData = [{name:'Average', value: data.s_tavg}, {name:'You', value: s_vtime}];
-            drawVoteTime(chart, voteTimeData, y, yAxis);
+            voteTimeData = [{name:'Average', value: data.s_tavg}, {name:'You', value: Math.round(s_vtime/sigfig)*sigfig}];
+            // drawVoteTime(chart, voteTimeData, y, yAxis);
             socket.on('setVoteTime', function (time) {
                 s_vtime = (time) ? Math.round(time/sigfig)*sigfig/1000 : 0;
-                voteTimeData = [{name:'Average', value: data.s_tavg}, {name:'You', value: (s_vtime)}];
+                voteTimeData = [{name:'Average', value: data.s_tavg}, {name:'You', value: s_vtime}];
                 drawVoteTime(chart, voteTimeData, y, yAxis);
             });
             $('.barchart rect').css('fill','#'+chart_solocolor);
