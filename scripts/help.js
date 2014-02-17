@@ -82,12 +82,14 @@ var incPoll = function (Poll, newvote, client, io) {
     //         poll.data.hiding[newvote.v_choice] += 1;
     //         poll.markModified('data.hiding');
     //     }
-        poll.s_tavg = Math.round(poll.s_ttotal/poll.p_total);
-        poll.save(function (err, poll) {
+        // poll.s_tavg = Math.round(poll.s_ttotal/poll.p_total);
+        // poll.save(function (err, poll) {
             if(err){console.log(err);}
-            console.log('Poll incremented');
-            (io)?io.sockets.in(poll.p_id).emit('pollID', poll):null;
-        });
+            if (poll){
+                console.log('Poll incremented');
+                (io)?io.sockets.in(poll.p_id).emit('pollID', poll):null;
+            }
+        // });
     });
 }
 
@@ -123,12 +125,8 @@ var deleteVote = function (_vote, Poll, req, res, cb) {
                     for (i in votes){
                         v_time += votes[i].s_vtime;
                     }
-                    var s_tavg = v_time/votes.length;
                 }
-                else{
-                    var s_tavg = 0;
-                }
-                Poll.update({'_id': vote.p_id},{$set:{'s_tavg':s_tavg}}, function (err, n, raw) {
+                Poll.update({'_id': vote.p_id},{$set:{'s_ttotal':v_total}}, function (err, n, raw) {
                 });
             });
         });

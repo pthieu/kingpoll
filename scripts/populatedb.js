@@ -47,7 +47,7 @@ var polls = [];
 var votes = [];
 
 var nUsers = 3;
-var nPolls = 1;
+var nPolls = 5;
 
 for(var i=0; i<nUsers; i++){
 	var newuser = new User({
@@ -68,8 +68,8 @@ for(var i=0; i<nPolls; i++){
 	var c_text = [];
 	var c_hex = [];
 
-	for(var i=0; i<c_n;i++){
-		c_text.push('c'+i);
+	for(var j=0; j<c_n;j++){
+		c_text.push('c'+j);
 		c_hex.push(colors_hex[randColor(colors_hex)]);
 	}
 
