@@ -134,6 +134,16 @@ setInterval(function () {
     });
 }, 5000);
 
+setInterval(function () {
+    var cutoffdate = new Date();
+    cutoffdate.setDate(cutoffdate.getDate()-1);
+    Vote.find({'v_date': {$lt: cutoffdate}}, {'v_date':1}, function (err, _votes) {
+        _votes.forEach(function (_vote) {
+            console.log(_vote);
+        });
+    });
+}, 1*1000); // every hour, find  unvalidated votes and delete
+
 //Listen for incoming connections from clients
 io.sockets.on('connection', function (client) {
     // console.log("Socket io connection");
