@@ -2,9 +2,9 @@ var mongoose = require('mongoose');
 
 //v_vote u_user p_poll 
 var voteSchema = new mongoose.Schema({
-    'u_id'      : {type:mongoose.Schema.Types.ObjectId, required:true},
-    'p_id'      : {type:mongoose.Schema.Types.ObjectId, required:true},
-    'u_email'   : {type:String, required:true},
+    'u_id'      : {type:mongoose.Schema.Types.ObjectId, index:true, required:true},
+    'p_id'      : {type:mongoose.Schema.Types.ObjectId, index:true, required:true},
+    'u_email'   : {type:String, index: true, required:true},
     'u_loc'     : [{type:String}],
     'u_longlat' : [{type:Number}],
     'v_ip'      : {type:String},

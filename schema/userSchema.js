@@ -4,7 +4,7 @@ var salt = require('../scripts/saltgen.js');
 // creating a schema
 //u_user s_stats a_achievements
 var userSchema = new mongoose.Schema({
-    'u_id'      : {type:String, unique:true}, //like twitter's @name, changeable
+    'u_id'      : {type:String, unique:true, index:true}, //like twitter's @name, changeable
     'u_email'   : {type:String, required:true, unique:true}, //user email, used for login
     'u_anonname': {type:String}, //anonymous nickname appointed to user
     'u_name'    : {type:String},

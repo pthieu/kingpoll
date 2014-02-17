@@ -57,40 +57,8 @@ var incPoll = function (Poll, newvote, client, io) {
         if (err) console.err(err);
     });
 
-    Poll.findOne({'_id':newvote.p_id}, function(err, poll) {
-    //     if (err) console.err(err);
-    //     var country = newvote.u_loc[1].toUpperCase();
-    //     var region = newvote.u_loc[3].toUpperCase();
-    //     //easy stuff. remember if it's an array to use markModified()
-    //     poll.s_tavg = averager(newvote.s_vtime*1000, poll.s_tavg, poll.p_total);//averager uses ms so *1000
-    //     poll.p_total += 1;
-    //     poll.c_total[newvote.v_choice] += 1;
-    //     poll.markModified('c_total');
-    //     //prefixes for naming in maps
-    //     switch(country){
-    //         case 'US':
-    //             region = "US-"+region; // add prefix
-    //             break;
-    //     }
-
-    //     //check if region actually exists, if it doesn't we increment the hiding instead
-    //     if(poll.data[country][region]){
-    //         (poll.data[country][region])[newvote.v_choice] += 1;
-    //         poll.markModified('data.' + country + '.' + region);
-    //     }
-    //     else{
-    //         poll.data.hiding[newvote.v_choice] += 1;
-    //         poll.markModified('data.hiding');
-    //     }
-        // poll.s_tavg = Math.round(poll.s_ttotal/poll.p_total);
-        // poll.save(function (err, poll) {
-            if(err){console.log(err);}
-            if (poll){
-                console.log('Poll incremented');
-                (io)?io.sockets.in(poll.p_id).emit('pollID', poll):null;
-            }
-        // });
-    });
+    console.log('Poll incremented: '+newvote.p_id);
+    (io)?io.sockets.in(poll.p_id).emit('pollID', poll):null;
 }
 
 var deleteVote = function (_vote, Poll, req, res, cb) {
@@ -120,10 +88,9 @@ var deleteVote = function (_vote, Poll, req, res, cb) {
             //update poll vote average
             Vote.find({p_id: vote.p_id}, function (err, votes) {
                 var v_total = 0;
-                var v_time = 0;
                 if(votes.length > 0){
                     for (i in votes){
-                        v_time += votes[i].s_vtime;
+                        v_total += votes[i].s_vtime;
                     }
                 }
                 Poll.update({'_id': vote.p_id},{$set:{'s_ttotal':v_total}}, function (err, n, raw) {
