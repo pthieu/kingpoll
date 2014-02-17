@@ -328,11 +328,16 @@
   margin-top:8rem;
   text-align: left;
   padding-left: 0;
+  padding-right:0.4rem;
 }
 #notes h4{
   text-decoration: underline;
   margin-bottom:0.25rem;
   font-weight: bold;
+  cursor: pointer;
+}
+#notes h4:hover{
+  background-color:#ddd;
 }
 #notes span{
   display: block;

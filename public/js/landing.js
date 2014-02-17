@@ -72,6 +72,10 @@ $(document).ready(function(){
         $(this).css({'color':'#666'});
     });
 
+    $('.group').click(function () {
+        $(this).find('span').slideToggle(100);
+    })
+
 });
 
 function loadpoll(limit, count, scroll) {
