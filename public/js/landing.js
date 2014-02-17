@@ -2,6 +2,7 @@ var socket = io.connect();
 
 //UI/UX
 var solocolor = colors_hex[randColor(colors_hex)];
+var sigfig = 2*10;
 
 //Data settings
 var count = 0;
@@ -42,7 +43,7 @@ $(document).ready(function(){
         for(var i in poll){
             $('#polls-wrap').append('<tr class="poll" poll-id='+poll[i].p_id+'><td class="extras"></td><td>'+poll[i].p_q+'</td>     \
                 <td>'+poll[i].p_total+'</td>    \
-                <td>'+Math.round(poll[i].s_tavg)/1000+'s</td>    \
+                <td>'+Math.round(poll[i].s_ttotal/poll[i].p_total/sigfig)*sigfig/1000+'s</td>    \
                 <td><a href="/p/'+poll[i].p_id+'" class="btn btn-default btn-xs">Go!</a></td>      \
                 </tr>');
             var tmpdesc = (poll[i].p_desc) ? poll[i].p_desc : "User did not provide a description.";
