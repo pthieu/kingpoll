@@ -39,6 +39,8 @@ var randLoc = function () {
 var argv = process.argv; // params start a index 2
 
 var votes = [];
+var votechance=0.7;
+
 var users = [];
 var nUsers = 10;
 
@@ -87,19 +89,21 @@ User.count().exec(function (err, usercount) {
                 newvote.v_choice = v_choice;
                 newvote.v_text = poll.c_text[v_choice];
                 newvote.v_hex = poll.c_hex[v_choice];
+                var rollvote = Math.random();
+                if(rollvote < votechance){
+                    help.incPoll(Poll, newvote);
 
-                help.incPoll(Poll, newvote);
-
-                newvote.save(function (err, poll, n) {
-                    if (err) console.log(err);
-                    console.log('Vote Saved!');
-                });
+                    newvote.save(function (err, vote, n) {
+                        if (err) console.log(err);
+                        console.log('Vote Saved: '+ poll._id);
+                    });
+                }
             }
         });
         for(i in users){
             users[i].save(function (err, user, n) {
                 if (err) console.error(err);
-                console.log('User Saved!');
+                console.log('User Saved: '+ user.u_email);
             });
         }
     });
