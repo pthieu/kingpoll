@@ -325,7 +325,7 @@ $(document).ready(function(){
         if (poll){
             //set up data !IMPORTANT
             data = poll;
-            data.s_tavg = Math.round(data.s_ttotal/data.p_total/(sigfig))*(sigfig)/1000;
+            data.s_tavg = (data.s_ttotal)?Math.round(data.s_ttotal/data.p_total/(sigfig))*(sigfig)/1000:0;
             lastpoll = (pollid) ? pollid : data.p_id;
             last_votes = data.c_total;
             pollid = data.p_id;

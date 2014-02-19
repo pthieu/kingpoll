@@ -8,7 +8,12 @@ var help = require('../scripts/help.js');
 var dual = require('../public/js/dualwield.js');
 var colors = require('../public/js/colors.js');
 
-mongoose.connect('mongodb://localhost/test'); //connect to db
+if(process.env.NODE_ENV == 'production'){
+    mongoose.connect('mongodb://localhost/production'); //connect to db
+}
+else{
+    mongoose.connect('mongodb://localhost/test'); //connect to db
+}
 
 db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:')); //error check
@@ -47,13 +52,13 @@ var polls = [];
 var votes = [];
 
 var nUsers = 10;
-var nPolls = 1;
+var nPolls = 3;
 
 for(var i=0; i<nUsers; i++){
     var newuser = new User({
             '_id': mongoose.Types.ObjectId(),
             'u_id': mongoose.Types.ObjectId(),
-            'u_email': 'email'+i+"@test.com",
+            'u_email': 'dummy'+i+"@kingpoll.com",
         });
     users.push(newuser);
 }
