@@ -80,7 +80,8 @@ User.count().exec(function (err, usercount) {
                     'u_email'   : users[i].u_email,
                     'u_loc'     : users[i].u_loc,
                     'v_date'    : newdate,
-                    's_vtime'   : Math.ceil(Math.random()*4000)
+                    's_vtime'   : Math.ceil(Math.random()*4000),
+                    'v_valid'   : 'true'
                 });
                 users[i].s_ttotal += newvote.s_vtime;
                 users[i].s_vtotal++;
