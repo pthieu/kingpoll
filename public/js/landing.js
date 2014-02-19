@@ -44,7 +44,7 @@ $(document).ready(function(){
             $('#polls-wrap').append('<tr class="poll" poll-id='+poll[i].p_id+'><td class="extras"></td><td>'+poll[i].p_q+'</td>     \
                 <td>'+poll[i].p_total+'</td>    \
                 <td>'+((poll[i].s_ttotal)?Math.round(poll[i].s_ttotal/poll[i].p_total/sigfig)*sigfig/1000:0)+'s</td>    \
-                <td><a href="/p/'+poll[i].p_id+'" class="btn btn-default btn-xs landing-go">Go!</a></td>      \
+                <td><a href="/p/'+poll[i].p_id+'" class="btn btn-default btn-xs">Go!</a></td>      \
                 </tr>');
             var tmpdesc = (poll[i].p_desc) ? poll[i].p_desc : "User did not provide a description.";
             var th_colspan = $('thead tr td').length;
