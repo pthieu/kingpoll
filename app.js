@@ -60,7 +60,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.get('/', routes.landing);
-app.get('/about', userAuth.ensureAuthenticated, routes.about);
+app.get('/about', routes.about);
 app.get('/new', routes.createpoll);
 app.get('/listpoll', routes.listpoll);
 app.get('/p/:id', routes.getpoll);

@@ -368,6 +368,8 @@ $(document).ready(function(){
                 _desclinktext += "</ol></div>";
                 $('.tbDescription').append(_desclinktext);
                 ($('.linkpreview').length!==0)?(function () {$('.linkdesclist').show();})():null;
+                //Setting metatag for Facebook sharing
+                setMetaTag("og:description",data.p_desc,"fb");
             }
             if(data.p_embed){
                 $('.embed-wrap').show();
@@ -380,6 +382,9 @@ $(document).ready(function(){
                 $('.embed-wrap').hide();
             }
             $('#question').html(data.p_q);
+            //Setting metatag for Facebook sharing 
+            setMetaTag("og:title",data.p_q,"fb");
+            setMetaTag("og:url",window.location.href,"fb");
 
 //PIE CHANGES
             //if same poll, update stats
@@ -496,6 +501,7 @@ $(document).ready(function(){
                 for(i in choice_colors){
                     $('#choices .radio').append('<input id="c'+ i +'"class="btnChoice" type="radio" name="vote" value="'+ i +'" /><label for="c'+i+'" style="background-color:#'+choice_colors[i].color+'"><div><div>'+choice_colors[i].c_text+'</div></div></label>');
                 }
+                $('#choices .fb-share-button').show();
             }
             socket.on('setVoted', function (d) {
                 setTimeout(function () {
@@ -837,4 +843,18 @@ function calcPie(data){
     }
 
     return results;
+}
+
+function setMetaTag(metaName, value, socialApp){
+    var t;
+
+    if(socialApp == "fb"){
+        t = 'meta[property="'+metaName+'"]';
+        var mt = $(t);
+        if (mt.length === 0) {
+            t = '<meta property="'+metaName+'" content="'+value+'" />';
+            $(t).appendTo('head');
+        }
+        mt.attr('content', value);
+    }
 }

@@ -237,3 +237,7 @@ svg path:hover{
   display        : inline-block;
   vertical-align : middle;
 }
+
+.share-buttons {
+  padding-bottom: 5px;
+}

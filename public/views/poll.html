@@ -16,8 +16,31 @@
     <link rel="stylesheet" href="/css/popup_signup.css" type="text/css" />
     <link rel="stylesheet" href="/css/dash.css" type="text/css" />
     <link rel="stylesheet" href="/css/footer.css" type="text/css" />
+
+    <!-- for Facebook -->    
+    <meta property="fb:app_id" content="1447667995463132" />      
+    <meta property="og:type" content="article" />
+    <meta property="og:image" content="http://localhost:8888/images/kingstache_fff_s.png" />
 </head>
 <body>
+    <div id="fb-root"></div>
+    <script>
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId      : '1447667995463132',
+          status     : true,
+          xfbml      : true
+        });
+      };
+
+      (function(d, s, id){
+         var js, fjs = d.getElementsByTagName(s)[0];
+         if (d.getElementById(id)) {return;}
+         js = d.createElement(s); js.id = id;
+         js.src = "//connect.facebook.net/en_US/all.js";
+         fjs.parentNode.insertBefore(js, fjs);
+       }(document, 'script', 'facebook-jssdk'));
+    </script>
     <div id='dash'></div>
     <div id="wrapper">
         <div id='question'>Getting poll, please wait...</div>
@@ -26,6 +49,9 @@
             <button id='clearpoll'>clear</button> -->
         <div id="choices" class='choices'>
             <div class='radio'></div>
+            <div class="share-buttons">
+                <div style="display: none;" class="fb-share-button" data-href="http://developers.facebook.com/docs/plugins/" data-type="button"></div>
+            </div>
         </div>
         <div class='embed-wrap'>
             <div class='embed'></div>
