@@ -2,7 +2,7 @@
 <!-- <!DOCTYPE html> -->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
-<head>
+<head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# kingpoll: http://ogp.me/ns/fb/kingpoll#">
     <meta name="viewport" content="width=device-width">
     <title>kingpoll.</title>
     <link href="/jvectormap/jquery-jvectormap-1.2.2.css" media="screen" rel="stylesheet" type="text/css" />
@@ -49,8 +49,10 @@
             <button id='clearpoll'>clear</button> -->
         <div id="choices" class='choices'>
             <div class='radio'></div>
-            <div class="share-buttons">
-                <div style="display: none;" class="fb-share-button" data-href="http://kingpoll.com" data-type="button"></div>
+            <div class="share-buttons" style="display: none;">
+                <a id="fb-share-button" target="_blank">
+                    <img src="/images/share/fb_share.png">
+                </a>
             </div>
         </div>
         <div class='embed-wrap'>

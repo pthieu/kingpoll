@@ -385,7 +385,10 @@ $(document).ready(function(){
             //Setting metatag for Facebook sharing 
             setMetaTag("og:title",data.p_q,"fb");
             setMetaTag("og:url",window.location.href,"fb");
-
+            //$('.fb-share-button').attr("data-href",window.location.href);
+            //$('.share-buttons').html('<div style="display: none;" class="fb-share-button" data-href="'+window.location.href+'" data-type="button"></div>');
+            //$('.share-buttons').html('<a href="https://www.facebook.com/sharer/sharer.php?u='+window.location.href+'" target="_blank"">Share on Facebook</a>');
+            $('#fb-share-button').attr("href","https://www.facebook.com/sharer/sharer.php?u="+window.location.href+"");
 //PIE CHANGES
             //if same poll, update stats
             if(pollid == lastpoll && data.p_total > 0){
@@ -501,7 +504,7 @@ $(document).ready(function(){
                 for(i in choice_colors){
                     $('#choices .radio').append('<input id="c'+ i +'"class="btnChoice" type="radio" name="vote" value="'+ i +'" /><label for="c'+i+'" style="background-color:#'+choice_colors[i].color+'"><div><div>'+choice_colors[i].c_text+'</div></div></label>');
                 }
-                $('#choices .fb-share-button').show();
+                $('#choices .share-buttons').show();
             }
             socket.on('setVoted', function (d) {
                 setTimeout(function () {
