@@ -22,11 +22,19 @@ exports.searchpoll = function (req, res) {
     res.sendfile('public/views/search.html');
 }
 exports.getpoll = function (req, res) {
-    console.log("getpoll...");
+    /*console.log("getpoll...");
     if(numonly.test(req.params.id) === true){
         pollID = req.params.id;
     }
-    res.sendfile('public/views/poll.html');
+    res.sendfile('public/views/poll.html');*/
+
+    Poll.findOne({'p_id':req.params.id}, function(err, poll) {
+        res.render('poll', {
+            description: poll.p_desc,
+            title: poll.p_q,
+            url: 'http://kingpoll.com/p/' + poll.p_id    
+        });
+    }); 
 };
 exports.createpoll = function (req, res) {
     res.sendfile('public/views/newpoll.html');

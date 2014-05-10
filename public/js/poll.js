@@ -368,8 +368,6 @@ $(document).ready(function(){
                 _desclinktext += "</ol></div>";
                 $('.tbDescription').append(_desclinktext);
                 ($('.linkpreview').length!==0)?(function () {$('.linkdesclist').show();})():null;
-                //Setting metatag for Facebook sharing
-                setMetaTag("og:description",data.p_desc,"fb");
             }
             if(data.p_embed){
                 $('.embed-wrap').show();
@@ -382,9 +380,7 @@ $(document).ready(function(){
                 $('.embed-wrap').hide();
             }
             $('#question').html(data.p_q);
-            //Setting metatag for Facebook sharing 
-            setMetaTag("og:title",data.p_q,"fb");
-            setMetaTag("og:url",window.location.href,"fb");
+            
             //$('.fb-share-button').attr("data-href",window.location.href);
             //$('.share-buttons').html('<div style="display: none;" class="fb-share-button" data-href="'+window.location.href+'" data-type="button"></div>');
             //$('.share-buttons').html('<a href="https://www.facebook.com/sharer/sharer.php?u='+window.location.href+'" target="_blank"">Share on Facebook</a>');
@@ -846,18 +842,4 @@ function calcPie(data){
     }
 
     return results;
-}
-
-function setMetaTag(metaName, value, socialApp){
-    var t;
-
-    if(socialApp == "fb"){
-        t = 'meta[property="'+metaName+'"]';
-        var mt = $(t);
-        if (mt.length === 0) {
-            t = '<meta property="'+metaName+'" content="'+value+'" />';
-            $(t).appendTo('head');
-        }
-        mt.attr('content', value);
-    }
 }
