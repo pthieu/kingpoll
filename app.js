@@ -2,6 +2,7 @@
 var appPort =  process.env.PORT || process.env.VCAPP_APP_PORT || 8888;
 
 var express = require('express'), app = express();var expressValidator = require('express-validator');
+var exphbs = require('express3-handlebars');
 var http = require('http').createServer(app);
 var io = require('socket.io').listen(http);
 var UUID = require('node-uuid');
@@ -49,6 +50,9 @@ var userAuth = require('./routes/login_auth.js');
 
 //var MemoryStore = express.session.MemoryStore;
 //var memStore = new MemoryStore();
+
+app.engine('handlebars', exphbs());
+app.set('view engine', 'handlebars');
 
 app.use(express.logger());
 app.use(express.static(__dirname + '/public'));
