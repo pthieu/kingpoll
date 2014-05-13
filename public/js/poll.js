@@ -385,6 +385,18 @@ $(document).ready(function(){
             //$('.share-buttons').html('<div style="display: none;" class="fb-share-button" data-href="'+window.location.href+'" data-type="button"></div>');
             //$('.share-buttons').html('<a href="https://www.facebook.com/sharer/sharer.php?u='+window.location.href+'" target="_blank"">Share on Facebook</a>');
             $('#fb-share-button').attr("href","https://www.facebook.com/sharer/sharer.php?u="+window.location.href+"");
+
+            $('.twitter-share-button1 iframe').remove();
+            // Generate new markup
+            var tweetBtn = $('<a></a>')
+                .addClass('twitter-share-button')
+                .attr('href', 'http://twitter.com/share')
+                .attr('data-url', window.location.href)
+                .attr('data-text', poll.p_q)
+                .attr('data-count', 'none');
+            $('.twitter-share-button1').append(tweetBtn);
+            twttr.widgets.load();
+
 //PIE CHANGES
             //if same poll, update stats
             if(pollid == lastpoll && data.p_total > 0){

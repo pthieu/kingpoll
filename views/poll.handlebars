@@ -24,6 +24,12 @@
     <meta property="og:description" content="{{description}}" />
     <meta property="og:title" content="{{title}}" />
     <meta property="og:url" content="{{url}}" />
+
+    <!-- for twitter -->        
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:image:src" content="http://www.kingpoll.com/images/kingstache_000_154x154.png" />
+    <meta property="twitter:description" content="{{description}}" />
+    <meta property="twitter:title" content="{{title}}" />
 </head>
 <body>
     <div id="fb-root"></div>
@@ -53,9 +59,15 @@
         <div id="choices" class='choices'>
             <div class='radio'></div>
             <div class="share-buttons" style="display: none;">
-                <a id="fb-share-button" target="_blank">
-                    <img src="/images/share/fb_share.png">
-                </a>
+                <div class="fb-share-button">
+                    <a id="fb-share-button" target="_blank">
+                        <img src="/images/share/fb_share.png">
+                    </a>
+                </div>
+                <div class="twitter-share-button1">
+                    <a href="https://twitter.com/share" class="twitter-share-button" data-via="ioKingpoll" data-count="none" data-text="{{title}}" data-url="{{url}}">Tweet</a>
+                    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+                </div>
             </div>
         </div>
         <div class='embed-wrap'>
