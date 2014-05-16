@@ -3,6 +3,7 @@ var Poll = mongoose.model( 'poll' );
 var User = mongoose.model( 'user' );
 var Vote = mongoose.model( 'vote' );
 var shortid = require('shortid');
+var request = require('request');
 var help = require('../scripts/help.js');
 
 var ObjectId = require('mongoose').Types.ObjectId;
@@ -29,10 +30,12 @@ exports.getpoll = function (req, res) {
     res.sendfile('public/views/poll.html');*/
 
     Poll.findOne({'p_id':req.params.id}, function(err, poll) {
+        console.log(poll);
         res.render('poll', {
             description: poll.p_desc,
             title: poll.p_q,
-            url: 'http://kingpoll.com/p/' + poll.p_id    
+            url: 'http://kingpoll.com/p/' + poll.p_id,
+            image: poll.p_image    
         });
     }); 
 };
@@ -130,18 +133,48 @@ exports.newpoll = function(req, res) {
         //redirect to new id
         console.log(hex_pid);
         newpoll['p_id'] = hex_pid;
-        newpoll.save(function (err, poll, count) {
-            if (err){
-                console.error(err);
-                res.status(500).json({status:'Poll Save: failed'});
+
+        request.post(
+            'https://api.imgur.com/oauth2/token', 
+            {form:{refresh_token:'44866ec2d6b245981671caa6180e21b6d6ccaa9f',client_id:'1100622bb9cd565', client_secret:'9110bce0d66afacd967692e0b60597f0f3c79997', grant_type:'refresh_token' }}, 
+            function(err, response, body){
+                if (!err && response.statusCode == 200) {
+                    var login_body = JSON.parse(body);
+                    var options = {
+                        url: 'https://api.imgur.com/3/image',
+                        headers: {
+                            'Authorization': 'Bearer ' + login_body.access_token,
+                            'Accept': 'application/json'
+                        },
+                        form: {
+                            'image': req.body.p_image,
+                            'type': 'base64',
+                            'title': req.body.p_q,
+                            'description': req.body.p_desc
+                        }
+                    };
+                    
+                    request.post(options, function(err, response, body){
+                        var upload_body = JSON.parse(body);
+                        if (!err && response.statusCode == 200) {
+                            newpoll.p_image = 'https://i.imgur.com/' + upload_body.data.id + '.png';
+                        }
+                        newpoll.save(function (err, poll, count) {
+                            if (err){
+                                console.error(err);
+                                res.status(500).json({status:'Poll Save: failed'});
+                            }
+                            else{
+                                console.log('Poll Save: passed')
+                                var redirect = "/p/"+hex_pid.toString();
+                                res.header('Content-Length', Buffer.byteLength(redirect));
+                                res.send(redirect, 200);
+                            }
+                        });
+                    });
+                }
             }
-            else{
-                console.log('Poll Save: passed')
-                var redirect = "/p/"+hex_pid.toString();
-                res.header('Content-Length', Buffer.byteLength(redirect));
-                res.send(redirect, 200);
-            }
-        });
+        ); 
     });
 };
 

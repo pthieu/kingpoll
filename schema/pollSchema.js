@@ -15,6 +15,7 @@ var pollSchema = new mongoose.Schema({
     'p_embed'   : {type:String}, //embed link
     'p_desc'    : {type:String}, // poll description
     'p_total'   : {type:Number, default:0}, //votes total used for top100 later on
+    'p_image'    : {type:String}, // imgur url
     //vote choice param
     'c_n'       : {type:Number, required:true}, //number of colors
     'c_text'    : [{type:String, required:true}], // text per choice

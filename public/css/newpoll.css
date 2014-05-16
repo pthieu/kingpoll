@@ -6,6 +6,9 @@ label{
     -ms-user-select: none;
     user-select: none;
 }
+canvas{
+  display: none;
+}
 #wrapper>div{
   font-size: 1.5rem;
 }
