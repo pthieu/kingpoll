@@ -728,10 +728,14 @@ function getSignUpBox(sel){
                 id:'signupVote',
                 text: 'Vote!',
                 click: function (d) {
-                    if($('#tbEmail').val()){
+                    var tbEmail = $('#tbEmail').val();
+                    if((tbEmail) && tbEmail.match(/[^@]+@gmail.com$/i)){
                         setEmail($('#tbEmail').val());
                         $('#'+sel.attr('for')).click();
                         $(this).dialog('close');
+                    }
+                    else if(!tbEmail.match(/[^@]+@gmail.com$/i)){
+                        alert('We currently only accept @gmail.com emails for anonymous emails.');
                     }
                 }
             }
