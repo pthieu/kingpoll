@@ -735,7 +735,7 @@ function getSignUpBox(sel){
                         $(this).dialog('close');
                     }
                     else if(!tbEmail.match(/[^@]+@gmail.com$/i)){
-                        alert('We currently only accept @gmail.com emails for anonymous emails.');
+                        alert('We currently only accept @gmail.com emails for anonymous voting.');
                     }
                 }
             }
