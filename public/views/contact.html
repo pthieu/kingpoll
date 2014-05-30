@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-  scale=1.0">
+  <title>kingpoll.</title>
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" type="text/css" />
+  <link rel="stylesheet" href="/css/about.css" type="text/css" />
+  <link rel="stylesheet" href="/css/layout.css" type="text/css" />
+  <link rel="stylesheet" href="/css/footer.css" type="text/css" />
+  <link rel="stylesheet" href="/css/dash.css" type="text/css" />
+</head>
+<body>
+  <div id='dash'></div>
+  <div id='wrapper' class="policy-wrap">
+    <div id='branding'>
+      <span id='nameLogo'>kingpoll.</span><div id='wrapLogo'><img src="/images/kingstache_666.png" alt="There's a poll for that." id='imgLogo'></div>
+      <br/><!-- <span id='slogan'>There's a poll for that.</span> -->
+    </div>
+    <div class="contact-content">
+      <h1>e-mail</h1>
+      <p><a href="mailto:iokingpoll@gmail.com"></a>iokingpoll@gmail.com</p>
+      <h1>social media</h1>
+      <p><a href="https://www.facebook.com/king.poll.16">facebook</a></p>
+      <p><a href="https://twitter.com/iokingpoll">twitter</a></p>
+    </div>
+  </div>
+  <div class="navbar navbar-inverse navbar-bottom">
+    <div class="container-fluid" id='footer'></div>
+  </div>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/jquery.cookie.js"></script>
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+<!--<script src="/js/colors.js"></script>
+  <script src="/js/about.js"></script>-->
+  <script type="text/javascript" src="/js/dashboard.js"></script>
+  <script>$('#dash').load('/views/dash.html')</script>
+  <script>$('#footer').load('/views/footer.html')</script>
+</body>
+</html>

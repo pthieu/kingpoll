@@ -22,6 +22,12 @@ exports.listpoll = function (req, res) {
 exports.searchpoll = function (req, res) {
     res.sendfile('public/views/search.html');
 }
+exports.contact = function (req, res) {
+    res.sendfile('public/views/contact.html');
+}
+exports.policy = function (req, res) {
+    res.sendfile('public/views/policy.html');
+}
 exports.getpoll = function (req, res) {
     /*console.log("getpoll...");
     if(numonly.test(req.params.id) === true){

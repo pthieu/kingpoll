@@ -71,6 +71,8 @@ app.get('/p/:id', routes.getpoll);
 app.get('/signup', routes.signup);
 app.get('/verify/v', routes.verifyvote);
 app.get('/search', routes.searchpoll);
+app.get('/contact', routes.contact);
+app.get('/policy', routes.policy);
 // app.get('*', routes.about);
 app.post('/new', routes.newpoll);
 app.post('/signup', routes.newuser);

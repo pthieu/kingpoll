@@ -36,3 +36,12 @@
 ul{
   margin: 0;
 }
+
+/*POLICY STUFF HERE*/
+
+.policy-content{
+  margin: auto;
+  margin-bottom:5rem;
+  text-align: left;
+  max-width:50rem;
+}
