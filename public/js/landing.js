@@ -76,9 +76,13 @@ $(document).ready(function(){
         $(this).parent().find('span').slideToggle(100);
     })
 
+    $('.loadmore').click(function () {
+        
+    });
 });
 
 function loadpoll(limit, count, scroll) {
     var init;
-    socket.emit('getlistpoll', limit, count*loadcount, scroll);
+    // socket.emit('getlistpoll', limit, count*loadcount, scroll);
+    socket.emit('getlistpoll', 1, 0);
 }
