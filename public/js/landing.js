@@ -72,7 +72,7 @@ $(document).ready(function(){
         $(this).css({'color':'#666'});
     });
 
-    $('h4').click(function () {
+    $('#notes h4').click(function () {
         $(this).parent().find('span').slideToggle(100);
     })
 
