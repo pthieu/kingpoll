@@ -7,13 +7,14 @@ var sigfig = 2*10;
 //Data settings
 var count = 0;
 var loadcount = 0;
+var load_npolls = 20;
 
 $(document).ready(function(){
     socket.emit('joinlanding');
 
-    var temp3 = ($(window).height() - 286) / 35;
-    loadcount = Math.ceil(temp3) + 5;
-    loadpoll(loadcount, count, true);
+    // var temp3 = ($(window).height() - 286) / 35;
+    // loadcount = Math.ceil(temp3) + 5;
+    loadpoll(load_npolls, 0, true);
         
     socket.emit('getViewers');
     socket.emit('getUsers');
@@ -54,6 +55,7 @@ $(document).ready(function(){
         $('.polldesc').each(function () {
             $(this).html("<div>"+dual.linkify($(this).html()).text+"</div>")
         });
+        $('.poll *:not(a)').unbind( "click" );
         $('.poll *:not(a)').click(function () {
             $('.polldesc[poll-id='+$(this).parent().attr('poll-id')+']').slideToggle(100,"",function () {
                 if ($(this).is(':visible') && $(this).attr('data-loaded') !== 'true'){
@@ -76,13 +78,16 @@ $(document).ready(function(){
         $(this).parent().find('span').slideToggle(100);
     })
 
-    $('.loadmore').click(function () {
-        
-    });
+    $(window).scroll(function(){
+        if  ($(window).scrollTop() === $(document).height() - $(window).height()){
+            var n = $('.poll').length;
+            socket.emit('getlistpoll', load_npolls, n);
+        }
+    }); 
 });
 
-function loadpoll(limit, count, scroll) {
+function loadpoll(n, skip, scroll) {
     var init;
     // socket.emit('getlistpoll', limit, count*loadcount, scroll);
-    socket.emit('getlistpoll', 1, 0);
+    socket.emit('getlistpoll', n, skip);
 }
