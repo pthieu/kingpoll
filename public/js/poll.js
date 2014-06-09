@@ -568,6 +568,7 @@ $(document).ready(function(){
 //DISQUS
         poll?setTimeout(function(){
             // (DISQUS)?DISQUS.reset({reload: true}):false;
+            console.log('dsdsds')
             $.getScript("http://"+disqus_shortname+".disqus.com/embed.js");
         }, 2000):$('#disqus_thread').text("No poll, no comments :c");
     });

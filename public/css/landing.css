@@ -136,7 +136,7 @@
 .card h1{
   font-weight: bold;
 }
-#wrapper>.shift-top{
+#wrapper .shift-top{
   margin-top:1rem;
 }
 .poll{
@@ -297,16 +297,17 @@
   margin-left:1rem;
   margin-bottom:0.5rem;
 }
-.top .imgbg {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height:500px;
-  width:100%;
-  padding:50px 20px 130px;
-}
 .top{
-  margin-top: 6rem;
+  background-color: #666;
 }
-.top .container{
+
+@media screen and (max-width: 992px){
+  #imgLogo{
+    top:-16.5rem;
+  }
+  #branding{
+    margin-top:11rem;
+    margin-bottom: 2rem;
+    top:2rem;
+  }
 }
