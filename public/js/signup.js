@@ -1,3 +1,5 @@
+var socket = io.connect();
+
 $(document).ready(function() {
     var mult = 0.00;
     $("input.f").on("focusout", function(){

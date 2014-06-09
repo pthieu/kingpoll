@@ -36,11 +36,11 @@ iframe, object, embed {
   border : 1px solid #ddd;
 }
 
-#results_chart>path{
+#results_chart path{
   opacity        : 1;
   pointer-events : all;
 }
-#results_chart>path:hover{
+#results_chart path:hover{
   opacity        : 0.7;
   pointer-events : all;
 }
@@ -76,10 +76,10 @@ iframe, object, embed {
 
   min-width : 15%;
 }
-#mapButtons > .radio-input{
+#mapButtons .radio-input{
   display : none;
 }
-#mapButtons > .radio-label{
+#mapButtons .radio-label{
   position   : relative;
   display    : block;
 
@@ -87,7 +87,7 @@ iframe, object, embed {
   font-size  : 2rem;
   text-align : right;
 }
-#mapButtons > .radio-label::after{
+#mapButtons .radio-label::after{
   content            : "";
 
   position           : absolute;
@@ -114,10 +114,10 @@ iframe, object, embed {
   -ms-transition     : 0.15s ease opacity;
   -o-transition      : 0.15s ease opacity;
 }
-#mapButtons > .radio-label:hover::after{
+#mapButtons .radio-label:hover::after{
   opacity : 0.5;
 }
-#mapButtons > .radio-input:checked + label::after{
+#mapButtons .radio-input:checked + label::after{
   opacity : 1;
 }
 .jvectormap-label{

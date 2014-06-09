@@ -9,7 +9,7 @@
   height: 12em;
   overflow: hidden;
 }
-#polls>span{
+#polls span{
   display:block;
 }
 

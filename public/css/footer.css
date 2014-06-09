@@ -24,7 +24,7 @@
 #footer .navbar-collapse{
     float:none;
 }
-.navbar-bottom .navbar-nav>li>a{
+.navbar-bottom .navbar-nav li a{
     padding-bottom: 0 !important;
 }
 #footer .navbar ul{

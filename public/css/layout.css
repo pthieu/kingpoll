@@ -28,27 +28,27 @@ body{
 #wrapper{
   position       : relative;
   left           : 0; right:0;
-
   overflow       : hidden;
   height         : auto !important;
   height         : 100%;
   min-height     : 100%;
-  /*width          : 100%;*/
-  /*max-width      : 50rem;*/
   margin         : 0 auto -3rem auto;
-
   text-align     : center;
-
-  /*border-left  : 1px #ddd solid;*/
-  /*border-right : 1px #ddd solid;*/
+}
+.about#wrapper{
+  max-width: 50rem;
 }
 
 #branding{
   min-width     : 25rem;
-  margin-top    : 11rem;
+  margin-top    : 4rem;
   margin-bottom : 1rem;
-
   color         : #666;
+  background: url("/images/kingpoll_347x270_666.png") no-repeat center;
+  height:18rem;
+}
+.landing #branding{
+  background: url("/images/kingpoll_347x270_white.png") no-repeat center;
 }
 #nameLogo{
   position    : relative;
@@ -57,7 +57,6 @@ body{
 }
 #nameLogo::before{
   content   : 'Question';
-
   position  : absolute;
   top       : 5.25rem;
   left      : 3rem;
@@ -73,7 +72,7 @@ body{
 
   font-size : 1rem;
 }
-#branding>#slogan{
+#branding #slogan{
   font-size : 1rem;
 }
 #wrapLogo{

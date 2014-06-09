@@ -122,12 +122,6 @@
   padding-top: 6px;
   text-transform: uppercase;
 }
-#branding{
-  position: relative;
-  float:left;
-  left:0;
-  z-index: 2;
-}
 #stats-wrap{
 }
 .card{
@@ -193,11 +187,11 @@
 .jumbotron{
   background-color: #fff;
 }
-#branding {
-  margin-top:8rem;
-  top:0;
-  z-index:0;
-  float: none;
+.landing #branding{
+  background-color:#555;
+  margin-bottom:0;
+  margin-top:3rem;
+  padding: 1rem 0 1rem 0;
 }
 #imgLogo{
   top:-18rem;
@@ -216,17 +210,17 @@
   padding:0;
 }
 
-.table-striped>tbody>td{
+.table-striped tbody td{
   margin:0;
   padding:0;
 }
-.table-striped>tbody>tr:nth-child(odd)>td {
+.table-striped tbody tr:nth-child(odd) td {
   background-color: transparent;
 }
-.table-striped>tbody>tr:nth-child(even)>td{
+.table-striped tbody tr:nth-child(even) td{
   background-color: transparent;
 }
-.table-striped>tbody>tr>td{
+.table-striped tbody tr td{
   vertical-align: middle;
   padding: 0.2rem;
 }
@@ -256,10 +250,7 @@
 .table *{
   font-size:1rem;
 }
-.table:last-child{
-  margin-bottom: 5rem;
-}
-#polls-wrap>tr>td:nth-child(2){
+#polls-wrap tr td:nth-child(2){
   text-align: left;
 }
 #carousel-polls .wrap{
@@ -298,10 +289,13 @@
   margin-bottom:0.5rem;
 }
 .top{
-  background-color: #666;
+  /*background-color: #666;*/
 }
 
 @media screen and (max-width: 992px){
+  .landing .shift-top{
+    padding:0;
+  }
   #imgLogo{
     top:-16.5rem;
   }
