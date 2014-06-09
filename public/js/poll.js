@@ -10,6 +10,7 @@ var lastpoll;
 var pollid;
 var socialID = '';
 var disqus_identifier;
+var disqus_shortname = 'kingpoll'; // Required - Replace example with your forum shortname
 var map = {};
 var mapdata = {
         'US':{},
@@ -79,7 +80,8 @@ $(document).ready(function(){
     socket.emit('getPoll', pollid);
     disqus_identifier = pollid;
 
-    socket.emit('getComments', pollid);
+    // socket.emit('getComments', pollid);
+    // $.getScript("http://"+disqus_shortname+".disqus.com/embed.js")
 
     $('.tbDescription').hover(function () {
         $(this).css({'border-color': "#"+chart_solocolor});
@@ -333,6 +335,7 @@ $(document).ready(function(){
             pollid = data.p_id;
             disqus_identifier = pollid;
 
+            $('#disqus_thread').html('Loading comments...');
             // (lastpoll != pollid) ? (function(){
             //     (pushstate.current == pushstate.latest) ? (function(){
             //         pushstate.latest++;
@@ -563,37 +566,40 @@ $(document).ready(function(){
             console.log('poll not found');
         }
 //DISQUS
-        // poll?setTimeout(loaddisqus, 1500):$('#messages>span').text("No poll, no comments :c");
+        poll?setTimeout(function(){
+            // (DISQUS)?DISQUS.reset({reload: true}):false;
+            $.getScript("http://"+disqus_shortname+".disqus.com/embed.js");
+        }, 2000):$('#disqus_thread').text("No poll, no comments :c");
     });
 });
 
-socket.on('getCommentsResult', function(result) {
-    // Clear the comments first
-    $('#messages').html('');
+// socket.on('getCommentsResult', function(result) {
+//     // Clear the comments first
+//     $('#messages').html('');
 
-    var parsedResult = JSON.parse(result);
-    parsedResult.forEach(function(json) {
-        $('#messages').html($('#messages').html() +
-            '<div>' +
-            '<span class="date">' + formatDate(json['created_date']) + '</span>' +
-            '<span class="message">' + json['message'] + '</span>' +
-            '</div>');
-    });
-});
+//     var parsedResult = JSON.parse(result);
+//     parsedResult.forEach(function(json) {
+//         $('#messages').html($('#messages').html() +
+//             '<div>' +
+//             '<span class="date">' + formatDate(json['created_date']) + '</span>' +
+//             '<span class="message">' + json['message'] + '</span>' +
+//             '</div>');
+//     });
+// });
 
 function formatDate(dateString) {
     var date = new Date(dateString);
     return date.getDate() + '-' + date.getMonth() + '-' + date.getFullYear();
 }
 
-socket.on('addCommentResult', function(result) {
-    var json = JSON.parse(result);
-    $('#messages').html($('#messages').html() +
-        '<div>' +
-        '<span class="date">' + formatDate(json['created_date']) + '</span>' +
-        '<span class="message">' + json['message'] + '</span>' +
-        '</div>');
-});
+// socket.on('addCommentResult', function(result) {
+//     var json = JSON.parse(result);
+//     $('#messages').html($('#messages').html() +
+//         '<div>' +
+//         '<span class="date">' + formatDate(json['created_date']) + '</span>' +
+//         '<span class="message">' + json['message'] + '</span>' +
+//         '</div>');
+// });
 
 $('#comment-form').submit(function(e) {
     e.preventDefault();

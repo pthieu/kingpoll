@@ -165,7 +165,7 @@
   background-color:#666;
   min-width: 100%;
 }
-.carousel img:not(#imgLogo) {
+.carousel img:not(#imgLogo){
   position: absolute;
   top: 0;
   left: 0;
@@ -296,4 +296,17 @@
 #notes .desc{
   margin-left:1rem;
   margin-bottom:0.5rem;
+}
+.top .imgbg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height:500px;
+  width:100%;
+  padding:50px 20px 130px;
+}
+.top{
+  margin-top: 6rem;
+}
+.top .container{
 }

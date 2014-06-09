@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="/css/radiobutton.css" type="text/css" />
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="/css/layout.css" type="text/css" />
-    <link rel="stylesheet" href="http://nvd3.org/src/nv.d3.css" type="text/css" />
     <link rel="stylesheet" href="/css/charts.css" type="text/css" />
     <link rel="stylesheet" href="/css/poll.css" type="text/css" />
     <link rel="stylesheet" href="/css/disqus.css" type="text/css" />
@@ -34,21 +33,21 @@
 <body>
     <div id="fb-root"></div>
     <script>
-      window.fbAsyncInit = function() {
+    window.fbAsyncInit = function() {
         FB.init({
           appId      : '1447667995463132',
           status     : true,
           xfbml      : true
-        });
-      };
+      });
+    };
 
-      (function(d, s, id){
-         var js, fjs = d.getElementsByTagName(s)[0];
-         if (d.getElementById(id)) {return;}
-         js = d.createElement(s); js.id = id;
-         js.src = "//connect.facebook.net/en_US/all.js";
-         fjs.parentNode.insertBefore(js, fjs);
-       }(document, 'script', 'facebook-jssdk'));
+    (function(d, s, id){
+       var js, fjs = d.getElementsByTagName(s)[0];
+       if (d.getElementById(id)) {return;}
+       js = d.createElement(s); js.id = id;
+       js.src = "//connect.facebook.net/en_US/all.js";
+       fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
     </script>
     <div id='dash'></div>
     <div id="wrapper">
@@ -56,30 +55,30 @@
             <!-- <button id='click'>click</button>
             <button id='changepoll'>change poll</button>
             <button id='clearpoll'>clear</button> -->
-        <div id="choices" class='choices'>
-            <div class='radio'></div>
-            <div class="share-buttons" style="display: none;">
-                <div class="fb-share-button">
-                    <a id="fb-share-button" target="_blank">
-                        <img src="/images/share/fb_share.png">
-                    </a>
-                </div>
-                <div class="twitter-share-button1">
-                    <a href="https://twitter.com/share" class="twitter-share-button" data-via="ioKingpoll" data-count="none" data-text="{{title}}" data-url="{{url}}">Tweet</a>
-                    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+            <div id="choices" class='choices'>
+                <div class='radio'></div>
+                <div class="share-buttons" style="display: none;">
+                    <div class="fb-share-button">
+                        <a id="fb-share-button" target="_blank">
+                            <img src="/images/share/fb_share.png">
+                        </a>
+                    </div>
+                    <div class="twitter-share-button1">
+                        <a href="https://twitter.com/share" class="twitter-share-button" data-via="ioKingpoll" data-count="none" data-text="{{title}}" data-url="{{url}}">Tweet</a>
+                        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class='embed-wrap'>
-            <div class='embed'></div>
-            <div class='embed-href'></div>
-        </div>
-        <div id="tbDescription">
-            <div class='tbDescription'></div>
-        </div>
-        <div id="results">
-            <svg id='pieTotal' class='stats'></svg>
-            <svg id='barVoteTime' class='stats barchart'></svg>
+            <div class='embed-wrap'>
+                <div class='embed'></div>
+                <div class='embed-href'></div>
+            </div>
+            <div id="tbDescription">
+                <div class='tbDescription'></div>
+            </div>
+            <div id="results">
+                <svg id='pieTotal' class='stats'></svg>
+                <svg id='barVoteTime' class='stats barchart'></svg>
             <!-- <svg id='lineVoteFreq' class='stats'></svg>
             <svg id='results_chart'></svg> -->
             <svg id='activeViewers'></svg>
@@ -97,13 +96,18 @@
             </div>
         </div>
         <div id="messages">
+            <!-- The empty element required for Disqus to loads comments into -->  
+            <div id="disqus_thread"></div>
+        </div>
+        <!-- Adrian's code for commenting -->
+<!--         <div id="messages">
             <span class="dsq-brlink">Loading Comments...</span>
         </div>
         <div id="messages-add-comments" class="col-xs-6">
             <form class="comment-form" id="comment-form" method="post">
                 <input class="form-control" name="comment" placeholder="Enter Comment" />
             </form>
-        </div>
+        </div> -->
     </div>
     <div class="navbar navbar-inverse navbar-bottom">
         <div class="container-fluid" id='footer'></div>
@@ -111,7 +115,8 @@
     <div style='display:none'>
         <div id='signup_box' title='Are you a robot?'>
             Please enter your e-mail to vote.<br/>
-            (This is to prevent skewing of results)
+            (This is to prevent skewing of results)<br/>
+            Currently we only accept @gmail.com.
             <input type="text" id='tbEmail' name='signup_email'>
         </div>
     </div>
@@ -124,10 +129,9 @@
     <script src="http://jvectormap.com/js/jquery-jvectormap-1.2.2.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.3.10/d3.min.js" charset="utf-8"></script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
-    <script src="http://nvd3.org/nv.d3.js" charset="utf-8"></script>
     <script src="/jvectormap/maps/US_map.js"></script>
     <script src="/jvectormap/maps/CA_map.js"></script>
-    <script src="/js/disqus.js"></script>
+    <!--<script src="/js/disqus.js"></script>-->
     <script>$('#footer').load('/views/footer.html')</script>
     <script>$('#dash').load('/views/dash.html')</script>
     <script src="/js/poll.js"></script>

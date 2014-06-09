@@ -326,7 +326,8 @@ var quote = document.getElementById('custom_question');
 var speaker = "Kingpoll";
 
 //canvas setup
-var fontFamily = "Segoe UI",
+// var fontFamily = "Segoe UI",
+var fontFamily = "Segoe UI, Helvetica",
 fontSize = "36px",
 fontColour = "#ab3792",
 maxlines = 9+1,

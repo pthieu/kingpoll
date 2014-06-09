@@ -142,8 +142,9 @@ exports.newpoll = function(req, res) {
 
         request.post(
             'https://api.imgur.com/oauth2/token', 
-            {form:{refresh_token:'44866ec2d6b245981671caa6180e21b6d6ccaa9f',client_id:'1100622bb9cd565', client_secret:'9110bce0d66afacd967692e0b60597f0f3c79997', grant_type:'refresh_token' }}, 
+            {form:{refresh_token:'0dc5c75408d684bd7ce6e893e1938763e964cd52',client_id:'1100622bb9cd565', client_secret:'8571ca74634d0a047bfc72880dbfa309dc4d0035', grant_type:'refresh_token' }}, 
             function(err, response, body){
+                console.log(response);
                 if (!err && response.statusCode == 200) {
                     var login_body = JSON.parse(body);
                     var options = {
@@ -162,6 +163,7 @@ exports.newpoll = function(req, res) {
                     
                     request.post(options, function(err, response, body){
                         var upload_body = JSON.parse(body);
+                        console.log(err);
                         if (!err && response.statusCode == 200) {
                             newpoll.p_image = 'https://i.imgur.com/' + upload_body.data.id + '.png';
                         }
@@ -177,6 +179,19 @@ exports.newpoll = function(req, res) {
                                 res.send(redirect, 200);
                             }
                         });
+                    });
+                } else {
+                    newpoll.save(function (err, poll, count) {
+                        if (err){
+                            console.error(err);
+                            res.status(500).json({status:'Poll Save: failed'});
+                        }
+                        else{
+                            console.log('Poll Save: passed')
+                            var redirect = "/p/"+hex_pid.toString();
+                            res.header('Content-Length', Buffer.byteLength(redirect));
+                            res.send(redirect, 200);
+                        }
                     });
                 }
             }
