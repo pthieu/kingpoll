@@ -38,17 +38,13 @@ body{
 .about#wrapper{
   max-width: 50rem;
 }
-
 #branding{
-  min-width     : 25rem;
+  /*min-width     : 25rem;*/
   margin-top    : 4rem;
   margin-bottom : 1rem;
   color         : #666;
   background: url("/images/kingpoll_347x270_666.png") no-repeat center;
   height:18rem;
-}
-.landing #branding{
-  background: url("/images/kingpoll_347x270_white.png") no-repeat center;
 }
 #nameLogo{
   position    : relative;
