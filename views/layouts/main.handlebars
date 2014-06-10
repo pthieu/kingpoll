@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- <!DOCTYPE html> -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# kingpoll: http://ogp.me/ns/fb/kingpoll#">
+    <meta name="viewport" content="width=device-width">
+    <title>kingpoll.</title>
+    <link href="/jvectormap/jquery-jvectormap-1.2.2.css" media="screen" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="/css/radiobutton.css" type="text/css" />
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="/css/layout.css" type="text/css" />
+    <link rel="stylesheet" href="/css/charts.css" type="text/css" />
+    <link rel="stylesheet" href="/css/poll.css" type="text/css" />
+    <link rel="stylesheet" href="/css/disqus.css" type="text/css" />
+    <link rel="stylesheet" href="/css/popup_signup.css" type="text/css" />
+    <link rel="stylesheet" href="/css/dash.css" type="text/css" />
+    <link rel="stylesheet" href="/css/footer.css" type="text/css" />
+    <link rel="stylesheet" href="/css/validation.css" type="text/css" />
+
+    <!-- for Facebook -->    
+    <meta property="fb:app_id" content="1447667995463132" />      
+    <meta property="og:type" content="article" />
+    <meta property="og:image" content="{{image}}" />
+    <meta property="og:description" content="{{description}}" />
+    <meta property="og:title" content="{{title}}" />
+    <meta property="og:url" content="{{url}}" />
+
+    <!-- for twitter -->        
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:image:src" content="http://www.kingpoll.com/images/kingstache_000_154x154.png" />
+    <meta property="twitter:description" content="{{description}}" />
+    <meta property="twitter:title" content="{{title}}" />
+</head>
+<body>
+  {{{body}}}
+    <div class="navbar navbar-inverse navbar-bottom">
+        <div class="container-fluid" id='footer'></div>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+    <script src="/js/jquery.cookie.js"></script>
+    <script src="/js/colors.js"></script>
+    <script src="/js/dualwield.js"></script>
+    <script src="http://jvectormap.com/js/jquery-jvectormap-1.2.2.min.js"></script>
+    <!--<script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.3.10/d3.min.js" charset="utf-8"></script>-->
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+    <script src="/jvectormap/maps/US_map.js"></script>
+    <script src="/jvectormap/maps/CA_map.js"></script>
+    <!--<script src="/js/disqus.js"></script>-->
+    <script>$('#footer').load('/views/footer.html')</script>
+    <script>$('#dash').load('/views/dash.html')</script>
+    <script src="/js/poll.js"></script>
+    <script src="/js/validation.js"></script>
+</body>
+</html>

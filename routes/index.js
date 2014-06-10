@@ -5,6 +5,7 @@ var Vote = mongoose.model( 'vote' );
 var shortid = require('shortid');
 var request = require('request');
 var help = require('../scripts/help.js');
+var email = require('../scripts/email.js');
 
 var ObjectId = require('mongoose').Types.ObjectId;
 var numonly = /\d+/; //test for number pattern
@@ -50,6 +51,9 @@ exports.createpoll = function (req, res) {
 }
 exports.signup = function (req, res) {
     res.sendfile('public/views/signup.html');
+};
+exports.signupDone = function (req, res) {
+    res.render('signupdone');
 };
 exports.verifyvote = function (req, res) {
     // var data = [];
@@ -248,7 +252,10 @@ exports.newuser = function(req, res) {
     var newuser = new User({
         'u_email': req.body.u_email,
         'u_id': req.body.u_id,
-        'u_password': req.body.u_password
+        'u_password': req.body.u_password,
+        'u_birth': req.body.u_birth,
+        'u_name': req.body.u_name,
+        'u_sex' : req.body.u_sex
     });
     newuser.save(function (err, user, count) {
         if (err){
@@ -257,13 +264,48 @@ exports.newuser = function(req, res) {
         }
         else{
             console.log('User Save: passed')
-            var redirect = '/';
+            email.send_user_confirmation(user.u_email, user.u_id, user.u_salt);
+            var redirect = '/signup/done';
             res.header('Content-Length', Buffer.byteLength(redirect));
             res.send(redirect, 200);
         }
     });
 
 };
+
+exports.verifyUser = function (req,res) {
+    // console.log(req.headers.referer) // this is to get exact url
+    var userObj = req.url;
+    var usalt = getURLParameter(req.url,"g");
+    var uemail = getURLParameter(req.url,"u");
+    var verify_msg = "";
+    
+    console.log(usalt);
+    console.log(uemail);
+    User.findOne({'u_email':uemail}, function (err, _user) {
+        console.log("Verifying");
+        console.log(_user);
+        if (err) {
+            return console.error(err);
+        }
+        if(_user){
+            if(_user.u_validate === true){
+                verify_msg = "This account has already been verified.";
+            }
+            else if(_user.u_salt[0] === usalt){
+                User.update({u_id:_user.u_id}, {u_validate: true}, function (err, n, raw) {});
+                verify_msg = "Thank you for verifying your account!";  
+            }
+            else{
+                verify_msg = "Something went wrong!"; 
+            }
+        }
+        res.render('verified', {
+            description: verify_msg
+        });
+    });
+}
+
 function cleansymbols(str, lvl){
     //clears everything except for #
     if (lvl == null){
@@ -322,4 +364,8 @@ function getUID (uid, email) {
         //look up email and see match
         //no match? return false
     //}
+}
+function getURLParameter (url, name) {
+  name = RegExp ('[?&]' + name.replace (/([[\]])/, '\\$1') + '=([^&#]*)');
+  return (url.match (name) || ['', ''])[1];
 }

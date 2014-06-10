@@ -32,6 +32,25 @@ module.exports = {
             + "\n\nIf you don't want to receive validation e-mails, please sign up!";
             send_email(email, subject, body);
         });
+    },
+
+    send_user_confirmation: function (email, u_id, v_valid){
+        if(process.env.NODE_ENV == 'production'){
+            var host = 'www.kingpoll.com';
+        }
+        else{
+            var host = 'localhost:8888';
+        }
+        User.findOne({'u_email':email}, function (err, user) {
+            url = 'http://'+host+'/verifyuser/v?g='+v_valid+'&u='+email; // use below line for production
+            // url = 'http://www.kingpoll.com/verify/v/'+v_valid+'+'+u_id+'+'+v_id;
+            //Logic to determine poll information from poll_id, and the confirmation URL
+            subject = 'KingPoll: Validate your user account now!';
+            body = "Hi!\n\nYour user account is currently pending validation! We have generated a validation link for you. "
+            + "Please click on the following link to verify you\'re not a robot and validate your votes:\n    " + url
+            + "\n\nThank you for signing up and verifying your new account";
+            send_email(email, subject, body);
+        });
     }
 }
 

@@ -51,7 +51,7 @@ var userAuth = require('./routes/login_auth.js');
 //var MemoryStore = express.session.MemoryStore;
 //var memStore = new MemoryStore();
 
-app.engine('handlebars', exphbs());
+app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 
 app.use(express.logger());
@@ -69,6 +69,8 @@ app.get('/new', routes.createpoll);
 app.get('/listpoll', routes.listpoll);
 app.get('/p/:id', routes.getpoll);
 app.get('/signup', routes.signup);
+app.get('/signup/done', routes.signupDone);
+app.get('/verifyuser/v', routes.verifyUser);
 app.get('/verify/v', routes.verifyvote);
 app.get('/search', routes.searchpoll);
 app.get('/contact', routes.contact);
