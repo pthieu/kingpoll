@@ -569,9 +569,17 @@ $(document).ready(function(){
 //DISQUS
         disqus_count++;
         poll?setTimeout(function(){
-            // (DISQUS)?DISQUS.reset({reload: true}):false;
             if(disqus_count === 1){
-                $.getScript("http://"+disqus_shortname+".disqus.com/embed.js");
+                if(typeof DISQUS !== 'undefined'){
+                    DISQUS.reset({reload: true, config: function(){
+                            this.page.identifier = disqus_identifier;
+                        }
+                    });
+                } 
+                else{
+                    console.log('fdsjfhdskj')
+                    $.getScript("http://"+disqus_shortname+".disqus.com/embed.js");
+                }
                 disqus_count--;
             }
             else{
