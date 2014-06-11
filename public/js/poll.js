@@ -577,7 +577,6 @@ $(document).ready(function(){
                     });
                 } 
                 else{
-                    console.log('fdsjfhdskj')
                     $.getScript("http://"+disqus_shortname+".disqus.com/embed.js");
                 }
                 disqus_count--;
@@ -585,7 +584,7 @@ $(document).ready(function(){
             else{
                 disqus_count--;
             }
-        }, 500):$('#disqus_thread').text("No poll, no comments :c");
+        }, 800):$('#disqus_thread').text("No poll, no comments :c");
     });
 });
 
