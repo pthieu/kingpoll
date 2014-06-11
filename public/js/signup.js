@@ -60,7 +60,7 @@ $(document).ready(function() {
 
     $('#tbBirth').on('mousedown',function () {
         $(this).datepicker({
-            dateFormat: "dd/mm/yy",
+            dateFormat: "M dd, yy",
             yearRange: "-100:+0",
             changeMonth: true,
             changeYear: true,
@@ -76,6 +76,7 @@ $(document).ready(function() {
         var post_password = $('#tbCheckPassword').val();
         var post_name = $('#tbName').val();
         var post_sex = $('input[name=gender]:checked').val();
+        var post_bday = $('#tbBirth').val();
         var post_team = themecolor;
 
         /*var posting = $.post("/signup", {'req':{
@@ -100,6 +101,7 @@ $(document).ready(function() {
                 'u_password': post_password,
                 'u_name': post_name,
                 'u_sex': post_sex,
+                'u_birth': post_bday,
                 'u_team': post_team
         },
             dataType: "html"

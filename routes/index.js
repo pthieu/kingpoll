@@ -253,7 +253,7 @@ exports.newuser = function(req, res) {
         'u_email': req.body.u_email,
         'u_id': req.body.u_id,
         'u_password': req.body.u_password,
-        'u_birth': req.body.u_birth,
+        'u_birth': new Date(req.body.u_birth),
         'u_name': req.body.u_name,
         'u_sex' : req.body.u_sex
     });
