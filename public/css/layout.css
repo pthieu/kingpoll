@@ -80,3 +80,7 @@ body{
   top      : -16.5rem;
   height   : 15rem;
 }
+
+.italic{
+  font-style: italic;
+}

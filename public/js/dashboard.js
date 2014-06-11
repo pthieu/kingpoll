@@ -3,42 +3,42 @@
                                 //connect in individual pages for now, figure out dash
                                 //loading time later
 
-function randomPoll() {
-    var page = (window.location.href).split('/')[3];
+                                function randomPoll() {
+                                    var page = (window.location.href).split('/')[3];
 
-    if (page === 'p' ) {
-        $('#question').html("Getting poll, please wait...");
-        $('#tbDescription').hide();
-        socket.emit('getRandPoll', true);
-    } else {
-        socket.emit('getRandPoll', false);
-    }
+                                    if (page === 'p' ) {
+                                        $('#question').html("Getting poll, please wait...");
+                                        $('#tbDescription').hide();
+                                        socket.emit('getRandPoll', true);
+                                    } else {
+                                        socket.emit('getRandPoll', false);
+                                    }
 
-    socket.on('randPollID', function (randPollID) {
-        var temp = randPollID;
-        console.log(randPollID);
-        if(randPollID){
-            var temp2 = (window.location.href).split('/');
-            window.location.href = "/p/" + temp;
-        }
-        else{
-            window.location.href = "/new"
-        }
-    });
-}
+                                    socket.on('randPollID', function (randPollID) {
+                                        var temp = randPollID;
+                                        console.log(randPollID);
+                                        if(randPollID){
+                                            var temp2 = (window.location.href).split('/');
+                                            window.location.href = "/p/" + temp;
+                                        }
+                                        else{
+                                            window.location.href = "/new"
+                                        }
+                                    });
+                                }
 
-var checkResize = function () {
-        if($(window).width() < '750'){
-            // $('#dash').css({'height': '6rem'});
-            $('.mid').hide();
-            // $('.mid').css({'z-index', '2'});
-        }
-        else{
-            // $('#dash').css({'height': '3rem'});
-            $('.mid').show();
-            // $('.mid').css({'z-index', '2'});
-        }
-}
+// var checkResize = function () {
+//         if($(window).width() < '750'){
+//             // $('#dash').css({'height': '6rem'});
+//             $('.mid').hide();
+//             // $('.mid').css({'z-index', '2'});
+//         }
+//         else{
+//             // $('#dash').css({'height': '3rem'});
+//             $('.mid').show();
+//             // $('.mid').css({'z-index', '2'});
+//         }
+// }
 
 $(document).ready(function () {
     $('#randompoll').click(function () {
@@ -56,6 +56,5 @@ $(document).ready(function () {
         } else {
             document.getElementById('sign-in-list').style.display='block';
         }
-
     });
 });

@@ -29,6 +29,7 @@ var voted;
 var sigfig = Math.pow(10,1);
 
 //flags
+var disqus_count=0;
 
 //map prefs
 var rgn_color = {};
@@ -81,8 +82,6 @@ $(document).ready(function(){
     disqus_identifier = pollid;
 
     // socket.emit('getComments', pollid);
-    // $.getScript("http://"+disqus_shortname+".disqus.com/embed.js")
-
     $('.tbDescription').hover(function () {
         $(this).css({'border-color': "#"+chart_solocolor});
     }, function () {
@@ -334,8 +333,10 @@ $(document).ready(function(){
             last_votes = data.c_total;
             pollid = data.p_id;
             disqus_identifier = pollid;
+            window.scrollTo(0,0);
+            document.getElementById('disqus_thread').innerHTML = "";
 
-            $('#disqus_thread').html('Loading comments...');
+            // $('#disqus_thread').html('Loading comments...');
             // (lastpoll != pollid) ? (function(){
             //     (pushstate.current == pushstate.latest) ? (function(){
             //         pushstate.latest++;
@@ -566,11 +567,17 @@ $(document).ready(function(){
             console.log('poll not found');
         }
 //DISQUS
+        disqus_count++;
         poll?setTimeout(function(){
             // (DISQUS)?DISQUS.reset({reload: true}):false;
-            console.log('dsdsds')
-            $.getScript("http://"+disqus_shortname+".disqus.com/embed.js");
-        }, 2000):$('#disqus_thread').text("No poll, no comments :c");
+            if(disqus_count === 1){
+                $.getScript("http://"+disqus_shortname+".disqus.com/embed.js");
+                disqus_count--;
+            }
+            else{
+                disqus_count--;
+            }
+        }, 500):$('#disqus_thread').text("No poll, no comments :c");
     });
 });
 

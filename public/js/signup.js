@@ -1,7 +1,7 @@
 var socket = io.connect();
 
 $(document).ready(function() {
-    var mult = 0.00;
+    // var mult = 0.00;
     $("input.f").on("focusout", function(){
       var me = $(this);
       if(me.val() !== ""){
@@ -11,20 +11,20 @@ $(document).ready(function() {
       }
     });
     //multiplier increment
-    $(".addmult>.field>.mult").on("change keyup mouseup", function(){
-        var mult = 0;
-        if($('input[name="name"]').val()) {
-            mult += 5;
-        }
-        if($('input[name="gender"]:checked').val()) {
-            mult += 5;
-        }
-        if($('input[name="birth"]').val()) {
-            mult += 5;
-        }
-        $('#mult').html("Multiplier:<br/>"+"+"+mult+"%");
-    });
-    $('input[name="gender"]');
+    // $(".addmult>.field>.mult").on("change keyup mouseup", function(){
+    //     var mult = 0;
+    //     if($('input[name="name"]').val()) {
+    //         mult += 5;
+    //     }
+    //     if($('input[name="gender"]:checked').val()) {
+    //         mult += 5;
+    //     }
+    //     if($('input[name="birth"]').val()) {
+    //         mult += 5;
+    //     }
+    //     $('#mult').html("Multiplier:<br/>"+"+"+mult+"%");
+    // });
+    // $('input[name="gender"]');
 
     var themecolor = colors_hex[randColor(colors_hex)];
     $('#submit').css({'background-color': "#"+themecolor,'border-color': "#"+themecolor});

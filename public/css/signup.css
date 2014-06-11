@@ -47,7 +47,7 @@ label{
   width         : 100%;
   position      : absolute;
   outline       : none;
-  font-size     : 1.5rem;
+  font-size     : 1.3rem;
   border-bottom : 1px solid #ddd;
 }
 /*.f for field*/
@@ -206,4 +206,13 @@ input[name='gender'] + label{
 
 .ui-datepicker{
   font-size : 1rem;
+}
+
+#newuser{
+  margin-bottom: 100px;
+}
+
+#branding{
+  background-size: 250px;
+  height:200px;
 }
