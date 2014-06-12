@@ -1,6 +1,7 @@
 .banner-wrap{
   position: absolute;
-  left:10%;
+  float:left;
+  left:2rem;
   top:4rem;
   margin: 0 auto;
   width: 15rem;
@@ -42,7 +43,7 @@
   height: 68px;
   width: 100%;
   /*box-shadow: 0px 0px 100px 10px black;*/
-  border: 5px solid #aaa;
+  border: 5px solid #666;
   z-index: 2;
 }
 
@@ -54,10 +55,10 @@
   width: 0;
   top: -5px;
   left: -70px;
-  border-top: 34px solid #aaa;
-  border-bottom: 34px solid #aaa;
+  border-top: 34px solid #666;
+  border-bottom: 34px solid #666;
   border-left: 34px solid transparent;
-  border-right: 34px solid #aaa;
+  border-right: 34px solid #666;
 }
 
 .banner-border:after{
@@ -68,9 +69,9 @@
   width: 0;
   top: -5px;
   right: -70px;
-  border-top: 34px solid #aaa;
-  border-bottom: 34px solid #aaa;
-  border-left: 34px solid #aaa;
+  border-top: 34px solid #666;
+  border-bottom: 34px solid #666;
+  border-left: 34px solid #666;
   border-right: 34px solid transparent;
   z-index: 1;
 }
@@ -115,11 +116,11 @@
 .line{
   color: white;
   font-family: "Bitter", Helvetica, sans-serif;
-  color: #aaa;
+  color: #666;
   font-size: 1.4rem;
   font-weight: bold;
   display: block;
-  padding-top: 6px;
+  padding-top: 12px;
   text-transform: uppercase;
 }
 #stats-wrap{
@@ -314,5 +315,17 @@
   }
 }
 @media screen and (max-width: 992px){
-
+  .banner-wrap{
+    display:none;
+  }
+  .version-label{
+    font-family: 'Gloria Hallelujah', cursive;
+    font-size:16px;
+    display:inline-block;
+  }
+}
+@media screen and (min-width: 992px){
+  .version-label{
+    display:none;
+  }
 }

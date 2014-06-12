@@ -4,13 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width">
   <title>kingpoll.</title>
+  <link href='http://fonts.googleapis.com/css?family=Shadows+Into+Light|Gloria+Hallelujah' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="/flat-ui/jquery-ui-1.10.3.custom.min.css" type="text/css" />
   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" type="text/css" />
   <link rel="stylesheet" href="/css/layout.css" type="text/css" />
   <link rel="stylesheet" href="/css/landing.css" type="text/css" />
   <link rel="stylesheet" href="/css/dash.css" type="text/css" />
   <link rel="stylesheet" href="/css/footer.css" type="text/css" />
-
 </head>
 <body>
   <div id='dash'></div>
@@ -20,10 +20,18 @@
         <!-- <img class="imgbg" src="http://lorempixel.com/900/900/abstract/2"> -->
         <div class="hero">
           <div id='branding' class='branding'>
+            <div class='banner-wrap'>
+              <div class='banner-border'>
+                <div class='banner'>
+                  <span class='line'>Alpha Release</span>
+                </div>
+              </div>
+            </div>
             <!-- <img src="/images/kingpoll_347x270_white.png"> -->
             <!-- <span id='nameLogo'>kingpoll.</span><div id='wrapLogo'><img src="/images/kingstache_fff_s.png" alt="Question Everything." id='imgLogo'></div> -->
             <br/>
           </div>
+            <span class='version-label'>(&nbsp;Alpha Release&nbsp;)</span>
         </div>
         <!-- Main jumbotron for a primary marketing message or call to action -->
         <!-- <div class="jumbotron">
@@ -217,6 +225,9 @@
   <script src="/socket.io/socket.io.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+  <script>$(window).on('beforeunload', function() {
+    $(window).scrollTop(0); 
+  });</script>
   <script src="/js/jquery.cookie.js"></script>
   <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
   <script src="/js/colors.js"></script>
