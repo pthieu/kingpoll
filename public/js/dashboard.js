@@ -41,6 +41,20 @@
 // }
 
 $(document).ready(function () {
+    var email_check = getLocalVar('u_email');
+    if (email_check){
+        $('.useremail').html("<span class='remove_useremail'>[x] "+email_check+"</span>");
+        $('.remove_useremail').click(function () {
+            setLocalVar('u_email', '');
+            $('.useremail').html('');
+        });
+        $('.remove_useremail').hover(function () {
+            $(this).css('color','#aaa');
+        }, function () {
+            $(this).css('color','inherit');
+        });
+    }
+
     $('#randompoll').click(function () {
         voted = false;
     });
@@ -57,4 +71,22 @@ $(document).ready(function () {
             document.getElementById('sign-in-list').style.display='block';
         }
     });
+    function getLocalVar(item){
+        if(typeof(Storage) !== "undefined"){
+            return(localStorage.getItem(item));
+        }
+        else
+        {
+            return($.cookie(item));
+        }
+    }
+    function setLocalVar(item,val){
+        if(typeof(Storage) !== "undefined"){
+            localStorage.setItem(item, val);
+        }
+        else
+        {
+            $.cookie(item, val);
+        }
+    }
 });

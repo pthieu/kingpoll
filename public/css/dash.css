@@ -3,7 +3,9 @@
     text-decoration: none;
 }
 .navbar-brand{
-    font-weight: bold;   
+    font-weight: bold;
+    padding-top:18px;
+    line-height: 15px;
 }
 #dash ul a:hover{
     background-color:#fff;
@@ -126,5 +128,21 @@
     }
     .navbar-right{
         margin:0;
+    }
+}
+.useremail{
+    cursor: pointer;
+    position: absolute;
+    right:10px;
+    font-size: 12px;
+    top:1px;
+    font-weight: normal;
+    z-index: 1;
+}
+
+@media screen and (max-width: 767px){
+    .useremail{
+        top:15px;
+        right:60px;
     }
 }
