@@ -55,7 +55,7 @@ $(document).ready(function(){
         $('.polldesc').each(function () {
             $(this).html("<div>"+dual.linkify($(this).html()).text+"</div>")
         });
-        $('.poll *:not(a)').unbind( "click" );
+        $('.poll *:not(a)').unbind( "click" ); //unbind click so it doesn't stack animation
         $('.poll *:not(a)').click(function () {
             $('.polldesc[poll-id='+$(this).parent().attr('poll-id')+']').slideToggle(100,"",function () {
                 if ($(this).is(':visible') && $(this).attr('data-loaded') !== 'true'){
