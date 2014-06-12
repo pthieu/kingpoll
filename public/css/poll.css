@@ -240,3 +240,24 @@ svg path:hover{
 .share-buttons {
   padding-bottom: 5px;
 }
+.share-buttons div{
+  display:inline-block;
+}
+
+.table{
+  display:table;
+  width:150px;
+  margin:auto;
+}
+.td{
+  display:table-cell;
+  vertical-align: top;
+}
+.twitter-share-button1td iframe{
+  padding-top:2px;
+  height:25px !important;
+}
+
+.choices .radio{
+  padding-left:0;
+}
