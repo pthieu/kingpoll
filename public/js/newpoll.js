@@ -323,7 +323,7 @@ var canvas = document.getElementById('c'),
 c = canvas.getContext('2d');
 //grab inputs
 var quote = document.getElementById('custom_question');
-var speaker = "Kingpoll";
+var speaker = "kingpoll.com";
 
 //canvas setup
 // var fontFamily = "Segoe UI",
