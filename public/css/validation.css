@@ -85,3 +85,8 @@ td{
 .row:last-of-type{
   margin-bottom:5rem;
 }
+
+form[name="validate-vote"] button {
+  border:none;
+  padding:1.2rem;
+}
