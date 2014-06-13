@@ -323,6 +323,25 @@ $(document).ready(function(){
         console.log('No email specified');
         //queue popup
     });
+    socket.on('voteAccountExist', function () {
+        localStorage.removeItem('u_email');
+        voted = false;
+        u_email = "";
+        $('#emailExist_box').css({
+            "visibility": "visible"
+        });
+        $('#emailExist_box').dialog({
+        resizable: false,
+        position: {my:'top', at:'center', of:'#choices'},
+        width: 250,
+        minHeight: 0,
+        buttons:{
+            "Close": function () {
+                $(this).dialog('close');
+            }
+        }
+    });
+    });
 
     socket.on('pollID', function (poll) {
         if (poll){

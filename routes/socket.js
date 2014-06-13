@@ -75,48 +75,46 @@ exports.vote = function (dataVote, client, io) {
                             's_tmax'    : dataVote.s_vtime,
                             's_vtotal'  : 1
                         });
+
+                        Vote.findOne({'u_id': user._id, 'p_id':dataVote.p_id[0]}).exec(function (err, vote){
+                            if(!vote){
+                                newvote['u_id'] = user._id;
+                                newvote.v_valid = (user.v_left < 0) ? 'true' : 'false'; //v_valid if user registered
+                                if (user.v_left >= 0){
+                                    user.v_left += 1; //increment outstanding votes
+                                    console.log(newvote);
+                                    //VOTE LOGIC, DISABLE FOR DEVELOPMENT
+                                    if ((user.v_left%10) === 1 || (user.u_salt <= 0)){
+                                        console.log('Sending vote verification...');
+                                        user.u_salt.push(shortid.generate()); //generate new salt at mod=0
+                                        user.markModified('u_salt'); //tell mongoose it's modified
+                                        email.send_email_confirmation(newvote.u_email, newvote.u_id, newvote._id, user.u_salt[user.u_salt.length-1]);
+                                    }
+                                    newvote.v_valid = user.u_salt[user.u_salt.length-1]; //take newest salt
+                                }
+                                user.u_ip = user.u_ip.addToSet(dataVote.v_ip);
+                                console.log('No vote found, updating user IP log');
+
+                                help.savedoc(user, newvote, function (item) {
+                                    client.emit('setEmail', user.u_email);
+                                    client.emit('setID', user._id);
+                                    console.log('Trying to save vote');
+                                    help.savedoc(item, voted, function (emit_item) {//save vote
+                                        // client.emit("setVoted", emit_item); //set what user voted on
+                                        console.log('Trying to increment poll: ' + newvote.p_id + ' -- ' + newvote.u_loc[0] + ', ' + newvote.u_loc[3] + ', choice ' + newvote.v_choice);
+                                        help.incPoll(Poll, newvote, client, io); // increment only after vote saved success
+                                    });
+                                });
+                            }
+                            else{
+                                console.log('User voted already, break');
+                            }
+                        });
                     }
                     else{
-                        user.s_tmin = Math.min(user.s_tmin, dataVote.s_vtime);
-                        user.s_tmax = Math.max(user.s_tmax, dataVote.s_vtime);
-                        user.s_ttotal = user.s_ttotal + dataVote.s_vtime;
-                        user.s_vtotal += 1;
-                        console.log('Found user account!');
+                        client.emit('voteAccountExist');
                     }
-                    Vote.findOne({'u_id': user._id, 'p_id':dataVote.p_id[0]}).exec(function (err, vote){
-                        if(!vote){
-                            newvote['u_id'] = user._id;
-                            newvote.v_valid = (user.v_left < 0) ? 'true' : 'false'; //v_valid if user registered
-                            if (user.v_left >= 0){
-                                user.v_left += 1; //increment outstanding votes
-                                console.log(newvote);
-                                //VOTE LOGIC, DISABLE FOR DEVELOPMENT
-                                if ((user.v_left%10) === 1 || (user.u_salt <= 0)){
-                                    console.log('Sending vote verification...');
-                                    user.u_salt.push(shortid.generate()); //generate new salt at mod=0
-                                    user.markModified('u_salt'); //tell mongoose it's modified
-                                    email.send_email_confirmation(newvote.u_email, newvote.u_id, newvote._id, user.u_salt[user.u_salt.length-1]);
-                                }
-                                newvote.v_valid = user.u_salt[user.u_salt.length-1]; //take newest salt
-                            }
-                            user.u_ip = user.u_ip.addToSet(dataVote.v_ip);
-                            console.log('No vote found, updating user IP log');
-
-                            help.savedoc(user, newvote, function (item) {
-                                client.emit('setEmail', user.u_email);
-                                client.emit('setID', user._id);
-                                console.log('Trying to save vote');
-                                help.savedoc(item, voted, function (emit_item) {//save vote
-                                    // client.emit("setVoted", emit_item); //set what user voted on
-                                    console.log('Trying to increment poll: ' + newvote.p_id + ' -- ' + newvote.u_loc[0] + ', ' + newvote.u_loc[3] + ', choice ' + newvote.v_choice);
-                                    help.incPoll(Poll, newvote, client, io); // increment only after vote saved success
-                                });
-                            });
-                        }
-                        else{
-                            console.log('User voted already, break');
-                        }
-                    });
+                    
                 });
             }
             else{
