@@ -16,8 +16,8 @@
   <div id='dash'></div>
   <div id='wrapper' class='container-fluid'>
     <div id='branding'>
-      <span id='nameLogo'>kingpoll.</span><div id='wrapLogo'><img src="/images/kingstache_666.png" alt="There's a poll for that." id='imgLogo'></div>
-      <br/><!-- <span id='slogan'>There's a poll for that.</span> -->
+      <!-- <span id='nameLogo'>kingpoll.</span><div id='wrapLogo'><img src="/images/kingstache_666.png" alt="There's a poll for that." id='imgLogo'></div> -->
+      <!-- <br/><span id='slogan'>There's a poll for that.</span> -->
     </div>
     <div class='col-sm-8 col-sm-offset-2 row'>
       <div class='card'>
@@ -33,8 +33,8 @@
           <div class='card-head'>Votes awaiting validation</div>
           <div class='card-text'>Select which votes to validate. The rest will be deleted when you click 'Validate!'.</div>
           <div>
-            <form action="/validateVote" method="post" class='submit' name="">
-              <button type='submit' class='submit'>Validate!</button>
+            <form action="/validateVote" method="post" class='submit' name="validate-vote">
+              <button type='submit' class='submit btnSolo'>Validate!</button>
               <table class="table table-striped">
                 <thead>
                   <tr>
@@ -48,7 +48,7 @@
                   </tbody>
                 </thead>
               </table>
-              <button type='submit' class='submit'>Validate!</button>
+              <button type='submit' class='submit btnSolo'>Validate!</button>
             </form>
           </div>
   <!--       <div id='polls' class='card-text card-list'>
