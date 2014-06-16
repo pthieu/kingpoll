@@ -20,6 +20,7 @@ var userSchema = new mongoose.Schema({
     'u_loc'     : [{type:String}], //location to fall back on incase json ip loc fails
     'u_ip'      : [{type:String}], //list of IP's user logged in from, hold last 5
     'u_validate': {type:Boolean, default:false}, //Validate a user's account
+    'u_isSignUp': {type:Boolean}, //Verify if this account is from sign up (true) or from vote (false)
     'u_multi'   : {type:Number, default:0}, //user exp multiplier
     'u_team'    : [{type:String, default:"anonymous"}],
     'v_left'    : {type:Number, default:0}, //number of votes left: -1 = registered, >0 = votes left

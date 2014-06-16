@@ -6,6 +6,7 @@ var shortid = require('shortid');
 var request = require('request');
 var help = require('../scripts/help.js');
 var email = require('../scripts/email.js');
+var salt = require('../scripts/saltgen.js');
 
 var ObjectId = require('mongoose').Types.ObjectId;
 var numonly = /\d+/; //test for number pattern
@@ -249,28 +250,57 @@ exports.validateVote = function (req,res) {
 }
 
 exports.newuser = function(req, res) {
-    var newuser = new User({
-        'u_email': req.body.u_email,
-        'u_id': req.body.u_id,
-        'u_password': req.body.u_password,
-        'u_birth': new Date(req.body.u_birth),
-        'u_name': req.body.u_name,
-        'u_sex' : req.body.u_sex
-    });
-    newuser.save(function (err, user, count) {
-        if (err){
-            console.log(err);
-            res.status(500).json({status:'Poll Save: failed'});
+    User.findOne({'u_email':req.body.u_email}, function (err, user) {
+        if (err) {
+            return console.error(err);
         }
-        else{
-            console.log('User Save: passed')
-            email.send_user_confirmation(user.u_email, user.u_id, user.u_salt);
-            var redirect = '/signup/done';
-            res.header('Content-Length', Buffer.byteLength(redirect));
-            res.send(redirect, 200);
+        if (user) {
+            console.log(user);
+            if(user.u_isSignUp === false){
+                user.u_isSignUp  = true;
+                user.u_id        = req.body.u_id;
+                user.u_birth     = (req.body.u_birth === undefined) ? "" : new Date(req.body.u_birth);
+                user.u_name      = (req.body.u_name === undefined) ? "" : req.body.u_name;
+                user.u_sex       = (req.body.u_sex === undefined) ? "" : req.body.u_sex;
+                user.u_password  = req.body.u_password;
+                user.save(function(err, user){
+                    if (err) {
+                        console.log(err);
+                        res.status(500).json({status:'User Save: failed'});
+                    } else {
+                        console.log('User Save: passed')
+                        email.send_user_confirmation(user.u_email, user.u_id, user.u_salt);
+                        var redirect = '/signup/done';
+                        res.header('Content-Length', Buffer.byteLength(redirect));
+                        res.send(redirect, 200);
+                    }
+                });
+            }
+        } else {
+            var newuser = new User({
+                'u_email': req.body.u_email,
+                'u_id': req.body.u_id,
+                'u_password': req.body.u_password,
+                'u_birth': new Date(req.body.u_birth),
+                'u_name': req.body.u_name,
+                'u_sex' : req.body.u_sex,
+                'u_isSignUp' : true
+            });
+            newuser.save(function (err, user, count) {
+                if (err){
+                    console.log(err);
+                    res.status(500).json({status:'Poll Save: failed'});
+                }
+                else{
+                    console.log('User Save: passed')
+                    email.send_user_confirmation(user.u_email, user.u_id, user.u_salt);
+                    var redirect = '/signup/done';
+                    res.header('Content-Length', Buffer.byteLength(redirect));
+                    res.send(redirect, 200);
+                }
+            });
         }
     });
-
 };
 
 exports.verifyUser = function (req,res) {

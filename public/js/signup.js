@@ -108,6 +108,7 @@ $(document).ready(function() {
         }).done(function (data) {
             window.location.href = data;
         }).fail(function (data) {
+            console.log("failed");
             switch(data.responseText){
                 case 'c_n length does not match':
                     alert('Please fill all visible textboxes with text and choose a color!');

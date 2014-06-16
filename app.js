@@ -209,7 +209,7 @@ io.sockets.on('connection', function (client) {
     });
     client.on('vote', function (dataVote){
         console.log('voting');
-        socket.vote(dataVote, client, io);
+        socket.vote(dataVote, client, io, client.handshake.user.logged_in);
     });
     client.on('iploc', function (iploc) {
         console.log(iploc);

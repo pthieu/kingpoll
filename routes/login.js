@@ -12,6 +12,7 @@ exports.postlogin = function(req, res, next) {
   passport.authenticate('local', function(err, user, info) {
     if (err) { return next(err) }
     if (!user) {
+      console.log(info);
       req.session.messages =  [info.message];
       return res.redirect('/signup');
     }
