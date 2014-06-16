@@ -78,7 +78,7 @@ exports.vote = function (dataVote, client, io, loggedin) {
                         });
 
                         
-                    } else if (user && !loggedin) {
+                    } else if (user.u_isSignUp && !loggedin) {
                         client.emit('voteAccountExist');
                         return;
                     } else {
