@@ -106,9 +106,9 @@ $(document).ready(function() {
         },
             dataType: "html"
         }).done(function (data) {
+            dual.setLocalVar('u_email', '');
             window.location.href = data;
         }).fail(function (data) {
-            console.log("failed");
             switch(data.responseText){
                 case 'c_n length does not match':
                     alert('Please fill all visible textboxes with text and choose a color!');

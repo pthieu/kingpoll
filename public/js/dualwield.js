@@ -88,4 +88,24 @@ if(typeof exports == 'undefined'){
     }
     return true;
   };
+  exports.getLocaVar = function (item){
+    if(typeof(Storage) !== "undefined"){
+        return(localStorage.getItem(item));
+    }
+    else
+    {
+        return($.cookie(item));
+    }
+  };
+
+  exports.setLocalVar = function (item,val){
+    if(typeof(Storage) !== "undefined"){
+        localStorage.setItem(item, val);
+    }
+    else
+    {
+        $.cookie(item, val);
+      }
+  };
+
   })(typeof exports === 'undefined'? this['mymodule']={}: exports);

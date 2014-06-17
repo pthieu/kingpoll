@@ -289,7 +289,7 @@ exports.newuser = function(req, res) {
             newuser.save(function (err, user, count) {
                 if (err){
                     console.log(err);
-                    res.status(500).json({status:'Poll Save: failed'});
+                    res.status(500).json({status:'User Save: failed'});
                 }
                 else{
                     console.log('User Save: passed')
