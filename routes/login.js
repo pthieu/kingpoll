@@ -14,7 +14,7 @@ exports.postlogin = function(req, res, next) {
     if (!user) {
       console.log(info);
       req.session.messages =  [info.message];
-      return res.redirect('/signup');
+      return res.render('login', { error: true });;
     }
     req.logIn(user, function(err) {
       if (err) { return next(err); }

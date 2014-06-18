@@ -13,6 +13,10 @@ label{
   background : white;
   box-shadow : 0 0 0.5rem rgba(0, 0, 0, 0.1);
 }
+.formSignup .error {
+  margin  : 20px;
+  color   : red;
+}
 #mult {
   position   : absolute;
   right      : -9rem;
