@@ -1,4 +1,5 @@
 var socket = io.connect();
+var _fp = new Fingerprint();
 
 $(document).ready(function() {
     // var mult = 0.00;
@@ -71,6 +72,7 @@ $(document).ready(function() {
     $('#newuser').submit(function(e){
         e.preventDefault();
 
+        var post_fp = _fp.get();
         var post_email = $('#tbEmail').val();
         var post_uid = $('#tbUsername').val();
         var post_password = $('#tbCheckPassword').val();
@@ -97,6 +99,7 @@ $(document).ready(function() {
         data:{
                 'u_email': post_email,
                 'u_id': post_uid,
+                'u_fp': post_fp,
                 'u_email': post_email,
                 'u_password': post_password,
                 'u_name': post_name,

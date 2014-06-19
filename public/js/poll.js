@@ -65,6 +65,11 @@ $.getJSON("http://ip-api.com/json/", function(_geodata) {
     socket.emit('iploc', _geodata);
 });
 
+var _fp = new Fingerprint();
+var fingerprint = _fp.get();
+
+setLocalVar('fp', fingerprint);
+
 socket.on('authStatus', function (status, user, social) {
     if(status){
         socialID = social;
@@ -455,8 +460,8 @@ $(document).ready(function(){
             }, dur);
 
 //BARCHART CHANGES
-            if(u_email && !(voted)){
-                socket.emit('getVoted', {u_email: u_email, p_id: pollid});
+            if((!!u_email || !!fingerprint) && !(voted)){
+                socket.emit('getVoted', {u_email: u_email, u_fp: fingerprint, p_id: pollid});
             }
             voteTimeData = [{name:'Average', value: data.s_tavg}, {name:'You', value: Math.round(s_vtime/sigfig)*sigfig}];
             // drawVoteTime(chart, voteTimeData, y, yAxis);
@@ -549,6 +554,7 @@ $(document).ready(function(){
             //graphs done drawing, grab time
             votetime = $.now();
             $('input[name="vote"]').click(function(){
+                fingerprint = _fp.get();
                 //get time once
                 if (votetime>1383809658764){
                     votetime = (s_vtime) ? s_vtime :($.now()-votetime); //get votetime once
@@ -559,12 +565,13 @@ $(document).ready(function(){
                     };
                 }
 
-                if(((u_email) || !(dual.isEmpty(socialID))) && !voted){
+                if(((!!u_email || !!fingerprint) || !(dual.isEmpty(socialID))) && !voted){
                     socket.emit('vote', {
                         'p_id'      :[data._id, data.p_id],
                         'u_id'      :u_id,
                         'socialID'  :socialID,
                         'u_email'   :u_email,
+                        'u_fp'      :fingerprint,
                         'u_loc'     :[geo_loc.country, geo_loc.countryCode, geo_loc.regionName, geo_loc.region, geo_loc.city],
                         'u_longlat' :[geo_loc.lon, geo_loc.lat],
                         'v_ip'      :geo_loc.query,
@@ -576,9 +583,9 @@ $(document).ready(function(){
                     });
                     voted = true;
                 }
-                else if(!(u_email)){
-                    getSignUpBox($('label[for="' + $(this).attr('id') + '"]'));
-                }
+                // else if(!(u_email)){
+                //     getSignUpBox($('label[for="' + $(this).attr('id') + '"]'));
+                // }
             });
         }
         else{
@@ -686,6 +693,15 @@ function getLocalVar(item){
     else
     {
         return($.cookie(item));
+    }
+}
+function setLocalVar(item,val){
+    if(typeof(Storage) !== "undefined"){
+        localStorage.setItem(item, val);
+    }
+    else
+    {
+        $.cookie(item, val);
     }
 }
 

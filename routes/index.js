@@ -259,6 +259,7 @@ exports.newuser = function(req, res) {
             if(user.u_isSignUp === false){
                 user.u_isSignUp  = true;
                 user.u_id        = req.body.u_id;
+                user.u_fp        = req.body.u_fp;
                 user.u_birth     = (req.body.u_birth === undefined) ? "" : new Date(req.body.u_birth);
                 user.u_name      = (req.body.u_name === undefined) ? "" : req.body.u_name;
                 user.u_sex       = (req.body.u_sex === undefined) ? "" : req.body.u_sex;

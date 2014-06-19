@@ -10,7 +10,8 @@ var ObjectId = require('mongoose').Types.ObjectId;
 
 exports.getVoted = function (data, client) {
     Poll.findOne({'p_id': data.p_id}, function (err, poll) {
-        Vote.findOne({u_email: data.u_email, p_id: poll._id}, function (err, vote) {
+        //look for email(currently not used) or fingerprint
+        Vote.findOne({$or:[{'u_email': data.u_email}, {'u_fp': data.u_fp}], p_id: poll._id}, function (err, vote) {
             if (err) return console.error(err);
             (vote)?client.emit('setVoted', (vote.v_choice)):client.emit('setVoted');
             (vote)?client.emit('setVoteTime', vote.s_vtime):client.emit('setVoteTime');
@@ -19,17 +20,21 @@ exports.getVoted = function (data, client) {
 }
 exports.vote = function (dataVote, client, io, loggedin) {
     var u_email = (dataVote.u_email)?dataVote.u_email.toLowerCase():dataVote.socialID.id;
+    var u_fp = (dataVote.u_fp) ? dataVote.u_fp : null;
     var u_id = (dataVote.u_id) ? dataVote.u_id : mongoose.Types.ObjectId();
     var socialID = dataVote.socialID;
     var new_vid = mongoose.Types.ObjectId();
+    //see if poll exists
     Poll.findOne({'_id': dataVote.p_id[0]}).exec(function (err, poll) {
         if (err) throw err;
+        //create new vote if poll exists. otherwise do nothing. wtf? send back poll not found?
         if (poll){
             console.log('Found poll: poll.p_id');
             var newvote = new Vote({
                 _id         : new_vid,
                 't_created' : new_vid.getTimestamp(),
                 'p_id'      : dataVote.p_id[0],
+                'u_fp'      : dataVote.u_fp,
                 'u_email'   : u_email,
                 'u_loc'     : dataVote.u_loc,
                 'u_longlat' : dataVote.u_longlat,
@@ -42,14 +47,16 @@ exports.vote = function (dataVote, client, io, loggedin) {
             });
             var voted = {};
             voted[newvote.p_id] = newvote.v_choice; //using associative array for the field/value 
-            // check if user exists
+            // check if user exists/logged in
             var count = 0;
             for (i in socialID){
                 count++;
             }
-            if (count>0 || (u_email)){
+            //if logged in, given email, or given fingerprint
+            if (count>0 || (!!u_email || !!u_fp)){
                 var social = {};
-                console.log('Looking for user: ' + u_email)
+                console.log('Looking for user: ' + u_email + ' with fingerprint: ' + u_fp);
+                //since social can have field '_id' or u_thirdID, we have to create the object before
                 if(count>0){
                     social['u_thirdId.'+socialID.party] = socialID.id;
                     console.log('or social ID : '+socialID.party+' ID: '+ socialID.id)
@@ -57,7 +64,8 @@ exports.vote = function (dataVote, client, io, loggedin) {
                 else{
                     social = {'_id': mongoose.Types.ObjectId()};
                 }
-                User.findOne({$or:[{'u_email': u_email}, social]}).exec(function (err, user) {
+                //looking for email(not used currently), socialID (twitter/fb), or fingerprint
+                User.findOne({$or:[{'u_email': u_email}, social, {'u_fp': u_fp}]}).exec(function (err, user) {
                     if (err) throw err;
                     //if u_email doesn't exist, means we gotta make new account, so generate hex
                     if(!user){
@@ -66,6 +74,7 @@ exports.vote = function (dataVote, client, io, loggedin) {
                         var user = new User({
                             _id         : new_uid,
                             'u_id'      : u_id,
+                            'u_fp'      : u_fp,
                             'u_thirdId' : new_uid,
                             'u_email'   : u_email,
                             'u_created' : new_uid.getTimestamp(),
@@ -76,11 +85,11 @@ exports.vote = function (dataVote, client, io, loggedin) {
                             's_vtotal'  : 1,
                             'u_isSignUp': false
                         });
-
-                        
+                    // registered account exists in db but not logged in
                     } else if (user.u_isSignUp && !loggedin) {
                         client.emit('voteAccountExist');
                         return;
+                    // account exists, not registered
                     } else {
                         user.s_tmin = Math.min(user.s_tmin, dataVote.s_vtime);
                         user.s_tmax = Math.max(user.s_tmax, dataVote.s_vtime);
@@ -88,25 +97,29 @@ exports.vote = function (dataVote, client, io, loggedin) {
                         user.s_vtotal += 1;
                         console.log('Found user account!'); 
                     }
+                    //look to see if user voted already. we already have user object
+                    //we look for the u_id field in VOTE using user's _id, so we don't have to check for thirdID or fingerprint
                     Vote.findOne({'u_id': user._id, 'p_id':dataVote.p_id[0]}).exec(function (err, vote){
                         if(!vote){
                             newvote['u_id'] = user._id;
-                            newvote.v_valid = (user.v_left < 0) ? 'true' : 'false'; //v_valid if user registered
-                            if (user.v_left >= 0){
-                                user.v_left += 1; //increment outstanding votes
-                                console.log(newvote);
-                                //VOTE LOGIC, DISABLE FOR DEVELOPMENT
-                                if ((user.v_left%10) === 1 || (user.u_salt <= 0)){
-                                    console.log('Sending vote verification...');
-                                    user.u_salt.push(shortid.generate()); //generate new salt at mod=0
-                                    user.markModified('u_salt'); //tell mongoose it's modified
-                                    email.send_email_confirmation(newvote.u_email, newvote.u_id, newvote._id, user.u_salt[user.u_salt.length-1]);
-                                }
-                                newvote.v_valid = user.u_salt[user.u_salt.length-1]; //take newest salt
-                            }
+                            newvote.v_valid = true; // vote always valid (for now, until we get funding)
+//The below LINE is commented out because it is for email validation. it makes the vote valid if the user is registered, but if an unregistered email is provided, user will have to validate the vote within 24-48 hours. we signify a registered user with v_left=-1 but this is disabled as we are going with fingerprinting
+                            // newvote.v_valid = (user.v_left < 0) ? 'true' : 'false'; //v_valid if user registered
+//below is code that will send an email out to user and re-calculate how many votes left until it is sent out again. we are going to disable this for now
+                            // if (user.v_left >= 0){
+                            //     user.v_left += 1; //increment outstanding votes
+                            //     console.log(newvote);
+                            //     //VOTE LOGIC, DISABLE FOR DEVELOPMENT
+                            //     if ((user.v_left%10) === 1 || (user.u_salt <= 0)){
+                            //         console.log('Sending vote verification...');
+                            //         user.u_salt.push(shortid.generate()); //generate new salt at mod=0
+                            //         user.markModified('u_salt'); //tell mongoose it's modified
+                            //         email.send_email_confirmation(newvote.u_email, newvote.u_id, newvote._id, user.u_salt[user.u_salt.length-1]);
+                            //     }
+                            //     newvote.v_valid = user.u_salt[user.u_salt.length-1]; //take newest salt
+                            // }
+// END email send evaluation
                             user.u_ip = user.u_ip.addToSet(dataVote.v_ip);
-                            console.log('No vote found, updating user IP log');
-
                             help.savedoc(user, newvote, function (item) {
                                 client.emit('setEmail', user.u_email);
                                 client.emit('setID', user._id);
