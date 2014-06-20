@@ -6,7 +6,7 @@ var salt = require('../scripts/saltgen.js');
 var userSchema = new mongoose.Schema({
     'u_id'      : {type:String, unique:true, index:true}, //like twitter's @name, changeable
     'u_fp'      : {type:Number, required:true, index:true}, //fingerprint, can change randomly
-    'u_email'   : {type:String, unique:true}, //user email, used for login
+    'u_email'   : {type:String, unique:true, index:true}, //user email, used for login
     'u_anonname': {type:String}, //anonymous nickname appointed to user
     'u_name'    : {type:String},
     'u_salt'    : [{type:String}], //salt to decrypt user password

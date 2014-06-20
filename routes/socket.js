@@ -11,8 +11,14 @@ var ObjectId = require('mongoose').Types.ObjectId;
 exports.getVoted = function (data, client) {
     Poll.findOne({'p_id': data.p_id}, function (err, poll) {
         //look for email(currently not used) or fingerprint
-        Vote.findOne({$or:[{'u_email': data.u_email}, {'u_fp': data.u_fp}], p_id: poll._id}, function (err, vote) {
+        var u_email = (data.u_email)?data.u_email.toLowerCase():"";
+        console.log('EMAIL '+data.u_email);
+        console.log('FINGERPRINT '+data.u_fp);
+        Vote.findOne({$or:[{'u_fp': data.u_fp}], p_id: poll._id}, function (err, vote) {
+        // below vote looks for email, and this is currently disabled
+        // Vote.findOne({$or:[{'u_email': u_email}, {'u_fp': data.u_fp}], p_id: poll._id}, function (err, vote) {
             if (err) return console.error(err);
+            console.log(vote);
             (vote)?client.emit('setVoted', (vote.v_choice)):client.emit('setVoted');
             (vote)?client.emit('setVoteTime', vote.s_vtime):client.emit('setVoteTime');
         });
@@ -20,6 +26,7 @@ exports.getVoted = function (data, client) {
 }
 exports.vote = function (dataVote, client, io, loggedin) {
     var u_email = (dataVote.u_email)?dataVote.u_email.toLowerCase():dataVote.socialID.id;
+    u_email = (u_email)?u_email:mongoose.Types.ObjectId();
     var u_fp = (dataVote.u_fp) ? dataVote.u_fp : null;
     var u_id = (dataVote.u_id) ? dataVote.u_id : mongoose.Types.ObjectId();
     var socialID = dataVote.socialID;
@@ -66,6 +73,8 @@ exports.vote = function (dataVote, client, io, loggedin) {
                 }
                 //looking for email(not used currently), socialID (twitter/fb), or fingerprint
                 User.findOne({$or:[{'u_email': u_email}, social, {'u_fp': u_fp}]}).exec(function (err, user) {
+                //below code searches email, which is disabled for now
+                // User.findOne({$or:[{'u_email': u_email}, social, {'u_fp': u_fp}]}).exec(function (err, user) {
                     if (err) throw err;
                     //if u_email doesn't exist, means we gotta make new account, so generate hex
                     if(!user){
@@ -95,7 +104,8 @@ exports.vote = function (dataVote, client, io, loggedin) {
                         user.s_tmax = Math.max(user.s_tmax, dataVote.s_vtime);
                         user.s_ttotal = user.s_ttotal + dataVote.s_vtime;
                         user.s_vtotal += 1;
-                        console.log('Found user account!'); 
+                        console.log('Found user account!');
+                        console.log(user); 
                     }
                     //look to see if user voted already. we already have user object
                     //we look for the u_id field in VOTE using user's _id, so we don't have to check for thirdID or fingerprint
