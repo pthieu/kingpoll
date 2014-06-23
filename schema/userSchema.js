@@ -60,7 +60,8 @@ userSchema.pre('save', function(next) {
 //Password Verification function
 userSchema.methods.comparePassword = function(candidatePassword, cb) {
     var inputpassword = salt.get_hashed_password(candidatePassword, this.u_salt);
-
+    console.log("input password is:" + inputpassword);
+    console.log("stored password is:" + this.u_password);
     if (this.u_password == inputpassword) {
         cb(null, true);
     } else {
