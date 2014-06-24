@@ -254,6 +254,7 @@ exports.newuser = function(req, res) {
         if (err) {
             return console.error(err);
         }
+        //user exists, but not registered
         if (user) {
             console.log(user);
             if(user.u_isSignUp === false){
@@ -277,10 +278,13 @@ exports.newuser = function(req, res) {
                     }
                 });
             }
-        } else {
+        }
+        // fresh new user
+        else {
             var newuser = new User({
                 'u_email': req.body.u_email,
                 'u_id': req.body.u_id,
+                'u_fp': req.body.u_fp,
                 'u_password': req.body.u_password,
                 'u_birth': new Date(req.body.u_birth),
                 'u_name': req.body.u_name,

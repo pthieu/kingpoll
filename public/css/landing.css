@@ -133,6 +133,7 @@
 }
 #wrapper .shift-top{
   margin-top:1rem;
+  margin-bottom:2rem;
 }
 .poll{
   cursor: pointer;
