@@ -319,10 +319,10 @@ $(document).ready(function(){
     });
 
     socket.on('setID', function (ID) {
-        console.log(ID);
+        // console.log(ID);
     });
     socket.on('setEmail', function (email) {
-        console.log(email);
+        // console.log(email);
     });
     socket.on('voteNoEmail', function () {
         console.log('No email specified');
