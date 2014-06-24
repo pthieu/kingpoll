@@ -50,10 +50,11 @@ $(document).ready(function(){
             var tmpdesc = (poll[i].p_desc) ? poll[i].p_desc : "User did not provide a description.";
             var th_colspan = $('thead tr td').length;
             var _embeddata = poll[i].p_embed;
-            $('#polls-wrap').append('<td class="desc-wrap" colspan="'+(th_colspan+1)+'"><div class="polldesc col-xs-10 col-xs-offset-1" style="display: none" poll-id='+poll[i].p_id+" "+((_embeddata)?("embed-data=\""+_embeddata+"\""):"")+'>'+tmpdesc+'</div></td>');
+            $('#polls-wrap').append('<td class="desc-wrap" colspan="'+(th_colspan+1)+'"><div class="polldesc newpolldesc col-xs-10 col-xs-offset-1" style="display: none" poll-id='+poll[i].p_id+" "+((_embeddata)?("embed-data=\""+_embeddata+"\""):"")+'>'+tmpdesc+'</div></td>');
         }
-        $('.polldesc').each(function () {
-            $(this).html("<div>"+dual.linkify($(this).html()).text+"</div>")
+        $('.polldesc.newpolldesc').each(function () {
+            $(this).html("<div>"+dual.linkify($(this).html()).text+"</div>");
+            $(this).removeClass('newpolldesc');
         });
         $('.poll *:not(a)').unbind( "click" ); //unbind click so it doesn't stack animation
         $('.poll *:not(a)').click(function () {
