@@ -24,15 +24,23 @@ window.fbAsyncInit = function() {
         <div id="choices" class='choices'>
             <div class='radio'></div>
             <div class="share-buttons table" style="display: none;">
-                <div class="fb-share-button td">
-                    <a id="fb-share-button" target="_blank">
-                        <img src="/images/share/fb_share.png">
-                    </a>
-                </div>
-                <div class="twitter-share-button1td">
-                    <a href="https://twitter.com/share" class="twitter-share-button" data-via="KINGPOLLInc #kingpoll" data-count="none" data-text="{{title}}" data-url="{{url}}">Tweet</a>
-                    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-                </div>
+                <ul>
+                    <li class="fb-share-button td">
+                        <a id="fb-share-button" target="_blank">
+                            <img src="/images/share/fb_share.png" width="30" height="30">
+                        </a>
+                    </li>
+                    <li class="twitter-share-button1td">
+                        <a href="https://twitter.com/intent/tweet?text={{title}}&url={{url}}&via=KINGPOLLInc%20%23kingpoll" target="_blank">
+                            <img src="/images/share/twitter_share.png" width="30" height="30">
+                        </a>
+                    </li>
+                    <li class="comment-button td">
+                        <a id="comment-button" href="#messages">
+                            COMMENT
+                        </a>
+                    </li>
+                </ul>
             </div>
         </div>
         <div class='embed-wrap'>

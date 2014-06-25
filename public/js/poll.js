@@ -82,6 +82,11 @@ $(document).ready(function(){
     // var pollid = ((/http.*\d+\//).exec(window.location.href))[0].replace(/^.*\/\/.*?\//, '').replace('/', '');
     //use this for now until we get to real dns
     pollid = (window.location.href).split('/')[4];
+    var n = pollid.indexOf("#");
+
+    if(n > 0)
+        pollid = pollid.slice(0,n);
+
     lastpoll = pollid;
     socket.emit('getPoll', pollid);
     disqus_identifier = pollid;
@@ -414,7 +419,7 @@ $(document).ready(function(){
             //$('.share-buttons').html('<a href="https://www.facebook.com/sharer/sharer.php?u='+window.location.href+'" target="_blank"">Share on Facebook</a>');
             $('#fb-share-button').attr("href","https://www.facebook.com/sharer/sharer.php?u="+window.location.href+"");
 
-            $('.twitter-share-button1 iframe').remove();
+            /*$('.twitter-share-button1 iframe').remove();
             // Generate new markup
             var tweetBtn = $('<a></a>')
                 .addClass('twitter-share-button')
@@ -423,7 +428,7 @@ $(document).ready(function(){
                 .attr('data-text', poll.p_q)
                 .attr('data-count', 'none');
             $('.twitter-share-button1').append(tweetBtn);
-            twttr.widgets.load();
+            twttr.widgets.load();*/
 
 //PIE CHANGES
             //if same poll, update stats

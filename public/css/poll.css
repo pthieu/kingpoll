@@ -243,10 +243,29 @@ svg path:hover{
 .share-buttons div{
   display:inline-block;
 }
-
+.share-buttons ul {
+  margin-bottom: 0px;
+}
+.share-buttons ul li{
+  display:inline-block;
+}
+#comment-button {
+  color: white;
+  padding: 20px 10px;
+  font-size: 15px;
+  font-weight: bold;
+  font-family: arial;
+}
+.comment-button {
+  background-color: orange;
+  padding: 5px 0 4px;
+}
+.comment-button a:hover {
+  text-decoration: none;
+}
 .table{
   display:table;
-  width:150px;
+  width:250px;
   margin:auto;
 }
 .td{
