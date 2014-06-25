@@ -63,6 +63,14 @@ socket.on('results', function (results) {
 $.getJSON("http://ip-api.com/json/", function(_geodata) {
     geo_loc = _geodata;
     socket.emit('iploc', _geodata);
+    switch(geo_loc.countryCode){
+        case 'CA':
+        $('#radioCA').click();
+        break;
+        case 'US':
+        $('#radioUS').click();
+        break;
+    }
 });
 
 var _fp = new Fingerprint();
@@ -494,14 +502,6 @@ $(document).ready(function(){
                 mapdata[i] = data.data[i];
             }
             $('.radio-label').css({'border-color': "#"+chart_solocolor});
-            switch(geo_loc.countryCode){
-                case 'CA':
-                    $('#radioCA').click();
-                    break;
-                case 'US':
-                    $('#radioUS').click();
-                    break;
-            }
             for(var i in mapdata){
                 for(var j in mapdata[i]){
                     if(i == 'hiding'){continue;}
