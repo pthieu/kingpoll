@@ -125,6 +125,11 @@
 }
 #stats-wrap{
 }
+h1{
+  position:absolute;
+  z-index: -1;
+  top:2rem;
+}
 .card{
   color          : #fff;
 }
