@@ -91,7 +91,7 @@
   height: 0;
   width: 0;
   top: 0;
-  left: -58px;
+  left: -57px;
   border-top: 29px solid #fff;
   border-bottom: 29px solid #fff;
   border-left: 29px solid transparent;
@@ -105,7 +105,7 @@
   height: 0;
   width: 0;
   top: 0;
-  right: -58px;
+  right: -57px;
   border-top: 29px solid #fff;
   border-bottom: 29px solid #fff;
   border-left: 29px solid #fff;
@@ -128,8 +128,9 @@
 .card{
   color          : #fff;
 }
-.card h1{
+.card h2{
   font-weight: bold;
+  font-size:36px;
 }
 #wrapper .shift-top{
   margin-top:1rem;
