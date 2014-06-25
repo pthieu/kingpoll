@@ -21,7 +21,7 @@ db.once('open', function callback() {
     console.log('Connected to mongodb://localhost/'+((process.env.NODE_ENV == 'production')?'production':'test'));
 });
 
-    
+
 User.remove({}, function (err, doc) {
     console.log('Remove all Users...');
 });
@@ -39,9 +39,9 @@ function randColor (colors) {
 }
 
 var locations = [
-        [  "United States",  "US",  "North Carolina",  "NC",  "Raleigh" ],
-        [  "Canada",  "CA",  "Ontario",  "ON",  "Toronto" ]
-    ];
+[  "United States",  "US",  "North Carolina",  "NC",  "Raleigh" ],
+[  "Canada",  "CA",  "Ontario",  "ON",  "Toronto" ]
+];
 
 var randLoc = function () {
     return locations[Math.floor(Math.random()*locations.length)]
@@ -51,15 +51,17 @@ var users = [];
 var polls = [];
 var votes = [];
 
-var nUsers = 10;
-var nPolls = 3;
+var nUsers = 100;
+var nPolls = 100;
+var votechance = 0.7;
 
 for(var i=0; i<nUsers; i++){
     var newuser = new User({
-            '_id': mongoose.Types.ObjectId(),
-            'u_id': mongoose.Types.ObjectId(),
-            'u_email': 'dummy'+i+"@kingpoll.com",
-        });
+        '_id': mongoose.Types.ObjectId(),
+        'u_id': mongoose.Types.ObjectId(),
+        'u_fp': i,
+        'u_email': 'dummy'+i+"@kingpoll.com"
+    });
     users.push(newuser);
 }
 for(i in users){
@@ -80,15 +82,15 @@ for(var i=0; i<nPolls; i++){
 
     var id = mongoose.Types.ObjectId();
     var newpoll = new Poll({
-            '_id'       : id,
-            'p_id'      : mongoose.Types.ObjectId(),
-            't_created' : id.getTimestamp(),
-            'p_q'       : 'question '+i,
-            'c_n'       : c_n,
-            'c_text'    : c_text,
-            'c_hex'     : c_hex,
-            's_ttotal'  : 0
-        });
+        '_id'       : id,
+        'p_id'      : mongoose.Types.ObjectId(),
+        't_created' : id.getTimestamp(),
+        'p_q'       : 'question '+i,
+        'c_n'       : c_n,
+        'c_text'    : c_text,
+        'c_hex'     : c_hex,
+        's_ttotal'  : 0
+    });
 
     var arrInitMap = help.initMapChoice(c_n, newpoll['data'].toObject());
     newpoll['c_total'] = arrInitMap.c_total;
@@ -102,38 +104,43 @@ for(i in polls){
     });
 }
 setTimeout(function () {
-for(var i in users){
-    for (var j in polls){
-        var id = mongoose.Types.ObjectId();
-        //randomize date
-        var newdate = new Date()
-        var hours = Math.round(Math.random()*32);
-        console.log(hours);
-        newdate.setTime(newdate.getTime()-hours*3600*1000);
+    for(var i in users){
+        for (var j in polls){
+            var rollvote = Math.random();
+            if(votechance < rollvote){
+                var id = mongoose.Types.ObjectId();
+                //randomize date
+                var newdate = new Date()
+                var hours = Math.round(Math.random()*32);
+                console.log(hours);
+                newdate.setTime(newdate.getTime()-hours*3600*1000);
 
-        var newvote = new Vote({
-                '_id'       : id,
-                'p_id'      : polls[j]._id,
-                'u_id'      : users[i]._id,
-                'u_email'   : users[i].u_email,
-                'u_loc'     : randLoc(),
-                'v_date'    : newdate,
-                's_vtime'   : Math.ceil(Math.random()*2000)
-        });
+                var newvote = new Vote({
+                    '_id'       : id,
+                    'p_id'      : polls[j]._id,
+                    'u_id'      : users[i]._id,
+                    'u_fp'      : users[i].u_fp,
+                    'u_email'   : users[i].u_email,
+                    'u_loc'     : randLoc(),
+                    'v_date'    : newdate,
+                    's_vtime'   : Math.ceil(Math.random()*2000)
+                });
 
-        var v_choice = Math.floor(Math.random()*polls[j].c_n);
-        newvote.v_choice = v_choice;
-        newvote.v_text = polls[j].c_text[v_choice];
-        newvote.v_hex = polls[j].c_hex[v_choice];
+                var v_choice = Math.floor(Math.random()*polls[j].c_n);
+                newvote.v_choice = v_choice;
+                newvote.v_text = polls[j].c_text[v_choice];
+                newvote.v_hex = polls[j].c_hex[v_choice];
 
-        votes.push(newvote);
-        help.incPoll(Poll, newvote)
+                votes.push(newvote);
+                help.incPoll(Poll, newvote)
+            }
+        }
     }
-}
-for(i in votes){
-    votes[i].save(function (err, votes, count) {
-        if (err) console.error(err);
-    });
-}
+    for(i in votes){
+        votes[i].save(function (err, votes, count) {
+            if (err) console.error(err);
+        });
+    }
+    setTimeout(function () {process.exit(0);}, 10000);
 
-}, 500);    
+}, 500);
