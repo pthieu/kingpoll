@@ -361,7 +361,7 @@ $(document).ready(function(){
     });
     });
 
-    socket.on('pollID', function (poll) {
+    socket.on('pollID', function (poll, pollIDType) {
         if (poll){
             //set up data !IMPORTANT
             data = poll;
@@ -371,7 +371,9 @@ $(document).ready(function(){
             pollid = data.p_id;
             disqus_identifier = pollid;
             window.scrollTo(0,0);
-            document.getElementById('disqus_thread').innerHTML = "";
+            if (pollIDType !== 'vote') {
+                document.getElementById('disqus_thread').innerHTML = "";
+            }
 
             // $('#disqus_thread').html('Loading comments...');
             // (lastpoll != pollid) ? (function(){
@@ -598,24 +600,26 @@ $(document).ready(function(){
             console.log('poll not found');
         }
 //DISQUS
-        disqus_count++;
-        poll?setTimeout(function(){
-            if(disqus_count === 1){
-                if(typeof DISQUS !== 'undefined'){
-                    DISQUS.reset({reload: true, config: function(){
-                            this.page.identifier = disqus_identifier;
-                        }
-                    });
-                } 
-                else{
-                    $.getScript("http://"+disqus_shortname+".disqus.com/embed.js");
+        if (pollIDType !== 'vote') {
+            disqus_count++;
+            poll?setTimeout(function(){
+                if(disqus_count === 1){
+                    if(typeof DISQUS !== 'undefined'){
+                        DISQUS.reset({reload: true, config: function(){
+                                this.page.identifier = disqus_identifier;
+                            }
+                        });
+                    } 
+                    else{
+                        $.getScript("http://"+disqus_shortname+".disqus.com/embed.js");
+                    }
+                    disqus_count--;
                 }
-                disqus_count--;
-            }
-            else{
-                disqus_count--;
-            }
-        }, 800):$('#disqus_thread').text("No poll, no comments :c");
+                else{
+                    disqus_count--;
+                }
+            }, 800):$('#disqus_thread').text("No poll, no comments :c");
+        };
     });
 });
 

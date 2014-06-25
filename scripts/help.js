@@ -59,7 +59,7 @@ var incPoll = function (Poll, newvote, client, io) {
 
     console.log('Poll incremented: '+newvote.p_id);
     Poll.findOne({'_id': newvote.p_id}, function (err, poll) {
-        (io)?io.sockets.in(poll.p_id).emit('pollID', poll):null;
+        (io)?io.sockets.in(poll.p_id).emit('pollID', poll, "vote"):null;
     });
 }
 

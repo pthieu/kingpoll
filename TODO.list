@@ -1,6 +1,4 @@
 OPEN:
-	- SEO
-	- GA
 	- Link poll to another poll (do it by button, and if you just want to link to another poll, then all buttons point to that poll)
 		--> single path survey
 		--> multi-path story i.e. goosebumps
@@ -12,9 +10,10 @@ OPEN:
 PHONG:
 	- add date to landing
 	- backend email validation
-	- When pollid, keeps going back to default map
-	- when pollid, keeps reloading disqus
+	- SEO
+	- GA
 
 FARRAN:
 	- Account page
+		--> all the good stuff an account has
 	- Make share buttons pretty
