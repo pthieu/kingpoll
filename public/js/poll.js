@@ -854,7 +854,14 @@ function calcRgnColor (num_choices, choices, data_region){
     inv_color_ratio = 1 - sat_ratio; //we invert since we need amount to lighten by (since 255 is white)
 
     //either tie between top two or more
-    if (tie === true)
+    if (tie === true && total>0)
+    {
+        r = 230;
+        g = 230;
+        b = 230;
+        result = desaturation(r,g,b,0);
+    }
+    else if (tie === true)
     {
         r = 200;
         g = 200;
