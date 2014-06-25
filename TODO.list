@@ -16,4 +16,5 @@ PHONG:
 FARRAN:
 	- Account page
 		--> all the good stuff an account has
-	- Make share buttons pretty
+        - Make sure if user does not validate, keep sending emails or delete user (logic for vote validation and delete is in the code already, use that as reference)
+        - Add password recovery.
