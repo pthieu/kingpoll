@@ -178,14 +178,24 @@ io.sockets.on('connection', function (client) {
         });
     });
     //get list of all the available polls and display to user
-    client.on('getlistpoll', function (limit, skip, scroll) {
+    client.on('getlistpoll', function (limit, skip, sort) {
         console.log("Socket io connection");
         console.log(client.handshake);
         //console.log(socket.handshake.user.username);
-        Poll.find({},{'p_id':1, 'p_q':1, 'p_total':1, 's_ttotal':1, 'p_desc':1, 'p_embed':1},{limit: limit, skip: skip}).sort('-_id').exec(function(err, poll) {
-            if (err) return console.error(err);
-            client.emit('listpoll', poll);
-        });
+        switch(sort){
+            case 'newest':
+                Poll.find({},{'p_id':1, 'p_q':1, 'p_total':1, 's_ttotal':1, 'p_desc':1, 'p_embed':1},{limit: limit, skip: skip}).sort('-_id').exec(function(err, poll) {
+                    if (err) return console.error(err);
+                    client.emit('listpoll', poll);
+                });
+                break;
+            case 'mostvotes':
+                Poll.find({},{'p_id':1, 'p_q':1, 'p_total':1, 's_ttotal':1, 'p_desc':1, 'p_embed':1},{limit: limit, skip: skip}).sort('-p_total').exec(function(err, poll) {
+                    if (err) return console.error(err);
+                    client.emit('listpoll', poll);
+                });
+                break;
+        }
     });
     //get search results for polls and display to user
     client.on('searchpoll', function (searchKey) {

@@ -84,3 +84,18 @@ body{
 .italic{
   font-style: italic;
 }
+
+.left{
+  text-align: left;
+}
+
+.ml2r{
+  margin-left:2rem;
+}
+
+.inline-block{
+  display: inline-block;
+}
+.inline{
+  display: inline;
+}

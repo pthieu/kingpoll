@@ -12,6 +12,8 @@ OPEN:
 PHONG:
 	- add date to landing
 	- backend email validation
+	- When pollid, keeps going back to default map
+	- when pollid, keeps reloading disqus
 
 FARRAN:
 	- Account page

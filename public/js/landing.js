@@ -8,13 +8,14 @@ var sigfig = 2*10;
 var count = 0;
 var loadcount = 0;
 var load_npolls = 20;
+var sorttype = "newest";
 
 $(document).ready(function(){
     socket.emit('joinlanding');
 
     // var temp3 = ($(window).height() - 286) / 35;
     // loadcount = Math.ceil(temp3) + 5;
-    loadpoll(load_npolls, 0, true);
+    loadpoll(load_npolls, 0, sorttype);
         
     socket.emit('getViewers');
     socket.emit('getUsers');
@@ -81,14 +82,28 @@ $(document).ready(function(){
 
     $(window).scroll(function(){
         if  ($(window).scrollTop() === $(document).height() - $(window).height()){
-            var n = $('.poll').length;
-            socket.emit('getlistpoll', load_npolls, n);
+            var skip = $('.poll').length; //skip how many
+            loadpoll(load_npolls, skip, sorttype);
         }
-    }); 
+    });
+
+    $(document).on('change','.sel-list', function(){
+        var sort = $(this).val();
+        $('#polls-wrap').html('');
+        switch (sort){
+            case "newest":
+                sorttype = "newest"
+                break;
+            case "mostvotes":
+                sorttype = "mostvotes"
+                break;
+        }
+        loadpoll(load_npolls, 0, sorttype);
+    });
 });
 
-function loadpoll(n, skip, scroll) {
+function loadpoll(n, skip, sort) {
     var init;
     // socket.emit('getlistpoll', limit, count*loadcount, scroll);
-    socket.emit('getlistpoll', n, skip);
+    socket.emit('getlistpoll', n, skip, sort);
 }

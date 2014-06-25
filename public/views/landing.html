@@ -32,7 +32,7 @@
             <!-- <span id='nameLogo'>kingpoll.</span><div id='wrapLogo'><img src="/images/kingstache_fff_s.png" alt="Question Everything." id='imgLogo'></div> -->
             <br/>
           </div>
-            <span class='version-label'>(&nbsp;Alpha Release&nbsp;)</span>
+          <span class='version-label'>(&nbsp;Alpha Release&nbsp;)</span>
         </div>
         <!-- Main jumbotron for a primary marketing message or call to action -->
         <!-- <div class="jumbotron">
@@ -142,87 +142,108 @@
         <div class="carousel-inner">
           <div class="wrap item active">
             <div class="row">
-              <table class="table table-striped">
-                <thead>
+              <div class='ml2r sel-list-wrap'>
+                <table>
                   <tr>
-                    <td></td>
-                    <td><b>Question</b></td>
-                    <td><b>Votes</b></td>
-                    <td><b>Avg. Vote Time</b></td>
+                    <td>
+                      <h3 class='inline'>Sort:</h3>
+                    </td>
+                    <td>
+                      <select class="sel-list">
+                        <option value="newest">Newest</option>
+                        <option value="mostvotes">Most Votes</option>
+                      </select>
+                    </td>
                   </tr>
-                </thead>
-                <tbody id='polls-wrap'>
                 </tbody>
               </table>
             </div>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <td></td>
+                  <td><b>Question</b></td>
+                  <td><b>Votes</b></td>
+                  <td><b>Avg. Vote Time</b></td>
+                </tr>
+              </thead>
+              <tbody id='polls-wrap'>
+              </tbody>
+            </table>
           </div>
-          <div class="wrap item">
-            <div class="col-md-10 col-md-offset-1 row">
-              <table class="table table-striped">
-                <thead>
-                  <tr>
-                    <td></td>
-                    <td><b>Question</b></td>
-                    <td><b>Votes</b></td>
-                    <td><b>Avg. Vote Time</b></td>
-                  </tr>
-                </thead>
-                <tbody id='polls-wrap'>
-                </tbody>
-              </table>
-            </div>
+        </div>
+        <div class="wrap item">
+          <div class="col-md-10 col-md-offset-1 row">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <td></td>
+                  <td><b>Question</b></td>
+                  <td><b>Votes</b></td>
+                  <td><b>Avg. Vote Time</b></td>
+                </tr>
+              </thead>
+              <tbody id='polls-wrap'>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
     </div>
-    <div id='notes' class='col-md-2 hidden-xs hidden-sm'>
-      <div class='group upcoming'>
-        <h4>Upcoming Features</h4>
-        <span class='title'>More Maps!</span>
-        <span class='desc'>We're looking to implement the map for Europe next, then a world map.</span>
-        <span class='title'>Poll Series</span>
-        <span class='desc'>Link polls in a series for follow-up questions or use it to create a multi-path story.</span>
-        <span class='title'>Social Network Integration</span>
-        <span class='desc'>Post your activity directly to Facebook or Twitter.</span>
-        <span class='title'>Account Pages</span>
-        <span class='desc'>Check your stats, polls, votes, comments, and check out others.</span>
-        <span class='title'>Badges/Achievements</span>
-        <span class='desc'>No point having an account if it doesn't mean anything.</span>
-      </div>
-      <div class='group issues'>
-        <h4>Known Issues</h4>
-        <span class='title'>All</span>
-        <span class='desc'>Link scraper in new poll creation will sometimes show Error 404 even though link works</span>
-        <span class='title'>Safari</span>
-        <span class='desc'>Cannot vote with private browsing due to the fact that Safari does not allow localStorage to be used. Working on cookies shim.</span>
-        <span class='title'>WP8</span>
-        <span class='desc'>Random Button does not work. Suspecting onclick call not working properly.</span>
-      </div>
-      <div class='group updates'>
-        <h4>Update Notes</h4>
-        <span class='title'>19/6/2014</span>
-        <span class='desc'>Implemented fingerprinting analytics in place of email requirement when voting anonymously.</span>
-        <span class='title'>11/6/2014</span>
-        <span class='desc'>Performance and aesthetic changes, fixes on signup page, back-end changes.</span>
-        <span class='title'>3/6/2014</span>
-        <span class='desc'>Adding DISQUS comments</span>
-        <span class='title'>26/5/2014</span>
-        <span class='desc'>Added anonymous vote restriction to only allow @gmail.com</span>
-        <span class='title'>29/4/2014</span>
-        <span class='desc'>Fixed map size on load scaling to be very tiny</span>
-        <span class='title'>17/2/2014</span>
-        <span class='desc'>Added this update section. Changed how vote time averages are calculated. DB wipe.</span>
-        <span class='title'>16/2/2014</span>
-        <span class='desc'>Refined email verification text for clarity, some text changes around the site.</span>
-        <span class='title'>13/2/2014</span>
-        <span class='desc'>KingPoll accounts now vote properly.</span>
-        <span class='title'>12/2/2014</span>
-        <span class='desc'>Alpha release!</span>
-      </div>
+  </div>
+  <div id='notes' class='col-md-2 hidden-xs hidden-sm'>
+    <div class='group upcoming'>
+      <h4>Upcoming Features</h4>
+      <span class='title'>More Maps!</span>
+      <span class='desc'>We're looking to implement the map for Europe next, then a world map.</span>
+      <span class='title'>Poll Series</span>
+      <span class='desc'>Link polls in a series for follow-up questions or use it to create a multi-path story.</span>
+      <span class='title'>Social Network Integration</span>
+      <span class='desc'>Post your activity directly to Facebook or Twitter.</span>
+      <span class='title'>Account Pages</span>
+      <span class='desc'>Check your stats, polls, votes, comments, and check out others.</span>
+      <span class='title'>Badges/Achievements</span>
+      <span class='desc'>No point having an account if it doesn't mean anything.</span>
+    </div>
+    <div class='group issues'>
+      <h4>Known Issues</h4>
+      <span class='title'>All</span>
+      <span class='desc'>- Link scraper in new poll creation will sometimes show Error 404 even though link works</span>
+      <span class='desc'>- Poll pie chart animation will lag if left too long</span>
+      <span class='desc'>- DISQUS will re-load everytime someone votes</span>
+      <span class='desc'>- Canadians will have map jump back to Canada everytime someone votes</span>
+      <span class='title'>Safari</span>
+      <span class='desc'>Cannot vote with private browsing due to the fact that Safari does not allow localStorage to be used. Working on cookies shim.</span>
+      <span class='title'>WP8</span>
+      <span class='desc'>Random Button does not work. Suspecting onclick call not working properly.</span>
+    </div>
+    <div class='group updates'>
+      <h4>Update Notes</h4>
+      <span class='title'>24/6/2014</span>
+      <span class='desc'>Added sorting to poll list.</span>
+      <span class='title'>19/6/2014</span>
+      <span class='desc'>Implemented fingerprinting analytics in place of email requirement when voting anonymously.</span>
+      <span class='title'>11/6/2014</span>
+      <span class='desc'>Performance and aesthetic changes, fixes on signup page, back-end changes.</span>
+      <span class='title'>3/6/2014</span>
+      <span class='desc'>Adding DISQUS comments</span>
+      <span class='title'>26/5/2014</span>
+      <span class='desc'>Added anonymous vote restriction to only allow @gmail.com</span>
+      <span class='title'>29/4/2014</span>
+      <span class='desc'>Fixed map size on load scaling to be very tiny</span>
+      <span class='title'>17/2/2014</span>
+      <span class='desc'>Added this update section. Changed how vote time averages are calculated. DB wipe.</span>
+      <span class='title'>16/2/2014</span>
+      <span class='desc'>Refined email verification text for clarity, some text changes around the site.</span>
+      <span class='title'>13/2/2014</span>
+      <span class='desc'>KingPoll accounts now vote properly.</span>
+      <span class='title'>12/2/2014</span>
+      <span class='desc'>Alpha release!</span>
     </div>
   </div>
-  <!-- <div id="disqus_thread"></div> -->
-  <script type="text/javascript">
+</div>
+<!-- <div id="disqus_thread"></div> -->
+<script type="text/javascript">
       // var disqus_identifier = 'landing';
       </script>
   <!-- <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>

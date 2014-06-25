@@ -303,7 +303,12 @@ h1{
 .top{
   /*background-color: #666;*/
 }
-
+.sel-list-wrap table{
+  margin:auto;
+}
+.sel-list-wrap td{
+  padding-right:0.5rem;
+}
 @media screen and (max-width: 992px){
   .landing .shift-top{
     padding:0;
