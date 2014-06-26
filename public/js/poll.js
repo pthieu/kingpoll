@@ -91,13 +91,17 @@ $(document).ready(function(){
     //use this for now until we get to real dns
     pollid = (window.location.href).split('/')[4];
     var n = pollid.indexOf("#");
-
+    
     if(n > 0)
         pollid = pollid.slice(0,n);
 
     lastpoll = pollid;
     socket.emit('getPoll', pollid);
     disqus_identifier = pollid;
+
+    $("#voted-popup-close").click(function(){
+        $(".voted-popup").removeClass('animated bounceInDown');
+    });
 
     // socket.emit('getComments', pollid);
     $('.tbDescription').hover(function () {
@@ -589,6 +593,7 @@ $(document).ready(function(){
                         's_vtime'   :votetime
                     });
                     voted = true;
+                    $(".voted-popup").addClass('animated bounceInDown');
                 }
                 // else if(!(u_email)){
                 //     getSignUpBox($('label[for="' + $(this).attr('id') + '"]'));
