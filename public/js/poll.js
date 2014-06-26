@@ -597,7 +597,14 @@ $(document).ready(function(){
                         's_vtime'   :votetime
                     });
                     voted = true;
-                    $(".voted-popup").addClass('animated bounceInDown');
+
+                    var popupTimer = getLocalVar('popupTimer');
+                    var popupDate = new Date();
+                    var currentTime = popupDate.getTime();
+                    if( popupTimer == undefined || currentTime - popupTimer >= 180000) {
+                        setLocalVar('popupTimer', currentTime); 
+                        $(".voted-popup").addClass('animated bounceInDown');
+                    }
                 }
                 // else if(!(u_email)){
                 //     getSignUpBox($('label[for="' + $(this).attr('id') + '"]'));
