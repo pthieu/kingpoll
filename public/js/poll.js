@@ -371,8 +371,10 @@ $(document).ready(function(){
             pollid = data.p_id;
             disqus_identifier = pollid;
             window.scrollTo(0,0);
+            //if refresh occurring not because of someone voting
             if (pollIDType !== 'vote') {
                 document.getElementById('disqus_thread').innerHTML = "";
+                $(document).find('.unveil').removeClass('unveil');
             }
 
             // $('#disqus_thread').html('Loading comments...');
@@ -395,7 +397,8 @@ $(document).ready(function(){
             for(var i=0; i<data.c_n;i++){
                 choice_colors[i] = {'c_text':data.c_text[i], 'color':data.c_hex[i], 'votes':0};
             }
-            if(data.p_desc){
+            //only change link on load, not when people vote
+            if(!!data.p_desc && pollIDType !== 'vote'){
                 $('.embed-wrap *').html('')
                 $('#tbDescription').show();
                 var _d = dual.linkify(data.p_desc);
@@ -554,6 +557,7 @@ $(document).ready(function(){
                     if(d != null){
                         $('label[for="c'+d+'"]').click();
                         $('input[name="vote"]').attr({'disabled': 'true'});
+                        $(document).find('.veil').addClass('unveil');
                         voted = true;
                     }
                 }, 100);
@@ -571,7 +575,7 @@ $(document).ready(function(){
                         s_vtime = votetime/1000;
                     };
                 }
-
+                $(document).find('.veil').addClass('unveil');
                 if(((!!u_email || !!fingerprint) || !(dual.isEmpty(socialID))) && !voted){
                     socket.emit('vote', {
                         'p_id'      :[data._id, data.p_id],

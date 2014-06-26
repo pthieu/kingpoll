@@ -54,7 +54,7 @@ var userAuth = require('./routes/login_auth.js');
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 
-app.use(express.logger());
+// app.use(express.logger());
 app.use(express.static(__dirname + '/public'));
 app.use(express.bodyParser());
 app.use(expressValidator());

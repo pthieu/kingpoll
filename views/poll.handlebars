@@ -9,11 +9,11 @@ window.fbAsyncInit = function() {
 };
 
 (function(d, s, id){
- var js, fjs = d.getElementsByTagName(s)[0];
- if (d.getElementById(id)) {return;}
- js = d.createElement(s); js.id = id;
- js.src = "//connect.facebook.net/en_US/all.js";
- fjs.parentNode.insertBefore(js, fjs);
+   var js, fjs = d.getElementsByTagName(s)[0];
+   if (d.getElementById(id)) {return;}
+   js = d.createElement(s); js.id = id;
+   js.src = "//connect.facebook.net/en_US/all.js";
+   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));
 </script>
 <div id="wrapper">
@@ -51,6 +51,15 @@ window.fbAsyncInit = function() {
             <div class='tbDescription'></div>
         </div>
         <div id="results">
+            <div class="veil">
+                <div class="veil-table">
+                    <div class='veil-tr'>
+                        <div class='veil-td'>
+                            Vote to view results!
+                        </div>
+                    </div>
+                </div>
+            </div>
             <svg id='pieTotal' class='stats'></svg>
             <svg id='barVoteTime' class='stats barchart'></svg>
         <!-- <svg id='lineVoteFreq' class='stats'></svg>
@@ -58,6 +67,15 @@ window.fbAsyncInit = function() {
         <svg id='activeViewers'></svg>
     </div>
     <div id="mid">
+        <div class="veil">
+            <div class="veil-table">
+                <div class='veil-tr'>
+                    <div class='veil-td'>
+                        Vote to view results!
+                    </div>
+                </div>
+            </div>
+        </div>
         <div id='mapButtons'>
             <!-- <input type="radio" id='radioWorld' class='radio-input' name='mapChoice' value='World' /><label for="radioWorld" class='radio-label'>World</label> -->
             <input type="radio" id='radioCA' class='radio-input' name='mapChoice' value='CA' /><label for="radioCA" class='radio-label'>Canada</label>

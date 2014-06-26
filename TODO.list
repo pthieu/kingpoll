@@ -6,7 +6,9 @@ OPEN:
 	- Add more maps:
 		--> Europe
 		--> World
-
+        - Find some way to put a fact after user votes. maybe like a wikipedia crawler or something simple like "this many people voted xx on this other poll"
+        - After user votes for first time, have popup that says signup and give reasons
+        - Random facts from signed up users i.e. "xxuser voted yy on this poll!" or "user has reached 1000 votes!"
 PHONG:
 	- add date to landing
 	- backend email validation
@@ -18,3 +20,4 @@ FARRAN:
 		--> all the good stuff an account has
         - Make sure if user does not validate, keep sending emails or delete user (logic for vote validation and delete is in the code already, use that as reference)
         - Add password recovery.
+        - Add instagram share button for our pic
