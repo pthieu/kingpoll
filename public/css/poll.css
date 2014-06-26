@@ -2,6 +2,9 @@
   margin  : 0px;
   padding : 0px;
 }
+body{
+  z-index:-100;
+}
 #wrapper{
   margin-bottom : 0rem;
 }
@@ -29,7 +32,7 @@
   padding-left: 3rem;
 }
 iframe, object, embed {
-        max-width: 100%;
+  max-width: 100%;
 }
 
 #signup_box input{
@@ -439,3 +442,33 @@ svg path:hover{
     -o-animation-name: bounceInDown;
     animation-name: bounceInDown;
 }
+
+.veil{
+  width: 100%;
+  height: 100%;
+  position: absolute !important;
+  background-color: white;
+  z-index: 5;
+  top:0;
+  left:0;
+}
+.unveil{
+  z-index:-5;
+  color:transparent;
+}
+.veil-table{
+  display:table !important;
+  width:100%;
+  height:100%;
+}
+.veil-tr{
+  display:table-row !important;
+}
+.veil-td{
+  display:table-cell !important;
+  vertical-align: middle;
+  text-align: center;
+  font-size:3rem;
+  font-weight: bold;
+}
+
