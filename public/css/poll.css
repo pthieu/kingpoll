@@ -294,6 +294,7 @@ svg path:hover{
   border-bottom-left-radius: 10px !important;
   display:none;
   padding-top: 50px;
+  z-index: 6;
 }
 
 .voted-popup .text{
