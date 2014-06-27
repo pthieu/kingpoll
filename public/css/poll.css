@@ -31,7 +31,7 @@ body{
 .linkdesclist ol{
   padding-left: 3rem;
 }
-iframe, object, embed {
+object, embed {
   max-width: 100%;
 }
 
@@ -363,6 +363,9 @@ svg path:hover{
   padding-top: 2px;
 }
 
+.voted-popup .fb-like-button iframe {
+  max-width: none;
+}
 .animated {
     -webkit-animation-fill-mode:both;
     -moz-animation-fill-mode:both;
