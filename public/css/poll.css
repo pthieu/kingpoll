@@ -358,6 +358,11 @@ svg path:hover{
   width: 150px;
 }
 
+.voted-popup .fb-like-button {
+  width: 50px;
+  padding-top: 2px;
+}
+
 .animated {
     -webkit-animation-fill-mode:both;
     -moz-animation-fill-mode:both;
