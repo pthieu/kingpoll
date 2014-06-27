@@ -13,9 +13,9 @@ var disqus_identifier;
 var disqus_shortname = 'kingpoll'; // Required - Replace example with your forum shortname
 var map = {};
 var mapdata = {
-        'US':{},
-        'CA': {}
-    };
+    'US':{},
+    'CA': {}
+};
 var mapname; 
 
 //vote var
@@ -116,70 +116,70 @@ $(document).ready(function(){
 
 //set up empty graphs
 //PIE CHART - VOTE TOTALS
-    donut = function module(_sel, r1, r2, w, h, color, _callback, _cbparam) {
-        _sel.each(function (_data) {
-            var pie = d3.layout.pie()
-                .sort(null);
+donut = function module(_sel, r1, r2, w, h, color, _callback, _cbparam) {
+    _sel.each(function (_data) {
+        var pie = d3.layout.pie()
+        .sort(null);
 
-            var arc = d3.svg.arc()
-                .innerRadius(r1)
-                .outerRadius(r2);
+        var arc = d3.svg.arc()
+        .innerRadius(r1)
+        .outerRadius(r2);
 
-            var svg = d3.select(this).select("#pieTotal > g");
-            if (svg.empty()) {
-                svg = d3.select(this).select("#pieTotal")
-                    .attr("id", "pieTotal")
-                    .attr("class","stats pie")
-                    .attr("width", w)
-                    .attr("height", h)
-                    .append("g")
-                    .attr("transform", "translate(" + w / 2 + "," + h / 2 + ")")
-                    .attr("class","piechart");
+        var svg = d3.select(this).select("#pieTotal > g");
+        if (svg.empty()) {
+            svg = d3.select(this).select("#pieTotal")
+            .attr("id", "pieTotal")
+            .attr("class","stats pie")
+            .attr("width", w)
+            .attr("height", h)
+            .append("g")
+            .attr("transform", "translate(" + w / 2 + "," + h / 2 + ")")
+            .attr("class","piechart");
 
-                var svg_pie_bg = svg.append("circle")
-                            .attr("cx", 0)
-                            .attr("cy", 0)
-                            .attr("r", innerRadius-10)
-                            .attr("fill", "none")
-                            .attr("id", "pieTotalBG");
+            var svg_pie_bg = svg.append("circle")
+            .attr("cx", 0)
+            .attr("cy", 0)
+            .attr("r", innerRadius-10)
+            .attr("fill", "none")
+            .attr("id", "pieTotalBG");
                 var svg_pie_msg = svg.append("text") // later svg is "higher"
-                            .attr("class", "piechart_msg")
+                .attr("class", "piechart_msg")
                 svg_pie_msg.append("tspan")
-                            .attr("x", 0)
-                            .attr("y", -3)
-                            .attr("id",'pie_msg_title')
-                            .text("Total Votes:");
+                .attr("x", 0)
+                .attr("y", -3)
+                .attr("id",'pie_msg_title')
+                .text("Total Votes:");
                 svg_pie_msg.append("tspan")
-                            .attr("x", 0)
-                            .attr("y", 22)
-                            .attr("id",'pie_msg_val')
-                            .text("0");
+                .attr("x", 0)
+                .attr("y", 22)
+                .attr("id",'pie_msg_val')
+                .text("0");
             }
             var path = svg.selectAll("path")
-                .data(pie);
+            .data(pie);
             path.enter().append("path")
-                .attr("fill", function (d, i) {
+            .attr("fill", function (d, i) {
                 return color[i];
             })
-                .attr("d", arc)
-                .each(function (d) {
+            .attr("d", arc)
+            .each(function (d) {
                 this._current = d;
             })
             .attr("class", "vote_arc")
             .attr("value", function(d,i) {
-                    return (i-1);
+                return (i-1);
             });;
 
             path.transition()
-                .duration(dur)
-                .attrTween("d", arcTween)
-                .each('end', function () {
-                    if(_callback){
-                       setTimeout(function () {
-                         _callback(_cbparam)
-                       }, 100);
-                    }
-                });
+            .duration(dur)
+            .attrTween("d", arcTween)
+            .each('end', function () {
+                if(_callback){
+                 setTimeout(function () {
+                   _callback(_cbparam)
+               }, 100);
+             }
+         });
 
             path.exit().remove();
 
@@ -191,20 +191,20 @@ $(document).ready(function(){
                 };
             }
         });
-    };
-    var tmpdata = [1];
-    var pieTotal = d3.select("#results").datum(tmpdata);
-    donut(pieTotal, innerRadius, outerRadius, pieW, pieH, ['#ddd']);
+};
+var tmpdata = [1];
+var pieTotal = d3.select("#results").datum(tmpdata);
+donut(pieTotal, innerRadius, outerRadius, pieW, pieH, ['#ddd']);
 
-    function pieTotal_update(_data, _callback, _cbparam) {
-        pieTotal.datum(_data.val).transition();
-        donut(pieTotal, innerRadius, outerRadius, pieW, pieH, pie_colors, _callback, _cbparam);
-    }
+function pieTotal_update(_data, _callback, _cbparam) {
+    pieTotal.datum(_data.val).transition();
+    donut(pieTotal, innerRadius, outerRadius, pieW, pieH, pie_colors, _callback, _cbparam);
+}
 
-    function populatepie(_data, _hex) {
-        var vlength = Math.min(_data.length, _hex.length);
-        pie_votes = [0];
-        pie_colors = ['#ddd'];
+function populatepie(_data, _hex) {
+    var vlength = Math.min(_data.length, _hex.length);
+    pie_votes = [0];
+    pie_colors = ['#ddd'];
         //initialize with [1,0,0...]
         pie_votes = [1];
         for(var i=0; i<vlength;i++){
@@ -233,74 +233,74 @@ $(document).ready(function(){
     };
 
 //BARCHART
-    var bardata = [{name:'Average', value: 0}, {name:'You', value: 0}];
+var bardata = [{name:'Average', value: 0}, {name:'You', value: 0}];
 
-    var chart = d3.select('#barVoteTime').append('svg')
-        .attr('class', 'barchart')
-        .attr("height", chartH + chartMargin.top + chartMargin.bottom)
-        .append('g')
-        .attr("transform", "translate(" + chartMargin.left*1.5 + "," + chartMargin.top/3 + ")");
+var chart = d3.select('#barVoteTime').append('svg')
+.attr('class', 'barchart')
+.attr("height", chartH + chartMargin.top + chartMargin.bottom)
+.append('g')
+.attr("transform", "translate(" + chartMargin.left*1.5 + "," + chartMargin.top/3 + ")");
 
-    var x = d3.scale.ordinal()
-        .rangeRoundBands([0, chartW]);
-    var y = d3.scale.linear()
-        .range([chartH, 0]);
-    x.domain(bardata.map(function(d){return d.name;}));
-    y.domain([0, d3.max(bardata, function(d){return d.value;})]);
+var x = d3.scale.ordinal()
+.rangeRoundBands([0, chartW]);
+var y = d3.scale.linear()
+.range([chartH, 0]);
+x.domain(bardata.map(function(d){return d.name;}));
+y.domain([0, d3.max(bardata, function(d){return d.value;})]);
 
-    var bar = chart.selectAll('g')
-        .data(bardata)
-        .enter().append('g')
-        .attr("y", function(d) { return y(d.value); });
-    bar.append("rect")
-        .attr("x", function(d) { return x(d.name)+barOffset/2; })
-        .attr("y", function(d) { return y(d.value); })
-        .attr("height", function(d) { return chartH - y(d.value); })
+var bar = chart.selectAll('g')
+.data(bardata)
+.enter().append('g')
+.attr("y", function(d) { return y(d.value); });
+bar.append("rect")
+.attr("x", function(d) { return x(d.name)+barOffset/2; })
+.attr("y", function(d) { return y(d.value); })
+.attr("height", function(d) { return chartH - y(d.value); })
         .attr("width", x.rangeBand()-barOffset); //rangeband chooses width of bar based on # of bars
 
     bar.append("text") //not label at bottom, value in bar
-        .attr("class", "s_votetime")
+    .attr("class", "s_votetime")
         .attr("x", function(d) {return x(d.name);}) //starting point left of bar
         .attr("y", function(d) { return y(d.value); }) //starts at top of bar
         .attr("dx", function(d) {return x.rangeBand()/2;}) //moves to middle of bar
         .attr("dy", function(d) { return (chartH - y(d.value))/2; }) //moves to middle of bar
         .text(function(d) {return d.value+"s";});
 
-    var xAxis = d3.svg.axis()
-      .scale(x)
-      .orient('bottom');
-    var yAxis = d3.svg.axis()
-      .scale(y)
-      .orient('left');
+        var xAxis = d3.svg.axis()
+        .scale(x)
+        .orient('bottom');
+        var yAxis = d3.svg.axis()
+        .scale(y)
+        .orient('left');
 
-    chart.append('g')
+        chart.append('g')
         .attr('class', 'x axis')
         .attr('transform', 'translate(0,'+chartH+')')
         .call(xAxis);
-    chart.append('g')
+        chart.append('g')
         .attr('class', 'y axis')
         .attr('transform', 'translate(0,0)')
         .call(yAxis);
 
 //VIEWERS
-    var svg_viewers = d3.select("#activeViewers")
-                    .attr("class", "stats")
-                    .attr("width", pieW)
-                    .attr("height", pieH)
-                    .append("text")
-                    .attr("transform", "translate(" + pieW / 2 + "," + pieH / 2 + ")")
-        svg_viewers.append("tspan")
-                    .attr("x", 0)
-                    .attr("y", -10)
-                    .text("Viewers");
-        svg_viewers.append("tspan")
-                    .attr("x", 0)
-                    .attr("y", 30)
-                    .attr("id","tspanActiveViewers")
-                    .text("1");
+var svg_viewers = d3.select("#activeViewers")
+.attr("class", "stats")
+.attr("width", pieW)
+.attr("height", pieH)
+.append("text")
+.attr("transform", "translate(" + pieW / 2 + "," + pieH / 2 + ")")
+svg_viewers.append("tspan")
+.attr("x", 0)
+.attr("y", -10)
+.text("Viewers");
+svg_viewers.append("tspan")
+.attr("x", 0)
+.attr("y", 30)
+.attr("id","tspanActiveViewers")
+.text("1");
 
 //MAP CREATION
-            for(var i in mapdata){
+for(var i in mapdata){
                 map[i] = getMap($('#map'+i), i, rgn_color); //write map
                 map[i].series.regions[0].setValues(rgn_color);
                 rgn_color[i] = {};
@@ -309,16 +309,16 @@ $(document).ready(function(){
             $('input[name="mapChoice"]').click(function () {
                 switch($(this).val()){
                     case 'World':
-                        break;
+                    break;
                     case 'US':
-                        $('.map:not(#map'+$(this).val()+')').css({'z-index': '0'});
-                        $('#map'+$(this).val()).css({'z-index': '1'});
-                        break;
+                    $('.map:not(#map'+$(this).val()+')').css({'z-index': '0'});
+                    $('#map'+$(this).val()).css({'z-index': '1'});
+                    break;
                     case 'CA':
-                        $('.map:not(#map'+$(this).val()+')').css({'z-index': '0'});
-                        $('#map'+$(this).val()).css({'z-index': '1'});
-                        map.CA.setFocus(1.4, 0, 90);
-                        break;
+                    $('.map:not(#map'+$(this).val()+')').css({'z-index': '0'});
+                    $('#map'+$(this).val()).css({'z-index': '1'});
+                    map.CA.setFocus(1.4, 0, 90);
+                    break;
                 }
             });
             $(window).resize(function() {
@@ -326,33 +326,33 @@ $(document).ready(function(){
             });
 
 //CLICK
-    $('#click').click(function () {
-        populatepie(data.c_total, data.c_hex);
-    });
-    $('#clearpoll').click(clearpie);
-    $('#changepoll').click(function () {
-        pollid = Math.random();
-        $(this).text(pollid);
-    });
+$('#click').click(function () {
+    populatepie(data.c_total, data.c_hex);
+});
+$('#clearpoll').click(clearpie);
+$('#changepoll').click(function () {
+    pollid = Math.random();
+    $(this).text(pollid);
+});
 
-    socket.on('setID', function (ID) {
+socket.on('setID', function (ID) {
         // console.log(ID);
     });
-    socket.on('setEmail', function (email) {
+socket.on('setEmail', function (email) {
         // console.log(email);
     });
-    socket.on('voteNoEmail', function () {
-        console.log('No email specified');
+socket.on('voteNoEmail', function () {
+    console.log('No email specified');
         //queue popup
     });
-    socket.on('voteAccountExist', function () {
-        localStorage.removeItem('u_email');
-        voted = false;
-        u_email = "";
-        $('#emailExist_box').css({
-            "visibility": "visible"
-        });
-        $('#emailExist_box').dialog({
+socket.on('voteAccountExist', function () {
+    localStorage.removeItem('u_email');
+    voted = false;
+    u_email = "";
+    $('#emailExist_box').css({
+        "visibility": "visible"
+    });
+    $('#emailExist_box').dialog({
         resizable: false,
         position: {my:'top', at:'center', of:'#choices'},
         width: 250,
@@ -363,10 +363,10 @@ $(document).ready(function(){
             }
         }
     });
-    });
+});
 
-    socket.on('pollID', function (poll, pollIDType) {
-        if (poll){
+socket.on('pollID', function (poll, pollIDType) {
+    if (poll){
             //set up data !IMPORTANT
             data = poll;
             data.s_tavg = (data.s_ttotal)?Math.round(data.s_ttotal/data.p_total/(sigfig))*(sigfig)/1000:0;
@@ -377,7 +377,8 @@ $(document).ready(function(){
             window.scrollTo(0,0);
             //if refresh occurring not because of someone voting
             if (pollIDType !== 'vote') {
-                document.getElementById('disqus_thread').innerHTML = "";
+                //clear comments
+                // document.getElementById('disqus_thread').innerHTML = "";
                 $(document).find('.unveil').removeClass('unveil');
             }
 
@@ -392,7 +393,7 @@ $(document).ready(function(){
             //         socket.emit('getPoll', (window.location.href).split('/')[4]);
             //     };
             // })() : null;
-            (lastpoll != pollid) ? history.replaceState({}, data.p_q, pollid) : null;
+(lastpoll != pollid) ? history.replaceState({}, data.p_q, pollid) : null;
 
             // we use an array instead of a key/value pair because we want the buttons that
             // are added later to actually sync up with the colors in the array objects
@@ -482,10 +483,10 @@ $(document).ready(function(){
             }, dur);
 
 //BARCHART CHANGES
-            if((!!u_email || !!fingerprint) && !(voted)){
-                socket.emit('getVoted', {u_email: u_email, u_fp: fingerprint, p_id: pollid});
-            }
-            voteTimeData = [{name:'Average', value: data.s_tavg}, {name:'You', value: Math.round(s_vtime/sigfig)*sigfig}];
+if((!!u_email || !!fingerprint) && !(voted)){
+    socket.emit('getVoted', {u_email: u_email, u_fp: fingerprint, p_id: pollid});
+}
+voteTimeData = [{name:'Average', value: data.s_tavg}, {name:'You', value: Math.round(s_vtime/sigfig)*sigfig}];
             // drawVoteTime(chart, voteTimeData, y, yAxis);
             socket.on('setVoteTime', function (time) {
                 s_vtime = (time) ? Math.round(time/sigfig)*sigfig/1000 : 0;
@@ -494,31 +495,31 @@ $(document).ready(function(){
             });
             $('.barchart rect').css('fill','#'+chart_solocolor);
             $('.barchart .s_votetime').css('text-shadow','-1px -1px #'+chart_solocolor
-                                                       + ', 1px -1px #'+chart_solocolor
-                                                       + ', -1px 1px #'+chart_solocolor
-                                                       + ', 1px 1px #'+chart_solocolor);
+             + ', 1px -1px #'+chart_solocolor
+             + ', -1px 1px #'+chart_solocolor
+             + ', 1px 1px #'+chart_solocolor);
 
 //VIEWERS COUNT CHANGES
-            socket.emit('getViewers', pollid);
-            $('#activeViewers text tspan').css("fill", "#"+chart_solocolor);
-            socket.on('setViewers', function (d) {
-                $('#tspanActiveViewers').text((d === null) ? 1 : d);
-            });
-            setInterval(function(){socket.emit('getViewers', pollid)}, 5000);
+socket.emit('getViewers', pollid);
+$('#activeViewers text tspan').css("fill", "#"+chart_solocolor);
+socket.on('setViewers', function (d) {
+    $('#tspanActiveViewers').text((d === null) ? 1 : d);
+});
+setInterval(function(){socket.emit('getViewers', pollid)}, 5000);
 //MAP CHANGES
-            for(var i in data.data){
-                if(i == 'hiding'){continue;}
-                mapdata[i] = data.data[i];
-            }
-            $('.radio-label').css({'border-color': "#"+chart_solocolor});
-            for(var i in mapdata){
-                for(var j in mapdata[i]){
-                    if(i == 'hiding'){continue;}
-                    if(mapdata[i][j].length < 1){
-                        continue;
-                    }
-                    rgn_color[i][j] = calcRgnColor(data.c_n, choice_colors, mapdata[i][j]);
-                    for(var k=0;k<data.c_n;k++){
+for(var i in data.data){
+    if(i == 'hiding'){continue;}
+    mapdata[i] = data.data[i];
+}
+$('.radio-label').css({'border-color': "#"+chart_solocolor});
+for(var i in mapdata){
+    for(var j in mapdata[i]){
+        if(i == 'hiding'){continue;}
+        if(mapdata[i][j].length < 1){
+            continue;
+        }
+        rgn_color[i][j] = calcRgnColor(data.c_n, choice_colors, mapdata[i][j]);
+        for(var k=0;k<data.c_n;k++){
                         //increment each color's total votes for calculations later
                         choice_colors[k].votes += mapdata[i][j][k];
                     }
@@ -617,24 +618,25 @@ $(document).ready(function(){
         }
 //DISQUS
         if (pollIDType !== 'vote') {
-            disqus_count++;
-            poll?setTimeout(function(){
-                if(disqus_count === 1){
-                    if(typeof DISQUS !== 'undefined'){
-                        DISQUS.reset({reload: true, config: function(){
-                                this.page.identifier = disqus_identifier;
-                            }
-                        });
-                    } 
-                    else{
-                        $.getScript("http://"+disqus_shortname+".disqus.com/embed.js");
-                    }
-                    disqus_count--;
-                }
-                else{
-                    disqus_count--;
-                }
-            }, 800):$('#disqus_thread').text("No poll, no comments :c");
+            // disqus_count++;
+            // poll?setTimeout(function(){
+            //         if(disqus_count === 1){
+            //             if(typeof DISQUS !== 'undefined'){
+            //                 DISQUS.reset({reload: true, config: function(){
+            //                     this.page.identifier = disqus_identifier;
+            //                 }
+            //             });
+            //             } 
+            //             else{
+            //                 $.getScript("http://"+disqus_shortname+".disqus.com/embed.js");
+            //             }
+            //             disqus_count--;
+            //         }
+            //         else{
+            //             disqus_count--;
+            //         }
+            //     }, 800):$('#disqus_thread').text("No poll, no comments :c");
+            fb_comments_load(pollid);
         };
     });
 });
@@ -686,51 +688,57 @@ $('#comment-form').submit(function(e) {
     socket.emit('addComment', JSON.stringify(comment));
 });
 
+function fb_comments_load (pid) {
+    $('.fb-comments-wrap').html('');
+    $('.fb-comments-wrap').html('<div class="fb-comments" data-href="http://www.kingpoll.com/p/'+pid+'" data-width="100%" data-numposts="100" data-colorscheme="light"></div>');
+    FB.XFBML.parse(document.getElementById("container-id"));
+}
+
 function drawVoteTime(chart, data, y_scale, yAxis){
     y_scale.domain([0, d3.max(data, function(d){ return ((d.value>100) ? 100 : (d.value)); })]);
 
     chart.selectAll('.y.axis')
-        .transition()
-        .duration(dur)
-        .call(yAxis);
+    .transition()
+    .duration(dur)
+    .call(yAxis);
     chart.selectAll("rect")
-        .data(data)
-        .transition()
-        .duration(dur)
-        .attr("y", function(d) { return y_scale((d.value>100) ? 100 : (d.value) ); })
-        .attr("height", function(d) { return chartH - y_scale((d.value>100) ? 100 : (d.value)); });
+    .data(data)
+    .transition()
+    .duration(dur)
+    .attr("y", function(d) { return y_scale((d.value>100) ? 100 : (d.value) ); })
+    .attr("height", function(d) { return chartH - y_scale((d.value>100) ? 100 : (d.value)); });
     chart.selectAll("text")
-        .data(data)
-        .transition()
-        .duration(dur)
+    .data(data)
+    .transition()
+    .duration(dur)
         .attr("y", function(d) { return y_scale((d.value>100) ? 100 : (d.value)); }) //starts at top of bar        
         .attr("dy", function(d) { return (chartH - y_scale((d.value>100) ? 100 : (d.value)))/2; }) //moves to middle of bar
         .text(function(d) {
             // if(d.value >= 100){ return ">100"+"s";}
             return ((d.value>100)?(">100"+"s"):(d.value+"s"));
         });
-}
+    }
 
-function getLocalVar(item){
-    if(typeof(Storage) !== "undefined"){
-        return(localStorage.getItem(item));
+    function getLocalVar(item){
+        if(typeof(Storage) !== "undefined"){
+            return(localStorage.getItem(item));
+        }
+        else
+        {
+            return($.cookie(item));
+        }
     }
-    else
-    {
-        return($.cookie(item));
+    function setLocalVar(item,val){
+        if(typeof(Storage) !== "undefined"){
+            localStorage.setItem(item, val);
+        }
+        else
+        {
+            $.cookie(item, val);
+        }
     }
-}
-function setLocalVar(item,val){
-    if(typeof(Storage) !== "undefined"){
-        localStorage.setItem(item, val);
-    }
-    else
-    {
-        $.cookie(item, val);
-    }
-}
 
-function getMap(map, _name, rgn_color){
+    function getMap(map, _name, rgn_color){
         map = new jvm.WorldMap({
             map: _name,
             container: map,
@@ -774,17 +782,17 @@ function getMap(map, _name, rgn_color){
                     stroke: rgn_stroke, //global var
                     "stroke-width": 2
                 },
-                  hover: {
+                hover: {
                     "fill-opacity": 0.6
                 }
             },
             series: {
                 regions: [{
                     attribute: 'fill'}]
-            }
-        });
-        $('#map'+_name+' .jvectormap-region').attr('data-country', _name);
-        return map;
+                }
+            });
+$('#map'+_name+' .jvectormap-region').attr('data-country', _name);
+return map;
 }
 
 function setEmail(_email){
@@ -905,13 +913,13 @@ function desaturation (r,g,b,sat_inv) {
 
     //tostring is dumb, doesn't remember bitsize so we have to add extra byte if less than 16
     if(parseInt(r_sat,16)<16){
-            r_sat = "0" + r_sat;
+        r_sat = "0" + r_sat;
     }
     if(parseInt(g_sat,16)<16){
-            g_sat = "0" + g_sat;
+        g_sat = "0" + g_sat;
     }
     if(parseInt(b_sat,16)<16){
-            b_sat = "0" + b_sat;
+        b_sat = "0" + b_sat;
     }
 
     return ("#" + r_sat + g_sat + b_sat);

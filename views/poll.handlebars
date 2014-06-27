@@ -9,11 +9,11 @@ window.fbAsyncInit = function() {
 };
 
 (function(d, s, id){
-   var js, fjs = d.getElementsByTagName(s)[0];
-   if (d.getElementById(id)) {return;}
-   js = d.createElement(s); js.id = id;
-   js.src = "//connect.facebook.net/en_US/all.js";
-   fjs.parentNode.insertBefore(js, fjs);
+ var js, fjs = d.getElementsByTagName(s)[0];
+ if (d.getElementById(id)) {return;}
+ js = d.createElement(s); js.id = id;
+ js.src = "//connect.facebook.net/en_US/all.js";
+ fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));
 </script>
 <div id="wrapper">
@@ -88,8 +88,11 @@ window.fbAsyncInit = function() {
         </div>
     </div>
     <div id="messages">
-        <!-- The empty element required for Disqus to loads comments into -->  
-        <div id="disqus_thread"></div>
+        <!-- The empty element required for Disqus to loads comments into --> 
+        <!-- <div id="disqus_thread"></div> -->
+        <div class="fb-comments-wrap">
+            <div class="fb-comments-wrap" data-href="http://www.kingpoll.com/p/{{pollid}}" data-width="100%" data-numposts="5" data-colorscheme="light"></div>
+        </div>
     </div>
     <!-- Adrian's code for commenting -->
 <!--         <div id="messages">
@@ -105,7 +108,7 @@ window.fbAsyncInit = function() {
     <a id="voted-popup-close" class="voted-popup-close">X</a>
     <ul id="dropdownalerts" class="f-dropdown" data-dropdown-content>
         <li class="text large">
-            Awesome!!<br> You Voted!!<br> You Can Do More:
+            Awesome!<br> You Voted!<br> You Can Do More:
         </li>
         <li class="text">
             Vote On Another Poll...

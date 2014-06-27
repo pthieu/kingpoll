@@ -189,7 +189,14 @@ iframe, object, embed {
   margin-top       : 1rem;
 
   background-color : white;
-  text-align       : left;
+  text-align       : center;
+}
+.fb-comments-wrap{
+  margin: auto;
+  width:95%;
+}
+.fb-comments, .fb-comments iframe[style], .fb-comments span[style] {
+  width: 100% !important;
 }
 
 /*
