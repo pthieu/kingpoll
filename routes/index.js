@@ -43,6 +43,7 @@ exports.getpoll = function (req, res) {
             description: poll.p_desc,
             title: poll.p_q,
             url: 'http://kingpoll.com/p/' + poll.p_id,
+            pollid: poll.p_id,
             image: poll.p_image    
         });
     }); 
