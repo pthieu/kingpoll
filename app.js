@@ -2,6 +2,7 @@
 var appPort =  process.env.PORT || process.env.VCAPP_APP_PORT || 8888;
 
 var express = require('express'), app = express();var expressValidator = require('express-validator');
+var path = require('path');
 var exphbs = require('express3-handlebars');
 var http = require('http').createServer(app);
 var io = require('socket.io').listen(http);
@@ -56,6 +57,7 @@ app.set('view engine', 'handlebars');
 
 // app.use(express.logger());
 app.use(express.static(__dirname + '/public'));
+app.use(express.favicon(path.join(__dirname, 'public','images','favicon.ico')));
 app.use(express.bodyParser());
 app.use(expressValidator());
 app.use(express.cookieParser());
