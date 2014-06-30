@@ -2,13 +2,16 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>kingpoll.</title>
-    <link rel="stylesheet" href="/flat-ui/jquery-ui-1.10.3.custom.min.css" type="text/css" />
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" type="text/css" />
-    <link rel="stylesheet" href="/css/layout.css" type="text/css" />
-    <link rel="stylesheet" href="/css/signup.css" type="text/css" />
-    <link rel="stylesheet" href="/css/dash.css" type="text/css" />
-    <link rel="stylesheet" href="/css/footer.css" type="text/css" />
+  <title>Sign Up Now!</title>
+  <meta content="/images/favicon.ico" itemprop="image">
+  <meta name="description" content="There are a lot of benefits to signing up. Reserve your username before someone else gets it!">
+  <link rel="shortcut icon" href="/images/favicon.ico"/>
+  <link rel="stylesheet" href="/flat-ui/jquery-ui-1.10.3.custom.min.css" type="text/css" />
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" type="text/css" />
+  <link rel="stylesheet" href="/css/layout.css" type="text/css" />
+  <link rel="stylesheet" href="/css/signup.css" type="text/css" />
+  <link rel="stylesheet" href="/css/dash.css" type="text/css" />
+  <link rel="stylesheet" href="/css/footer.css" type="text/css" />
 </head>
 <body>
   <div id='dash'></div>
@@ -21,27 +24,27 @@
     <form method="post" id='newuser'>
       <div class='formSignup'>
         <div class='header'>Signup</div>
-          <div class="field">
-            <input id="tbEmail" type="email" class='f' name='email' 
-            oninvalid="setCustomValidity('Example: username@kingpoll.com')" 
-            onchange="try{setCustomValidity('')}catch(e){}" required />
-            <label for="tbEmail">Email</label>
-          </div>
-          <div class="field">
-            <input id="tbUsername" type="text" class='f' name='username' pattern='[A-z0-9 _]{1,}' maxlength='20' required />
-            <label for="tbUsername">Username</label>
-          </div>
-          <div class="field">
-            <input id="tbPassword" type="password" class='f'  name='password' required />
-            <label for="tbPassword">Password</label>
-          </div>
-          <div class="field">
-            <input id="tbCheckPassword" type="password" class='f' name='password'  required />
-            <label for="tbCheckPassword">Re-type Password</label>
-          </div>
-          <div id='submit_signup'>
-            <button type='submit' id='submit'>Signup!</button>
-          </div>
+        <div class="field">
+          <input id="tbEmail" type="email" class='f' name='email' 
+          oninvalid="setCustomValidity('Example: username@kingpoll.com')" 
+          onchange="try{setCustomValidity('')}catch(e){}" required />
+          <label for="tbEmail">Email</label>
+        </div>
+        <div class="field">
+          <input id="tbUsername" type="text" class='f' name='username' pattern='[A-z0-9 _]{1,}' maxlength='20' required />
+          <label for="tbUsername">Username</label>
+        </div>
+        <div class="field">
+          <input id="tbPassword" type="password" class='f'  name='password' required />
+          <label for="tbPassword">Password</label>
+        </div>
+        <div class="field">
+          <input id="tbCheckPassword" type="password" class='f' name='password'  required />
+          <label for="tbCheckPassword">Re-type Password</label>
+        </div>
+        <div id='submit_signup'>
+          <button type='submit' id='submit'>Signup!</button>
+        </div>
       </div>
       <div>We will be implementing a point system in the future. You will get a points multiplier for any additional information you give us, but feel free to leave it empty.<br><span class="italic">Disclaimer: We will be using information you provide us to track demographics and statistics to share with the world (we hope to be the wikipedia of opinions).</span></div>
       <div class='formSignup'>
