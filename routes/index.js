@@ -38,7 +38,7 @@ exports.getpoll = function (req, res) {
     res.sendfile('public/views/poll.html');*/
 
     Poll.findOne({'p_id':req.params.id}, function(err, poll) {
-        console.log(poll);
+        // console.log(poll);
         res.render('poll', {
             description: poll.p_desc,
             title: poll.p_q,
@@ -150,7 +150,7 @@ exports.newpoll = function(req, res) {
             'https://api.imgur.com/oauth2/token', 
             {form:{refresh_token:'0dc5c75408d684bd7ce6e893e1938763e964cd52',client_id:'1100622bb9cd565', client_secret:'8571ca74634d0a047bfc72880dbfa309dc4d0035', grant_type:'refresh_token' }}, 
             function(err, response, body){
-                console.log(response);
+                // console.log(response);
                 if (!err && response.statusCode == 200) {
                     var login_body = JSON.parse(body);
                     var options = {
@@ -257,7 +257,7 @@ exports.newuser = function(req, res) {
         }
         //user exists, but not registered
         if (user) {
-            console.log(user);
+            // console.log(user);
             if(user.u_isSignUp === false){
                 user.u_isSignUp  = true;
                 user.u_id        = req.body.u_id;
@@ -320,7 +320,7 @@ exports.verifyUser = function (req,res) {
     console.log(uemail);
     User.findOne({'u_email':uemail}, function (err, _user) {
         console.log("Verifying");
-        console.log(_user);
+        // console.log(_user);
         if (err) {
             return console.error(err);
         }

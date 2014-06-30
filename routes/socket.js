@@ -18,7 +18,7 @@ exports.getVoted = function (data, client) {
         // below vote looks for email, and this is currently disabled
         // Vote.findOne({$or:[{'u_email': u_email}, {'u_fp': data.u_fp}], p_id: poll._id}, function (err, vote) {
             if (err) return console.error(err);
-            console.log(vote);
+            // console.log(vote);
             (vote)?client.emit('setVoted', (vote.v_choice)):client.emit('setVoted');
             (vote)?client.emit('setVoteTime', vote.s_vtime):client.emit('setVoteTime');
         });
@@ -105,7 +105,7 @@ exports.vote = function (dataVote, client, io, loggedin) {
                         user.s_ttotal = user.s_ttotal + dataVote.s_vtime;
                         user.s_vtotal += 1;
                         console.log('Found user account!');
-                        console.log(user); 
+                        // console.log(user); 
                     }
                     //look to see if user voted already. we already have user object
                     //we look for the u_id field in VOTE using user's _id, so we don't have to check for thirdID or fingerprint

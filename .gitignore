@@ -1,6 +1,7 @@
 *.log
 *.swp
 .idea/
+.DS_STORE
 
 lib-cov
 lcov.info

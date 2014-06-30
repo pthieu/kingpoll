@@ -3,6 +3,7 @@ var appPort =  process.env.PORT || process.env.VCAPP_APP_PORT || 8888;
 
 var express = require('express'), app = express();var expressValidator = require('express-validator');
 var path = require('path');
+var favicon = require('serve-favicon');
 var exphbs = require('express3-handlebars');
 var http = require('http').createServer(app);
 var io = require('socket.io').listen(http);
@@ -55,9 +56,15 @@ var userAuth = require('./routes/login_auth.js');
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 
-// app.use(express.logger());
+if(process.env.NODE_ENV == 'production'){
+    //production node stuff
+}
+else{
+    //dev node stuff
+    // app.use(express.logger());
+}
+app.use(favicon(path.join(__dirname, 'public','images','favicon.ico')));
 app.use(express.static(__dirname + '/public'));
-app.use(express.favicon(path.join(__dirname, 'public','images','favicon.ico')));
 app.use(express.bodyParser());
 app.use(expressValidator());
 app.use(express.cookieParser());
@@ -118,7 +125,7 @@ function onAuthorizeSuccess(data, accept){
 
 function onAuthorizeFail(data, message, error, accept){
   console.log('failed connection to socket.io:', message);
-  console.log(data);
+  // console.log(data);
   //if(error)
   //  throw new Error(message);
 
@@ -220,7 +227,7 @@ io.sockets.on('connection', function (client) {
         });
     });
     client.on('vote', function (dataVote){
-        console.log('voting');
+        console.log('User is Voting');
         socket.vote(dataVote, client, io, client.handshake.user.logged_in);
     });
     client.on('iploc', function (iploc) {
@@ -282,7 +289,7 @@ io.sockets.on('connection', function (client) {
 
         Comment.find({ parent_poll_id: pollId }, function(err, result) {
             //console.log('Result: '+ JSON.stringify(result));
-            console.log(JSON.stringify(result));
+            // console.log(JSON.stringify(result));
             if (!err) {
                 client.emit('getCommentsResult', JSON.stringify(result));
             } else {
