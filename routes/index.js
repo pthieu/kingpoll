@@ -41,7 +41,7 @@ exports.getpoll = function (req, res) {
         // console.log(poll);
         res.render('poll', {
             description: poll.p_desc,
-            title: poll.p_q,
+            title: poll.p_q +' - Poll ' + poll.p_id,
             url: 'http://kingpoll.com/p/' + poll.p_id,
             pollid: poll.p_id,
             image: poll.p_image    
@@ -55,7 +55,9 @@ exports.signup = function (req, res) {
     res.sendfile('public/views/signup.html');
 };
 exports.signupDone = function (req, res) {
-    res.render('signupdone');
+    res.render('signupdone', {
+        title: 'Sign Up Completed.'
+    });
 };
 exports.verifyvote = function (req, res) {
     // var data = [];
@@ -337,7 +339,8 @@ exports.verifyUser = function (req,res) {
             }
         }
         res.render('verified', {
-            description: verify_msg
+            description: verify_msg,
+            title: verify_msg
         });
     });
 }

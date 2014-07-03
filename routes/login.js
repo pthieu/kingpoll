@@ -2,7 +2,7 @@ var passport = require('passport');
 
 exports.getlogin = function(req, res) {
   console.log(req.session.messages);
-  res.render('login', { user: req.user, message: req.messages });
+  res.render('login', { user: req.user, message: req.messages, title: "Kingpoll Login" });
 };
   
 // POST /login
@@ -14,7 +14,7 @@ exports.postlogin = function(req, res, next) {
     if (!user) {
       console.log(info);
       req.session.messages =  [info.message];
-      return res.render('login', { error: true });;
+      return res.render('login', { error: true, title: "Kingpoll Login" });;
     }
     req.logIn(user, function(err) {
       if (err) { return next(err); }
