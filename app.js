@@ -49,6 +49,7 @@ var routes = require('./routes');
 var socket = require('./routes/socket.js');
 var userRoute = require('./routes/login.js');
 var userAuth = require('./routes/login_auth.js');
+var accountRoute = require('./routes/account.js');
 
 //var MemoryStore = express.session.MemoryStore;
 //var memStore = new MemoryStore();
@@ -91,6 +92,7 @@ app.get('/login', userRoute.getlogin);
 app.post('/login', userRoute.postlogin);
 app.get('/logout', userRoute.logout);
 app.post('/validateVote', routes.validateVote);
+app.get('/u/:id', accountRoute.getAccount);
 
 app.get('/auth/facebook', passport.authenticate('facebook'));
 app.get('/auth/facebook/callback', 

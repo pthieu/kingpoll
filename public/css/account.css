@@ -1,0 +1,9 @@
+.account .title {
+  margin: 4rem auto 0.25rem auto;
+  padding-bottom: 1rem;
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.7rem;
+  word-wrap: break-word;
+  border-bottom: 1px #ddd solid;
+}
