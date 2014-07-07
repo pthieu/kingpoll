@@ -1,9 +1,24 @@
 var passport = require('passport');
+var mongoose = require('mongoose');
+var User = mongoose.model( 'user' );
 
-exports.getAccount = function(req, res, next) {
+exports.getOwnAccount = function(req, res) {
   if (req.user) {
-    return res.render('account', { title: req.user.u_id + "'s Info" });
+    res.render('account', { title: req.user.u_id + "'s Info" });
   } else {
-    return res.render('login', { error: true, title: "Kingpoll Login" });
+    res.render('login', { error: true, title: "Kingpoll Login" });
   }
+};
+
+exports.getUserAccount = function(req, res) {
+  User.findOne({'u_id':req.params.id}, function (err, user) {
+    if (err) {
+      return console.error(err);
+    }
+    if(user){
+      res.render('account', { title: user.u_id + "'s Info" });
+    } else {
+      res.render('account', { title: "This user does not exist!" });
+    }     
+  });
 };

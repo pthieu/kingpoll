@@ -92,7 +92,8 @@ app.get('/login', userRoute.getlogin);
 app.post('/login', userRoute.postlogin);
 app.get('/logout', userRoute.logout);
 app.post('/validateVote', routes.validateVote);
-app.get('/u/:id', accountRoute.getAccount);
+app.get('/u', accountRoute.getOwnAccount);
+app.get('/u/:id', accountRoute.getUserAccount);
 
 app.get('/auth/facebook', passport.authenticate('facebook'));
 app.get('/auth/facebook/callback', 
