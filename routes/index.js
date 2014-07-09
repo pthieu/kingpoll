@@ -44,7 +44,8 @@ exports.getpoll = function (req, res) {
             title: poll.p_q +' - Poll ' + poll.p_id,
             url: 'http://kingpoll.com/p/' + poll.p_id,
             pollid: poll.p_id,
-            image: poll.p_image    
+            image: poll.p_image,
+            js_script: '/js/poll.js'
         });
     }); 
 };

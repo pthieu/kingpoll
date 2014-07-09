@@ -16,9 +16,9 @@ exports.getUserAccount = function(req, res) {
       return console.error(err);
     }
     if(user){
-      res.render('account', { title: user.u_id + "'s Info" });
+      res.render('account', { title: user.u_id + "'s Info", js_script:'/js/account.js' });
     } else {
-      res.render('account', { title: "This user does not exist!" });
+      res.render('account', { title: "This user does not exist!"});
     }     
   });
 };

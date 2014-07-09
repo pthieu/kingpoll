@@ -7,3 +7,15 @@
   word-wrap: break-word;
   border-bottom: 1px #ddd solid;
 }
+
+.account .personal-wrap, .account .stats-wrap, .account .attr-wrap, .account .upl-wrap, .account .polls-wrap{
+	display:inline-block;
+	float:left;
+	padding-left:2rem;
+	text-align: left;
+	min-width: 320px;
+}
+
+.account .dp{
+	text-align: center;
+}
