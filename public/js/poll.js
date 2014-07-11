@@ -114,46 +114,46 @@ $(document).ready(function(){
     u_email = getLocalVar('u_email');
     // socket.emit('getID');
 
-//set up empty graphs
-//PIE CHART - VOTE TOTALS
-donut = function module(_sel, r1, r2, w, h, color, _callback, _cbparam) {
-    _sel.each(function (_data) {
-        var pie = d3.layout.pie()
-        .sort(null);
+    //set up empty graphs
+    //PIE CHART - VOTE TOTALS
+    donut = function module(_sel, r1, r2, w, h, color, _callback, _cbparam) {
+        _sel.each(function (_data) {
+            var pie = d3.layout.pie()
+            .sort(null);
 
-        var arc = d3.svg.arc()
-        .innerRadius(r1)
-        .outerRadius(r2);
+            var arc = d3.svg.arc()
+            .innerRadius(r1)
+            .outerRadius(r2);
 
-        var svg = d3.select(this).select("#pieTotal > g");
-        if (svg.empty()) {
-            svg = d3.select(this).select("#pieTotal")
-            .attr("id", "pieTotal")
-            .attr("class","stats pie")
-            .attr("width", w)
-            .attr("height", h)
-            .append("g")
-            .attr("transform", "translate(" + w / 2 + "," + h / 2 + ")")
-            .attr("class","piechart");
+            var svg = d3.select(this).select("#pieTotal > g");
+            if (svg.empty()) {
+                svg = d3.select(this).select("#pieTotal")
+                .attr("id", "pieTotal")
+                .attr("class","stats pie")
+                .attr("width", w)
+                .attr("height", h)
+                .append("g")
+                .attr("transform", "translate(" + w / 2 + "," + h / 2 + ")")
+                .attr("class","piechart");
 
-            var svg_pie_bg = svg.append("circle")
-            .attr("cx", 0)
-            .attr("cy", 0)
-            .attr("r", innerRadius-10)
-            .attr("fill", "none")
-            .attr("id", "pieTotalBG");
-                var svg_pie_msg = svg.append("text") // later svg is "higher"
-                .attr("class", "piechart_msg")
-                svg_pie_msg.append("tspan")
-                .attr("x", 0)
-                .attr("y", -3)
-                .attr("id",'pie_msg_title')
-                .text("Total Votes:");
-                svg_pie_msg.append("tspan")
-                .attr("x", 0)
-                .attr("y", 22)
-                .attr("id",'pie_msg_val')
-                .text("0");
+                var svg_pie_bg = svg.append("circle")
+                .attr("cx", 0)
+                .attr("cy", 0)
+                .attr("r", innerRadius-10)
+                .attr("fill", "none")
+                .attr("id", "pieTotalBG");
+                    var svg_pie_msg = svg.append("text") // later svg is "higher"
+                    .attr("class", "piechart_msg")
+                    svg_pie_msg.append("tspan")
+                    .attr("x", 0)
+                    .attr("y", -3)
+                    .attr("id",'pie_msg_title')
+                    .text("Total Votes:");
+                    svg_pie_msg.append("tspan")
+                    .attr("x", 0)
+                    .attr("y", 22)
+                    .attr("id",'pie_msg_val')
+                    .text("0");
             }
             var path = svg.selectAll("path")
             .data(pie);
@@ -175,11 +175,11 @@ donut = function module(_sel, r1, r2, w, h, color, _callback, _cbparam) {
             .attrTween("d", arcTween)
             .each('end', function () {
                 if(_callback){
-                 setTimeout(function () {
-                   _callback(_cbparam)
-               }, 100);
-             }
-         });
+                   setTimeout(function () {
+                     _callback(_cbparam)
+                 }, 100);
+               }
+            });
 
             path.exit().remove();
 
@@ -191,20 +191,20 @@ donut = function module(_sel, r1, r2, w, h, color, _callback, _cbparam) {
                 };
             }
         });
-};
-var tmpdata = [1];
-var pieTotal = d3.select("#results").datum(tmpdata);
-donut(pieTotal, innerRadius, outerRadius, pieW, pieH, ['#ddd']);
+    };
+    var tmpdata = [1];
+    var pieTotal = d3.select("#results").datum(tmpdata);
+    donut(pieTotal, innerRadius, outerRadius, pieW, pieH, ['#ddd']);
 
-function pieTotal_update(_data, _callback, _cbparam) {
-    pieTotal.datum(_data.val).transition();
-    donut(pieTotal, innerRadius, outerRadius, pieW, pieH, pie_colors, _callback, _cbparam);
-}
+    function pieTotal_update(_data, _callback, _cbparam) {
+        pieTotal.datum(_data.val).transition();
+        donut(pieTotal, innerRadius, outerRadius, pieW, pieH, pie_colors, _callback, _cbparam);
+    }
 
-function populatepie(_data, _hex) {
-    var vlength = Math.min(_data.length, _hex.length);
-    pie_votes = [0];
-    pie_colors = ['#ddd'];
+    function populatepie(_data, _hex) {
+        var vlength = Math.min(_data.length, _hex.length);
+        pie_votes = [0];
+        pie_colors = ['#ddd'];
         //initialize with [1,0,0...]
         pie_votes = [1];
         for(var i=0; i<vlength;i++){
@@ -495,9 +495,9 @@ voteTimeData = [{name:'Average', value: data.s_tavg}, {name:'You', value: Math.r
             });
             $('.barchart rect').css('fill','#'+chart_solocolor);
             $('.barchart .s_votetime').css('text-shadow','-1px -1px #'+chart_solocolor
-             + ', 1px -1px #'+chart_solocolor
-             + ', -1px 1px #'+chart_solocolor
-             + ', 1px 1px #'+chart_solocolor);
+               + ', 1px -1px #'+chart_solocolor
+               + ', -1px 1px #'+chart_solocolor
+               + ', 1px 1px #'+chart_solocolor);
 
 //VIEWERS COUNT CHANGES
 socket.emit('getViewers', pollid);
@@ -611,13 +611,13 @@ for(var i in mapdata){
                 //     getSignUpBox($('label[for="' + $(this).attr('id') + '"]'));
                 // }
             });
-        }
-        else{
-            $('#question').html("Poll not found <span style='font-weight:bold'>:c</span>");
-            console.log('poll not found');
-        }
+}
+else{
+    $('#question').html("Poll not found <span style='font-weight:bold'>:c</span>");
+    console.log('poll not found');
+}
 //DISQUS
-        if (pollIDType !== 'vote') {
+if (pollIDType !== 'vote') {
             // disqus_count++;
             // poll?setTimeout(function(){
             //         if(disqus_count === 1){
@@ -636,9 +636,9 @@ for(var i in mapdata){
             //             disqus_count--;
             //         }
             //     }, 800):$('#disqus_thread').text("No poll, no comments :c");
-            fb_comments_load(pollid);
-        };
-    });
+fb_comments_load(pollid);
+};
+});
 });
 
 // socket.on('getCommentsResult', function(result) {
