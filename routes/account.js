@@ -1,13 +1,20 @@
 var passport = require('passport');
 var mongoose = require('mongoose');
 var User = mongoose.model( 'user' );
+var Poll = mongoose.model( 'poll' );
+
 
 exports.getOwnAccount = function(req, res) {
   if (req.user) {
-    res.render('account', { title: req.user.u_id + "'s Info" });
+    Poll.find({'u_id':req.user.u_id}, function (err, polls) {
+      console.log("test polls");
+      console.log(polls);
+      res.render('account', { title: req.user.u_id + "'s Info",  polls: polls, js_script:'/js/account.js' });
+    });
   } else {
     res.render('login', { error: true, title: "Kingpoll Login" });
   }
+  
 };
 
 exports.getUserAccount = function(req, res) {
@@ -16,7 +23,9 @@ exports.getUserAccount = function(req, res) {
       return console.error(err);
     }
     if(user){
-      res.render('account', { title: user.u_id + "'s Info", js_script:'/js/account.js' });
+      Poll.find({'u_id':user.u_id}, function (err, polls) {
+        res.render('account', { title: user.u_id + "'s Info", polls: polls, js_script:'/js/account.js' });
+      });
     } else {
       res.render('account', { title: "This user does not exist!"});
     }     
