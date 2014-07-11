@@ -116,7 +116,7 @@ exports.newpoll = function(req, res) {
         'p_desc': req.body.p_desc,
         'c_n': req.body.c_n,
         't_created': new_pid.getTimestamp(),
-        'u_id': req.body.u_id,
+        'u_id': req.user.u_id,
         'c_random': req.body.c_random
     });
     //get color text/hex
