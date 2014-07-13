@@ -9,6 +9,7 @@ OPEN:
         - Find some way to put a fact after user votes. maybe like a wikipedia crawler or something simple like "this many people voted xx on this other poll"
         - After user votes for first time, have popup that says signup and give reasons
         - Random facts from signed up users i.e. "xxuser voted yy on this poll!" or "user has reached 1000 votes!"
+    - Implement Party System
 PHONG:
 	- add date to landing
 	- backend email validation

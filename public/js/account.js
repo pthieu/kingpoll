@@ -11,121 +11,128 @@ var pie_colors = ['#ddd','#e74c3c','#e67e22','#e1c42f','#2ecc51','#3498db','#9b5
 var tmp = {val:[0,2,6,8], hex:['#aaa','#f00']};
 
 $(function () {
-  donut = function module(_sel, r1, r2, w, h, color, _callback, _cbparam) {
-    _sel.each(function (_data) {
-      var pie = d3.layout.pie()
-      .sort(null);
-
-      var arc = d3.svg.arc()
-      .innerRadius(r1)
-      .outerRadius(r2);
-
-      //first select the svg g arc
-      var svg = d3.select(this).select(".attr-polls > g");
-      //if svg tag is empty, we're going to append a g
-      if (svg.empty()) {
-        svg = d3.select(this).select(".attr-polls")
-        // .attr("id", "pieTotal")
-        // .attr("class","attr-polls")
-        .attr("width", w)
-        .attr("height", h)
-        .append("g")
-        .attr("transform", "translate(" + w / 2 + "," + h / 2 + ")")
-        .attr("class","piechart");
-
-        var svg_pie_bg = svg.append("circle")
-        .attr("cx", 0)
-        .attr("cy", 0)
-        .attr("r", innerRadius-10)
-        .attr("fill", "none")
-        .attr("id", "pieTotalBG");
-        var svg_pie_msg = svg.append("text") // later svg is "higher"
-                    .attr("class", "piechart_msg")
-        svg_pie_msg.append("tspan")
-                    .attr("x", 0)
-                    .attr("y", -3)
-                    .attr("id",'pie_msg_title')
-                    .text("Total Votes:");
-        svg_pie_msg.append("tspan")
-                    .attr("x", 0)
-                    .attr("y", 22)
-                    .attr("id",'pie_msg_val')
-                    .text("0");
-      }
-      var path = svg.selectAll("path")
-      .data(pie);
-      path.enter().append("path")
-      .attr("fill", function (d, i) {
-        return color[i];
-      })
-      .attr("d", arc)
-      .each(function (d) {
-        this._current = d;
-      })
-      .attr("class", "vote_arc")
-      .attr("value", function(d,i) {
-        return (i-1);
-      });;
-
-      path.transition()
-      .duration(dur)
-      .attrTween("d", arcTween)
-      .each('end', function () {
-        if(_callback){
-          setTimeout(function () {
-            _callback(_cbparam)
-          }, 100);
-        }
-      });
-
-      path.exit().remove();
-
-      function arcTween(a) {
-        var i = d3.interpolate(this._current, a);
-        this._current = i(0);
-        return function (t) {
-          return arc(i(t));
-        };
-      }
-    });
-  };
   var tmpdata = [1];
   pieTotal = d3.select(".attr-wrap").datum(tmpdata);
-  donut(pieTotal, innerRadius, outerRadius, pieW, pieH, ['#ddd']);
+  pie.get(pieTotal, innerRadius, outerRadius, pieW, pieH, ['#ddd']);
 
   pieTotal_update({val:[0,2,4]})
 
 });
 
+pie = (function (){
+  //internal vars here
+  return {
+    get: function (_sel, r1, r2, w, h, color, _cb, _cbparam){
+      _sel.each(function (_data) {
+        var pie = d3.layout.pie()
+        .sort(null);
+
+        var arc = d3.svg.arc()
+        .innerRadius(r1)
+        .outerRadius(r2);
+
+        //first select the svg g arc
+        var svg = d3.select(this).select(".attr-polls > g");
+        //if svg tag is empty, we're going to append a g
+        if (svg.empty()) {
+          svg = d3.select(this).select(".attr-polls")
+          // .attr("id", "pieTotal")
+          // .attr("class","attr-polls")
+          .attr("width", w)
+          .attr("height", h)
+          .append("g")
+          .attr("transform", "translate(" + w / 2 + "," + h / 2 + ")")
+          .attr("class","piechart");
+
+          var svg_pie_bg = svg.append("circle")
+          .attr("cx", 0)
+          .attr("cy", 0)
+          .attr("r", innerRadius-10)
+          .attr("fill", "none")
+          .attr("id", "pieTotalBG");
+          var svg_pie_msg = svg.append("text") // later svg is "higher"
+                      .attr("class", "piechart_msg")
+          svg_pie_msg.append("tspan")
+                      .attr("x", 0)
+                      .attr("y", -3)
+                      .attr("id",'pie_msg_title')
+                      .text("Total Votes:");
+          svg_pie_msg.append("tspan")
+                      .attr("x", 0)
+                      .attr("y", 22)
+                      .attr("id",'pie_msg_val')
+                      .text("0");
+        }
+        var path = svg.selectAll("path")
+        .data(pie);
+        path.enter().append("path")
+        .attr("fill", function (d, i) {
+          return color[i];
+        })
+        .attr("d", arc)
+        .each(function (d) {
+          this._current = d;
+        })
+        .attr("class", "vote_arc")
+        .attr("value", function(d,i) {
+          return (i-1);
+        });;
+
+        path.transition()
+        .duration(dur)
+        .attrTween("d", arcTween)
+        .each('end', function () {
+          if(_cb){
+            setTimeout(function () {
+              _callback(_cbparam)
+            }, 100);
+          }
+        });
+
+        path.exit().remove();
+
+        function arcTween(a) {
+          var i = d3.interpolate(this._current, a);
+          this._current = i(0);
+          return function (t) {
+            return arc(i(t));
+          };
+        }
+      });
+      return _sel;// return object to do stuff with
+    }
+  }
+}());
+
 function pieTotal_update(_data, _callback, _cbparam) {
   pieTotal.datum(_data.val).transition();
-  donut(pieTotal, innerRadius, outerRadius, pieW, pieH, pie_colors, _callback, _cbparam);
+  pie.get(pieTotal, innerRadius, outerRadius, pieW, pieH, pie_colors, _callback, _cbparam);
 }
 
 //get user info (filtered)
 function getUserInfo(){}
 //pie chart library. access with pie();
-window.pie = (function(){
-  function Pie (els){
-    //this is the object instance we pass back
-    for(var i = 0; i < els.length; i++ ) {
-      this[i] = els[i];
-    }
-    this.length = els.length;
-  }
+// window.pie = (function(){
+//   function Pie (els){
+//     //this is the object instance we pass back
+//     for(var i = 0; i < els.length; i++ ) {
+//       this[i] = els[i];
+//     }
+//     this.length = els.length;
+//   }
 
-  var pie = {
-    get: function(sel){
-      //get dom object
-      var elements; // element
-      elements = document.querySelectorAll(sel)
-      return new Pie(elements);
-    }
-  }
+  // var pie = {
+  //   get: function(sel){
+  //     //get dom object
+  //     var elements; // element
+  //     elements = document.querySelectorAll(sel)
+  //     return new Pie(elements);
+  //   }
+  // }
 
-  return pie;
+  // return pie;
 
-}());
+// }());
 
 
 
