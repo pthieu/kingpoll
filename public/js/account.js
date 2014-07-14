@@ -35,7 +35,6 @@ pie = (function (){
   };
 
   Donut.prototype.create = function(r1, r2, w, h, color){
-    var dis = this;
     this.obj.each(function (_data) {
       var pie_instance = d3.layout.pie()
       .sort(null);
