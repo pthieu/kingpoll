@@ -20,20 +20,18 @@ $(function () {
   setTimeout(function () {
     test_donut.update({val:[0,4,4]});
   },2000);
-  // pieTotal_update({val:[0,2,4]})
 });
 
 pie = (function (){
-  function Donut(_sel, _datum){
-    this.container = _sel;
-    this.obj = _datum;
+  function Donut(_sel){
+    this.obj = _sel;
     //we're changing the scope object this to the sel param. which is going to be created
     //by the d3 library
   }
 
   Donut.prototype.update = function(_data){
     this.obj.datum(_data.val).transition();
-    this.create(this.obj, innerRadius, outerRadius, pieW, pieH, pie_colors);
+    this.create(innerRadius, outerRadius, pieW, pieH, pie_colors);
   };
 
   Donut.prototype.create = function(r1, r2, w, h, color){
@@ -47,10 +45,10 @@ pie = (function (){
       .outerRadius(r2);
 
       //first select the svg g arc
-      var svg = d3.select(dis.container).select(".attr-polls > g");
+      var svg = d3.select(this).select(".attr-polls > g");
       //if svg tag is empty, we're going to append a g
       if (svg.empty()) {
-        svg = d3.select(dis.container).select(".attr-polls")
+        svg = d3.select(this).select(".attr-polls")
         // .attr("id", "pieTotal")
         // .attr("class","attr-polls")
         .attr("width", w)
@@ -114,7 +112,7 @@ pie = (function (){
   //internal vars here
   var donut = {
     init: function(_sel){
-      return new Donut($(_sel)[0], d3.select(_sel).datum([1]));
+      return new Donut(d3.select(_sel).datum([1]));
     }
   }
   return donut;
