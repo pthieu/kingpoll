@@ -13,7 +13,6 @@ var tmp = {val:[0,2,6,8], hex:['#aaa','#f00']};
 
 //DOM READY
 $(function () {
-  var tmpdata = [1];
   var test_donut = pie.init(".attr-wrap");
   test_donut.create(innerRadius, outerRadius, pieW, pieH, ['#ddd']);
   test_donut.update({val:[0,2,4]});
@@ -25,8 +24,6 @@ $(function () {
 pie = (function (){
   function Donut(_sel){
     this.obj = _sel;
-    //we're changing the scope object this to the sel param. which is going to be created
-    //by the d3 library
   }
 
   Donut.prototype.update = function(_data){

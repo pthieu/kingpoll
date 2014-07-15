@@ -8,3 +8,4 @@ var uplSchema = new mongoose.Schema({
 
 var UPL = mongoose.model('upl', uplSchema);
 module.exports.UPL = UPL;
+module.exports.uplSchema = uplSchema;

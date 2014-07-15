@@ -21,6 +21,7 @@ var passportSocketIo = require("passport.socketio");
 var Poll = require('./schema/pollSchema').Poll;
 var User = require('./schema/userSchema').User;
 var Vote = require('./schema/voteSchema').Vote;
+var UPL = require('./schema/uplSchema').UPL;
 var Comment = require('./models/comments').Comment;
 
 var help = require('./scripts/help.js');
@@ -47,6 +48,7 @@ var sessionStore = new MongoStore({
 //this has to be after mongoose connect because it needs connect alive to grab schema
 var routes = require('./routes');
 var socket = require('./routes/socket.js');
+var user_polls_helper = require('./scripts/user_polls_helper.js');
 var userRoute = require('./routes/login.js');
 var userAuth = require('./routes/login_auth.js');
 var accountRoute = require('./routes/account.js');
@@ -94,6 +96,7 @@ app.get('/logout', userRoute.logout);
 app.post('/validateVote', routes.validateVote);
 app.get('/u', accountRoute.getOwnAccount);
 app.get('/u/:id', accountRoute.getUserAccount);
+app.get('/test', user_polls_helper.createAttrPolls);
 
 app.get('/auth/facebook', passport.authenticate('facebook'));
 app.get('/auth/facebook/callback', 
