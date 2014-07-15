@@ -46,7 +46,7 @@ var createPoll = function (p_q, c_text, c_hex){
         console.error(err);
       }
       else{
-        console.log('Poll Save: passed');
+        console.log('Attr Poll Save: passed');
         console.log("/p/"+hex_pid.toString());
       }
     });

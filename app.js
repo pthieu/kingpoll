@@ -199,13 +199,13 @@ io.sockets.on('connection', function (client) {
         //console.log(socket.handshake.user.username);
         switch(sort){
             case 'newest':
-                Poll.find({},{'p_id':1, 'p_q':1, 'p_total':1, 's_ttotal':1, 'p_desc':1, 'p_embed':1},{limit: limit, skip: skip}).sort('-_id').exec(function(err, poll) {
+                Poll.find({'u_id': {$not:/kingpoll_attr/i}},{'p_id':1, 'p_q':1, 'p_total':1, 's_ttotal':1, 'p_desc':1, 'p_embed':1},{limit: limit, skip: skip}).sort('-_id').exec(function(err, poll) {
                     if (err) return console.error(err);
                     client.emit('listpoll', poll);
                 });
                 break;
             case 'mostvotes':
-                Poll.find({},{'p_id':1, 'p_q':1, 'p_total':1, 's_ttotal':1, 'p_desc':1, 'p_embed':1},{limit: limit, skip: skip}).sort('-p_total').exec(function(err, poll) {
+                Poll.find({'u_id': {$not:/kingpoll_attr/i}},{'p_id':1, 'p_q':1, 'p_total':1, 's_ttotal':1, 'p_desc':1, 'p_embed':1},{limit: limit, skip: skip}).sort('-p_total').exec(function(err, poll) {
                     if (err) return console.error(err);
                     client.emit('listpoll', poll);
                 });
