@@ -6,7 +6,7 @@ var Poll = mongoose.model( 'poll' );
 
 exports.getOwnAccount = function(req, res) {
   if (req.user) {
-    Poll.find({'u_id':req.user.u_id}, function (err, polls) {
+    Poll.find({'u_id':req.user._id}, function (err, polls) {
       console.log("test polls");
       console.log(polls);
       res.render('account', { title: req.user.u_id + "'s Info",  polls: polls, js_script:'/js/account.js' });
@@ -23,7 +23,7 @@ exports.getUserAccount = function(req, res) {
       return console.error(err);
     }
     if(user){
-      Poll.find({'u_id':user.u_id}, function (err, polls) {
+      Poll.find({'u_id':user._id}, function (err, polls) {
         res.render('account', { title: user.u_id + "'s Info", polls: polls, js_script:'/js/account.js' });
       });
     } else {
