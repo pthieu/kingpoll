@@ -7,13 +7,12 @@ var help = require('./help.js');
 var shortid = require('shortid');
 
 var c = {red:'e74c3c', orange:'e67e22', yellow:'e1c42f', green:'2ecc51', blue:'3498db', purple:'9b59b6', black:'34495e'};
-
-
+var uplList = [
+    {p_q: "Creative or Logical", c_text:['Creative', 'Logical'], c_hex:[c['red'], c['blue']]},
+  ];
 
 var createAttrPolls = function(){
-  var uplList = [
-    {p_q: "Creative or Logical", c_text:['Creative', 'Logical'], c_hex:[c['red'], c['blue']]},
-  ]
+  
   console.log(uplList);
   for(var i=0; i<uplList.length; i++){
     createPoll(uplList[i].p_q, uplList[i].c_text, uplList[i].c_hex);
@@ -22,6 +21,7 @@ var createAttrPolls = function(){
 
 var createPoll = function (p_q, c_text, c_hex){
   var new_pid = mongoose.Types.ObjectId();
+  var new_uid = mongoose.Types.ObjectId();
   var newpoll = new Poll({
     _id: new_pid,
     't_created': new_pid.getTimestamp(),
@@ -46,19 +46,34 @@ var createPoll = function (p_q, c_text, c_hex){
         console.error(err);
       }
       else{
-        console.log('Poll Save: passed')
-        console.log("/p/"+hex_pid.toString())
+        console.log('Poll Save: passed');
+        console.log("/p/"+hex_pid.toString());
       }
     });
   });
+  //create link between user and attr poll
+  createUPL(new_uid, new_pid);
 }
 
-createUPL = function(){
-  
+createUPL = function(u_id, p_id){
+  var newupl = new UPL({
+    _id: mongoose.Types.ObjectId(),
+    'p_id': p_id,
+    'u_id': mongoose.Types.ObjectId()
+  });
+  newupl.save(function (err, upl, count) {
+    if (err){
+      console.error(err);
+    }
+    else{
+      // console.log('UPL created: '+upl);
+    }
+  });
 }
 
 
 module.exports = {
     'createAttrPolls': createAttrPolls,
-    'createPoll': createPoll
+    'createPoll': createPoll,
+    'createUPL': createUPL
 }
