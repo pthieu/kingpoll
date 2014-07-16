@@ -23,3 +23,7 @@
 .account .dp{
 	text-align: center;
 }
+
+.account .pie-wrap{
+  display:inline-block;
+}

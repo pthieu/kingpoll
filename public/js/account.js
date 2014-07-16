@@ -10,28 +10,44 @@ var donuts;
 var pie_colors = ['#ddd','#e74c3c','#e67e22','#e1c42f','#2ecc51','#3498db','#9b59b6','#34495e'];
 var tmp = {val:[0,2,6,8], hex:['#aaa','#f00']};
 
+var attrPolls = {};
 
 //DOM READY
 $(function () {
-  var test_donut = pie.init(".attr-wrap");
-  test_donut.create(innerRadius, outerRadius, pieW, pieH, ['#ddd']);
-  test_donut.update({val:[0,2,4]});
-  setTimeout(function () {
-    test_donut.update({val:[0,4,4]});
-  },2000);
+  var uid = window.location.pathname;
+  uid = uid.replace(/\/u\//, "");
+  
+  socket.emit('getAttrPolls', uid);
+
+  //test click creates attr polls for current user
+  $('.test').on('click', function () {
+    socket.emit('createAttrPolls', uid);
+  });
 });
 
 pie = (function (){
-  function Donut(_sel){
+  function Donut(_sel, _pid){
     this.obj = _sel;
+    this.pid = _pid;
+    this.colors = [];
   }
 
-  Donut.prototype.update = function(_data){
-    this.obj.datum(_data.val).transition();
-    this.create(innerRadius, outerRadius, pieW, pieH, pie_colors);
+  Donut.prototype.update = function(_ctotal){
+    var total = 0;
+    //need to know if pie has values
+    for(var i=0; i<_ctotal.length; i++){
+      total += _ctotal[i];
+    }
+    _ctotal.unshift((total>0)?0:1);
+    //add data at the beginning for grey circle or no circle
+    this.obj.datum(_ctotal).transition();
+    this.create(innerRadius, outerRadius, pieW, pieH, this.colors);
   };
 
-  Donut.prototype.create = function(r1, r2, w, h, color){
+  Donut.prototype.create = function(r1, r2, w, h, _colors){
+    this.colors = _colors;
+
+    var dis = this;
     this.obj.each(function (_data) {
       var pie_instance = d3.layout.pie()
       .sort(null);
@@ -41,12 +57,12 @@ pie = (function (){
       .outerRadius(r2);
 
       //first select the svg g arc
-      var svg = d3.select(this).select(".attr-polls > g");
+      var svg = d3.select(this).select(".attr-poll > g");
       //if svg tag is empty, we're going to append a g
       if (svg.empty()) {
-        svg = d3.select(this).select(".attr-polls")
+        svg = d3.select(this).select(".attr-poll")
         // .attr("id", "pieTotal")
-        // .attr("class","attr-polls")
+        // .attr("class","attr-poll")
         .attr("width", w)
         .attr("height", h)
         .append("g")
@@ -76,7 +92,7 @@ pie = (function (){
       .data(pie_instance);
       path.enter().append("path")
       .attr("fill", function (d, i) {
-        return color[i];
+        return dis.colors[i];
       })
       .attr("d", arc)
       .each(function (d) {
@@ -107,8 +123,15 @@ pie = (function (){
   
   //internal vars here
   var donut = {
-    init: function(_sel){
-      return new Donut(d3.select(_sel).datum([1]));
+    init: function(_sel, _uid, _ctotal){
+      //make data skeleton to create arcs on pie chart
+      var tmp = [];
+      for(var i=0; i<_ctotal.length; i++){
+        tmp.push(0);
+      }
+      tmp.unshift(1);
+      $(_sel).append('<div class="pie-wrap" data-pid="'+_uid+'"><svg class="attr-poll"></svg></div>')
+      return new Donut(d3.select('.pie-wrap[data-pid="'+_uid+'"]').datum(tmp), _uid);
     }
   }
   return donut;
@@ -117,7 +140,23 @@ pie = (function (){
 //get user info (filtered)
 function getUserInfo(){}
 //get KP standard at tribute polls
-function getAttrPolls(){}
+function getAttrPolls(_uid){
+  socket.emit('getAttrPolls', _uid);
+}
+//trigger poll update
+socket.on('setAttrPolls', function (_poll) {
+  //add initial grey ddd and also add # for hex colors
+  var tmp = _poll.c_hex;
+  tmp.unshift('ddd');
+  for(var i=0; i<tmp.length; i++){
+    tmp[i] = "#"+tmp[i];
+  }
+  attrPolls[_poll.p_id] = pie.init(".attr-wrap", _poll.p_id, _poll.c_total);
+  attrPolls[_poll.p_id].create(innerRadius, outerRadius, pieW, pieH, tmp);
+  attrPolls[_poll.p_id].update(_poll.c_total);
+});
+socket.on('updateAttrPolls', function (_d) {
+});
 //get all polls about user that are user generated
 function getUPL(){}
 //get list of polls user created

@@ -2,6 +2,7 @@
   <div class="title">
     <h1>{{title}}</h1>
   </div>
+<button class="test">click to create attr polls.<br>manual refresh after click</button>
   <div class="personal-wrap">
     <!-- personalinfo about user, display pic or something -->
     <div class="dp">
@@ -19,8 +20,8 @@
     <h2>Statistics</h2>
     <div class="stats-info">
       <h4>Total votes:</h4>
-      <h4>Longest vote time:</h4>
-      <h4>Shortest vote time:</h4>
+      <h4 data-pid='1'>Longest vote time:</h4>
+      <h4 data-pid='2'>Shortest vote time:</h4>
       <h4>Avg. vote time:</h4>
       <h4>Total vote time:</h4>
       <h4>Polls created:</h4>
@@ -29,7 +30,6 @@
   <div class="attr-wrap">
     <!-- user attr polls section -->
     <h2>Attributes</h2>
-    <svg class='attr-polls'></svg>
   </div>
   <div class="upl-wrap">
     <!-- upl polls section -->

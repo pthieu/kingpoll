@@ -96,7 +96,9 @@ app.get('/logout', userRoute.logout);
 app.post('/validateVote', routes.validateVote);
 app.get('/u', accountRoute.getOwnAccount);
 app.get('/u/:id', accountRoute.getUserAccount);
-app.get('/test', user_polls_helper.createAttrPolls);
+// app.get('/test', function () {
+    // user_polls_helper.createAttrPolls('53aa3775a8b3f8041f82f8b9');
+// });
 
 app.get('/auth/facebook', passport.authenticate('facebook'));
 app.get('/auth/facebook/callback', 
@@ -199,7 +201,9 @@ io.sockets.on('connection', function (client) {
         //console.log(socket.handshake.user.username);
         switch(sort){
             case 'newest':
-                Poll.find({'u_id': {$not:/kingpoll_attr/i}},{'p_id':1, 'p_q':1, 'p_total':1, 's_ttotal':1, 'p_desc':1, 'p_embed':1},{limit: limit, skip: skip}).sort('-_id').exec(function(err, poll) {
+            //TEMPORARY TO SEE RESULTS ON HOME
+                Poll.find({},{'p_id':1, 'p_q':1, 'p_total':1, 's_ttotal':1, 'p_desc':1, 'p_embed':1},{limit: limit, skip: skip}).sort('-_id').exec(function(err, poll) {
+                // Poll.find({'u_id': {$not:/kingpoll_attr/i}},{'p_id':1, 'p_q':1, 'p_total':1, 's_ttotal':1, 'p_desc':1, 'p_embed':1},{limit: limit, skip: skip}).sort('-_id').exec(function(err, poll) {
                     if (err) return console.error(err);
                     client.emit('listpoll', poll);
                 });
@@ -258,6 +262,13 @@ io.sockets.on('connection', function (client) {
     //validation
     client.on('getValidationList', function (data) {
         socket.getValidationList(data, client, io);
+    });
+    
+    client.on('createAttrPolls', function (_uid) {
+        user_polls_helper.createAttrPolls(_uid);
+    });
+    client.on('getAttrPolls', function (_uid) {
+        user_polls_helper.setAttrPolls(_uid, client, io);
     });
     client.on('disconnect', function (iploc) {
         client.leave(pollid);
