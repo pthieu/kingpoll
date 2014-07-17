@@ -1,5 +1,5 @@
 .account .title {
-  margin: 4rem auto 0.25rem auto;
+  margin: 4rem auto 0 auto;
   padding-bottom: 1rem;
   font-size: 2rem;
   font-weight: 700;
@@ -10,10 +10,59 @@
 
 .account .personal-wrap, .account .stats-wrap, .account .attr-wrap, .account .upl-wrap, .account .polls-wrap{
 	display:inline-block;
-	float:left;
-	padding-left:2rem;
 	text-align: left;
 	min-width: 320px;
+}
+
+.account .personal-wrap {
+  float: left;
+  width: 20%;
+  margin-top: 10px;
+  position: absolute;
+  left: 0;
+}
+
+.account .personal-wrap, .account .stats-wrap {
+  padding-left:2rem;
+}
+
+.account .attr-wrap, .account .upl-wrap, .account .polls-wrap{
+  display:none;
+  text-align: center;
+}
+
+.account .tabs {
+  float: left;
+  width: 78%;
+  margin-top: 10px;
+  position: absolute;
+  right: 0;
+}
+
+.account .tabs .tab-button{
+  text-align: center;
+  cursor: pointer;
+}
+
+.account .tabs .tab-button.active{
+  background-color: #ddd;
+}
+
+.account .tabs .tab-button:hover{
+  background-color: #ddd;
+}
+
+.account .tab-container {
+  border-bottom: 2px #ddd solid;
+}
+
+.account .tabs .tab-button h2{
+  padding: 10px 0;
+  margin: 0;
+}
+
+.account .tabs .tab-content{
+  margin: 10px 0;
 }
 
 .account .polls-wrap ul {
@@ -21,9 +70,28 @@
 }
 
 .account .dp{
-	text-align: center;
+	padding-left:2rem;
 }
 
 .account .pie-wrap{
   display:inline-block;
+}
+
+@media all and (min-width: 767px) and (max-width: 1175px) {
+  .account .tabs {
+    width: 65%;
+  }
+}
+
+@media all and (max-width: 767px) {
+  .account .personal-wrap {
+    float: none;
+    position: relative;
+  }
+
+  .account .tabs {
+    float: none;
+    width: 100%;
+    position: relative;
+  }
 }

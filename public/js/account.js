@@ -23,6 +23,8 @@ $(function () {
   $('.test').on('click', function () {
     socket.emit('createAttrPolls', uid);
   });
+
+  setTabs();
 });
 
 pie = (function (){
@@ -218,3 +220,15 @@ socket.on('updateAttrPolls', function (_d) {
 function getUPL(){}
 //get list of polls user created
 function getPolls(){}
+
+function setTabs(){
+  $(".tab-button").each(function(){
+    $(this).on('click', function(){
+      var tabClicked = $(this).attr('data-index');
+      $(".tab-button").removeClass("active");
+      $(this).addClass('active');
+      $(".tab-content").slideUp();
+      $("."+tabClicked).slideToggle();
+    });
+  });
+}
