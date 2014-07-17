@@ -170,6 +170,7 @@ pie = (function (){
            .attr('fill', dis.colors[i+1])
         svg.append('text')
            .attr('class', "legend_text")
+           .attr('width', rect_w)
            .attr('x', (-legend_xy+rect_w*2)) // just right of color bar
            .attr('y', (-legend_xy+rect_h*(i)+rect_h/2-margin/2+text_ybump)) // at the top of color bar
            .attr("text-anchor", "start") //horizontal align to left of text
@@ -225,10 +226,16 @@ function setTabs(){
   $(".tab-button").each(function(){
     $(this).on('click', function(){
       var tabClicked = $(this).attr('data-index');
-      $(".tab-button").removeClass("active");
-      $(this).addClass('active');
-      $(".tab-content").slideUp();
-      $("."+tabClicked).slideToggle();
+      if (!$(this).hasClass('active')){
+        $(".tab-button").removeClass("active");
+        $(this).addClass('active');
+        $(".tab-content").slideUp();
+        $("."+tabClicked).slideToggle();
+      }
+      else{
+        $("."+tabClicked).slideToggle();
+        $(this).removeClass('active');
+      }
     });
   });
 }
