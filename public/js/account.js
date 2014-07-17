@@ -30,6 +30,8 @@ pie = (function (){
     this.obj = _sel;
     this.pid = _pid;
     this.colors = [];
+    this.ctext = [];
+    this.length;
   }
 
   Donut.prototype.update = function(_ctotal){
@@ -41,11 +43,13 @@ pie = (function (){
     _ctotal.unshift((total>0)?0:1);
     //add data at the beginning for grey circle or no circle
     this.obj.datum(_ctotal).transition();
-    this.create(innerRadius, outerRadius, pieW, pieH, this.colors);
+    this.create(innerRadius, outerRadius, pieW, pieH, {'colors':this.colors, 'text':this.text});
   };
 
-  Donut.prototype.create = function(r1, r2, w, h, _colors){
-    this.colors = _colors;
+  Donut.prototype.create = function(r1, r2, w, h, _choices){
+    this.colors = _choices.colors;
+    this.ctext = _choices.ctext;
+    this.length = _choices.colors.length-1;
 
     var dis = this;
     this.obj.each(function (_data) {
@@ -67,26 +71,28 @@ pie = (function (){
         .attr("height", h)
         .append("g")
         .attr("transform", "translate(" + w / 2 + "," + h / 2 + ")")
-        .attr("class","piechart");
+        .attr("class","upl_piechart");
 
-        var svg_pie_bg = svg.append("circle")
-        .attr("cx", 0)
-        .attr("cy", 0)
-        .attr("r", innerRadius-10)
-        .attr("fill", "none")
-        .attr("id", "pieTotalBG");
-        var svg_pie_msg = svg.append("text") // later svg is "higher"
-                    .attr("class", "piechart_msg")
-        svg_pie_msg.append("tspan")
-                    .attr("x", 0)
-                    .attr("y", -3)
-                    .attr("id",'pie_msg_title')
-                    .text("Total Votes:");
-        svg_pie_msg.append("tspan")
-                    .attr("x", 0)
-                    .attr("y", 22)
-                    .attr("id",'pie_msg_val')
-                    .text("0");
+        dis.createLegend(r1);
+
+        // var svg_pie_bg = svg.append("circle")
+        // .attr("cx", 0)
+        // .attr("cy", 0)
+        // .attr("r", innerRadius-10)
+        // .attr("fill", "none")
+        // .attr("id", "pieTotalBG");
+        // var svg_pie_msg = svg.append("text") // later svg is "higher"
+        //             .attr("class", "piechart_msg")
+        // svg_pie_msg.append("tspan")
+        //             .attr("x", 0)
+        //             .attr("y", -3)
+        //             .attr("id",'pie_msg_title')
+        //             .text("Total Votes:");
+        // svg_pie_msg.append("tspan")
+        //             .attr("x", 0)
+        //             .attr("y", 22)
+        //             .attr("id",'pie_msg_val')
+        //             .text("0");
       }
       var path = svg.selectAll("path")
       .data(pie_instance);
@@ -120,6 +126,57 @@ pie = (function (){
       }
     });
   }
+
+  Donut.prototype.createLegend = function(r){
+    var dis = this;
+    this.obj.each(function (_data) {
+      var svg = d3.select(this).select(".attr-poll > g")
+
+      var legend_xy = r*Math.sin(Math.PI/4); //quadrant
+      var legend_wh = r*2*Math.sin(Math.PI/4); //full h/w we can work with
+      var rect_h = legend_wh/dis.length;
+      var rect_w = 10;
+      var margin = 5;
+      var text_ybump = 0;
+
+      switch(dis.length){
+        case 2:
+          var font_size = 30;
+          break;
+        case 3:
+          var font_size = 24;
+          break;
+        case 4:
+          var font_size = 20;
+          break;
+        case 5:
+          var font_size = 18;
+          text_ybump = 1;
+          break;
+        case 6:
+          var font_size = 14;
+          text_ybump = 2;
+          break;
+      }
+
+      for(var i=0; i<dis.length;i++){
+        svg.append('rect')
+           .attr('x', (-legend_xy))
+           .attr('y', (-legend_xy+rect_h*i+margin/2))
+           .attr('width', rect_w)
+           .attr('height', rect_h-margin)
+           .attr('fill', dis.colors[i+1])
+        svg.append('text')
+           .attr('class', "legend_text")
+           .attr('x', (-legend_xy+rect_w*2)) // just right of color bar
+           .attr('y', (-legend_xy+rect_h*(i)+rect_h/2-margin/2+text_ybump)) // at the top of color bar
+           .attr("text-anchor", "start") //horizontal align to left of text
+           .attr('alignment-baseline', 'central') // vertical align to middle of text
+           .style("font-size", font_size+"px")
+           .text(dis.ctext[i]+' - 100%')
+      }
+    });
+  }
   
   //internal vars here
   var donut = {
@@ -146,13 +203,13 @@ function getAttrPolls(_uid){
 //trigger poll update
 socket.on('setAttrPolls', function (_poll) {
   //add initial grey ddd and also add # for hex colors
-  var tmp = _poll.c_hex;
-  tmp.unshift('ddd');
-  for(var i=0; i<tmp.length; i++){
-    tmp[i] = "#"+tmp[i];
+  var choices = {'colors':_poll.c_hex, 'ctext': _poll.c_text};
+  choices.colors.unshift('ddd');
+  for(var i=0; i<choices.colors.length; i++){
+    choices.colors[i] = "#"+choices.colors[i];
   }
   attrPolls[_poll.p_id] = pie.init(".attr-wrap", _poll.p_id, _poll.c_total);
-  attrPolls[_poll.p_id].create(innerRadius, outerRadius, pieW, pieH, tmp);
+  attrPolls[_poll.p_id].create(innerRadius, outerRadius, pieW, pieH, choices);
   attrPolls[_poll.p_id].update(_poll.c_total);
 });
 socket.on('updateAttrPolls', function (_d) {
