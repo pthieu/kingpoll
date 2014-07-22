@@ -1,0 +1,28 @@
+{
+  "name": "KingPoll",
+  "version": "0.1.0",
+  "authors": [
+    "PGT"
+  ],
+  "description": "Question everything.",
+  "main": "app.js",
+  "moduleType": [
+    "node"
+  ],
+  "keywords": [
+    "kingpoll"
+  ],
+  "homepage": "http://www.kingpoll.com",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/js/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "fingerprint": "~0.5.3"
+  }
+}
