@@ -77,6 +77,21 @@
   display:inline-block;
 }
 
+.account .table {
+  width: 90%;
+}
+
+.account .table * {
+  font-size: 1rem;
+}
+
+.account .poll .btn {
+  font-weight: bold;
+  background-color: transparent;
+  color: #555;
+  margin-right: 1rem;
+}
+
 @media all and (min-width: 767px) and (max-width: 1175px) {
   .account .tabs {
     width: 65%;

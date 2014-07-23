@@ -16,14 +16,14 @@ var uplList = [
   ];
 
 var createAttrPolls = function(_uid){
-  var u_id;
-  if(typeof u_id == 'string'){
+  var u_id = _uid;
+  /*if(typeof u_id == 'string'){
     //convert to objectid if string
     u_id = mongoose.Types.ObjectId(_uid);
   }
   else {
     u_id = _uid;
-  }
+  }*/
   for(var i=0; i<uplList.length; i++){
     createPoll(u_id, uplList[i].p_q, uplList[i].c_text, uplList[i].c_hex);
   }
@@ -31,7 +31,7 @@ var createAttrPolls = function(_uid){
 
 var createPoll = function (_uid, p_q, c_text, c_hex){
   var new_pid = mongoose.Types.ObjectId();
-  var new_uid = (!!_uid) ? _uid : mongoose.Types.ObjectId();
+  var new_uid = _uid;
   var newpoll = new Poll({
     _id: new_pid,
     't_created': new_pid.getTimestamp(),
@@ -83,7 +83,7 @@ var createUPL = function(_uid, _pid, _type){
 }
 
 var setAttrPolls = function(_uid, client, io, loggedin) {
-  UPL.find({'u_id':mongoose.Types.ObjectId(_uid), 'type':'kingpoll_attr'}, function (err, _upls) {
+  UPL.find({'u_id':_uid, 'type':'kingpoll_attr'}, function (err, _upls) {
     _upls.forEach(function (_upl) {
       Poll.findOne({'_id': _upl.p_id},  function (err, _poll) {
         if (err){

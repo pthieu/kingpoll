@@ -9,20 +9,20 @@
       <img src="http://dummyimage.com/150x200/000/fff" alt="display picture">
     </div>
     <div class='personal-info'>
-      <h5>Name: [Real Name | Private]</h5>
-      <h5>Username: [ Real | Anonymous ID]</h5>
-      <h5>Location: [loc | Private]</h5>
+      <h5>Name: {{#if user.u_name}} {{user.u_name}} {{else}} [Private] {{/if}}</h5>
+      <h5>Username: {{#if user.u_id}} {{user.u_id}} {{else}} [Private] {{/if}}</h5>
+      <h5>Location: {{#if user.u_loc}} {{user.u_loc}} {{else}} [Private] {{/if}}</h5>
     </div>
     <div class="stats-wrap">
       <!-- user statistics -->
       <h2>Statistics</h2>
       <div class="stats-info">
-        <h4>Total votes:</h4>
+        <h4>Total votes: {{voteslength}}</h4>
         <h4 data-pid='1'>Longest vote time:</h4>
         <h4 data-pid='2'>Shortest vote time:</h4>
         <h4>Avg. vote time:</h4>
         <h4>Total vote time:</h4>
-        <h4>Polls created:</h4>
+        <h4>Polls created: {{pollslength}}</h4>
       </div>
     </div>
   </div>
@@ -46,11 +46,30 @@
       <div class="tab-button" data-index="polls-wrap"><h2>User's Polls</h2></div>
       <div class="polls-wrap tab-content">
         <!-- user generated polls -->
-        <ul>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <td></td>
+              <td><b>Question</b></td>
+              <td><b>Votes</b></td>
+            </tr>
+          </thead>
+          <tbody id='polls-wrap'>
+            {{#each polls}} 
+            <tr class="poll" poll-id='{{p_id}}'>
+              <td class="extras"></td>
+              <td>{{p_q}}</td>
+              <td>{{p_total}}</td>
+              <td><a href="/p/{{p_id}}" class="btn btn-default btn-xs">Vote!</a></td>
+            </tr>
+            {{/each}}
+          </tbody>
+        </table>
+        <!-- <ul>
           {{#each polls}} 
-            <li><a href="/p/{{p_id}}">{{p_q}}</a></li>
+            <li><div>{{p_q}}<a href="/p/{{p_id}}">View</a></div></li>
           {{/each}}
-        </ul>
+        </ul> -->
       </div>
     </div>
   </div>
