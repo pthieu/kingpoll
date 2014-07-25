@@ -75,14 +75,18 @@
 
 .account .pie-wrap{
   display:inline-block;
+  margin: 0px 2px 0 2px;
 }
 
 .account .table {
-  width: 90%;
+  width:100%;
+  text-align: center;
 }
 
 .account .table * {
   font-size: 1rem;
+  vertical-align: middle;
+  line-height: 1rem;
 }
 
 .account .poll .btn {
@@ -90,6 +94,25 @@
   background-color: transparent;
   color: #555;
   margin-right: 1rem;
+}
+
+.account .legend-color{
+  display: inline-block;
+  height: 22px;
+  width: 15px;
+  margin: 1px 5px 1px 0;
+}
+.account .legend-text{
+  text-align: left;
+}
+
+.account .pie-wrap tspan{
+  font-size:1.4rem;
+  /*color:inherit;*/
+}
+
+.account .tr{
+  margin-bottom:2px;
 }
 
 @media all and (min-width: 767px) and (max-width: 1175px) {
