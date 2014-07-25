@@ -135,9 +135,9 @@ pie = (function (){
   Donut.prototype.createLegend = function(r1, r2){
     var dis = this;
     var legend = '<div class="legend table">';
-    for(var i=1; i<dis.length;i++){
+    for(var i=0; i<dis.length;i++){
       legend += '<div class="legend-element tr">'
-             + '<div class="td"><div class="legend-color" style="background-color:'+dis.colors[i]+'"></div></div>'
+             + '<div class="td"><div class="legend-color" style="background-color:'+dis.colors[i+1]+'"></div></div>'
              + '<div class="td legend-text">'+dis.ctext[i];
       legend += '</div></div>';
     }
