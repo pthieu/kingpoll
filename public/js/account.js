@@ -141,7 +141,7 @@ pie = (function (){
     var piechart = $('[data-pid='+dis.pid+']');
     piechart.find('.vote_arc').off('hover'); //remove hover event handlers before so it doesn't lag
     piechart.find('.vote_arc').hover(function () {
-      if ($(this).attr('value') >= 0){
+      if ($(this).attr('value') > 0){
         var g_wrap = $(this).parent();
           g_wrap.find('.pieTotalBG').attr("fill", $(this).attr('fill'));
           g_wrap.find("text").css("fill","#fff");
@@ -150,7 +150,7 @@ pie = (function (){
       }
     }, function (){
       var g_wrap = $(this).parent();
-      if ($(this).attr('value') >= 0) {
+      if ($(this).attr('value') > 0) {
           g_wrap.find('.pieTotalBG').attr("fill", "none");
           g_wrap.find('text').css("fill", $('body').css('color'));
           g_wrap.find('.pie_msg_title').text('Total Votes');

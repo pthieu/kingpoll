@@ -6,14 +6,16 @@ var UPL  = require('mongoose').model( 'upl' );
 var help = require('./help.js');
 var shortid = require('shortid');
 
-var c = {red:'e74c3c', orange:'e67e22', yellow:'e1c42f', green:'2ecc51', blue:'3498db', purple:'9b59b6', black:'34495e'};
-var uplList = [
-    {p_q: "Creative or Logical", c_text:['Creative', 'Logical'], c_hex:[c['red'], c['blue']]},
-    {p_q: "One vs Two vs Three", c_text:['One', 'Two', 'Three'], c_hex:[c['red'], c['blue'], c['green']]},
-    {p_q: "One vs Two vs Three vs Four", c_text:['One', 'Two', 'Three', 'Four'], c_hex:[c['red'], c['blue'], c['green'], c['purple']]},
-    {p_q: "One vs Two vs Three vs Four vs Five", c_text:['One', 'Two', 'Three', 'Four', 'Five'], c_hex:[c['red'], c['blue'], c['green'], c['purple'], c['orange']]},
-    {p_q: "One vs Two vs Three vs Four vs Five vs Six", c_text:['One', 'Two', 'Three', 'Four', 'Five', 'Six'], c_hex:[c['red'], c['blue'], c['green'], c['purple'], c['orange'], c['black']]},
-  ];
+var uplList = require('../uplPollIdeas.js');
+
+// var c = {red:'e74c3c', orange:'e67e22', yellow:'e1c42f', green:'2ecc51', blue:'3498db', purple:'9b59b6', black:'34495e'};
+// var uplList = [
+//     {p_q: "Creative or Logical", c_text:['Creative', 'Logical'], c_hex:[c['red'], c['blue']]},
+//     {p_q: "One vs Two vs Three", c_text:['One', 'Two', 'Three'], c_hex:[c['red'], c['blue'], c['green']]},
+//     {p_q: "One vs Two vs Three vs Four", c_text:['One', 'Two', 'Three', 'Four'], c_hex:[c['red'], c['blue'], c['green'], c['purple']]},
+//     {p_q: "One vs Two vs Three vs Four vs Five", c_text:['One', 'Two', 'Three', 'Four', 'Five'], c_hex:[c['red'], c['blue'], c['green'], c['purple'], c['orange']]},
+//     {p_q: "One vs Two vs Three vs Four vs Five vs Six", c_text:['One', 'Two', 'Three', 'Four', 'Five', 'Six'], c_hex:[c['red'], c['blue'], c['green'], c['purple'], c['orange'], c['black']]},
+//   ];
 
 var createAttrPolls = function(_uid){
   var u_id = _uid;

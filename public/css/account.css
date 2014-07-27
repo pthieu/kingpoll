@@ -32,10 +32,9 @@
 }
 
 .account .tabs {
-  float: left;
+  float: right;
   width: 78%;
   margin-top: 10px;
-  position: absolute;
   right: 0;
 }
 
