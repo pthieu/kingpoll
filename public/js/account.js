@@ -29,12 +29,14 @@ $(function () {
 });
 
 pie = (function (){
-  function Donut(_sel, _pid){
-    this.obj = _sel;
-    this.pid = _pid;
-    this.colors = [];
-    this.ctext = [];
-    this.length;
+  function Donut(_sel, _pid, _ctotal, _ptotal){
+    this.obj = _sel; //Donut Chart SVG object
+    this.pid = _pid; //poll id
+    this.colors = []; //colors
+    this.ctext = []; //choice text
+    this.ctotal = _ctotal; //total votes in each choice text
+    this.total = _ptotal; //total votes together
+    this.length; // length of choices
   }
 
   Donut.prototype.update = function(_ctotal){
@@ -45,6 +47,8 @@ pie = (function (){
     }
     _ctotal.unshift((total>0)?0:1);
     //add data at the beginning for grey circle or no circle
+    this.total = total;
+    this.ctotal = _ctotal;
     this.obj.datum(_ctotal).transition();
     this.create(innerRadius, outerRadius, pieW, pieH, {'colors':this.colors, 'text':this.text});
   };
@@ -74,10 +78,11 @@ pie = (function (){
         .attr("height", h)
         .append("g")
         .attr("transform", "translate(" + w / 2 + "," + r2 + ")")
-        .attr("class","upl_piechart");
+        .attr("class","piechart");
 
         dis.createLegend(r1,r2);
 
+//create middle circle
         var svg_pie_bg = svg.append("circle")
         .attr("cx", 0)
         .attr("cy", 0)
@@ -97,8 +102,10 @@ pie = (function (){
                     .attr("y", 28)
                     .attr("class",'pie_msg_val')
                     .attr("text-anchor", "middle")
-                    .text("0");
+                    .text(dis.total);
       }
+
+//create arcs      
       var path = svg.selectAll("path")
       .data(pie_instance);
       path.enter().append("path")
@@ -111,7 +118,7 @@ pie = (function (){
       })
       .attr("class", "vote_arc")
       .attr("value", function(d,i) {
-        return (i-1);
+        return (i);
       });;
 
       path.transition()
@@ -128,6 +135,26 @@ pie = (function (){
         return function (t) {
           return arc(i(t));
         };
+      }
+    });
+//apply hover state after all arcs are created
+    var piechart = $('[data-pid='+dis.pid+']');
+    piechart.find('.vote_arc').off('hover'); //remove hover event handlers before so it doesn't lag
+    piechart.find('.vote_arc').hover(function () {
+      if ($(this).attr('value') >= 0){
+        var g_wrap = $(this).parent();
+          g_wrap.find('.pieTotalBG').attr("fill", $(this).attr('fill'));
+          g_wrap.find("text").css("fill","#fff");
+          g_wrap.find('.pie_msg_title').text(Math.floor(dis.ctotal[$(this).attr('value')]/dis.total*10000)/100+"%");
+          g_wrap.find('.pie_msg_val').text(dis.ctotal[$(this).attr('value')]);
+      }
+    }, function (){
+      var g_wrap = $(this).parent();
+      if ($(this).attr('value') >= 0) {
+          g_wrap.find('.pieTotalBG').attr("fill", "none");
+          g_wrap.find('text').css("fill", $('body').css('color'));
+          g_wrap.find('.pie_msg_title').text('Total Votes');
+          g_wrap.find('.pie_msg_val').text(dis.total);
       }
     });
   }
@@ -196,7 +223,7 @@ pie = (function (){
   
   //internal vars here
   var donut = {
-    init: function(_sel, _uid, _ctotal){
+    init: function(_sel, _uid, _ctotal, _ptotal){
       //make data skeleton to create arcs on pie chart
       var tmp = [];
       for(var i=0; i<_ctotal.length; i++){
@@ -204,7 +231,7 @@ pie = (function (){
       }
       tmp.unshift(1);
       $(_sel).append('<div class="pie-wrap" data-pid="'+_uid+'" style="max-width:'+pieW+'px"><svg class="attr-poll"></svg></div>')
-      return new Donut(d3.select('.pie-wrap[data-pid="'+_uid+'"]').datum(tmp), _uid);
+      return new Donut(d3.select('.pie-wrap[data-pid="'+_uid+'"]').datum(tmp), _uid, _ctotal, _ptotal);
     }
   }
   return donut;
@@ -224,7 +251,7 @@ socket.on('setAttrPolls', function (_poll) {
   for(var i=0; i<choices.colors.length; i++){
     choices.colors[i] = "#"+choices.colors[i];
   }
-  attrPolls[_poll.p_id] = pie.init(".attr-wrap", _poll.p_id, _poll.c_total);
+  attrPolls[_poll.p_id] = pie.init(".attr-wrap", _poll.p_id, _poll.c_total, _poll.p_total);
   attrPolls[_poll.p_id].create(innerRadius, outerRadius, pieW, pieH, choices);
   attrPolls[_poll.p_id].update(_poll.c_total);
 });
