@@ -139,7 +139,7 @@ h1{
   font-weight: bold;
   font-size:36px;
 }
-#wrapper .shift-top{
+.landing .shift-top{
   margin-top:1rem;
   margin-bottom:2rem;
 }
@@ -312,13 +312,14 @@ h1{
 }
 @media screen and (max-width: 992px){
   .landing .shift-top{
+    margin-top:-1rem;
     padding:0;
   }
   #imgLogo{
     top:-16.5rem;
   }
   .landing #branding{
-    background: url("/images/kingpoll_347x270_666.png") no-repeat center;
+    background: url("/images/kingpoll_347x270_white.png") no-repeat center;
     background-size:contain;
     height:200px;
     margin-top:4rem;
@@ -326,8 +327,6 @@ h1{
   .landing .hero{
     background-color: #fff;
   }
-}
-@media screen and (max-width: 992px){
   .banner-wrap{
     display:none;
   }
@@ -335,10 +334,17 @@ h1{
     font-family: 'Gloria Hallelujah', cursive;
     font-size:16px;
     display:inline-block;
+    color:#ffffff;
   }
 }
 @media screen and (min-width: 992px){
   .version-label{
     display:none;
+  }
+}
+
+@media screen and (max-width: 767px){
+  .landing h2{
+    margin-top:10px;
   }
 }
