@@ -7,9 +7,6 @@ var pieH = 200;
 var dur = 300;
 
 var donuts;
-var pie_colors = ['#ddd','#e74c3c','#e67e22','#e1c42f','#2ecc51','#3498db','#9b59b6','#34495e'];
-var tmp = {val:[0,2,6,8], hex:['#aaa','#f00']};
-
 var attrPolls = {};
 
 //DOM READY
@@ -23,7 +20,6 @@ $(function () {
   $('.test').on('click', function () {
     socket.emit('createAttrPolls', uid);
   });
-
   setTabs();
   $('[data-index=attr-wrap]').click();
 });
@@ -170,67 +166,18 @@ pie = (function (){
     }
     legend += '</div>';
     $('[data-pid='+dis.pid+']').append(legend);
-    // this.obj.each(function (_data) {
-    //   var svg = d3.select(this).select(".attr-poll > g")
-
-    //   var legend_xy = r1*Math.sin(Math.PI/4); //quadrant
-    //   var legend_wh = r1*2*Math.sin(Math.PI/4); //full h/w we can work with
-    //   var y_disp = 2*r2-legend_xy;
-    //   var rect_h = legend_wh/dis.length;
-    //   var rect_w = 10;
-    //   var margin = 5;
-    //   var text_ybump = 0;
-
-    //   switch(dis.length){
-    //     case 2:
-    //       var font_size = 30;
-    //       break;
-    //     case 3:
-    //       var font_size = 24;
-    //       break;
-    //     case 4:
-    //       var font_size = 20;
-    //       break;
-    //     case 5:
-    //       var font_size = 18;
-    //       text_ybump = 1;
-    //       break;
-    //     case 6:
-    //       var font_size = 14;
-    //       text_ybump = 2;
-    //       break;
-    //   }
-
-    //   for(var i=0; i<dis.length;i++){
-    //     svg.append('rect')
-    //        .attr('x', (-2*legend_xy))
-    //        .attr('y', (-legend_xy+rect_h*i+margin/2 + y_disp))
-    //        .attr('width', rect_w)
-    //        .attr('height', rect_h-margin)
-    //        .attr('fill', dis.colors[i+1])
-    //     svg.append('text')
-    //        .attr('class', "legend_text")
-    //        .attr('width', rect_w)
-    //        .attr('x', (-legend_xy+rect_w*2)) // just right of color bar
-    //        .attr('y', (-legend_xy+rect_h*(i)+rect_h/2-margin/2+text_ybump)) // at the top of color bar
-    //        .attr("text-anchor", "start") //horizontal align to left of text
-    //        .attr('alignment-baseline', 'central') // vertical align to middle of text
-    //        .style("font-size", font_size+"px")
-    //        .text(dis.ctext[i]+' - 100%')
-    //   }
-    // });
   }
   
   //internal vars here
   var donut = {
-    init: function(_sel, _uid, _ctotal, _ptotal){
+    init: function(_sel, _uid, _ctotal, _ptotal, _ptitle){
       //make data skeleton to create arcs on pie chart
       var tmp = [];
       for(var i=0; i<_ctotal.length; i++){
         tmp.push(0);
       }
       tmp.unshift(1);
-      $(_sel).append('<div class="pie-wrap" data-pid="'+_uid+'" style="max-width:'+pieW+'px"><svg class="attr-poll"></svg></div>')
+      $(_sel).append('<div class="pie-wrap" data-pid="'+_uid+'"><div class="ptitle">'+_ptitle+'</div><svg class="attr-poll"></svg></div>')
       return new Donut(d3.select('.pie-wrap[data-pid="'+_uid+'"]').datum(tmp), _uid, _ctotal, _ptotal);
     }
   }
@@ -251,7 +198,7 @@ socket.on('setAttrPolls', function (_poll) {
   for(var i=0; i<choices.colors.length; i++){
     choices.colors[i] = "#"+choices.colors[i];
   }
-  attrPolls[_poll.p_id] = pie.init(".attr-wrap", _poll.p_id, _poll.c_total, _poll.p_total);
+  attrPolls[_poll.p_id] = pie.init(".attr-wrap", _poll.p_id, _poll.c_total, _poll.p_total, _poll.p_q);
   attrPolls[_poll.p_id].create(innerRadius, outerRadius, pieW, pieH, choices);
   attrPolls[_poll.p_id].update(_poll.c_total);
 });
