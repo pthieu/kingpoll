@@ -11,6 +11,9 @@ var load_npolls = 20;
 var sorttype = "newest";
 
 $(document).ready(function(){
+    $('.hero').css({'background-color': '#'+solocolor});
+    $('.banner-wrap *, .banner-wrap .banner:before, .banner-wrap .banner:after').css({'border-color': '#'+solocolor,
+        'color': '#'+solocolor});
     socket.emit('joinlanding');
 
     // var temp3 = ($(window).height() - 286) / 35;
