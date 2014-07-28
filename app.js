@@ -264,11 +264,11 @@ io.sockets.on('connection', function (client) {
         socket.getValidationList(data, client, io);
     });
     
-    client.on('createAttrPolls', function (_uid) {
-        user_polls_helper.createAttrPolls(_uid);
+    client.on('createAttrPolls', function (_uid, _type) {
+        user_polls_helper.createAttrPolls(_uid, _type);
     });
-    client.on('getAttrPolls', function (_uid) {
-        user_polls_helper.setAttrPolls(_uid, client, io);
+    client.on('getAttrPolls', function (_uid, _type) {
+        user_polls_helper.setAttrPolls(_uid, _type, client, io);
     });
     client.on('disconnect', function (iploc) {
         client.leave(pollid);

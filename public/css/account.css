@@ -81,7 +81,7 @@
 .account .pie-wrap{
   display:inline-block;
   margin: 10px;
-  max-width: 300px;
+  width: 300px;
 }
 
 .account .table {

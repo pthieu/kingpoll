@@ -8,16 +8,20 @@ var shortid = require('shortid');
 
 var uplList = require('../uplPollIdeas.js');
 
-// var c = {red:'e74c3c', orange:'e67e22', yellow:'e1c42f', green:'2ecc51', blue:'3498db', purple:'9b59b6', black:'34495e'};
-// var uplList = [
-//     {p_q: "Creative or Logical", c_text:['Creative', 'Logical'], c_hex:[c['red'], c['blue']]},
-//     {p_q: "One vs Two vs Three", c_text:['One', 'Two', 'Three'], c_hex:[c['red'], c['blue'], c['green']]},
-//     {p_q: "One vs Two vs Three vs Four", c_text:['One', 'Two', 'Three', 'Four'], c_hex:[c['red'], c['blue'], c['green'], c['purple']]},
-//     {p_q: "One vs Two vs Three vs Four vs Five", c_text:['One', 'Two', 'Three', 'Four', 'Five'], c_hex:[c['red'], c['blue'], c['green'], c['purple'], c['orange']]},
-//     {p_q: "One vs Two vs Three vs Four vs Five vs Six", c_text:['One', 'Two', 'Three', 'Four', 'Five', 'Six'], c_hex:[c['red'], c['blue'], c['green'], c['purple'], c['orange'], c['black']]},
-//   ];
+var c2 = {red:'e74c3c', orange:'e67e22', yellow:'e1c42f', green:'2ecc51', blue:'3498db', purple:'9b59b6', black:'34495e'};
+var uplList2 = [
+    {p_q: "Creative or Logical", c_text:['Creative', 'Logical'], c_hex:[c2['red'], c2['blue']]},
+    {p_q: "One vs Two vs Three", c_text:['One', 'Two', 'Three'], c_hex:[c2['red'], c2['blue'], c2['green']]},
+    {p_q: "One vs Two vs Three vs Four", c_text:['One', 'Two', 'Three', 'Four'], c_hex:[c2['red'], c2['blue'], c2['green'], c2['purple']]},
+    {p_q: "One vs Two vs Three vs Four vs Five", c_text:['One', 'Two', 'Three', 'Four', 'Five'], c_hex:[c2['red'], c2['blue'], c2['green'], c2['purple'], c2['orange']]},
+    {p_q: "One vs Two vs Three vs Four vs Five vs Six", c_text:['One', 'Two', 'Three', 'Four', 'Five', 'Six'], c_hex:[c2['red'], c2['blue'], c2['green'], c2['purple'], c2['orange'], c2['black']]},
+  ];
 
-var createAttrPolls = function(_uid){
+var createAttrPolls = function(_uid, _type){
+  //TEMPORARY CODE to simulate user's creating polls about other users
+  uplList = (_type == 0)?uplList:uplList2;
+  //END TEMPORARY CODE
+
   var u_id = _uid;
   /*if(typeof u_id == 'string'){
     //convert to objectid if string
@@ -27,11 +31,11 @@ var createAttrPolls = function(_uid){
     u_id = _uid;
   }*/
   for(var i=0; i<uplList.length; i++){
-    createPoll(u_id, uplList[i].p_q, uplList[i].c_text, uplList[i].c_hex);
+    createPoll(u_id, _type, uplList[i].p_q, uplList[i].c_text, uplList[i].c_hex);
   }
 }
 
-var createPoll = function (_uid, p_q, c_text, c_hex){
+var createPoll = function (_uid, _type, p_q, c_text, c_hex){
   var new_pid = mongoose.Types.ObjectId();
   var new_uid = _uid;
   var newpoll = new Poll({
@@ -64,7 +68,9 @@ var createPoll = function (_uid, p_q, c_text, c_hex){
     });
   });
   //create link between user and attr poll
-  createUPL(new_uid, new_pid, 'kingpoll_attr');
+  var tmp = (_type == 0)?'kingpoll_attr':'standard';
+  console.log(tmp)
+  createUPL(new_uid, new_pid, tmp);
 }
 
 var createUPL = function(_uid, _pid, _type){
@@ -84,15 +90,25 @@ var createUPL = function(_uid, _pid, _type){
   });
 }
 
-var setAttrPolls = function(_uid, client, io, loggedin) {
-  UPL.find({'u_id':_uid, 'type':'kingpoll_attr'}, function (err, _upls) {
+var setAttrPolls = function(_uid, _type, client, io) {
+  //type -- 0:kingpoll_attr, 1:standard
+  var type;
+  switch(_type){
+    case 0:
+      type = 'kingpoll_attr';
+      break;
+    case 1:
+      type = 'standard';
+      break;
+  }
+  UPL.find({'u_id':_uid, 'type':type}, function (err, _upls) {
     _upls.forEach(function (_upl) {
       Poll.findOne({'_id': _upl.p_id},  function (err, _poll) {
         if (err){
           console.error(err);
         }
         if(!!_poll){
-          client.emit('setAttrPolls', _poll);
+          client.emit('setAttrPolls', _poll, _type);
         }
       });
     });

@@ -14,19 +14,26 @@ $(function () {
   var uid = window.location.pathname;
   uid = uid.replace(/\/u\//, "");
   
-  socket.emit('getAttrPolls', uid);
+  socket.emit('getAttrPolls', uid, 0);
+  socket.emit('getAttrPolls', uid, 1);
 
   //test click creates attr polls for current user
   $('.test').on('click', function () {
-    socket.emit('createAttrPolls', uid);
+    //create kingpoll_attr polls
+    socket.emit('createAttrPolls', uid, 0);
+  });
+  $('.test2').on('click', function () {
+    //create kingpoll_attr polls
+    socket.emit('createAttrPolls', uid, 1);
   });
   setTabs();
   $('[data-index=attr-wrap]').click();
 });
 
 pie = (function (){
-  function Donut(_sel, _pid, _ctotal, _ptotal){
-    this.obj = _sel; //Donut Chart SVG object
+  function Donut(_sel_wrap, _sel_svg, _pid, _ctotal, _ptotal){
+    this.wrap = _sel_wrap;
+    this.obj = _sel_svg; //Donut Chart SVG object
     this.pid = _pid; //poll id
     this.colors = []; //colors
     this.ctext = []; //choice text
@@ -170,15 +177,15 @@ pie = (function (){
   
   //internal vars here
   var donut = {
-    init: function(_sel, _uid, _ctotal, _ptotal, _ptitle){
+    init: function(_sel, _pid, _ctotal, _ptotal, _ptitle){
       //make data skeleton to create arcs on pie chart
       var tmp = [];
       for(var i=0; i<_ctotal.length; i++){
         tmp.push(0);
       }
       tmp.unshift(1);
-      $(_sel).append('<div class="pie-wrap" data-pid="'+_uid+'"><div class="ptitle">'+_ptitle+'</div><svg class="attr-poll"></svg></div>')
-      return new Donut(d3.select('.pie-wrap[data-pid="'+_uid+'"]').datum(tmp), _uid, _ctotal, _ptotal);
+      $(_sel).append('<div class="pie-wrap" data-pid="'+_pid+'"><div class="ptitle"><a href="/p/'+_pid+'">'+_ptitle+'</a></div><svg class="attr-poll"></svg></div>')
+      return new Donut(_sel, d3.select('.pie-wrap[data-pid="'+_pid+'"]').datum(tmp), _pid, _ctotal, _ptotal);
     }
   }
   return donut;
@@ -187,18 +194,27 @@ pie = (function (){
 //get user info (filtered)
 function getUserInfo(){}
 //get KP standard at tribute polls
-function getAttrPolls(_uid){
-  socket.emit('getAttrPolls', _uid);
+function getAttrPolls(_uid, _type){
+  socket.emit('getAttrPolls', _uid, _type);
 }
 //trigger poll update
-socket.on('setAttrPolls', function (_poll) {
+socket.on('setAttrPolls', function (_poll, _type) {
+  var type_wrap;
+  switch(_type){
+    case 0:
+      type_wrap = '.attr-wrap';
+      break;
+    case 1:
+      type_wrap = '.upl-wrap'
+      break;
+  }
   //add initial grey ddd and also add # for hex colors
   var choices = {'colors':_poll.c_hex, 'ctext': _poll.c_text};
   choices.colors.unshift('ddd');
   for(var i=0; i<choices.colors.length; i++){
     choices.colors[i] = "#"+choices.colors[i];
   }
-  attrPolls[_poll.p_id] = pie.init(".attr-wrap", _poll.p_id, _poll.c_total, _poll.p_total, _poll.p_q);
+  attrPolls[_poll.p_id] = pie.init(type_wrap, _poll.p_id, _poll.c_total, _poll.p_total, _poll.p_q);
   attrPolls[_poll.p_id].create(innerRadius, outerRadius, pieW, pieH, choices);
   attrPolls[_poll.p_id].update(_poll.c_total);
 });
@@ -216,11 +232,11 @@ function setTabs(){
       if (!$(this).hasClass('active')){
         $(".tab-button").removeClass("active");
         $(this).addClass('active');
-        $(".tab-content").slideUp();
-        $("."+tabClicked).slideToggle();
+        $(".tab-content").slideUp('fast');
+        $("."+tabClicked).slideToggle('fast');
       }
       else{
-        $("."+tabClicked).slideToggle();
+        $("."+tabClicked).slideToggle('fast');
         $(this).removeClass('active');
       }
     });
