@@ -16,6 +16,7 @@ $(function () {
   
   socket.emit('getAttrPolls', uid, 0);
   socket.emit('getAttrPolls', uid, 1);
+  socket.emit('getHighlightPolls', uid);
 
   //test click creates attr polls for current user
   $('.test').on('click', function () {
@@ -27,7 +28,7 @@ $(function () {
     socket.emit('createAttrPolls', uid, 1);
   });
   setTabs();
-  $('[data-index=attr-wrap]').click();
+  $('[data-index=highlight-wrap]').click();
 });
 
 pie = (function (){
@@ -208,6 +209,19 @@ socket.on('setAttrPolls', function (_poll, _type) {
       type_wrap = '.upl-wrap'
       break;
   }
+  //add initial grey ddd and also add # for hex colors
+  var choices = {'colors':_poll.c_hex, 'ctext': _poll.c_text};
+  choices.colors.unshift('ddd');
+  for(var i=0; i<choices.colors.length; i++){
+    choices.colors[i] = "#"+choices.colors[i];
+  }
+  attrPolls[_poll.p_id] = pie.init(type_wrap, _poll.p_id, _poll.c_total, _poll.p_total, _poll.p_q);
+  attrPolls[_poll.p_id].create(innerRadius, outerRadius, pieW, pieH, choices);
+  attrPolls[_poll.p_id].update(_poll.c_total);
+});
+//Set the highlighted polls on the profile page
+socket.on('setHighLightPolls', function (_poll) {
+  var type_wrap = '.highlight-wrap';
   //add initial grey ddd and also add # for hex colors
   var choices = {'colors':_poll.c_hex, 'ctext': _poll.c_text};
   choices.colors.unshift('ddd');

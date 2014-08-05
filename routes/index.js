@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var Poll = mongoose.model( 'poll' );
 var User = mongoose.model( 'user' );
 var Vote = mongoose.model( 'vote' );
+var UPL  = mongoose.model( 'upl' );
 var shortid = require('shortid');
 var request = require('request');
 var help = require('../scripts/help.js');
@@ -38,16 +39,34 @@ exports.getpoll = function (req, res) {
     res.sendfile('public/views/poll.html');*/
 
     Poll.findOne({'p_id':req.params.id}, function(err, poll) {
-        // console.log(poll);
-        res.render('poll', {
-            description: poll.p_desc,
-            title: poll.p_q +' - Poll ' + poll.p_id,
-            url: 'http://kingpoll.com/p/' + poll.p_id,
-            pollid: poll.p_id,
-            image: poll.p_image,
-            js_script: '/js/poll.js'
-        });
-    }); 
+        UPL.findOne({'p_id':poll._id}, function (err, _upls) {
+            var highlightbutton;
+            var unhighlightbutton;
+
+            if(req.user && _upls){
+                if(req.user._id == _upls.u_id && poll.p_hl == false){
+                    highlightbutton = true;
+                    unhighlightbutton = false;
+                }
+                if(req.user._id == _upls.u_id && poll.p_hl == true){
+                    highlightbutton = false;
+                    unhighlightbutton = true;
+                }
+
+            }
+
+            res.render('poll', {
+                description: poll.p_desc,
+                title: poll.p_q +' - Poll ' + poll.p_id,
+                url: 'http://kingpoll.com/p/' + poll.p_id,
+                pollid: poll.p_id,
+                image: poll.p_image,
+                highlightbutton: highlightbutton,
+                unhighlightbutton: unhighlightbutton,
+                js_script: '/js/poll.js'
+            });
+        }); 
+    });
 };
 exports.createpoll = function (req, res) {
     res.sendfile('public/views/newpoll.html');

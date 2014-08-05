@@ -115,9 +115,25 @@ var setAttrPolls = function(_uid, _type, client, io) {
   });
 }
 
+var setHighlightPolls = function(_uid, client) {
+  UPL.find({'u_id':_uid}, function (err, _upls) {
+    _upls.forEach(function (_upl) {
+      Poll.findOne({'_id': _upl.p_id, 'p_hl': true},  function (err, _poll) {
+        if (err){
+          console.error(err);
+        }
+        if(!!_poll){
+          client.emit('setHighLightPolls', _poll);
+        }
+      });
+    });
+  });
+}
+
 module.exports = {
     'createAttrPolls': createAttrPolls,
     'createPoll': createPoll,
     'createUPL': createUPL,
-    'setAttrPolls': setAttrPolls
+    'setAttrPolls': setAttrPolls,
+    'setHighlightPolls': setHighlightPolls
 }

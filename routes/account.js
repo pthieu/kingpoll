@@ -34,10 +34,12 @@ exports.getOwnAccount = function(req, res) {
       votedisplay['average'] = (average/1000).toFixed(2);
       votedisplay['total'] = (total/1000).toFixed(2);
 
-      Poll.find({'u_id':req.user.u_id}, function (err, polls) {
+      Poll.find({'u_id':req.user._id}, function (err, polls) {
+        console.log(polls);
         res.render('account', 
           { title: req.user.u_id + "'s Info", 
             user: req.user, 
+            showbuttons: true,
             polls: polls, 
             pollslength: polls.length,
             voteslength: votes.length,
@@ -90,6 +92,7 @@ exports.getUserAccount = function(req, res) {
         res.render('account', 
           { title: user.u_id + "'s Info", 
             user: user, 
+            showbuttons: false,
             polls: polls, 
             pollslength: polls.length,
             voteslength: votes.length,

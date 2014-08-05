@@ -103,6 +103,18 @@ $(document).ready(function(){
         $(".voted-popup").removeClass('animated bounceInDown');
     });
 
+    //Highlight/Unhighlight this poll on ur profile page.
+    $("#highlight-button").click(function(){
+        socket.emit('setHighlightPoll', pollid);
+        if($("#highlight-container").hasClass('highlight-button')){
+            $("#highlight-container").addClass('unhighlight-button').removeClass('highlight-button');
+            $("#highlight-button").text('UNHIGHLIGHT');
+        } else {
+            $("#highlight-container").addClass('highlight-button').removeClass('unhighlight-button');
+            $("#highlight-button").text('HIGHLIGHT');
+        }
+    });
+
     // socket.emit('getComments', pollid);
     $('.tbDescription').hover(function () {
         $(this).css({'border-color': "#"+chart_solocolor});

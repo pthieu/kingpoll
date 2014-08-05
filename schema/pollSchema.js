@@ -26,8 +26,9 @@ var pollSchema = new mongoose.Schema({
     'u_email'   : {type:String, default:"anonymous"}, //user id
     'u_loc'     : {type:String}, //origin of poll
     'p_anon'    : {type:Boolean, default:false}, //show user name?
+    'p_hl'      : {type:Boolean, default:false}, //Determine if this is a poll user wants to highlight on their profile page.
     'p_privacy' : {type:Number, default:0}, //0:public/searchable, 1: public/needlink, 2: friends/groups, 3:userauth
-    'c_random'  : {type:Number, default:0}, //number of times user clicked random colors
+    'c_random'  : {type:Number, default:0}, //number of times user clicked ranfdom colors
     'p_cred'    : {type:Number, default:100}, // credibility %. hidden.
     's_ttotal'  : {type:Number, default:0}, // average time
     'data':{

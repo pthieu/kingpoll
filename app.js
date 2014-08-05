@@ -265,10 +265,36 @@ io.sockets.on('connection', function (client) {
     });
     
     client.on('createAttrPolls', function (_uid, _type) {
+        if (client.handshake.user.logged_in){
+            _uid = client.handshake.user._id;
+        }
         user_polls_helper.createAttrPolls(_uid, _type);
     });
     client.on('getAttrPolls', function (_uid, _type) {
-        user_polls_helper.setAttrPolls(_uid, _type, client, io);
+        console.log(_uid);
+        if (client.handshake.user.logged_in && _uid == "/u"){
+            _uid = client.handshake.user._id;
+            user_polls_helper.setAttrPolls(_uid, _type, client, io);
+        } else {
+            User.findOne({'u_id':_uid}, function (err, user) {
+                if(user){
+                    user_polls_helper.setAttrPolls(user._id, _type, client, io);
+                }
+            });
+        }      
+    });
+    client.on('getHighlightPolls', function (_uid) {
+        console.log(_uid);
+        if (client.handshake.user.logged_in && _uid == "/u"){
+            _uid = client.handshake.user._id;
+            user_polls_helper.setHighlightPolls(_uid, client);
+        } else {
+            User.findOne({'u_id':_uid}, function (err, user) {
+                if(user){
+                    user_polls_helper.setHighlightPolls(user._id, client);
+                }
+            });
+        }      
     });
     client.on('disconnect', function (iploc) {
         client.leave(pollid);
@@ -330,6 +356,24 @@ io.sockets.on('connection', function (client) {
             } else {
                 //io.sockets.in(poll.p_id).emit('commentAdded', comment);
                 client.emit('addCommentResult', JSON.stringify(comment));
+            }
+        });
+    });
+    client.on('setHighlightPoll', function(pollId) {
+        Poll.findOne({'p_id':pollId}, function(err, poll) {
+            console.log('pew')
+            if (err) return console.error(err);
+            if(poll){
+                console.log('pewpew')
+                var highlight;
+                if(poll.p_hl == true){
+                    console.log('pewpewtrue')
+                    highlight = false;
+                } else { 
+                    console.log('pewpewfalse')
+                    highlight = true;
+                }
+                Poll.update({p_id:pollId}, {p_hl: highlight}, function (err, n, raw) {});
             }
         });
     });

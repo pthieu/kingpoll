@@ -18,32 +18,41 @@
       <h2>Statistics</h2>
       <div class="stats-info">
         <h4>Total votes: {{voteslength}}</h4>
-        <h4 data-pid='1'>Longest vote time: {{votedisplay.longest}}</h4>
-        <h4 data-pid='2'>Shortest vote time: {{votedisplay.shortest}}</h4>
-        <h4>Avg. vote time: {{votedisplay.average}}</h4>
-        <h4>Total vote time: {{votedisplay.total}}</h4>
-        <h4>Polls created: {{pollslength}}</h4>
+        <h4 data-pid='1'>Longest vote time: {{votedisplay.longest}}s</h4>
+        <h4 data-pid='2'>Shortest vote time: {{votedisplay.shortest}}s</h4>
+        <h4>Avg. vote time: {{votedisplay.average}}s</h4>
+        <h4>Total vote time: {{votedisplay.total}}s</h4>
+        <h4>Polls created: {{pollslength}}s</h4>
       </div>
     </div>
   </div>
   <div class="tabs">
     <div class="tab-container">
-      <div class="tab-button" data-index="attr-wrap"><h2>Attributes</h2></div>
+      <div class="tab-button" data-index="highlight-wrap" title="Click to expanding or collapse"><h2>Highlighted Polls</h2></div>
+      <div class="highlight-wrap tab-content">
+        <!-- highlighted polls section -->
+        <p>This is where the highlighted polls will show up</p>
+      </div>
+    </div>
+    <div class="tab-container">
+      <div class="tab-button" data-index="attr-wrap" title="Click to expanding or collapse"><h2>Attributes</h2></div>
+      {{#if showbuttons}}
         <button class="test">create attr</button>
         <button class="test2">create upl</button>
+      {{/if}}
       <div class="attr-wrap tab-content">
         <!-- user attr polls section -->
       </div>
     </div>
     <div class="tab-container">
-      <div class="tab-button" data-index="upl-wrap"><h2>Polls About User</h2></div>
+      <div class="tab-button" data-index="upl-wrap" title="Click to expanding or collapse"><h2>Polls About User</h2></div>
       <div class="upl-wrap tab-content">
         <!-- upl polls section -->
         <p>This is where the upl polls will show up</p>
       </div>
     </div>
     <div class="tab-container">
-      <div class="tab-button" data-index="polls-wrap"><h2>User's Polls</h2></div>
+      <div class="tab-button" data-index="polls-wrap" title="Click to expanding or collapse"><h2>User's Polls</h2></div>
       <div class="polls-wrap tab-content">
         <!-- user generated polls -->
         <table class="table table-striped">

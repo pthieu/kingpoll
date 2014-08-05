@@ -41,6 +41,20 @@ window.fbAsyncInit = function() {
                             COMMENT
                         </a>
                     </li>
+                    {{#if highlightbutton}}
+                    <li  id="highlight-container" class="highlight-button td">
+                        <a id="highlight-button">
+                            HIGHLIGHT
+                        </a>
+                    </li>
+                    {{/if}}
+                    {{#if unhighlightbutton}}
+                    <li id="highlight-container" class="unhighlight-button td">
+                        <a id="highlight-button">
+                            UNHIGHLIGHT
+                        </a>
+                    </li>
+                    {{/if}}
                 </ul>
             </div>
         </div>

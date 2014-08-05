@@ -259,23 +259,32 @@ svg path:hover{
 .share-buttons ul li{
   display:inline-block;
 }
-#comment-button {
+#comment-button, #highlight-button {
   color: white;
   padding: 20px 10px;
   font-size: 15px;
   font-weight: bold;
   font-family: arial;
+  cursor: pointer;
 }
 .comment-button {
   background-color: orange;
   padding: 5px 0 4px;
 }
-.comment-button a:hover {
+.highlight-button {
+  background-color: green;
+  padding: 5px 0 4px;
+}
+.unhighlight-button {
+  background-color: lightgreen;
+  padding: 5px 0 4px;
+}
+.comment-button a:hover, #highlight-container a:hover {
   text-decoration: none;
 }
 .table{
   display:table;
-  width:250px;
+  width:350px;
   margin:auto;
 }
 .td{

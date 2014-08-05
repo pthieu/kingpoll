@@ -68,7 +68,7 @@
   list-style-type: none;
 }
 
-.account .dp{
+.account .dp, .account .personal-info{
 	padding-left:2rem;
 }
 
