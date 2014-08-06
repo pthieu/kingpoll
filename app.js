@@ -180,7 +180,7 @@ io.sockets.on('connection', function (client) {
     var pollid;
     client.on('getRandPoll', function (pollpage) {
         Poll.count( function(err,count) {
-            Poll.find({},{},{limit: 1, skip: Math.floor((Math.random()*(count)))}, function(err, poll) {
+            Poll.find({$not:/kingpoll_attr/i},{},{limit: 1, skip: Math.floor((Math.random()*(count)))}, function(err, poll) {
                 if (err) return console.error(err);
                 if (pollpage) {
                     (pollid == poll[0].p_id) ? null : client.leave(pollid);
