@@ -69,7 +69,6 @@ var createPoll = function (_uid, _type, p_q, c_text, c_hex){
   });
   //create link between user and attr poll
   var tmp = (_type == 0)?'kingpoll_attr':'standard';
-  console.log(tmp)
   createUPL(new_uid, new_pid, tmp);
 }
 
@@ -77,7 +76,7 @@ var createUPL = function(_uid, _pid, _type){
   var newupl = new UPL({
     _id: mongoose.Types.ObjectId(),
     'p_id': _pid,
-    'u_id': _uid,
+    'u_id': mongoose.Types.ObjectId(_uid),
     'type': _type
   });
   newupl.save(function (err, upl, count) {

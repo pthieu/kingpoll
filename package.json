@@ -11,7 +11,7 @@
     "express-validator": "~1.0.1",
     "express3-handlebars": "*",
     "mongoose": "~3.8.4",
-    "mongoose-text-search": "0.0.2",
+    "mongoose-text-search": "latest",
     "node-uuid": "~1.4.1",
     "nodemailer": "~0.6.0",
     "passport": "~0.1.16",
