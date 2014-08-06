@@ -15,7 +15,7 @@
 .account .personal-wrap, .account .stats-wrap, .account .attr-wrap, .account .upl-wrap, .account .polls-wrap{
 	display:inline-block;
 	text-align: left;
-	min-width: 320px;
+	min-width: 300px;
 }
 
 .account .personal-wrap {
@@ -24,10 +24,11 @@
   margin-top: 10px;
   position: absolute;
   left: 0;
+  max-width:300px;
 }
 
 .account .personal-wrap, .account .stats-wrap {
-  padding-left:2rem;
+  padding-left:1rem;
 }
 
 .account .attr-wrap, .account .upl-wrap, .account .polls-wrap{
@@ -73,7 +74,8 @@
 }
 
 .account .dp, .account .personal-info{
-	padding-left:2rem;
+	padding-left:1rem;
+  overflow-wrap: break-word;
 }
 
 .account .ptitle{

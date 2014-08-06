@@ -13,7 +13,6 @@ var attrPolls = {};
 $(function () {
   var uid = window.location.pathname;
   uid = uid.replace(/\/u\//, "");
-  
   socket.emit('getAttrPolls', uid, 0);
   socket.emit('getAttrPolls', uid, 1);
   socket.emit('getHighlightPolls', uid);

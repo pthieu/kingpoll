@@ -66,11 +66,8 @@ exports.getUserAccount = function(req, res) {
       var total = 0;
       var votedisplay = new Array();
       if(votes.length > 0) {
-        console.log(votes);
         votes.forEach( function (vote){
-          console.log(vote);
           total = total + vote.s_vtime;
-          console.log(total);
           if(longest < vote.s_vtime)
             longest = vote.s_vtime;
           if(shortest > vote.s_vtime)
@@ -91,7 +88,7 @@ exports.getUserAccount = function(req, res) {
         res.render('account', 
           { title: user.u_id + "'s Info", 
             user: user, 
-            showbuttons: false,
+            showbuttons: true,
             createUpl: true,
             polls: polls, 
             pollslength: polls.length,

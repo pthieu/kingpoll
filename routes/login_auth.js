@@ -31,13 +31,12 @@ passport.deserializeUser(function(user, done) {
   console.log("deserialize authenticated...");
   if(user.u_thirdParty == "facebook" || user.u_thirdParty == "twitter") {
     User.findOne({u_thirdId: user.u_thirdId}, function (err, fbuser) {
-      if(err) { console.log("error"); }
+      if(err) { console.error(err); }
       done(err, fbuser);
     });
   } else {
     User.findOne({u_id: user.u_id}, function (err, user) {
-      if(err) { console.log("error"); }
-      console.log(user);
+      if(err) { console.error(err); }
       done(err, user);
     });
   }

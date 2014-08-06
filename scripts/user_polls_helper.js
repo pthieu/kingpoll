@@ -69,7 +69,6 @@ var createPoll = function (_uid, _type, p_q, c_text, c_hex){
   });
   //create link between user and attr poll
   var tmp = (_type == 0)?'kingpoll_attr':'standard';
-  console.log(tmp)
   createUPL(new_uid, new_pid, tmp);
 }
 

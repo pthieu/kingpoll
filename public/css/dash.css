@@ -17,6 +17,9 @@
     padding-bottom: 0;
     border:1px #fff solid;
 }
+.dropdown-menu li:last-child{
+    margin-bottom:3px;
+}
 #dash .dropdown-toggle:hover .caret{
     background-color:#fff;
     color:#555;

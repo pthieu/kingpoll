@@ -173,8 +173,6 @@ setInterval(function () {
 
 //Listen for incoming connections from clients
 io.sockets.on('connection', function (client) {
-    // console.log("Socket io connection");
-    //console.log(socket.handshake.user.username);
     client.on('joinlanding', function () {
         client.join('landing');
         console.log(io.sockets.manager.rooms);
@@ -199,7 +197,7 @@ io.sockets.on('connection', function (client) {
     //get list of all the available polls and display to user
     client.on('getlistpoll', function (limit, skip, sort) {
         console.log("Socket io connection");
-        console.log(client.handshake);
+        // console.log(client.handshake);
         //console.log(socket.handshake.user.username);
         switch(sort){
             case 'newest':
@@ -285,7 +283,6 @@ io.sockets.on('connection', function (client) {
         }      
     });
     client.on('getHighlightPolls', function (_uid) {
-        console.log(_uid);
         if (client.handshake.user.logged_in && _uid == "/u"){
             _uid = client.handshake.user._id;
             user_polls_helper.setHighlightPolls(_uid, client);
@@ -303,11 +300,9 @@ io.sockets.on('connection', function (client) {
     });
     client.on('getAuth', function () {
         console.log('auth start');
-        console.log(client.handshake.user);
+        // console.log(client.handshake.user);
         if (client.handshake.user.logged_in){
-
             var user = {'id':client.handshake.user.u_id.toString(), 'email':client.handshake.user.u_email};
-
             if(client.handshake.user.u_thirdParty){
                 switch(client.handshake.user.u_thirdParty){
                     case 'facebook':
@@ -326,7 +321,6 @@ io.sockets.on('connection', function (client) {
         } else {
             client.emit('authStatus', client.handshake.user.logged_in, null);
         }
-        console.log('auth end');
     });
     client.on('getComments', function (pollId) {
         console.log("Getting comments for pollId: " + pollId);

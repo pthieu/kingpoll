@@ -6,6 +6,7 @@ var UPL  = mongoose.model( 'upl' );
 var shortid = require('shortid');
 var request = require('request');
 var help = require('../scripts/help.js');
+var user_polls_helper = require('../scripts/user_polls_helper.js');
 var email = require('../scripts/email.js');
 var salt = require('../scripts/saltgen.js');
 
@@ -44,11 +45,16 @@ exports.getpoll = function (req, res) {
             var unhighlightbutton;
 
             if(req.user && _upls){
-                if(req.user._id == _upls.u_id && poll.p_hl == false){
+                console.log(_upls.u_id);
+                console.log(req.user._id);
+                console.log(poll.p_hl);
+                if(req.user._id == _upls.u_id.toString() && poll.p_hl == false){
+                    console.log("pew1");
                     highlightbutton = true;
                     unhighlightbutton = false;
                 }
-                if(req.user._id == _upls.u_id && poll.p_hl == true){
+                if(req.user._id == _upls.u_id.toString() && poll.p_hl == true){
+                    console.log("pew2");
                     highlightbutton = false;
                     unhighlightbutton = true;
                 }
@@ -490,6 +496,7 @@ exports.newuser = function(req, res) {
                         res.status(500).json({status:'User Save: failed'});
                     } else {
                         console.log('User Save: passed')
+                        user_polls_helper.createAttrPolls(user._id, 0); // create kingpoll_attr polls
                         email.send_user_confirmation(user.u_email, user.u_id, user.u_salt);
                         var redirect = '/signup/done';
                         res.header('Content-Length', Buffer.byteLength(redirect));
@@ -517,6 +524,7 @@ exports.newuser = function(req, res) {
                 }
                 else{
                     console.log('User Save: passed')
+                    user_polls_helper.createAttrPolls(user._id, 0); // create kingpoll_attr polls
                     email.send_user_confirmation(user.u_email, user.u_id, user.u_salt);
                     var redirect = '/signup/done';
                     res.header('Content-Length', Buffer.byteLength(redirect));
