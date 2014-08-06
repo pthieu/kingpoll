@@ -78,6 +78,7 @@ app.use(passport.session());
 app.get('/', routes.landing);
 app.get('/about', routes.about);
 app.get('/new', routes.createpoll);
+app.get('/new/:id', routes.createuplpoll);
 app.get('/listpoll', routes.listpoll);
 app.get('/p/:id', routes.getpoll);
 app.get('/signup', routes.signup);
@@ -89,6 +90,7 @@ app.get('/contact', routes.contact);
 app.get('/policy', routes.policy);
 // app.get('*', routes.about);
 app.post('/new', routes.newpoll);
+app.post('/new/:id', routes.newuplpoll);
 app.post('/signup', routes.newuser);
 app.get('/login', userRoute.getlogin);
 app.post('/login', userRoute.postlogin);
@@ -271,7 +273,6 @@ io.sockets.on('connection', function (client) {
         user_polls_helper.createAttrPolls(_uid, _type);
     });
     client.on('getAttrPolls', function (_uid, _type) {
-        console.log(_uid);
         if (client.handshake.user.logged_in && _uid == "/u"){
             _uid = client.handshake.user._id;
             user_polls_helper.setAttrPolls(_uid, _type, client, io);

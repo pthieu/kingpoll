@@ -46,6 +46,11 @@
     </div>
     <div class="tab-container">
       <div class="tab-button" data-index="upl-wrap" title="Click to expanding or collapse"><h2>Polls About User</h2></div>
+      {{#if createUpl}}
+        <a id="make-uplpoll-button" href="/new/{{user.u_id}}">
+          Create UPL
+        </a>
+      {{/if}}
       <div class="upl-wrap tab-content">
         <!-- upl polls section -->
         <p>This is where the upl polls will show up</p>

@@ -12,6 +12,15 @@ canvas{
 #wrapper>div{
   font-size: 1.5rem;
 }
+.newpoll .title{
+  margin: 4rem auto 0 auto;
+  padding-bottom: 1rem;
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.7rem;
+  word-wrap: break-word;
+  border-bottom: 1px #ddd solid;
+}
 .right-align{
   text-align: right;
 }
@@ -19,7 +28,7 @@ canvas{
   padding-left:0;
 }
 #template{
-  margin-top:4rem;
+  margin-top:2rem;
 }
 #newpollopt{
     margin-top: 2rem;

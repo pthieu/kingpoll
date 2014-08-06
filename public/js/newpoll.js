@@ -236,7 +236,15 @@ $(document).ready(function() {
             post_question,
             post_text,
             post_color,
-            post_description;
+            post_description,
+            post_url;
+
+        var upl_attr = $(this).data('upl');
+
+        if (upl_attr)
+            post_url = '/new/'+upl_attr;
+        else
+            post_url = '/new';
 
         var dataURL = $('#c')[0].toDataURL();
 
@@ -252,7 +260,7 @@ $(document).ready(function() {
             post_textchoice.push({'c_text':post_text, 'c_hex':post_color});
         }
         var posting = $.ajax({
-            url: '/new',
+            url: post_url,
             type: 'POST',
             data:{
                     'template_choice': post_template,

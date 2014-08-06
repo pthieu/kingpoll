@@ -63,20 +63,35 @@ exports.getpoll = function (req, res) {
                 image: poll.p_image,
                 highlightbutton: highlightbutton,
                 unhighlightbutton: unhighlightbutton,
+                css_file: '/css/poll.css',
                 js_script: '/js/poll.js'
             });
         }); 
     });
 };
 exports.createpoll = function (req, res) {
-    res.sendfile('public/views/newpoll.html');
+    //res.sendfile('public/views/newpoll.html');
+    res.render('newpoll', {
+        css_file: '/css/newpoll.css',
+        js_script: '/js/newpoll.js'
+    });
+}
+exports.createuplpoll = function (req, res) {
+    //res.sendfile('public/views/newpoll.html');
+    res.render('newpoll', {
+        title: 'Create UPL Poll for '+ req.params.id,
+        u_id: req.params.id,
+        css_file: '/css/newpoll.css',
+        js_script: '/js/newpoll.js'
+    });
 }
 exports.signup = function (req, res) {
     res.sendfile('public/views/signup.html');
 };
 exports.signupDone = function (req, res) {
     res.render('signupdone', {
-        title: 'Sign Up Completed.'
+        title: 'Sign Up Completed.',
+        css_file: '/css/signup.css'
     });
 };
 exports.verifyvote = function (req, res) {
@@ -257,6 +272,148 @@ exports.newpoll = function(req, res) {
                                 var redirect = "/p/"+hex_pid.toString();
                                 res.header('Content-Length', Buffer.byteLength(redirect));
                                 res.send(redirect, 200);
+                            }
+                        });
+                    }
+                }
+            ); 
+        });
+    });
+};
+
+exports.newuplpoll = function(req, res) {
+    new_pid = mongoose.Types.ObjectId(); //new pollid
+
+    var create_user_id;
+
+    User.findOne({'u_id':req.params.id}, function (err, user) {
+        if (err) {
+          return console.error(err);
+        }
+        if(user) {
+            console.log("saving with existing logged in")
+            create_user_id = user._id;
+        } 
+        
+        var newpoll = new Poll({
+            _id: new_pid,
+            't_created': new_pid.getTimestamp(),
+            'p_q': '{'+user.u_id+'}: '+req.body.p_q,
+            'p_embed': (req.body.p_embed)?(req.body.p_embed.split(' ')[0]):"",
+            'p_desc': req.body.p_desc,
+            'c_n': req.body.c_n,
+            't_created': new_pid.getTimestamp(),
+            'u_id': 'kingpoll_attr',
+            'u_email': 'kingpoll_attr',
+            'c_random': req.body.c_random
+        });
+        //get color text/hex
+        for (i=0; i < req.body.c_n; i++){
+            if(!(req.body.textchoice[i].c_hex) || !(req.body.textchoice[i].c_text)){
+                console.log('Poll Save: FAILED -- c_n and text/hex lengths do not match')
+                res.send(500, 'c_n length does not match');
+                res.end();
+                return;
+            }
+            // we don't use push() because we need to ensure order
+            newpoll['c_text'][i] = req.body.textchoice[i].c_text;
+            newpoll['c_hex'][i] = req.body.textchoice[i].c_hex;
+        }
+        console.log('poll length check passed');
+        //find hashtags
+        var tags = cleansymbols(req.body.p_q); //clear symbols so people can't fuck up the db
+        newpoll['p_tag'] = getUniqueArray(cleanhashtag(tags));
+        //init c_total and data
+        var arrInitMap = initMapChoice(req.body.c_n, newpoll['data'].toObject());
+        newpoll['c_total'] = arrInitMap.c_total;
+        newpoll['data'] = arrInitMap.data;
+        //create poll
+        //grab pollid
+        //send back poll id
+
+        help.findUniqueHex(shortid.generate(), Poll, 'p_id', function (err, hex_pid) {
+            if (err) return console.error(err);
+            //redirect to new id
+            console.log(hex_pid);
+            newpoll['p_id'] = hex_pid;
+
+            request.post(
+                'https://api.imgur.com/oauth2/token', 
+                {form:{refresh_token:'0dc5c75408d684bd7ce6e893e1938763e964cd52',client_id:'1100622bb9cd565', client_secret:'8571ca74634d0a047bfc72880dbfa309dc4d0035', grant_type:'refresh_token' }}, 
+                function(err, response, body){
+                    // console.log(response);
+                    if (!err && response.statusCode == 200) {
+                        var login_body = JSON.parse(body);
+                        var options = {
+                            url: 'https://api.imgur.com/3/image',
+                            headers: {
+                                'Authorization': 'Bearer ' + login_body.access_token,
+                                'Accept': 'application/json'
+                            },
+                            form: {
+                                'image': req.body.p_image,
+                                'type': 'base64',
+                                'title': req.body.p_q,
+                                'description': req.body.p_desc
+                            }
+                        };
+                        
+                        request.post(options, function(err, response, body){
+                            var upload_body = JSON.parse(body);
+                            console.log(err);
+                            if (!err && response.statusCode == 200) {
+                                newpoll.p_image = 'https://i.imgur.com/' + upload_body.data.id + '.png';
+                            }
+                            newpoll.save(function (err, poll, count) {
+                                if (err){
+                                    console.error(err);
+                                    res.status(500).json({status:'Poll Save: failed'});
+                                }
+                                else{
+                                    var newupl = new UPL({
+                                        _id: mongoose.Types.ObjectId(),
+                                        'p_id': poll._id,
+                                        'u_id': create_user_id,
+                                        'type': 'standard'
+                                    });
+                                    newupl.save(function (err, upl, count) {
+                                        if (err){
+                                          console.error(err);
+                                        }
+                                        else{
+                                            console.log('Poll Save: passed')
+                                            var redirect = "/p/"+hex_pid.toString();
+                                            res.header('Content-Length', Buffer.byteLength(redirect));
+                                            res.send(redirect, 200);
+                                        }
+                                    }); 
+                                }
+                            });
+                        });
+                    } else {
+                        newpoll.save(function (err, poll, count) {
+                            if (err){
+                                console.error(err);
+                                res.status(500).json({status:'Poll Save: failed'});
+                            }
+                            else{
+                                var newupl = new UPL({
+                                    _id: mongoose.Types.ObjectId(),
+                                    'p_id': poll._id,
+                                    'u_id': create_user_id,
+                                    'type': 'standard'
+                                });
+                                newupl.save(function (err, upl, count) {
+                                    if (err){
+                                      console.error(err);
+                                    }
+                                    else{
+                                        console.log('Poll Save: passed')
+                                        var redirect = "/p/"+hex_pid.toString();
+                                        res.header('Content-Length', Buffer.byteLength(redirect));
+                                        res.send(redirect, 200);
+                                    }
+                                }); 
                             }
                         });
                     }
