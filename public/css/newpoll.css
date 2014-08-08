@@ -29,11 +29,15 @@ canvas{
 }
 #template{
   margin-top:2rem;
+  display:none;
 }
 #newpollopt{
     margin-top: 2rem;
 }
-
+.newpoll .heading{
+  font-weight:bold;
+  padding-bottom:5px;
+}
 input[name="template_choice"] + label {
   width: 10rem;
 /*  background-color: #3498db;

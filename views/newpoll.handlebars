@@ -9,7 +9,7 @@
     <div class="">
       <div id='newpollopt'>
         <div class='radio nchoice'>
-          <div>How many choices to vote for?</div>
+          <div class="heading">How many choices to vote for?</div>
           <input id='nchoice2' type='radio' name='nchoice' data-text='2' value='2' /><label for="nchoice2" class="nchoice-label">2</label><input id='nchoice3' type='radio' name='nchoice' data-text='3' value='3' /><label for="nchoice3" class="nchoice-label">3</label><input id='nchoice4' type='radio' name='nchoice' data-text='4' value='4' /><label for="nchoice4" class="nchoice-label">4</label><input id='nchoice5' type='radio' name='nchoice' data-text='5' value='5' /><label for="nchoice5" class="nchoice-label">5</label><input id='nchoice6' type='radio' name='nchoice' data-text='6' value='6' /><label for="nchoice6" class="nchoice-label">6</label>
         </div>
         <div id='textconfig' class='col-md-6 col-md-offset-3'>
@@ -26,10 +26,10 @@
           <input id='custom_question' name="question" class="tb form-control" maxlength='140' placeholder='Example: Are #dogs better than #cats?' required>
           <div><span>Left: 140</span></div>
         </div>
-        <label for="embed-link" class="col-sm-2 control-label">Embed Link (Optional):</label>
+        <!-- <label for="embed-link" class="col-sm-2 control-label">Embed Link (Optional):</label>
         <div class="col-sm-9">
           <input id='embed-link' name="embed-link" class="tb form-control" placeholder="One link only from: youtube, twitch.tv -- more coming!">
-        </div>
+        </div> -->
       </div>
       <div class='form-group'>
         <label for="tbDescription" class="col-sm-2 control-label">Description:</label>
@@ -41,7 +41,8 @@
     </div>
     <div class='col-xs-12'>
       <div class='form-group'>
-        <div id='preview'>Preview:
+        <div id='preview'>
+          <span class="heading">Preview:</span>
           <div id='preview_question'></div>
           <div class='embed-wrap'>
             <div class='embed'></div>
