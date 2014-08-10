@@ -1,5 +1,5 @@
 body.splash{
-  background-color:#dddddd;
+  background-color:#ffffff;
   color:#ffffff;
 }
 
@@ -12,7 +12,10 @@ body.splash{
   border:1px solid #ffffff;
   background-color: rgba(85,85,85,0.50);
   color:#ffffff;
-  padding:1px 10px 1px 10px;
+  padding:3px 10px 3px 10px;
+}
+.splash .field{
+  padding-bottom:3px;
 }
 
 .splash .header{
@@ -38,8 +41,10 @@ body.splash{
 }
 .splash .skip_splash .button{
   display:inline-block;
+  border:1px solid #ffffff;
   background-color: #34495e;
-  margin-top:10px;
+  margin-top:15px;
+  margin-bottom:30px;
   padding:20px 15px 20px 15px;
   font-weight: bold;
 }
@@ -61,7 +66,6 @@ body.splash{
   /*background: #555555 url('http://conventionofstates.com/wp-content/uploads/questions%20answers.jpg') no-repeat right;*/
   /*background: #555555 url('http://dummyimage.com/1080x400/888/fff') no-repeat center top;*/
   width:100%;
-  height:486px;
   position:relative;
   text-align: left;
 }
@@ -100,6 +104,22 @@ body.splash{
   padding-right:115px;
   padding-bottom:20px;
   margin-top: 15px;
+}
+
+.splash .signup #submit{
+  border:1px solid #ffffff;
+  background-color:#555555;
+  font-weight: bold;
+  font-size:15px;
+  color:#ffffff;
+  margin-top:3px;
+  padding:10px 15px 10px 15px;
+  cursor: pointer;
+}
+.splash .signup #submit:hover{
+  border:1px solid #ffffff;
+  background-color:#ffffff;
+  color:#555555;
 }
 
 .splash .divide_section{
