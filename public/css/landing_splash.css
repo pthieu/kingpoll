@@ -112,3 +112,15 @@ body.splash{
 .splash .whatcando{
   background-color: #9b59b6;
 }
+
+.splash .section{
+  display:inline-block;
+  max-width: 150px;
+  vertical-align: top;
+}
+.splash .section *{
+  display:block;
+}
+.splash .section span{
+  text-align: left;
+}
