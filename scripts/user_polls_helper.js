@@ -41,7 +41,7 @@ var createPoll = function (_uid, _type, p_q, c_text, c_hex){
   var newpoll = new Poll({
     _id: new_pid,
     't_created': new_pid.getTimestamp(),
-    'p_q': '{Username Placeholder}: '+p_q,
+    'p_q': 'Bob Smith: '+p_q,
     // 'p_embed': (req.body.p_embed)?(req.body.p_embed.split(' ')[0]):"",
     // 'p_desc': req.body.p_desc,
     'c_n': c_text.length,

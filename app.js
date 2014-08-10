@@ -181,9 +181,9 @@ io.sockets.on('connection', function (client) {
     var pollid;
     client.on('getRandPoll', function (pollpage) {
         Poll.count( function(err,count) {
-            Poll.find({$not:/kingpoll_attr/i},{},{limit: 1, skip: Math.floor((Math.random()*(count)))}, function(err, poll) {
+            Poll.find({'u_email': {$not:/kingpoll_attr/i}},{},{limit: 1, skip: Math.floor((Math.random()*(count)))}, function(err, poll) {
                 if (err) return console.error(err);
-                console.log(poll)
+                console.log(poll[0].p_id)
                 if (pollpage) {
                     (pollid == poll[0].p_id) ? null : client.leave(pollid);
                     pollid = poll[0].p_id;
