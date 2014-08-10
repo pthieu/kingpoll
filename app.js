@@ -76,6 +76,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.get('/', routes.landing);
+app.get('/home', routes.home);
 app.get('/about', routes.about);
 app.get('/new', routes.createpoll);
 app.get('/new/:id', routes.createuplpoll);
@@ -182,6 +183,7 @@ io.sockets.on('connection', function (client) {
         Poll.count( function(err,count) {
             Poll.find({$not:/kingpoll_attr/i},{},{limit: 1, skip: Math.floor((Math.random()*(count)))}, function(err, poll) {
                 if (err) return console.error(err);
+                console.log(poll)
                 if (pollpage) {
                     (pollid == poll[0].p_id) ? null : client.leave(pollid);
                     pollid = poll[0].p_id;

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- <!DOCTYPE html> -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:fb="http://ogp.me/ns/fb#">
+<head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# kingpoll: http://ogp.me/ns/fb/kingpoll#">
+  <meta name="viewport" content="width=device-width">
+  <title>KingPoll - Question Everything.</title>
+  <meta name="description" content="Get your questions answered from the world; find out what people really think about you!">
+  <meta content="/images/favicon.ico" itemprop="image">
+  <link rel="shortcut icon" href="/images/favicon.ico"/>
+  <link rel="stylesheet" href="/css/layout.css" type="text/css" />
+  <link rel="stylesheet" href="/css/radiobutton.css" type="text/css" />
+  <link rel="stylesheet" href="/css/landing_splash.css" type="text/css" />
+  <!-- for Facebook -->    
+  <!-- <meta property="fb:app_id" content="1447667995463132" />      
+  <meta property="og:type" content="article" />
+  <meta property="og:image" content="{{image}}" />
+  <meta property="og:description" content="{{description}}" />
+  <meta property="og:title" content="{{title}}" />
+  <meta property="og:url" content="{{url}}" /> -->
+
+  <!-- for twitter -->        
+  <!-- <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:image:src" content="{{image}}" />
+  <meta property="twitter:description" content="{{description}}" />
+  <meta property="twitter:title" content="{{title}}" /> -->
+</head>
+<body class="splash">
+  <div id="wrapper">
+    <div class="header">
+      <div class="logo_wrap">
+        <img src="/images/splash_brand.png" alt="KingPoll - Question Everything.">
+      </div>
+      <div class="login">
+        <h3>Login</h3>
+        <form action="login" method="post" accept-charset="utf-8">
+          <div class="field">
+            <label for="tbUsername">Username</label>
+            <input id="tbUsername" type="text" class='f' name='username' pattern='[A-z0-9 _]{1,}' maxlength='20' required />
+          </div>
+          <div class="field">
+            <label for="tbPassword">Password</label>
+            <input id="tbPassword" type="password" class='f'  name='password' required />
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="content">
+      <div class="branding">
+        <img src="/images/kingpoll_347x270_white.png" alt="">
+        <div class='skip_splash'>
+          <span>I don't want to sign up; I'm just here for the party!</span>
+          <a href="/home" title="Go to the fun!"><div class='button'>
+            Go to the fun!
+          </div></a>
+        </div>
+      </div>
+      <div class="callout">
+        <div class="message">
+          <h1>Have you ever wondered how the world would react to your existence?</h1>
+          <h2>Have you ever wondered what people think <span style="text-decoration: underline; font-weight:bold;">about you</span>?</h2>
+        </div>
+        <div class="signup">
+          <h3>Sign up</h3>
+          <form action="signup" method="post" accept-charset="utf-8">
+            <div class="field">
+              <label for="tbEmail">Email</label>
+              <input id="tbEmail" type="email" class='f' name='email' 
+              oninvalid="setCustomValidity('Example: username@kingpoll.com')" 
+              onchange="try{setCustomValidity('')}catch(e){}" required />
+            </div>
+            <div class="field">
+              <label for="tbUsername">Username</label>
+              <input id="tbUsername" type="text" class='f' name='username' pattern='[A-z0-9 _]{1,}' maxlength='20' required />
+            </div>
+            <div class="field">
+              <label for="tbPassword">Password</label>
+              <input id="tbPassword" type="password" class='f'  name='password' required />
+            </div>
+            <div class="field">
+              <label for="tbCheckPassword">Re-type Password</label>
+              <input id="tbCheckPassword" type="password" class='f' name='password'  required />
+            </div>
+            <div id='submit_signup'>
+              <button type='submit' id='submit'>Signup!</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="explanation">
+      what
+    </div>
+    <div class="footer">
+    </div>
+  </div>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+  <script src="/js/jquery.cookie.js"></script>
+  <script src="/js/colors.js"></script>
+  <script src="/js/dualwield.js"></script>
+  <script src="/js/bower_components/fingerprint/fingerprint.js"></script>
+  <!--<script src="{{js_script}}"></script>-->
+  <script src="/js/login.js"></script>
+</body>
+</html>

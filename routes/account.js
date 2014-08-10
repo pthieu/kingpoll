@@ -9,6 +9,7 @@ exports.getOwnAccount = function(req, res) {
   if (req.user) {
     // Vote.find({'u_id':req.user._id}, function (err, votes) {
       // if (err) console.error(err);
+      //REDIRECT: so easier for user to pass URL around
       var redirect = '/u/'+req.user.u_id.toString();
       res.header('Content-Length', Buffer.byteLength(redirect));
       res.redirect(redirect, 302);
