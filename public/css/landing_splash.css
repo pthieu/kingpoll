@@ -5,11 +5,12 @@ body.splash{
 
 .splash #wrapper{
   max-width:967px;
+  margin:auto;
 }
 
 .splash input{
   border:1px solid #ffffff;
-  background-color: rgba(85,85,85,0.8);
+  background-color: rgba(85,85,85,0.50);
   color:#ffffff;
   padding:1px 10px 1px 10px;
 }
@@ -37,14 +38,14 @@ body.splash{
 }
 .splash .skip_splash .button{
   display:inline-block;
-  background-color: #1a79c9;
+  background-color: #34495e;
   margin-top:10px;
   padding:20px 15px 20px 15px;
   font-weight: bold;
 }
 .splash .skip_splash .button:hover{
   background-color: #ffffff;
-  color: #1a79c9;
+  color: #34495e;
 }
 
 .splash .logo_wrap{
@@ -56,7 +57,7 @@ body.splash{
 }
 
 .splash .content{
-  background: #9b59b6;
+  background: #517da2;
   /*background: #555555 url('http://conventionofstates.com/wp-content/uploads/questions%20answers.jpg') no-repeat right;*/
   /*background: #555555 url('http://dummyimage.com/1080x400/888/fff') no-repeat center top;*/
   width:100%;
@@ -96,10 +97,18 @@ body.splash{
 }
 .splash .callout .signup, .splash .callout .login{
   text-align: right;
-  padding-right:150px;
+  padding-right:115px;
+  padding-bottom:20px;
   margin-top: 15px;
 }
 
-.splash .explanation{
+.splash .divide_section{
   background-color: #555555;
+}
+.splash .whoareyou{
+  background-color: #d25757;
+}
+
+.splash .whatcando{
+  background-color: #9b59b6;
 }
