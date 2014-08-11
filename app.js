@@ -105,10 +105,10 @@ app.get('/u/:id', accountRoute.getUserAccount);
 
 app.get('/auth/facebook', passport.authenticate('facebook'));
 app.get('/auth/facebook/callback', 
-  passport.authenticate('facebook', { successRedirect: '/', failureRedirect: '/signup' }));
+  passport.authenticate('facebook', { successRedirect: '/home', failureRedirect: '/signup' }));
 app.get('/auth/twitter', passport.authenticate('twitter'));
 app.get('/auth/twitter/callback', 
-  passport.authenticate('twitter', { successRedirect: '/', failureRedirect: '/signup' }));
+  passport.authenticate('twitter', { successRedirect: '/home', failureRedirect: '/signup' }));
 
 http.listen(appPort);
 console.log('listening on port: ' + appPort);

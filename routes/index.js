@@ -474,7 +474,7 @@ exports.validateVote = function (req,res) {
             }
         });
     });
-    var redirect = '/';
+    var redirect = '/home';
     res.header('Content-Length', Buffer.byteLength(redirect));
     res.send(redirect, 200);
 }
