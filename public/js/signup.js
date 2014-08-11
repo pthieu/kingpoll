@@ -47,7 +47,6 @@ $(document).ready(function() {
                 this.setCustomValidity("");
             });
         }
-
     });
 
     $('#tbUsername').on('change keydown keypress keyup', function () {

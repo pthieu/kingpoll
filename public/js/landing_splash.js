@@ -2,6 +2,18 @@ var socket = io.connect();
 var _fp = new Fingerprint();
 
 $(function () {
+  $('input[type=password]').on('change keydown keypress keyup', function() {
+    if($('#tbPassword').val() !== $('#tbCheckPassword').val()){
+      $('#tbPassword, #tbCheckedPassword').each(function() {
+        this.setCustomValidity("Passwords do not match!");
+      });
+    }else{
+      $('#tbPassword, #tbCheckedPassword').each(function() {
+        this.setCustomValidity("");
+      });
+    }
+  });
+
   $('#signup').submit(function(e){
     e.preventDefault();
 
@@ -11,9 +23,9 @@ $(function () {
     var post_password = $('#tbCheckPassword').val();
 
     var posting = $.ajax({
-    url: '/signup',
-    type: 'POST',
-    data:{
+      url: '/signup',
+      type: 'POST',
+      data:{
         'u_email': post_email,
         'u_id': post_uid,
         'u_fp': post_fp,
@@ -22,7 +34,7 @@ $(function () {
         'u_sex': null,
         'u_birth': null,
         'u_team': null
-    },
+      },
       dataType: "html"
     }).done(function (data) {
       dual.setLocalVar('u_email', '');
@@ -30,8 +42,8 @@ $(function () {
     }).fail(function (data) {
       switch(data.responseText){
         case 'c_n length does not match':
-          alert('Please fill all visible textboxes with text and choose a color!');
-          break;
+        alert('Please fill all visible textboxes with text and choose a color!');
+        break;
       }
     });
   });
