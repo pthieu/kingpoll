@@ -32,15 +32,17 @@
         <img src="/images/splash_brand.png" alt="KingPoll - Question Everything.">
       </div>
       <div class="login">
-        <h3>Login</h3>
-        <form action="login" method="post" accept-charset="utf-8">
+        <form action="/login" method="post" accept-charset="utf-8">
           <div class="field">
-            <label for="tbUsername">Username</label>
-            <input id="tbUsername" type="text" class='f' name='username' pattern='[A-z0-9 _]{1,}' maxlength='20' required />
+            <label for="loginUsername">Email</label>
+            <input id="loginUsername" type="email" class="f" name="username" maxlength="50" required="">
           </div>
           <div class="field">
-            <label for="tbPassword">Password</label>
-            <input id="tbPassword" type="password" class='f'  name='password' required />
+            <label for="loginPassword">Password</label>
+            <input id="loginPassword" type="password" class='f'  name='password' required />
+          </div>
+          <div>
+            <button type='submit' class="submit">Login</button>
           </div>
         </form>
       </div>
@@ -93,14 +95,14 @@
             </div>
             <div class="field">
               <label for="tbPassword">Password</label>
-              <input id="tbPassword" type="password" class='f'  name='password' required />
+              <input id="tbPassword" type="password" class='f' name='password' required />
             </div>
             <div class="field">
               <label for="tbCheckPassword">Re-type Password</label>
               <input id="tbCheckPassword" type="password" class='f' name='password'  required />
             </div>
-            <div id='submit_signup'>
-              <button type='submit' id='submit'>Sign Up!</button>
+            <div>
+              <button type='submit' class='submit'>Sign Up!</button>
             </div>
           </form>
         </div>
@@ -239,6 +241,5 @@
   <script src="/js/dualwield.js"></script>
   <script src="/js/bower_components/fingerprint/fingerprint.js"></script>
   <script src="/js/landing_splash.js"></script>
-  <script src="/js/login.js"></script>
 </body>
 </html>

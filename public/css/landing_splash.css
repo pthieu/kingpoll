@@ -43,7 +43,8 @@ body.splash{
 .splash .skip_splash .button{
   display:inline-block;
   border:1px solid #ffffff;
-  background-color: #34495e;
+  /*background-color: #34495e;*/
+  background-color: #555555;
   margin-top:10px;
   margin-bottom:10px;
   padding:20px 15px 20px 15px;
@@ -51,7 +52,8 @@ body.splash{
 }
 .splash .skip_splash .button:hover{
   background-color: #ffffff;
-  color: #34495e;
+  /*color: #34495e;*/
+  color: #555555;
 }
 
 .splash .logo_wrap{
@@ -111,11 +113,11 @@ body.splash{
   position:absolute;
   right:0;
   top:0;
-  padding: 30px 40px;
+  padding: 35px 40px;
   text-align: right;
 }
 
-.splash .signup #submit{
+.splash .signup .submit, .splash .login .submit{
   border:1px solid #ffffff;
   background-color:#555555;
   font-weight: bold;
@@ -125,7 +127,7 @@ body.splash{
   padding:10px 15px 10px 15px;
   cursor: pointer;
 }
-.splash .signup #submit:hover{
+.splash .signup .submit:hover, .splash .login .submit:hover{
   border:1px solid #ffffff;
   background-color:#ffffff;
   color:#555555;
