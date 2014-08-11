@@ -85,8 +85,8 @@ body.splash{
 }
 
 .splash h1 {
-  font-size: 2rem;
-  line-height: 2.4rem;
+  font-size: 32px;
+  line-height: 38px;
 }
 .splash .content h2 {
   margin-top:12px;
@@ -136,24 +136,74 @@ body.splash{
   padding-top:10px;
   background-color: #9b59b6;
 }
-
 .splash .section{
+  margin: 20px 0 20px 15px;
+}
+.splash .whatcando .section{
   display:inline-block;
   max-width: 150px;
   vertical-align: top;
-  margin: 20px 0 20px 15px;
 }
 .splash .step4{
   margin-left:20px;
 }
-.splash .section *{
+.splash .whatcando .section *{
   display:block;
 }
 .splash .section span{
-  text-align: center;
+  text-align: left;
 }
 
 .splash .whatweoffer{
-  padding-top:10px;
+  background-color: #555555;
+  /*padding-top:10px;*/
+  display:block;
+}
+.splash .whatweoffer .blank.right h2{
+  margin-top:40px;
+}
+.splash .whatweoffer h4{
+  padding-left: 10px;
+}
+.splash .whatweoffer .section{
+  text-align: center;
+}
+.splash .whatweoffer .subsection{
+  display:inline-block;
+  height:100%;
+  width:100%;
+  vertical-align: middle;
+}
+.splash .whatweoffer .square_section{
+  display:inline-block;
+  width:50%;
+  height:290px;
+}
+.splash .whatweoffer .left{
+  float:left;
+}
+.splash .whatweoffer .square_section.right{
   background-color: #e38d42;
+  float:right;
+}
+.splash .whatweoffer .square_section.right:not(.blank){
+  padding-top:25px;
+}
+.splash .whatweoffer .square_section.left{
+  background-color: #3a9d50;
+  float:left;
+}
+.splash .whatweoffer .square_section.blank{
+  text-align: center;
+  background-color: #555555;
+}
+.splash .whatweoffer .square_section.blank h3{
+  margin-top:5px;
+}
+.splash .whatweoffer .square_section.blank .subsection{
+  text-align: left;
+  padding:0 30px 0 30px;
+}
+.splash .whatweoffer img{
+  margin:0 10px 0 10px;
 }
