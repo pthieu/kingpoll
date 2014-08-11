@@ -1,7 +1,7 @@
 var socket = io.connect();
 
 //UI/UX
-var solocolor = colors_hex[randColor(colors_hex)];
+var solocolor = colors_soft[randColor(colors_soft)];
 var sigfig = 2*10;
 
 //Data settings
