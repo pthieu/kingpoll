@@ -31,9 +31,9 @@ body.splash{
 }
 
 .splash .skip_splash{
-  margin-top: 10px;
+  margin: 10px 0 10px 0;
 }
-.splash .skip_splash span{
+.splash .skip_splash>span{
   display:block;
 }
 .splash .skip_splash a{
@@ -44,8 +44,8 @@ body.splash{
   display:inline-block;
   border:1px solid #ffffff;
   background-color: #34495e;
-  margin-top:15px;
-  margin-bottom:30px;
+  margin-top:10px;
+  margin-bottom:10px;
   padding:20px 15px 20px 15px;
   font-weight: bold;
 }
@@ -80,9 +80,9 @@ body.splash{
   background: rgba(85,85,85,0.75);
   color:#ffffff;
 }
-.splash .content img{
+.splash .content .branding>img{
   display:block;
-  padding:35px 35px 0 35px;
+  padding:5px 35px 0 35px;
 }
 
 .splash h1 {
@@ -222,7 +222,7 @@ body.splash{
   background-color: #34495e;
   height:400px;
 }
-.splash .share{
+.splash .share:not(.nobg){
   background: url('/images/splash_wall.png') repeat center;
   background-color: #555555;
 }
@@ -230,7 +230,7 @@ body.splash{
   text-decoration: none;
   color:#ffffff;
 }
-.splash .share, .splash .footer{
+.splash .footer{
   background-color: #555555;
 }
 .splash .share .social, .splash .share .social div{
@@ -243,6 +243,11 @@ body.splash{
   padding:20px;
   border: 1px solid #ffffff;
   background-color: #555555;
+}
+.splash .share.nobg .social{
+  margin:0;
+  padding:5px;
+  line-height: 0;
 }
 .splash .share .social:hover{
   background-color: #ffffff;
