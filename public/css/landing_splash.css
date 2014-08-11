@@ -207,3 +207,7 @@ body.splash{
 .splash .whatweoffer img{
   margin:0 10px 0 10px;
 }
+.splash .testimonial{
+  background-color: #34495e;
+  /*padding-top:10px;*/
+}
