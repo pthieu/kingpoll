@@ -1,6 +1,7 @@
 body.splash{
   background-color:#ffffff;
   color:#ffffff;
+  min-width: 967px;
 }
 
 .splash #wrapper{
