@@ -124,6 +124,7 @@ body.splash{
 }
 
 .splash .divide_section{
+  background: url('/images/splash_wall.png') repeat center;
   background-color: #555555;
 }
 .splash .whoareyou{
@@ -133,8 +134,9 @@ body.splash{
 }
 
 .splash .whatcando{
-  padding-top:10px;
+  padding-top:60px;
   background-color: #9b59b6;
+  height:400px;
 }
 .splash .section{
   margin: 20px 0 20px 15px;
@@ -159,8 +161,8 @@ body.splash{
   /*padding-top:10px;*/
   display:block;
 }
-.splash .whatweoffer .blank.right h2{
-  margin-top:15px;
+.splash .whatweoffer .blank h2{
+  margin-top:10px;
 }
 .splash .whatweoffer h4{
   padding-left: 10px;
@@ -208,6 +210,37 @@ body.splash{
   margin:0 10px 0 10px;
 }
 .splash .testimonial{
+  padding-top:60px;
   background-color: #34495e;
-  /*padding-top:10px;*/
+  height:400px;
+}
+.splash .share{
+  background: url('/images/splash_wall.png') repeat center;
+  background-color: #555555;
+}
+.splash .share a{
+  text-decoration: none;
+  color:#ffffff;
+}
+.splash .share, .splash .footer{
+  background-color: #555555;
+}
+.splash .share .social, .splash .share .social div{
+  display:inline-block;
+  vertical-align: middle;
+  height:100%;
+}
+.splash .share .social{
+  margin: 40px 0 40px 0;
+  padding:20px;
+  border: 1px solid #ffffff;
+  background-color: #555555;
+}
+.splash .share .social:hover{
+  background-color: #ffffff;
+  color:#555555;
+}
+
+.splash .footer{
+  padding: 20px;
 }
