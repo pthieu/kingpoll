@@ -18,7 +18,7 @@ exports.postlogin = function(req, res, next) {
     }
     req.logIn(user, function(err) {
       if (err) { return next(err); }
-      return res.redirect('/home');
+      return res.redirect('/u');
     });
   })(req, res, next);
 };

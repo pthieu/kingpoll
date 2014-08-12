@@ -88,8 +88,8 @@ exports.getUserAccount = function(req, res) {
         votedisplay['total'] = (total/1000).toFixed(2);
 
         Poll.find({'u_id':user._id}, function (err, polls) {
-          res.render('account', 
-            { title: user.u_id + "'s Info", 
+          res.render('account', { 
+            // title: user.u_id + "'s Info", 
             user: user, 
             showbuttons: false,
             createUpl: true,

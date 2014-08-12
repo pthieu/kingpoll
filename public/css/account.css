@@ -3,13 +3,13 @@
 }
 
 .account .title {
-  margin: 4rem auto 0 auto;
+  margin: 20px auto 0 auto;
   padding-bottom: 1rem;
   font-size: 2rem;
   font-weight: 700;
   line-height: 1.7rem;
   word-wrap: break-word;
-  border-bottom: 1px #ddd solid;
+  /*border-bottom: 1px #ddd solid;*/
 }
 
 .account .personal-wrap, .account .stats-wrap, .account .attr-wrap, .account .upl-wrap, .account .polls-wrap{
@@ -21,7 +21,7 @@
 .account .personal-wrap {
   float: left;
   width: 20%;
-  margin-top: 10px;
+  margin-top: 65px;
   position: absolute;
   left: 0;
   max-width:300px;
@@ -49,11 +49,13 @@
 }
 
 .account .tabs .tab-button.active{
-  background-color: #ddd;
+  background-color: #555555;
+  color:#ffffff;
 }
 
 .account .tabs .tab-button:hover{
-  background-color: #ddd;
+  background-color: #888888;
+  color:#ffffff;
 }
 
 .account .tab-container {
@@ -128,14 +130,23 @@
 }
 
 .account #make-uplpoll-button {
-  display: block;
+  display: inline-block;
+  background-color: #517da2;
+  border: 1px solid #517da2;
   color: #ffffff;
-  padding: 15px;
-  font-size: 1.2em;
-  background-color: lightblue;
-  width: 150px;
   text-decoration: none;
-  margin: 5px auto;
+  font-weight: bold;
+  width:170px;
+  margin-top:10px;
+  margin-bottom:10px;
+  padding:10px 5px 10px 5px;
+  text-align: center;
+}
+
+.account #make-uplpoll-button:hover{
+  background-color: #ffffff;
+  border: 1px solid #517da2;
+  color: #517da2;
 }
 
 @media all and (min-width: 767px) and (max-width: 1175px) {

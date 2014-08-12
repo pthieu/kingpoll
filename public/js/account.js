@@ -27,7 +27,7 @@ $(function () {
     socket.emit('createAttrPolls', uid, 1);
   });
   setTabs();
-  $('[data-index=highlight-wrap]').click();
+  $('[data-index=attr-wrap]').click();
 });
 
 pie = (function (){

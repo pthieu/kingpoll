@@ -20,7 +20,7 @@ $(document).ready(function(){
                     $('#view-poll-list').append(pollItemTemplate(entry.obj));
                 });
             } else {
-                $('#searching').text("Sorry, No Polls Found!!");
+                $('#searching').text("No polls found.");
             }
         });
     } else {
