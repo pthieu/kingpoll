@@ -181,16 +181,18 @@ io.sockets.on('connection', function (client) {
     var pollid;
     client.on('getRandPoll', function (pollpage) {
         Poll.count( function(err,count) {
-            Poll.find({'u_email': {$not:/kingpoll_attr/i}},{},{limit: 1, skip: Math.floor((Math.random()*(count)))}, function(err, poll) {
+            Poll.find({},{},{limit: 1, skip: Math.floor((Math.random()*(count)))}, function(err, poll) {
                 if (err) return console.error(err);
                 console.log(poll[0].p_id)
                 if (pollpage) {
+                    //this is if you're at home page
                     (pollid == poll[0].p_id) ? null : client.leave(pollid);
                     pollid = poll[0].p_id;
                     client.leave('landing');
                     client.join(pollid);
                     client.emit('pollID', poll[0]);
                 } else {
+                    //this is if you're already on a poll page, just update whatever is on there
                     client.emit('randPollID', (poll[0])?poll[0].p_id:null);
                 }
             });
