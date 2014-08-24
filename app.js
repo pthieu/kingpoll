@@ -274,14 +274,15 @@ io.sockets.on('connection', function (client) {
         }
         user_polls_helper.createAttrPolls(_uid, _type);
     });
-    client.on('getAttrPolls', function (_uid, _type) {
+    client.on('getAttrPolls', function (_uid, _type, _limit, _skip, _sort) {
+        // type 0 for kingpoll_attr, 1 for standard upl polls
         if (client.handshake.user.logged_in && _uid == "/u"){
             _uid = client.handshake.user._id;
-            user_polls_helper.setAttrPolls(_uid, _type, client, io);
+            user_polls_helper.setAttrPolls(_uid, _type, _limit, _skip, _sort, client, io);
         } else {
             User.findOne({'u_id':_uid}, function (err, user) {
                 if(user){
-                    user_polls_helper.setAttrPolls(user._id, _type, client, io);
+                    user_polls_helper.setAttrPolls(user._id, _type, _limit, _skip, _sort, client, io);
                 }
             });
         }      

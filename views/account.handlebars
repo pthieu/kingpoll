@@ -9,59 +9,64 @@
   <div class="personal-wrap">
     <!-- personalinfo about user, display pic or something -->
     <div class="dp">
-      <!-- display pic -->
-      <img src="http://dummyimage.com/170x200/000/fff" alt="display picture">
-      {{#if createUpl}}
       <a id="make-uplpoll-button" href="/new/{{user.u_id}}">
         Create poll about user
       </a>
+      <!-- display pic -->
+      <img src="http://dummyimage.com/170x200/000/fff" alt="display picture">
+      {{#if createUpl}}
       {{/if}}
     </div>
     <div class='personal-info'>
-      <h5>Name: {{#if user.u_name}} {{user.u_name}} {{else}} [Private] {{/if}}</h5>
-      <h5>Username: {{#if user.u_id}} {{user.u_id}} {{else}} [Private] {{/if}}</h5>
-      <h5>Location: {{#if user.u_loc}} {{user.u_loc}} {{else}} [Private] {{/if}}</h5>
-    </div>
-    <div class="stats-wrap">
-      <!-- user statistics -->
-      <h2>Statistics</h2>
-      <div class="stats-info">
-        <h4>Total votes: {{voteslength}}</h4>
-        <h4 data-pid='1'>Longest vote time: {{votedisplay.longest}}s</h4>
-        <h4 data-pid='2'>Shortest vote time: {{votedisplay.shortest}}s</h4>
-        <h4>Avg. vote time: {{votedisplay.average}}s</h4>
-        <h4>Total vote time: {{votedisplay.total}}s</h4>
-        <h4>Polls created: {{pollslength}}s</h4>
+      {{!-- <h5>Name: {{#if user.u_name}} {{user.u_name}} {{else}} [Private] {{/if}}</h5> --}}
+      <h4>User: {{#if user.u_id}} {{user.u_id}} {{else}} [Private] {{/if}}</h5>
+        {{!-- <h5>Location: {{#if user.u_loc}} {{user.u_loc}} {{else}} [Private] {{/if}}</h5> --}}
+      </div>
+      <div class="stats-wrap">
+        <!-- user statistics -->
+        <h2>Statistics</h2>
+        <div class="stats-info">
+          <h4>Total votes: {{voteslength}}</h4>
+          <h4 data-pid='1'>Longest vote time: {{votedisplay.longest}}s</h4>
+          <h4 data-pid='2'>Shortest vote time: {{votedisplay.shortest}}s</h4>
+          <h4>Avg. vote time: {{votedisplay.average}}s</h4>
+          <h4>Total vote time: {{votedisplay.total}}s</h4>
+          <h4>Polls created: {{pollslength}}s</h4>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="tabs">
-    <div class="tab-container">
+    <div class="tabs">
+    {{!-- <div class="tab-container">
       <div class="tab-button" data-index="highlight-wrap" title="Click to expanding or collapse"><h2>Highlighted Polls</h2></div>
       <div class="highlight-wrap tab-content">
         <!-- highlighted polls section -->
         <p>This is where the highlighted polls will show up</p>
       </div>
-    </div>
+    </div> --}}
     <div class="tab-container">
       <div class="tab-button" data-index="attr-wrap" title="Click to expanding or collapse"><h2>Attributes</h2></div>
-      {{#if showbuttons}}
+      {{!-- {{#if showbuttons}}
       <button class="test">create attr</button>
       <button class="test2">create upl</button>
-      {{/if}}
+      {{/if}} --}}
       <div class="attr-wrap tab-content">
-        <!-- user attr polls section -->
+        <div class='attr'>
+          <!-- user attr polls section -->
+        </div>
+        <div class="loadmore">Load More</div>
       </div>
     </div>
     <div class="tab-container">
-      <div class="tab-button" data-index="upl-wrap" title="Click to expanding or collapse"><h2>Polls About User</h2></div>
+      <div class="tab-button" data-index="upl-wrap" title="Click to expanding or collapse"><h2>Polls About {{user.u_id}}</h2></div>
       <div class="upl-wrap tab-content">
-        <!-- upl polls section -->
-        <p>This is where the upl polls will show up</p>
+        <div class="upl">
+          <!-- upl polls section -->
+        </div>
+        <div class="loadmore">Load More</div>
       </div>
     </div>
     <div class="tab-container">
-      <div class="tab-button" data-index="polls-wrap" title="Click to expanding or collapse"><h2>User's Polls</h2></div>
+      <div class="tab-button" data-index="polls-wrap" title="Click to expanding or collapse"><h2>{{user.u_id}}'s Polls</h2></div>
       <div class="polls-wrap tab-content">
         <!-- user generated polls -->
         <table class="table table-striped">
@@ -74,12 +79,12 @@
           </thead>
           <tbody id='polls-wrap'>
             {{#each polls}} 
-            <tr class="poll" poll-id='{{p_id}}'>
+            <tr class="poll" poll-id='{{p_id}}'><a href="/p/{{p_id}}"  title="Vote!">
               <td class="extras"></td>
               <td>{{p_q}}</td>
               <td>{{p_total}}</td>
-              <td><a href="/p/{{p_id}}" class="btn btn-default btn-xs">Vote!</a></td>
-            </tr>
+              <td><span class="btn btn-default btn-xs">Vote</span></td>
+            </a></tr>
             {{/each}}
           </tbody>
         </table>

@@ -8,26 +8,30 @@ var dur = 300;
 
 var donuts;
 var attrPolls = {};
+var uid;
 
 //DOM READY
 $(function () {
-  var uid = window.location.pathname;
-  uid = uid.replace(/\/u\//, "");
-  socket.emit('getAttrPolls', uid, 0);
-  socket.emit('getAttrPolls', uid, 1);
-  socket.emit('getHighlightPolls', uid);
+  // config
+  var load_npolls = 1; // number of polls loaded per loadmore click
 
-  //test click creates attr polls for current user
-  $('.test').on('click', function () {
-    //create kingpoll_attr polls
-    socket.emit('createAttrPolls', uid, 0);
+  uid = window.location.pathname;
+  uid = uid.replace(/\/u\//, "");
+
+  socket.emit('getAttrPolls', uid, 0, load_npolls, 0, 'newest'); // attr polls
+  socket.emit('getAttrPolls', uid, 1, load_npolls, 0, 'newest'); // upl polls
+  // socket.emit('getHighlightPolls', uid); // hightlights // hidden for now until we get functinoality in 
+
+  $('.attr-wrap .loadmore').click(function () {
+    socket.emit('getAttrPolls', uid, 0, load_npolls, $('.attr-wrap .pie-wrap').length, 'newest'); // attr polls
   });
-  $('.test2').on('click', function () {
-    //create kingpoll_attr polls
-    socket.emit('createAttrPolls', uid, 1);
+  $('.upl-wrap .loadmore').click(function () {
+    socket.emit('getAttrPolls', uid, 1, load_npolls, $('.upl-wrap .pie-wrap').length, 'newest'); // attr polls
   });
+  
   setTabs();
   $('[data-index=attr-wrap]').click();
+
 });
 
 pie = (function (){
@@ -199,13 +203,31 @@ function getAttrPolls(_uid, _type){
 }
 //trigger poll update
 socket.on('setAttrPolls', function (_poll, _type) {
+  if (!_poll){
+    switch(_type){
+      case 0:
+        var type = '.attr-wrap'
+        break;
+      case 1:
+        var type = '.upl-wrap'
+        break;
+    }
+
+    $(type+' .loadmore').unbind().click(function () {
+      window.location.href = '/new/'+uid;
+    });
+    $(type+' .loadmore').text(['No polls found! click to make a poll about ', uid, '!'].join(''));
+
+    return;
+  } // if no poll found i.e. either run out of polls or user never had any
+
   var type_wrap;
   switch(_type){
     case 0:
-      type_wrap = '.attr-wrap';
+      type_wrap = '.attr-wrap .attr';
       break;
     case 1:
-      type_wrap = '.upl-wrap'
+      type_wrap = '.upl-wrap .upl'
       break;
   }
   //add initial grey ddd and also add # for hex colors

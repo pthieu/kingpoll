@@ -10,12 +10,12 @@ var uplList = require('../uplPollIdeas.js');
 
 var c2 = {red:'e74c3c', orange:'e67e22', yellow:'e1c42f', green:'2ecc51', blue:'3498db', purple:'9b59b6', black:'34495e'};
 var uplList2 = [
-    {p_q: "Creative or Logical", c_text:['Creative', 'Logical'], c_hex:[c2['red'], c2['blue']]},
-    {p_q: "One vs Two vs Three", c_text:['One', 'Two', 'Three'], c_hex:[c2['red'], c2['blue'], c2['green']]},
-    {p_q: "One vs Two vs Three vs Four", c_text:['One', 'Two', 'Three', 'Four'], c_hex:[c2['red'], c2['blue'], c2['green'], c2['purple']]},
-    {p_q: "One vs Two vs Three vs Four vs Five", c_text:['One', 'Two', 'Three', 'Four', 'Five'], c_hex:[c2['red'], c2['blue'], c2['green'], c2['purple'], c2['orange']]},
-    {p_q: "One vs Two vs Three vs Four vs Five vs Six", c_text:['One', 'Two', 'Three', 'Four', 'Five', 'Six'], c_hex:[c2['red'], c2['blue'], c2['green'], c2['purple'], c2['orange'], c2['black']]},
-  ];
+{p_q: "Creative or Logical", c_text:['Creative', 'Logical'], c_hex:[c2['red'], c2['blue']]},
+{p_q: "One vs Two vs Three", c_text:['One', 'Two', 'Three'], c_hex:[c2['red'], c2['blue'], c2['green']]},
+{p_q: "One vs Two vs Three vs Four", c_text:['One', 'Two', 'Three', 'Four'], c_hex:[c2['red'], c2['blue'], c2['green'], c2['purple']]},
+{p_q: "One vs Two vs Three vs Four vs Five", c_text:['One', 'Two', 'Three', 'Four', 'Five'], c_hex:[c2['red'], c2['blue'], c2['green'], c2['purple'], c2['orange']]},
+{p_q: "One vs Two vs Three vs Four vs Five vs Six", c_text:['One', 'Two', 'Three', 'Four', 'Five', 'Six'], c_hex:[c2['red'], c2['blue'], c2['green'], c2['purple'], c2['orange'], c2['black']]},
+];
 
 var createAttrPolls = function(_uid, _type){
   //TEMPORARY CODE to simulate user's creating polls about other users
@@ -89,7 +89,7 @@ var createUPL = function(_uid, _pid, _type){
   });
 }
 
-var setAttrPolls = function(_uid, _type, client, io) {
+var setAttrPolls = function(_uid, _type, _limit, _skip, _sort, client, io) {
   //type -- 0:kingpoll_attr, 1:standard
   var type;
   switch(_type){
@@ -100,7 +100,11 @@ var setAttrPolls = function(_uid, _type, client, io) {
       type = 'standard';
       break;
   }
-  UPL.find({'u_id':_uid, 'type':type}, function (err, _upls) {
+  UPL.find({'u_id':_uid, 'type':type},{},{limit:_limit, skip:_skip}, function (err, _upls) {
+    if (err) console.error(err);
+    if(_upls.length < 1){
+      client.emit('setAttrPolls', null, _type);
+    }
     _upls.forEach(function (_upl) {
       Poll.findOne({'_id': _upl.p_id},  function (err, _poll) {
         if (err){
@@ -130,9 +134,9 @@ var setHighlightPolls = function(_uid, client) {
 }
 
 module.exports = {
-    'createAttrPolls': createAttrPolls,
-    'createPoll': createPoll,
-    'createUPL': createUPL,
-    'setAttrPolls': setAttrPolls,
-    'setHighlightPolls': setHighlightPolls
+  'createAttrPolls': createAttrPolls,
+  'createPoll': createPoll,
+  'createUPL': createUPL,
+  'setAttrPolls': setAttrPolls,
+  'setHighlightPolls': setHighlightPolls
 }
