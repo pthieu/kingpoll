@@ -17,12 +17,13 @@ var uplList2 = [
 {p_q: "One vs Two vs Three vs Four vs Five vs Six", c_text:['One', 'Two', 'Three', 'Four', 'Five', 'Six'], c_hex:[c2['red'], c2['blue'], c2['green'], c2['purple'], c2['orange'], c2['black']]},
 ];
 
-var createAttrPolls = function(_uid, _type){
+var createAttrPolls = function(_uid, _username, _type){
   //TEMPORARY CODE to simulate user's creating polls about other users
   uplList = (_type == 0)?uplList:uplList2;
   //END TEMPORARY CODE
 
   var u_id = _uid;
+  var username = _username;
   /*if(typeof u_id == 'string'){
     //convert to objectid if string
     u_id = mongoose.Types.ObjectId(_uid);
@@ -31,17 +32,17 @@ var createAttrPolls = function(_uid, _type){
     u_id = _uid;
   }*/
   for(var i=0; i<uplList.length; i++){
-    createPoll(u_id, _type, uplList[i].p_q, uplList[i].c_text, uplList[i].c_hex);
+    createPoll(u_id, username, _type, uplList[i].p_q, uplList[i].c_text, uplList[i].c_hex);
   }
 }
 
-var createPoll = function (_uid, _type, p_q, c_text, c_hex){
+var createPoll = function (_uid, _username, _type, p_q, c_text, c_hex){
   var new_pid = mongoose.Types.ObjectId();
   var new_uid = _uid;
   var newpoll = new Poll({
     _id: new_pid,
     't_created': new_pid.getTimestamp(),
-    'p_q': '@'+_uid+': '+p_q,
+    'p_q': '@'+_username+': '+p_q,
     // 'p_embed': (req.body.p_embed)?(req.body.p_embed.split(' ')[0]):"",
     // 'p_desc': req.body.p_desc,
     'c_n': c_text.length,

@@ -496,7 +496,7 @@ exports.newuser = function(req, res) {
                         res.status(500).json({status:'User Save: failed'});
                     } else {
                         console.log('User Save: passed')
-                        user_polls_helper.createAttrPolls(user._id, 0); // create kingpoll_attr polls
+                        user_polls_helper.createAttrPolls(user._id, user.u_id, 0); // create kingpoll_attr polls
                         email.send_user_confirmation(user.u_email, user.u_id, user.u_salt);
                         var redirect = '/signup/done';
                         res.header('Content-Length', Buffer.byteLength(redirect));
@@ -524,7 +524,7 @@ exports.newuser = function(req, res) {
                 }
                 else{
                     console.log('User Save: passed')
-                    user_polls_helper.createAttrPolls(user._id, 0); // create kingpoll_attr polls
+                    user_polls_helper.createAttrPolls(user._id, user.u_id, 0); // create kingpoll_attr polls
                     email.send_user_confirmation(user.u_email, user.u_id, user.u_salt);
                     var redirect = '/signup/done';
                     res.header('Content-Length', Buffer.byteLength(redirect));

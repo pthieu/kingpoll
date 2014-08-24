@@ -99,9 +99,6 @@ app.get('/logout', userRoute.logout);
 app.post('/validateVote', routes.validateVote);
 app.get('/u', accountRoute.getOwnAccount);
 app.get('/u/:id', accountRoute.getUserAccount);
-// app.get('/test', function () {
-    // user_polls_helper.createAttrPolls('53aa3775a8b3f8041f82f8b9');
-// });
 
 app.get('/auth/facebook', passport.authenticate('facebook'));
 app.get('/auth/facebook/callback', 
@@ -201,19 +198,15 @@ io.sockets.on('connection', function (client) {
     //get list of all the available polls and display to user
     client.on('getlistpoll', function (limit, skip, sort) {
         console.log("Socket io connection");
-        // console.log(client.handshake);
-        //console.log(socket.handshake.user.username);
         switch(sort){
             case 'newest':
-            //TEMPORARY TO SEE RESULTS ON HOME
-                Poll.find({'u_id': {$not:/kingpoll_attr/i}},{'p_id':1, 'p_q':1, 'p_total':1, 's_ttotal':1, 'p_desc':1, 'p_embed':1},{limit: limit, skip: skip}).sort('-_id').exec(function(err, poll) {
-                // Poll.find({'u_id': {$not:/kingpoll_attr/i}},{'p_id':1, 'p_q':1, 'p_total':1, 's_ttotal':1, 'p_desc':1, 'p_embed':1},{limit: limit, skip: skip}).sort('-_id').exec(function(err, poll) {
+                Poll.find({'u_email': {$not:/kingpoll_attr/i}},{'p_id':1, 'p_q':1, 'p_total':1, 's_ttotal':1, 'p_desc':1, 'p_embed':1},{limit: limit, skip: skip}).sort('-_id').exec(function(err, poll) {
                     if (err) return console.error(err);
                     client.emit('listpoll', poll);
                 });
                 break;
             case 'mostvotes':
-                Poll.find({'u_id': {$not:/kingpoll_attr/i}},{'p_id':1, 'p_q':1, 'p_total':1, 's_ttotal':1, 'p_desc':1, 'p_embed':1},{limit: limit, skip: skip}).sort('-p_total').exec(function(err, poll) {
+                Poll.find({'u_email': {$not:/kingpoll_attr/i}},{'p_id':1, 'p_q':1, 'p_total':1, 's_ttotal':1, 'p_desc':1, 'p_embed':1},{limit: limit, skip: skip}).sort('-p_total').exec(function(err, poll) {
                     if (err) return console.error(err);
                     client.emit('listpoll', poll);
                 });
@@ -229,6 +222,7 @@ io.sockets.on('connection', function (client) {
     });
     //poll.html
     client.on('getPoll', function (pollID) {
+            // Poll.find({'u_id': {$not:/kingpoll_attr/i}},{'p_id':1, 'p_q':1, 'p_total':1, 's_ttotal':1, 'p_desc':1, 'p_embed':1},{limit: limit, skip: skip}).sort('-_id').exec(function(err, poll) {
         Poll.findOne({'p_id':pollID}, function(err, poll) {
             if (err) return console.error(err);
             client.emit('pollID', poll);
