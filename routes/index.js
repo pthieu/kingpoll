@@ -50,16 +50,11 @@ exports.getpoll = function (req, res) {
             var unhighlightbutton;
 
             if(req.user && _upls){
-                console.log(_upls.u_id);
-                console.log(req.user._id);
-                console.log(poll.p_hl);
                 if(req.user._id == _upls.u_id.toString() && poll.p_hl == false){
-                    console.log("pew1");
                     highlightbutton = true;
                     unhighlightbutton = false;
                 }
                 if(req.user._id == _upls.u_id.toString() && poll.p_hl == true){
-                    console.log("pew2");
                     highlightbutton = false;
                     unhighlightbutton = true;
                 }

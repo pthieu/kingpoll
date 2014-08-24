@@ -12,11 +12,10 @@
   /*border-bottom: 1px #ddd solid;*/
 }
 
-.account .personal-wrap, .account .stats-wrap, .account .attr-wrap, .account .upl-wrap, .account .polls-wrap{
+/*.account .personal-wrap, .account .stats-wrap, .account .attr-wrap, .account .upl-wrap, .account .polls-wrap{
 	display:inline-block;
 	text-align: left;
-	min-width: 300px;
-}
+}*/
 
 .account .personal-wrap {
   float: left;
@@ -30,7 +29,7 @@
   padding-left:1rem;
 }
 
-.account .attr-wrap, .account .upl-wrap, .account .polls-wrap{
+.account .highlight-wrap, .account .attr-wrap, .account .upl-wrap, .account .polls-wrap{
   display:none;
   text-align: center;
 }
@@ -67,7 +66,7 @@
 }
 
 .account .tabs .tab-content{
-  margin: 10px 0;
+  margin: 10px 0 0 0;
 }
 
 .account .polls-wrap ul {
@@ -88,12 +87,13 @@
 .account .pie-wrap{
   display:inline-block;
   margin: 10px;
-  width: 300px;
+  width: 280px;
 }
 
 .account .table {
   width:100%;
   text-align: center;
+  margin-bottom:0;
 }
 
 .account .table * {
@@ -156,6 +156,7 @@
   padding: 5px;
   font-size: 16px;
   font-weight: bold;
+  margin-top:5px;
   margin-bottom: 5px;
   cursor: pointer;
   -webkit-user-select: none; /* Chrome/Safari */        

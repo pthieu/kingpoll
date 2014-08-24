@@ -51,7 +51,7 @@ exports.getOwnAccount = function(req, res) {
       // });
     // });
   } else {
-    return res.render('login', { error: true, title: "KinPpoll Login", css_file: "css/signup.css" });
+    return res.render('login', { error: true, title: "KingPoll Login", css_file: "css/signup.css" });
   }
 };
 

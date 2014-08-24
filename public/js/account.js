@@ -20,7 +20,7 @@ $(function () {
 
   socket.emit('getAttrPolls', uid, 0, load_npolls, 0, 'newest'); // attr polls
   socket.emit('getAttrPolls', uid, 1, load_npolls, 0, 'newest'); // upl polls
-  // socket.emit('getHighlightPolls', uid); // hightlights // hidden for now until we get functinoality in 
+  socket.emit('getHighlightPolls', uid); // hightlights // hidden for now until we get functinoality in 
 
   $('.attr-wrap .loadmore').click(function () {
     socket.emit('getAttrPolls', uid, 0, load_npolls, $('.attr-wrap .pie-wrap').length, 'newest'); // attr polls
@@ -75,12 +75,12 @@ pie = (function (){
       .outerRadius(r2);
 
       //first select the svg g arc
-      var svg = d3.select(this).select(".attr-poll > g");
+      var svg = d3.select(this).select(".pie-poll > g");
       //if svg tag is empty, we're going to append a g
       if (svg.empty()) {
-        svg = d3.select(this).select(".attr-poll")
+        svg = d3.select(this).select(".pie-poll")
         // .attr("id", "pieTotal")
-        // .attr("class","attr-poll")
+        // .attr("class","pie-poll")
         .attr("width", w)
         .attr("height", h)
         .append("g")
@@ -176,7 +176,7 @@ pie = (function (){
       legend += '</div></div>';
     }
     legend += '</div>';
-    $('[data-pid='+dis.pid+']').append(legend);
+    $(dis.wrap+' [data-pid='+dis.pid+']').append(legend);
   }
   
   //internal vars here
@@ -188,7 +188,7 @@ pie = (function (){
         tmp.push(0);
       }
       tmp.unshift(1);
-      $(_sel).append('<div class="pie-wrap" data-pid="'+_pid+'"><div class="ptitle"><a href="/p/'+_pid+'">'+_ptitle+'</a></div><svg class="attr-poll"></svg></div>')
+      $(_sel).append('<div class="pie-wrap" data-pid="'+_pid+'"><div class="ptitle"><h4><a href="/p/'+_pid+'">'+_ptitle+'</a><h4></div><svg class="pie-poll"></svg></div>')
       return new Donut(_sel, d3.select('.pie-wrap[data-pid="'+_pid+'"]').datum(tmp), _pid, _ctotal, _ptotal);
     }
   }
@@ -242,7 +242,7 @@ socket.on('setAttrPolls', function (_poll, _type) {
 });
 //Set the highlighted polls on the profile page
 socket.on('setHighLightPolls', function (_poll) {
-  var type_wrap = '.highlight-wrap';
+  var type_wrap = '.highlight-wrap .highlight';
   //add initial grey ddd and also add # for hex colors
   var choices = {'colors':_poll.c_hex, 'ctext': _poll.c_text};
   choices.colors.unshift('ddd');
