@@ -259,6 +259,9 @@ $(document).ready(function() {
             post_color = form.find("input[name='c"+(i+1)+"_color']:checked").val();
             post_textchoice.push({'c_text':post_text, 'c_hex':post_color});
         }
+        $('#submit').text('Please Wait...');
+        $('#submit').attr('disabled', 'disabled');
+        $('#submit').css('background-color', '#888888');
         var posting = $.ajax({
             url: post_url,
             type: 'POST',

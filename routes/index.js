@@ -234,7 +234,7 @@ exports.newpoll = function(req, res) {
 
             request.post(
                 'https://api.imgur.com/oauth2/token', 
-                {form:{refresh_token:'0dc5c75408d684bd7ce6e893e1938763e964cd52',client_id:'1100622bb9cd565', client_secret:'8571ca74634d0a047bfc72880dbfa309dc4d0035', grant_type:'refresh_token' }}, 
+                {form:{refresh_token:'0dc5c75408d684bd7ce6e893e1938763e964cd52', client_id:'1100622bb9cd565', client_secret:'8571ca74634d0a047bfc72880dbfa309dc4d0035', grant_type:'refresh_token' }}, 
                 function(err, response, body){
                     // console.log(response);
                     if (!err && response.statusCode == 200) {
@@ -255,7 +255,7 @@ exports.newpoll = function(req, res) {
                         
                         request.post(options, function(err, response, body){
                             var upload_body = JSON.parse(body);
-                            console.log(err);
+                            if (err) console.error(err);
                             if (!err && response.statusCode == 200) {
                                 newpoll.p_image = 'https://i.imgur.com/' + upload_body.data.id + '.png';
                             }
@@ -576,8 +576,11 @@ exports.verifyUser = function (req,res) {
 
 function cleansymbols(str, lvl){
     //clears everything except for #
-    if (lvl == null){
+    if (!!str && lvl == null){
         return str.replace(/[-!$%^&*()_+|?~=`{}\[\]:";'<>,.\\\/]/g,"");
+    }
+    else{
+        return null;
     }
 }
 function cleanhashtag(arrStr){
