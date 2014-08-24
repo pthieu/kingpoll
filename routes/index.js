@@ -90,7 +90,7 @@ exports.createpoll = function (req, res) {
 exports.createuplpoll = function (req, res) {
     //res.sendfile('public/views/newpoll.html');
     res.render('newpoll', {
-        title: 'Create UPL Poll for '+ req.params.id,
+        title: 'Create Poll about '+ req.params.id,
         u_id: req.params.id,
         css_file: '/css/newpoll.css',
         js_script: '/js/newpoll.js'
