@@ -13,7 +13,7 @@ var uid;
 //DOM READY
 $(function () {
   // config
-  var load_npolls = 1; // number of polls loaded per loadmore click
+  var load_npolls = 6; // number of polls loaded per loadmore click
 
   uid = window.location.pathname;
   uid = uid.replace(/\/u\//, "");
