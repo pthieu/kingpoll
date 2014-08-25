@@ -87,7 +87,7 @@ exports.getUserAccount = function(req, res) {
         votedisplay['average'] = (average/1000).toFixed(2);
         votedisplay['total'] = (total/1000).toFixed(2);
 
-        Poll.find({'u_id':user._id}, function (err, polls) {
+        Poll.find({'u_id':user._id}, {'p_total':1, 'p_q':1, 'p_id':1, 'u_id':1}, function (err, polls) {
           res.render('account', { 
             // title: user.u_id + "'s Info", 
             user: user, 

@@ -78,12 +78,12 @@
             </thead>
             <tbody id='polls-wrap'>
               {{#each polls}} 
-              <tr class="poll" poll-id='{{p_id}}'><a href="/p/{{p_id}}"  title="Vote!">
+              <tr class="poll" poll-id='{{p_id}}'>
                 <td class="extras"></td>
                 <td>{{p_q}}</td>
                 <td>{{p_total}}</td>
-                <td><span class="btn btn-default btn-xs">Vote</span></td>
-              </a></tr>
+                <td><a href="/p/{{p_id}}"  title="Vote!"><span class="btn btn-default btn-xs">Vote</span></a></td>
+              </tr>
               {{/each}}
             </tbody>
           </table>

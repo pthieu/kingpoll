@@ -123,7 +123,7 @@ var setAttrPolls = function(_uid, _type, _limit, _skip, _sort, client, io) {
 var setHighlightPolls = function(_uid, client) {
   UPL.find({'u_id':_uid}, function (err, _upls) {
     _upls.forEach(function (_upl) {
-      Poll.findOne({'_id': _upl.p_id, 'p_hl': true},  function (err, _poll) {
+      Poll.findOne({'_id': _upl.p_id, 'p_hl': true}, {'u_email':0, 'u_loc':0, 'p_anon':0, 'c_random':0, 'data':0},  function (err, _poll) {
         if (err){
           console.error(err);
         }
