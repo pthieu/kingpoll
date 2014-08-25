@@ -10,14 +10,14 @@ window.fbAsyncInit = function() {
 };
 
 (function(d, s, id){
- var js, fjs = d.getElementsByTagName(s)[0];
- if (d.getElementById(id)) {return;}
- js = d.createElement(s); js.id = id;
- js.src = "//connect.facebook.net/en_US/all.js";
- fjs.parentNode.insertBefore(js, fjs);
+   var js, fjs = d.getElementsByTagName(s)[0];
+   if (d.getElementById(id)) {return;}
+   js = d.createElement(s); js.id = id;
+   js.src = "//connect.facebook.net/en_US/all.js";
+   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));
 </script>
-<div id="wrapper">
+<div id="wrapper" class="poll">
     <div id='question'>Getting poll, please wait...</div>
         <!-- <button id='click'>click</button>
         <button id='changepoll'>change poll</button>
@@ -123,26 +123,30 @@ window.fbAsyncInit = function() {
     <a id="voted-popup-close" class="voted-popup-close">X</a>
     <ul id="dropdownalerts" class="f-dropdown" data-dropdown-content>
         <li class="text large">
-            Awesome!<br> You Voted!<br> You Can Do More:
+            You Voted!
         </li>
         <li class="text">
-            Vote On Another Poll...
+            Vote on another Poll:
         </li>
         <li class="random-poll-button">
-            <a id="random-poll-button" href="javascript:void(0)" onclick="randomPoll();">
-                Random
+            <a href="javascript:void(0)" onclick="randomPoll();">
+                <span id="random-poll-button" class="btn btn-default btn-xs">
+                    Random
+                </span>
             </a>
         </li>
         <li class="text">
-            Make You Own Poll...
+            Make your own Poll:
         </li>
         <li class="make-poll-button">
-            <a id="make-poll-button" href="/new">
-                Make Poll
+            <a href="/new">
+                <span id="make-poll-button" class="btn btn-default btn-xs">
+                    Make Poll
+                </span>
             </a>
         </li>
         <li class="text">
-            Follow Us On...
+            Follow Us:
         </li>
         <li>
             <div class="share-buttons table">

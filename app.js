@@ -178,7 +178,7 @@ io.sockets.on('connection', function (client) {
     var pollid;
     client.on('getRandPoll', function (pollpage) {
         Poll.count( function(err,count) {
-            Poll.find({},{},{limit: 1, skip: Math.floor((Math.random()*(count)))}, function(err, poll) {
+            Poll.find({},{'u_email':0},{limit: 1, skip: Math.floor((Math.random()*(count)))}, function(err, poll) {
                 if (err) return console.error(err);
                 console.log(poll[0].p_id)
                 if (pollpage) {
@@ -274,7 +274,7 @@ io.sockets.on('connection', function (client) {
             _uid = client.handshake.user._id;
             user_polls_helper.setAttrPolls(_uid, _type, _limit, _skip, _sort, client, io);
         } else {
-            User.findOne({'u_id':_uid}, function (err, user) {
+            User.findOne({'u_id':_uid}, {}, function (err, user) {
                 if(user){
                     user_polls_helper.setAttrPolls(user._id, _type, _limit, _skip, _sort, client, io);
                 }
