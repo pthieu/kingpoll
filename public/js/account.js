@@ -216,7 +216,7 @@ socket.on('setAttrPolls', function (_poll, _type) {
     $(type+' .loadmore').unbind().click(function () {
       window.location.href = '/new/'+uid;
     });
-    $(type+' .loadmore').text(['No polls found! click to make a poll about ', uid, '!'].join(''));
+    $(type+' .loadmore').text(['No polls found! Click to make a poll about ', uid, '!'].join(''));
 
     return;
   } // if no poll found i.e. either run out of polls or user never had any
