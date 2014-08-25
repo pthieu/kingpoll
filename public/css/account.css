@@ -14,72 +14,72 @@
 /*.account .personal-wrap, .account .stats-wrap, .account .attr-wrap, .account .upl-wrap, .account .polls-wrap{
 	display:inline-block;
 	text-align: left;
-}*/
+  }*/
 
-.account .personal-wrap {
-  float: left;
-  width: 20%;
-  position: absolute;
-  left: 0;
-  max-width:300px;
-}
+  .account .personal-wrap {
+    float: left;
+    width: 20%;
+    position: absolute;
+    left: 0;
+    max-width:300px;
+  }
 
-.account .personal-wrap, .account .stats-wrap {
-  padding-left:1rem;
-}
+  .account .personal-wrap, .account .stats-wrap {
+    padding-left:1rem;
+  }
 
-.account .highlight-wrap, .account .attr-wrap, .account .upl-wrap, .account .polls-wrap{
-  display:none;
-  text-align: center;
-}
-.account .pie-align{
-  text-align: left;
-}
-.account .tabs {
-  float: right;
-  width: 78%;
-  margin-top: 10px;
-  right: 0;
-}
+  .account .highlight-wrap, .account .attr-wrap, .account .upl-wrap, .account .polls-wrap{
+    display:none;
+    text-align: center;
+  }
+  .account .pie-align{
+    text-align: left;
+  }
+  .account .tabs {
+    float: right;
+    width: 78%;
+    margin-top: 10px;
+    right: 0;
+  }
 
-.account .tabs .tab-button{
-  text-align: center;
-  cursor: pointer;
-}
+  .account .tabs .tab-button{
+    text-align: center;
+    cursor: pointer;
+  }
 
-.account .tabs .tab-button.active{
-  background-color: #555555;
-  color:#ffffff;
-}
+  .account .tabs .tab-button.active{
+    background-color: #555555;
+    color:#ffffff;
+  }
 
-.account .tabs .tab-button:hover{
-  background-color: #888888;
-  color:#ffffff;
-}
+  .account .tabs .tab-button:hover{
+    background-color: #888888;
+    color:#ffffff;
+  }
 
-.account .tab-container {
-  border-bottom: 2px #ddd solid;
-}
+  .account .tab-container {
+    border-bottom: 2px #ddd solid;
+  }
 
-.account .tabs .tab-button h2{
-  padding: 10px 0;
-  margin: 0;
-}
+  .account .tabs .tab-button h2{
+    padding: 10px 0;
+    margin: 0;
+  }
 
-.account .tabs .tab-content{
-  margin: 10px 0 0 0;
-}
+  .account .tabs .tab-content{
+    margin: 10px 0 0 0;
+  }
 
-.account .polls-wrap ul {
-  list-style-type: none;
-}
+  .account .polls-wrap ul {
+    list-style-type: none;
+  }
 
-.account .dp, .account .personal-info{
-	padding-left:1rem;
-  overflow-wrap: break-word;
-}
+  .account .dp, .account .personal-info{
+   padding-left:1rem;
+   overflow-wrap: break-word;
+ }
 
-.account .ptitle{
+ .account .ptitle{
   font-size:1.1rem;
   font-weight: bold;
   margin-bottom: 10px;
@@ -186,7 +186,7 @@
 
 @media all and (min-width: 767px) and (max-width: 1175px) {
   .account .tabs {
-    width: 65%;
+    width: 73%;
   }
 }
 
@@ -194,6 +194,12 @@
   .account .personal-wrap {
     float: none;
     position: relative;
+    max-width:100%;
+    width:100%;
+  }
+  .account .personal-wrap .dp img{
+    display:block;
+    margin:auto;
   }
 
   .account .tabs {

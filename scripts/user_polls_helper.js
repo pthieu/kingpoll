@@ -108,7 +108,7 @@ var setAttrPolls = function(_uid, _type, _limit, _skip, _sort, client, io) {
       client.emit('setAttrPolls', null, _type);
     }
     _upls.forEach(function (_upl) {
-      Poll.findOne({'_id': _upl.p_id},  function (err, _poll) {
+      Poll.findOne({'_id': _upl.p_id}, {'u_email':0, 'u_loc':0, 'p_anon':0, 'c_random':0, 'data':0},  function (err, _poll) {
         if (err){
           console.error(err);
         }

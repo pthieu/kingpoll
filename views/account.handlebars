@@ -9,9 +9,9 @@
   <div class="personal-wrap">
     <!-- personalinfo about user, display pic or something -->
     <div class="dp">
-      <a id="make-uplpoll-button" href="/new/{{user.u_id}}">
+       {{#if user.u_id}}<a id="make-uplpoll-button" href="/new/{{user.u_id}}">
         Create poll about {{user.u_id}}
-      </a>
+      </a>{{/if}}
       <!-- display pic -->
       <img src="/images/dummy_dp.png" alt="display picture">
       {{#if createUpl}}
@@ -19,22 +19,23 @@
     </div>
     <div class='personal-info'>
       {{!-- <h5>Name: {{#if user.u_name}} {{user.u_name}} {{else}} [Private] {{/if}}</h5> --}}
-      <h4>User: {{#if user.u_id}} {{user.u_id}} {{else}} [Private] {{/if}}</h5>
+      <h4>User: {{#if user.u_id}} {{user.u_id}} {{else}} N/A {{/if}}</h5>
         {{!-- <h5>Location: {{#if user.u_loc}} {{user.u_loc}} {{else}} [Private] {{/if}}</h5> --}}
       </div>
       <div class="stats-wrap">
         <!-- user statistics -->
         <h2>Statistics</h2>
         <div class="stats-info">
-          <h4>Total votes: {{voteslength}}</h4>
-          <h4 data-pid='1'>Longest vote time: {{votedisplay.longest}}s</h4>
-          <h4 data-pid='2'>Shortest vote time: {{votedisplay.shortest}}s</h4>
-          <h4>Avg. vote time: {{votedisplay.average}}s</h4>
-          <h4>Total vote time: {{votedisplay.total}}s</h4>
-          <h4>Polls created: {{pollslength}}s</h4>
+          <h4>Total votes: {{#if user.u_id}}{{voteslength}}{{else}}N/A{{/if}}</h4>
+          <h4 data-pid='1'>Longest vote time: {{#if user.u_id}}{{votedisplay.longest}}s{{else}}N/A{{/if}}</h4>
+          <h4 data-pid='2'>Shortest vote time: {{#if user.u_id}}{{votedisplay.shortest}}s{{else}}N/A{{/if}}</h4>
+          <h4>Avg. vote time: {{#if user.u_id}}{{votedisplay.average}}s{{else}}N/A{{/if}}</h4>
+          <h4>Total vote time: {{#if user.u_id}}{{votedisplay.total}}s{{else}}N/A{{/if}}</h4>
+          <h4>Polls created: {{#if user.u_id}}{{pollslength}}s{{else}}N/A{{/if}}</h4>
         </div>
       </div>
     </div>
+    {{#if user.u_id}}
     <div class="tabs">
       <div class="tab-container">
         <div class="tab-button" data-index="highlight-wrap" title="Click to expanding or collapse"><h2>{{user.u_id}}'s Highlights</h2></div>
@@ -89,4 +90,5 @@
         </div>
       </div>
     </div>
+    {{else}}{{/if}}
   </div>

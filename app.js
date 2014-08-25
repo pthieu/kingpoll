@@ -178,7 +178,7 @@ io.sockets.on('connection', function (client) {
     var pollid;
     client.on('getRandPoll', function (pollpage) {
         Poll.count( function(err,count) {
-            Poll.find({},{'u_email':0},{limit: 1, skip: Math.floor((Math.random()*(count)))}, function(err, poll) {
+            Poll.find({},{'u_email':0, 'u_loc':0, 'p_anon':0, 'c_random':0},{limit: 1, skip: Math.floor((Math.random()*(count)))}, function(err, poll) {
                 if (err) return console.error(err);
                 console.log(poll[0].p_id)
                 if (pollpage) {
