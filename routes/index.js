@@ -304,7 +304,7 @@ exports.newuplpoll = function(req, res) {
         var newpoll = new Poll({
             _id: new_pid,
             't_created': new_pid.getTimestamp(),
-            'p_q': '{'+user.u_id+'}: '+req.body.p_q,
+            'p_q': '@'+user.u_id+': '+req.body.p_q,
             'p_embed': (req.body.p_embed)?(req.body.p_embed.split(' ')[0]):"",
             'p_desc': req.body.p_desc,
             'c_n': req.body.c_n,
