@@ -636,8 +636,8 @@ else{
     $('#question').html("Poll not found <span style='font-weight:bold'>:c</span>");
     console.log('poll not found');
 }
-//DISQUS
-if (pollIDType !== 'vote') {
+        //DISQUS
+        if (pollIDType !== 'vote') {
             // disqus_count++;
             // poll?setTimeout(function(){
             //         if(disqus_count === 1){
