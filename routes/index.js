@@ -45,34 +45,49 @@ exports.getpoll = function (req, res) {
     res.sendfile('public/views/poll.html');*/
 
     Poll.findOne({'p_id':req.params.id}, function(err, poll) {
-        UPL.findOne({'p_id':poll._id}, function (err, _upls) {
-            var highlightbutton;
-            var unhighlightbutton;
+        if(!!poll){
+            UPL.findOne({'p_id':poll._id}, function (err, _upls) {
+                var highlightbutton;
+                var unhighlightbutton;
 
-            if(req.user && _upls){
-                if(req.user._id == _upls.u_id.toString() && poll.p_hl == false){
-                    highlightbutton = true;
-                    unhighlightbutton = false;
+                if(req.user && _upls){
+                    if(req.user._id == _upls.u_id.toString() && poll.p_hl == false){
+                        highlightbutton = true;
+                        unhighlightbutton = false;
+                    }
+                    if(req.user._id == _upls.u_id.toString() && poll.p_hl == true){
+                        highlightbutton = false;
+                        unhighlightbutton = true;
+                    }
+
                 }
-                if(req.user._id == _upls.u_id.toString() && poll.p_hl == true){
-                    highlightbutton = false;
-                    unhighlightbutton = true;
-                }
 
-            }
-
+                res.render('poll', {
+                    description: poll.p_desc,
+                    title: poll.p_q +' - Poll ' + poll.p_id,
+                    url: 'http://kingpoll.com/p/' + poll.p_id,
+                    pollid: poll.p_id,
+                    image: poll.p_image,
+                    highlightbutton: highlightbutton,
+                    unhighlightbutton: unhighlightbutton,
+                    css_file: '/css/poll.css',
+                    js_script: '/js/poll.js'
+                });
+            }); 
+        }
+        else{
             res.render('poll', {
-                description: poll.p_desc,
-                title: poll.p_q +' - Poll ' + poll.p_id,
-                url: 'http://kingpoll.com/p/' + poll.p_id,
-                pollid: poll.p_id,
-                image: poll.p_image,
-                highlightbutton: highlightbutton,
-                unhighlightbutton: unhighlightbutton,
+                description: '',
+                title: 'Poll Not Found',
+                url: 'http://kingpoll.com/p/' + req.params.id,
+                pollid: req.params.id,
+                image: null,
+                highlightbutton: false,
+                unhighlightbutton: false,
                 css_file: '/css/poll.css',
                 js_script: '/js/poll.js'
             });
-        }); 
+        }
     });
 };
 exports.createpoll = function (req, res) {
@@ -118,7 +133,7 @@ exports.verifyvote = function (req, res) {
     //             user.markModified('u_salt');
     //             user.save(function (err) {
     //                 if (err) console.error(err);
-                    res.sendfile('public/views/validation.html');
+    res.sendfile('public/views/validation.html');
     //             });
     //         }
     //         else{
@@ -127,7 +142,7 @@ exports.verifyvote = function (req, res) {
     //         }
     //     });
     // });
-    
+
     // Vote.find({u_id:u_id, v_valid:v_salt}, function (err, vote) {
     //     for(i=0; i<vote.length; i++){
     //         vote[i].v_valid = true;
@@ -145,6 +160,7 @@ exports.verifyvote = function (req, res) {
 
 /********** POST STUFF **********/
 exports.newpoll = function(req, res) {
+    console.log(req.user);
     new_pid = mongoose.Types.ObjectId(); //new pollid
     new_uid = mongoose.Types.ObjectId(); //new userid for anon
     var u_fp = (req.body.u_fp) ? req.body.u_fp : null;
@@ -154,7 +170,7 @@ exports.newpoll = function(req, res) {
     User.findOne({'u_fp':u_fp}, function (err, user) {
         if (err) {
           return console.error(err);
-        }
+      }
         //if user logged in
         if(req.user) {
             console.log("saving with existing logged in")
@@ -189,7 +205,6 @@ exports.newpoll = function(req, res) {
                 create_user_id = user._id;
             }
         }
-        // console.log(req.body);
         var newpoll = new Poll({
             _id: new_pid,
             't_created': new_pid.getTimestamp(),
@@ -197,9 +212,9 @@ exports.newpoll = function(req, res) {
             'p_embed': (req.body.p_embed)?(req.body.p_embed.split(' ')[0]):"",
             'p_desc': req.body.p_desc,
             'c_n': req.body.c_n,
-            'u_email': (!!user)?user.u_email:'anonymous', //if user exists, we put his email in, otherwise it's anonymous
+            'u_id': (!!req.user._id)?mongoose.Types.ObjectId(req.user._id):'anonymous',
+            'u_email': (!!req.user.u_email)?req.user.u_email:'anonymous', //if user exists, we put his email in, otherwise it's anonymous
             't_created': new_pid.getTimestamp(),
-            'u_id': create_user_id,
             'c_random': req.body.c_random
         });
         //get color text/hex
@@ -272,27 +287,28 @@ exports.newpoll = function(req, res) {
                                 }
                             });
                         });
-                    } else {
-                        newpoll.save(function (err, poll, count) {
-                            if (err){
-                                console.error(err);
-                                res.status(500).json({status:'Poll Save: failed'});
-                            }
-                            else{
-                                console.log('Poll Save: passed')
-                                var redirect = "/p/"+hex_pid.toString();
-                                res.header('Content-Length', Buffer.byteLength(redirect));
-                                res.send(redirect, 200);
-                            }
-                        });
-                    }
-                }
-            ); 
-        });
+} else {
+    newpoll.save(function (err, poll, count) {
+        if (err){
+            console.error(err);
+            res.status(500).json({status:'Poll Save: failed'});
+        }
+        else{
+            console.log('Poll Save: passed')
+            var redirect = "/p/"+hex_pid.toString();
+            res.header('Content-Length', Buffer.byteLength(redirect));
+            res.send(redirect, 200);
+        }
     });
+}
+}
+); 
+});
+});
 };
 
 exports.newuplpoll = function(req, res) {
+    console.log(req.user);
     new_pid = mongoose.Types.ObjectId(); //new pollid
 
     var create_user_id;
@@ -300,23 +316,23 @@ exports.newuplpoll = function(req, res) {
     User.findOne({'u_id':req.params.id}, function (err, user) {
         if (err) {
           return console.error(err);
-        }
-        if(user) {
-            console.log("saving with existing logged in")
-            create_user_id = user._id;
-        } 
-        var newpoll = new Poll({
-            _id: new_pid,
-            't_created': new_pid.getTimestamp(),
-            'p_q': '@'+user.u_id+': '+req.body.p_q,
-            'p_cat': ['standard_upl'],
-            'p_embed': (req.body.p_embed)?(req.body.p_embed.split(' ')[0]):"",
-            'p_desc': req.body.p_desc,
-            'c_n': req.body.c_n,
-            't_created': new_pid.getTimestamp(),
-            'u_id': 'kingpoll_attr',
-            'u_email': (!!user)?user.u_email:'anonymous', //if user exists, we put his email in, otherwise it's anonymous
-            'c_random': req.body.c_random
+      }
+      if(user) {
+        console.log("saving with existing logged in")
+        create_user_id = user._id;
+    } 
+    var newpoll = new Poll({
+        _id: new_pid,
+        't_created': new_pid.getTimestamp(),
+        'p_q': '@'+user.u_id+': '+req.body.p_q,
+        'p_cat': ['standard_upl'],
+        'p_embed': (req.body.p_embed)?(req.body.p_embed.split(' ')[0]):"",
+        'p_desc': req.body.p_desc,
+        'c_n': req.body.c_n,
+        't_created': new_pid.getTimestamp(),
+        'u_id': (!!req.user._id)?mongoose.Types.ObjectId(req.user._id):'anonymous',
+        'u_email': (!!req.user.u_email)?req.user.u_email:'anonymous', //if user exists, we put his email in, otherwise it's anonymous
+        'c_random': req.body.c_random
         });
         //get color text/hex
         for (i=0; i < req.body.c_n; i++){
@@ -390,48 +406,48 @@ exports.newuplpoll = function(req, res) {
                                     newupl.save(function (err, upl, count) {
                                         if (err){
                                           console.error(err);
-                                        }
-                                        else{
-                                            console.log('Poll Save: passed')
-                                            var redirect = "/p/"+hex_pid.toString();
-                                            res.header('Content-Length', Buffer.byteLength(redirect));
-                                            res.send(redirect, 200);
-                                        }
-                                    }); 
-                                }
-                            });
-                        });
-                    } else {
-                        newpoll.save(function (err, poll, count) {
-                            if (err){
-                                console.error(err);
-                                res.status(500).json({status:'Poll Save: failed'});
-                            }
-                            else{
-                                var newupl = new UPL({
-                                    _id: mongoose.Types.ObjectId(),
-                                    'p_id': poll._id,
-                                    'u_id': create_user_id,
-                                    'type': 'standard_upl'
-                                });
-                                newupl.save(function (err, upl, count) {
-                                    if (err){
-                                      console.error(err);
-                                    }
-                                    else{
+                                      }
+                                      else{
                                         console.log('Poll Save: passed')
                                         var redirect = "/p/"+hex_pid.toString();
                                         res.header('Content-Length', Buffer.byteLength(redirect));
                                         res.send(redirect, 200);
                                     }
                                 }); 
-                            }
-                        });
-                    }
-                }
-            ); 
-        });
+                                }
+                            });
+});
+} else {
+    newpoll.save(function (err, poll, count) {
+        if (err){
+            console.error(err);
+            res.status(500).json({status:'Poll Save: failed'});
+        }
+        else{
+            var newupl = new UPL({
+                _id: mongoose.Types.ObjectId(),
+                'p_id': poll._id,
+                'u_id': create_user_id,
+                'type': 'standard_upl'
+            });
+            newupl.save(function (err, upl, count) {
+                if (err){
+                  console.error(err);
+              }
+              else{
+                console.log('Poll Save: passed')
+                var redirect = "/p/"+hex_pid.toString();
+                res.header('Content-Length', Buffer.byteLength(redirect));
+                res.send(redirect, 200);
+            }
+        }); 
+        }
     });
+}
+}
+); 
+});
+});
 };
 
 exports.validateVote = function (req,res) {
@@ -473,10 +489,10 @@ exports.validateVote = function (req,res) {
                 }
             }
         });
-    });
-    var redirect = '/home';
-    res.header('Content-Length', Buffer.byteLength(redirect));
-    res.send(redirect, 200);
+});
+var redirect = '/home';
+res.header('Content-Length', Buffer.byteLength(redirect));
+res.send(redirect, 200);
 }
 
 exports.newuser = function(req, res) {

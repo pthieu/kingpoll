@@ -240,7 +240,7 @@ io.sockets.on('connection', function (client) {
         socket.vote(dataVote, client, io, client.handshake.user.logged_in);
     });
     client.on('iploc', function (iploc) {
-        console.log(iploc);
+        // console.log(iploc);
     });
     //landing
     client.on('getViewers', function (d) {

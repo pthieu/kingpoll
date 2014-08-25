@@ -227,7 +227,7 @@ $(document).ready(function() {
         //get local storage/cookie
         post_uid = localStorage.getItem('u_id');
         post_email = localStorage.getItem('u_email');
-       fingerprint = _fp.get();
+        fingerprint = _fp.get();
         // Get some values from elements on the page:
         var form = $(this);
         var post_email, // grab this from button press
@@ -262,6 +262,7 @@ $(document).ready(function() {
         $('#submit').text('Please Wait...');
         $('#submit').attr('disabled', 'disabled');
         $('#submit').css('background-color', '#888888');
+
         var posting = $.ajax({
             url: post_url,
             type: 'POST',
