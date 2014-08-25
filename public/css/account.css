@@ -33,7 +33,9 @@
   display:none;
   text-align: center;
 }
-
+.account .pie-align{
+  text-align: left;
+}
 .account .tabs {
   float: right;
   width: 78%;
@@ -88,6 +90,7 @@
   display:inline-block;
   margin: 10px;
   width: 280px;
+  text-align: center;
 }
 
 .account .table {
@@ -128,6 +131,10 @@
 .account .pie-wrap tspan{
   font-size:1.4rem;
   /*color:inherit;*/
+}
+
+.account .pie-wrap h4{
+  line-height: 22px;
 }
 
 .account .tr{

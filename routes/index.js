@@ -155,11 +155,13 @@ exports.newpoll = function(req, res) {
         if (err) {
           return console.error(err);
         }
+        //if user logged in
         if(req.user) {
             console.log("saving with existing logged in")
             create_user_id = req.user._id;
-        } 
+        }
         else {
+            //if new user
             if(!user) {
                 var new_uid = mongoose.Types.ObjectId();
                 var user = new User({
@@ -167,7 +169,7 @@ exports.newpoll = function(req, res) {
                     'u_id'      : new_uid,
                     'u_fp'      : u_fp,
                     'u_thirdId' : new_uid,
-                    'u_email'   : new_uid,
+                    'u_email'   : 'anonymous',
                     'u_created' : new_uid.getTimestamp(),
                     'u_isSignUp': false
                 });
@@ -180,7 +182,9 @@ exports.newpoll = function(req, res) {
                 });
                 console.log("saving with new created")
                 create_user_id = new_uid;
-            } else {
+            }
+            //if user not signed up but exists in database
+            else {
                 console.log("saving with existing fp")
                 create_user_id = user._id;
             }
@@ -193,6 +197,7 @@ exports.newpoll = function(req, res) {
             'p_embed': (req.body.p_embed)?(req.body.p_embed.split(' ')[0]):"",
             'p_desc': req.body.p_desc,
             'c_n': req.body.c_n,
+            'u_email': (!!user)?user.u_email:'anonymous', //if user exists, we put his email in, otherwise it's anonymous
             't_created': new_pid.getTimestamp(),
             'u_id': create_user_id,
             'c_random': req.body.c_random
@@ -300,17 +305,17 @@ exports.newuplpoll = function(req, res) {
             console.log("saving with existing logged in")
             create_user_id = user._id;
         } 
-        
         var newpoll = new Poll({
             _id: new_pid,
             't_created': new_pid.getTimestamp(),
             'p_q': '@'+user.u_id+': '+req.body.p_q,
+            'p_cat': ['standard_upl'],
             'p_embed': (req.body.p_embed)?(req.body.p_embed.split(' ')[0]):"",
             'p_desc': req.body.p_desc,
             'c_n': req.body.c_n,
             't_created': new_pid.getTimestamp(),
             'u_id': 'kingpoll_attr',
-            'u_email': 'kingpoll_attr',
+            'u_email': (!!user)?user.u_email:'anonymous', //if user exists, we put his email in, otherwise it's anonymous
             'c_random': req.body.c_random
         });
         //get color text/hex
@@ -380,7 +385,7 @@ exports.newuplpoll = function(req, res) {
                                         _id: mongoose.Types.ObjectId(),
                                         'p_id': poll._id,
                                         'u_id': create_user_id,
-                                        'type': 'standard'
+                                        'type': 'standard_upl'
                                     });
                                     newupl.save(function (err, upl, count) {
                                         if (err){
@@ -407,7 +412,7 @@ exports.newuplpoll = function(req, res) {
                                     _id: mongoose.Types.ObjectId(),
                                     'p_id': poll._id,
                                     'u_id': create_user_id,
-                                    'type': 'standard'
+                                    'type': 'standard_upl'
                                 });
                                 newupl.save(function (err, upl, count) {
                                     if (err){

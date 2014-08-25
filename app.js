@@ -197,17 +197,17 @@ io.sockets.on('connection', function (client) {
     });
     //get list of all the available polls and display to user
     client.on('getlistpoll', function (limit, skip, sort) {
-        console.log("Home: getting polls");
+        // console.log("Home: getting polls");
         switch(sort){
             case 'newest':
-                // Poll.find({'u_email': {$not:/kingpoll_attr/i}},{'p_id':1, 'p_q':1, 'p_total':1, 's_ttotal':1, 'p_desc':1, 'p_embed':1},{limit: limit, skip: skip}).sort('-_id').exec(function(err, poll) {
+                // Poll.find({'p_cat': {$not:/kingpoll_attr/i}},{'p_id':1, 'p_q':1, 'p_total':1, 's_ttotal':1, 'p_desc':1, 'p_embed':1},{limit: limit, skip: skip}).sort('-_id').exec(function(err, poll) {
                 Poll.find({},{'p_id':1, 'p_q':1, 'p_total':1, 's_ttotal':1, 'p_desc':1, 'p_embed':1},{limit: limit, skip: skip}).sort('-_id').exec(function(err, poll) {
                     if (err) return console.error(err);
                     client.emit('listpoll', poll);
                 });
                 break;
             case 'mostvotes':
-                // Poll.find({'u_email': {$not:/kingpoll_attr/i}},{'p_id':1, 'p_q':1, 'p_total':1, 's_ttotal':1, 'p_desc':1, 'p_embed':1},{limit: limit, skip: skip}).sort('-p_total').exec(function(err, poll) {
+                // Poll.find({'p_cat': {$not:/kingpoll_attr/i}},{'p_id':1, 'p_q':1, 'p_total':1, 's_ttotal':1, 'p_desc':1, 'p_embed':1},{limit: limit, skip: skip}).sort('-p_total').exec(function(err, poll) {
                 Poll.find({},{'p_id':1, 'p_q':1, 'p_total':1, 's_ttotal':1, 'p_desc':1, 'p_embed':1},{limit: limit, skip: skip}).sort('-p_total').exec(function(err, poll) {
                     if (err) return console.error(err);
                     client.emit('listpoll', poll);
@@ -224,7 +224,6 @@ io.sockets.on('connection', function (client) {
     });
     //poll.html
     client.on('getPoll', function (pollID) {
-        // Poll.find({'u_id': {$not:/kingpoll_attr/i}},{'p_id':1, 'p_q':1, 'p_total':1, 's_ttotal':1, 'p_desc':1, 'p_embed':1},{limit: limit, skip: skip}).sort('-_id').exec(function(err, poll) {
         Poll.findOne({'p_id':pollID}, {'u_email':0, 'u_loc':0, 'p_anon':0, 'c_random':0}, function(err, poll) {
             if (err) return console.error(err);
             client.emit('pollID', poll);

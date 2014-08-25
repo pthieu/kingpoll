@@ -50,6 +50,7 @@ var createPoll = function (_uid, _username, _type, p_q, c_text, c_hex){
     'c_hex': c_hex, 
     'u_id': 'kingpoll_attr',
     'u_email': 'kingpoll_attr',
+    'p_cat': ['kingpoll_attr'],
     'c_random': 0
   });
   var arrInitMap = help.initMapChoice(c_text.length, newpoll['data'].toObject());
@@ -69,7 +70,7 @@ var createPoll = function (_uid, _username, _type, p_q, c_text, c_hex){
     });
   });
   //create link between user and attr poll
-  var tmp = (_type == 0)?'kingpoll_attr':'standard';
+  var tmp = (_type == 0)?'kingpoll_attr':'standard_upl';
   createUPL(new_uid, new_pid, tmp);
 }
 
@@ -91,14 +92,14 @@ var createUPL = function(_uid, _pid, _type){
 }
 
 var setAttrPolls = function(_uid, _type, _limit, _skip, _sort, client, io) {
-  //type -- 0:kingpoll_attr, 1:standard
+  //type -- 0:kingpoll_attr, 1:standard_upl
   var type;
   switch(_type){
     case 0:
       type = 'kingpoll_attr';
       break;
     case 1:
-      type = 'standard';
+      type = 'standard_upl';
       break;
   }
   UPL.find({'u_id':_uid, 'type':type},{},{limit:_limit, skip:_skip}, function (err, _upls) {

@@ -25,7 +25,6 @@ exports.getVoted = function (data, client) {
         });
     });
 }
-// User.findOne({$or:[{'u_email': u_email}, social, {'u_fp': u_fp}]}).exec(function (err, user) {
 exports.vote = function (dataVote, client, io, loggedin) {
     var u_email = (dataVote.u_email)?dataVote.u_email.toLowerCase():dataVote.socialID.id;
     u_email = (u_email)?u_email:mongoose.Types.ObjectId();
