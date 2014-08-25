@@ -1,37 +1,39 @@
 label{
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 .radio.nchoice{
   margin-bottom: 2rem;
 }
 .radio input, .checkradio input{
-    display:none;
+  display:none;
 }
 .radio input:checked + label{
-    opacity:1;
+  opacity:1;
 }
 .radio label {
-    font-size: 2rem;
-    font-weight: bold;
-    display: inline-block;
-    text-align: center;
-    padding: 1.5rem;
-    width: 7rem;
-    opacity: 0.5;
-    position: relative;
-    color: #fff;
-    -webkit-transition: 0.15s ease opacity;
-    -moz-transition: 0.15s ease opacity;
-    -ms-transition: 0.15s ease opacity;
-    -o-transition: 0.15s ease opacity;
-    transition: 0.15s ease opacity;
+  font-size: 2rem;
+  font-weight: bold;
+  display: inline-block;
+  text-align: center;
+  padding: 1.5rem;
+  width: 7rem;
+  opacity: 0.5;
+  position: relative;
+  color: #fff;
+  -webkit-transition: 0.15s ease opacity;
+  -moz-transition: 0.15s ease opacity;
+  -ms-transition: 0.15s ease opacity;
+  -o-transition: 0.15s ease opacity;
+  transition: 0.15s ease opacity;
 }
-.radio label::after {
+
+/*Everything commented out is just for looks*/
+/*.radio label::after {
   content: "";
   font-size: 1rem;
   opacity: 0;
@@ -48,11 +50,11 @@ label{
   transition: 0.15s ease opacity;
 }
 .radio label:hover{
-    opacity: 0.7;
+  opacity: 0.7;
 }
 .radio label:hover::after {
   opacity: 1;
-}
+}*/
 
 .checkradio label{
   margin:0;
@@ -62,13 +64,13 @@ label{
 }
 
 .checkradio label::after{ 
-    content:"";
-    display: inline-block;
-    width:2rem;
-    height:2rem;
-    position: relative;
-    left:1em;
-    border: 1px black solid;
+  content:"";
+  display: inline-block;
+  width:2rem;
+  height:2rem;
+  position: relative;
+  left:1em;
+  border: 1px black solid;
 }
 .radio-cb{
   display:none;
@@ -85,7 +87,7 @@ label{
   width: 15rem;
 }
 .radio-cb-label{
-    padding-left: 1rem;
+  padding-left: 1rem;
 }
 .radio-cb-label::before{
   content:"";
@@ -128,8 +130,8 @@ label{
 }
 
 .choices{
-   border-bottom: 1px #ddd solid;
-   margin-top: 0.25rem;
+ border-bottom: 1px #ddd solid;
+ margin-top: 0.25rem;
 }
 .choices .radio{
   text-align: center;
@@ -161,14 +163,14 @@ label{
 }
 
 .tbDescription{
-    margin: 0.5rem auto 0.5rem auto;
-    padding-left: 0.25rem;
-    width: 40rem;
-    word-wrap: break-word;
-    text-align: left;
-    border-left: 0.25rem solid;
-    border-color: #ddd;
+  margin: 0.5rem auto 0.5rem auto;
+  padding-left: 0.25rem;
+  width: 40rem;
+  word-wrap: break-word;
+  text-align: left;
+  border-left: 0.25rem solid;
+  border-color: #ddd;
 }
 .tbDescription:hover{
-    border-color: red;
+  border-color: red;
 }

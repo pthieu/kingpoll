@@ -166,57 +166,57 @@ $(document).ready(function(){
                     .attr("y", 22)
                     .attr("id",'pie_msg_val')
                     .text("0");
-            }
-            var path = svg.selectAll("path")
-            .data(pie);
-            path.enter().append("path")
-            .attr("fill", function (d, i) {
-                return color[i];
-            })
-            .attr("d", arc)
-            .each(function (d) {
-                this._current = d;
-            })
-            .attr("class", "vote_arc")
-            .attr("value", function(d,i) {
-                return (i-1);
-            });;
+                }
+                var path = svg.selectAll("path")
+                .data(pie);
+                path.enter().append("path")
+                .attr("fill", function (d, i) {
+                    return color[i];
+                })
+                .attr("d", arc)
+                .each(function (d) {
+                    this._current = d;
+                })
+                .attr("class", "vote_arc")
+                .attr("value", function(d,i) {
+                    return (i-1);
+                });;
 
-            path.transition()
-            .duration(dur)
-            .attrTween("d", arcTween)
-            .each('end', function () {
-                if(_callback){
-                   setTimeout(function () {
-                     _callback(_cbparam)
-                 }, 100);
-               }
+                path.transition()
+                .duration(dur)
+                .attrTween("d", arcTween)
+                .each('end', function () {
+                    if(_callback){
+                       setTimeout(function () {
+                         _callback(_cbparam)
+                     }, 100);
+                   }
+               });
+
+                path.exit().remove();
+
+                function arcTween(a) {
+                    var i = d3.interpolate(this._current, a);
+                    this._current = i(0);
+                    return function (t) {
+                        return arc(i(t));
+                    };
+                }
             });
+};
+var tmpdata = [1];
+var pieTotal = d3.select("#results").datum(tmpdata);
+donut(pieTotal, innerRadius, outerRadius, pieW, pieH, ['#ddd']);
 
-            path.exit().remove();
+function pieTotal_update(_data, _callback, _cbparam) {
+    pieTotal.datum(_data.val).transition();
+    donut(pieTotal, innerRadius, outerRadius, pieW, pieH, pie_colors, _callback, _cbparam);
+}
 
-            function arcTween(a) {
-                var i = d3.interpolate(this._current, a);
-                this._current = i(0);
-                return function (t) {
-                    return arc(i(t));
-                };
-            }
-        });
-    };
-    var tmpdata = [1];
-    var pieTotal = d3.select("#results").datum(tmpdata);
-    donut(pieTotal, innerRadius, outerRadius, pieW, pieH, ['#ddd']);
-
-    function pieTotal_update(_data, _callback, _cbparam) {
-        pieTotal.datum(_data.val).transition();
-        donut(pieTotal, innerRadius, outerRadius, pieW, pieH, pie_colors, _callback, _cbparam);
-    }
-
-    function populatepie(_data, _hex) {
-        var vlength = Math.min(_data.length, _hex.length);
-        pie_votes = [0];
-        pie_colors = ['#ddd'];
+function populatepie(_data, _hex) {
+    var vlength = Math.min(_data.length, _hex.length);
+    pie_votes = [0];
+    pie_colors = ['#ddd'];
         //initialize with [1,0,0...]
         pie_votes = [1];
         for(var i=0; i<vlength;i++){
@@ -564,16 +564,21 @@ for(var i in mapdata){
             //create buttons
             if(!voted){
                 $('#choices .radio').html('');
-                for(i in choice_colors){
-                    $('#choices .radio').append('<input id="c'+ i +'"class="btnChoice" type="radio" name="vote" value="'+ i +'" /><label for="c'+i+'" style="background-color:#'+choice_colors[i].color+'"><div><div>'+choice_colors[i].c_text+'</div></div></label>');
+                for(var i in choice_colors){
+                    var tmp = $('#choices .radio').append('<input id="c'+ i +'"class="btnChoice" type="radio" name="vote" value="'+ i +'" /><label for="c'+i+'" style="background-color:#'+choice_colors[i].color+'; border:2px solid #'+choice_colors[i].color+'" data-color="#'+choice_colors[i].color+'"><div><div>'+choice_colors[i].c_text+'</div></div></label>');
                 }
+                $('#choices .radio label').hover(function(e) {
+                    var tmpcolor = $(this).data('color');
+                    $(this).css("background-color", e.type === "mouseenter"?"#ffffff":tmpcolor);
+                    $(this).css("color", e.type === "mouseenter"?tmpcolor:"#fff");
+                });
                 $('#choices .share-buttons').show();
             }
             socket.on('setVoted', function (d) {
                 setTimeout(function () {
                     if(d != null){
                         $('label[for="c'+d+'"]').click();
-                        $('input[name="vote"]').attr({'disabled': 'true'});
+                        $('input[name="vote"]').attr({'disabled': 'true'}).siblings('label').unbind();
                         $(document).find('.veil').addClass('unveil');
                         voted = true;
                     }
@@ -610,6 +615,9 @@ for(var i in mapdata){
                         's_vtime'   :votetime
                     });
                     voted = true;
+                    $('input[name="vote"]').attr({'disabled': 'true'}).siblings('label').on('mouseleave', function () {
+                        $('input[name="vote"]').attr({'disabled': 'true'}).siblings('label').unbind();
+                    });
 
                     var popupTimer = getLocalVar('popupTimer');
                     var popupDate = new Date();
