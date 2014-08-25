@@ -10,6 +10,7 @@ var ObjectId = require('mongoose').Types.ObjectId;
 
 exports.getVoted = function (data, client) {
     Poll.findOne({'p_id': data.p_id}, function (err, poll) {
+        if (err) console.error(err);
         //look for email(currently not used) or fingerprint
         var u_email = (data.u_email)?data.u_email.toLowerCase():"";
         console.log('EMAIL '+data.u_email);
@@ -24,6 +25,7 @@ exports.getVoted = function (data, client) {
         });
     });
 }
+// User.findOne({$or:[{'u_email': u_email}, social, {'u_fp': u_fp}]}).exec(function (err, user) {
 exports.vote = function (dataVote, client, io, loggedin) {
     var u_email = (dataVote.u_email)?dataVote.u_email.toLowerCase():dataVote.socialID.id;
     u_email = (u_email)?u_email:mongoose.Types.ObjectId();
@@ -32,7 +34,7 @@ exports.vote = function (dataVote, client, io, loggedin) {
     var socialID = dataVote.socialID;
     var new_vid = mongoose.Types.ObjectId();
     //see if poll exists
-    Poll.findOne({'_id': dataVote.p_id[0]}).exec(function (err, poll) {
+    Poll.findOne({$or:[{'_id': dataVote.p_id[0]}, {'p_id': dataVote.p_id[1]}]}).exec(function (err, poll) {
         if (err) throw err;
         //create new vote if poll exists. otherwise do nothing. wtf? send back poll not found?
         if (poll){
