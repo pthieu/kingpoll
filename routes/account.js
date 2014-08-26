@@ -90,10 +90,10 @@ exports.getUserAccount = function(req, res) {
         Poll.find({'u_id':user._id}, {'p_total':1, 'p_q':1, 'p_id':1, 'u_id':1}, function (err, polls) {
           res.render('account', { 
             // title: user.u_id + "'s Info", 
-            user: user, 
+            user: user,
             showbuttons: false,
             createUpl: true,
-            polls: polls, 
+            polls: polls,
             pollslength: polls.length,
             voteslength: votes.length,
             votedisplay: votedisplay, 
