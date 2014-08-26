@@ -62,8 +62,8 @@ var createAttrPolls = function(_uid, _username, _type, _arrIMG) {
     var c_hex = uplList[i].c_hex;
     var img = (!!_arrIMG) ? _arrIMG[uplList[i].p_q] : null;
     setTimeout(function (_uid, _username, _p_q, _type, _ctext, _chex, _img) {
-      createPoll(_uid, _username, _p_q, _type, _ctext, _chex, _img);
-    }, 1000*i, u_id, username, p_q, _type, c_text, c_hex, img);
+      createPoll(_uid, _username, _type, _p_q, _ctext, _chex, _img);
+    }, 1500*i, u_id, username, p_q, _type, c_text, c_hex, img);
   }
   // setTimeout(callback, delay, [arg], [...])
 }
