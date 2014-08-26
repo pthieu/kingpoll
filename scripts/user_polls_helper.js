@@ -55,15 +55,15 @@ var createAttrPolls = function(_uid, _username, _type, _arrIMG) {
   var username = _username;
 
   //note that uplList[i].p_q and arrIMG[uplList[i].p_q] have to be the same!!!!!!
-  if(_arrIMG.length>0){}
+  if (_arrIMG.length > 0) {}
   for (var i = 0; i < uplList.length; i++) {
     var p_q = uplList[i].p_q;
     var c_text = uplList[i].c_text;
     var c_hex = uplList[i].c_hex;
     var img = (!!_arrIMG) ? _arrIMG[uplList[i].p_q] : null;
-    setTimeout(function (_uid, _username, _p_q, _type, _ctext, _chex, _img) {
+    setTimeout(function(_uid, _username, _p_q, _type, _ctext, _chex, _img) {
       createPoll(_uid, _username, _type, _p_q, _ctext, _chex, _img);
-    }, 1500*i, u_id, username, p_q, _type, c_text, c_hex, img);
+    }, 1500 * i, u_id, username, p_q, _type, c_text, c_hex, img);
   }
   // setTimeout(callback, delay, [arg], [...])
 }
@@ -121,7 +121,7 @@ var createPoll = function(_uid, _username, _type, p_q, c_text, c_hex, _img) {
                     'image': _img.split(',')[1],
                     'type': 'base64',
                     'title': p_q,
-                    'description': 'KingPoll.com Attribute for user: @'+_username+' -- Come vote at: http://www.kingpoll.com/p/'+poll.p_id
+                    'description': 'KingPoll.com Attribute for user: @' + _username + ' -- Come vote at: http://www.kingpoll.com/p/' + poll.p_id
                   }
                 };
                 //set up the headers and send data over
@@ -130,13 +130,14 @@ var createPoll = function(_uid, _username, _type, p_q, c_text, c_hex, _img) {
                   if (err) console.error(err);
                   if (!err && response.statusCode == 200) {
                     var p_image = 'https://i.imgur.com/' + upload_body.data.id + '.png';
-                    poll.update({'p_image': p_image}, function(err, poll, count) {
+                    poll.update({
+                      'p_image': p_image
+                    }, function(err, poll, count) {
                       if (err) console.error(err);
                     });
                   }
                 });
-              }
-              else {
+              } else {
                 //no imgur share. because upload failed or something
               }
             }

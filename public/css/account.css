@@ -1,210 +1,187 @@
 .account {
-  margin-bottom: 15px !important;
+    margin-bottom: 15px !important;
 }
-
 .account .title {
-  margin: 40px auto 0 auto;
-  font-size: 2rem;
-  font-weight: 700;
-  line-height: 1.7rem;
-  word-wrap: break-word;
-  /*border-bottom: 1px #ddd solid;*/
+    margin: 40px auto 0 auto;
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.7rem;
+    word-wrap: break-word;
+    /*border-bottom: 1px #ddd solid;*/
 }
-
 /*.account .personal-wrap, .account .stats-wrap, .account .attr-wrap, .account .upl-wrap, .account .polls-wrap{
-	display:inline-block;
-	text-align: left;
+  display:inline-block;
+  text-align: left;
   }*/
 
-  .account .personal-wrap {
+.account .personal-wrap {
     float: left;
     width: 20%;
     position: absolute;
     left: 0;
-    max-width:300px;
-  }
-
-  .account .personal-wrap, .account .stats-wrap {
-    padding-left:1rem;
-  }
-
-  .account .highlight-wrap, .account .attr-wrap, .account .upl-wrap, .account .polls-wrap{
-    display:none;
+    max-width: 300px;
+}
+.account .personal-wrap, .account .stats-wrap {
+    padding-left: 1rem;
+}
+.account .highlight-wrap, .account .attr-wrap, .account .upl-wrap, .account .polls-wrap {
+    display: none;
     text-align: center;
-  }
-  .account .pie-align{
+}
+.account .highlight-wrap .no_hl_msg{
+  
+}
+.account .pie-align {
     text-align: left;
-  }
-  .account .tabs {
+}
+.account .tabs {
     float: right;
     width: 78%;
     margin-top: 10px;
     right: 0;
-  }
-
-  .account .tabs .tab-button{
+}
+.account .tabs .tab-button {
     text-align: center;
     cursor: pointer;
-  }
-
-  .account .tabs .tab-button.active{
+}
+.account .tabs .tab-button.active {
     background-color: #555555;
-    color:#ffffff;
-  }
-
-  .account .tabs .tab-button:hover{
+    color: #ffffff;
+}
+.account .tabs .tab-button:hover {
     background-color: #888888;
-    color:#ffffff;
-  }
-
-  .account .tab-container {
+    color: #ffffff;
+}
+.account .tab-container {
     border-bottom: 2px #ddd solid;
-  }
-
-  .account .tabs .tab-button h2{
+}
+.account .tabs .tab-button h2 {
     padding: 10px 0;
     margin: 0;
-  }
-
-  .account .tabs .tab-content{
+}
+.account .tabs .tab-content {
     margin: 10px 0 0 0;
-  }
-
-  .account .polls-wrap ul {
+}
+.account .polls-wrap ul {
     list-style-type: none;
-  }
-
-  .account .dp, .account .personal-info{
-   padding-left:1rem;
-   overflow-wrap: break-word;
- }
-
- .account .ptitle{
-  font-size:1.1rem;
-  font-weight: bold;
-  margin-bottom: 10px;
 }
-
-.account .pie-wrap{
-  display:inline-block;
-  margin: 10px;
-  width: 280px;
-  text-align: center;
+.account .dp, .account .personal-info {
+    padding-left: 1rem;
+    overflow-wrap: break-word;
 }
-
+.account .ptitle {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+.account .pie-wrap {
+    display: inline-block;
+    margin: 10px;
+    width: 280px;
+    text-align: center;
+}
 .account .table {
-  width:100%;
-  text-align: center;
-  margin-bottom:0;
-}
-
-.account .table * {
-  font-size: 1rem;
-  vertical-align: middle;
-  line-height: 1.1rem;
-}
-
-.account .poll .btn {
-  font-weight: bold;
-  background-color: #ffffff;
-  color: #555555;
-  margin-right: 1rem;
-  padding:4px;
-}
-
-.account .poll .btn:hover {
-  background-color: #555555;
-  color:#ffffff;
-}
-
-.account .legend-color{
-  display: inline-block;
-  height: 22px;
-  width: 15px;
-  margin: 1px 5px 1px 0;
-}
-.account .legend-text{
-  text-align: left;
-}
-
-.account .pie-wrap tspan{
-  font-size:1.4rem;
-  /*color:inherit;*/
-}
-
-.account .pie-wrap h4{
-  line-height: 22px;
-}
-
-.account .tr{
-  margin-bottom:2px;
-}
-
-.account #make-uplpoll-button {
-  display: inline-block;
-  background-color: #517da2;
-  border: 1px solid #517da2;
-  color: #ffffff;
-  text-decoration: none;
-  font-weight: bold;
-  width:170px;
-  margin-top:10px;
-  margin-bottom:10px;
-  padding:10px 5px 10px 5px;
-  text-align: center;
-}
-
-.loadmore{
-  display:inline-block;
-  border: 1px solid #517da2;
-  background-color: #517da2;
-  color:white;
-  padding: 5px;
-  font-size: 16px;
-  font-weight: bold;
-  margin-top:5px;
-  margin-bottom: 5px;
-  cursor: pointer;
-  -webkit-user-select: none; /* Chrome/Safari */        
-  -moz-user-select: none; /* Firefox */
-  -ms-user-select: none; /* IE10+ */
-  /* Rules below not implemented in browsers yet */
-  -o-user-select: none;
-  user-select: none;
-}
-
-.loadmore:hover{
-  color:#517da2;
-  background-color: #ffffff;
-}
-
-.account #make-uplpoll-button:hover{
-  background-color: #ffffff;
-  border: 1px solid #517da2;
-  color: #517da2;
-}
-
-@media all and (min-width: 767px) and (max-width: 1175px) {
-  .account .tabs {
-    width: 73%;
-  }
-}
-
-@media all and (max-width: 767px) {
-  .account .personal-wrap {
-    float: none;
-    position: relative;
-    max-width:100%;
-    width:100%;
-  }
-  .account .personal-wrap .dp img{
-    display:block;
-    margin:auto;
-  }
-
-  .account .tabs {
-    float: none;
     width: 100%;
-    position: relative;
-  }
+    text-align: center;
+    margin-bottom: 0;
+}
+.account .table * {
+    font-size: 1rem;
+    vertical-align: middle;
+    line-height: 1.1rem;
+}
+.account .poll .btn {
+    font-weight: bold;
+    background-color: #ffffff;
+    color: #555555;
+    margin-right: 1rem;
+    padding: 4px;
+}
+.account .poll .btn:hover {
+    background-color: #555555;
+    color: #ffffff;
+}
+.account .legend-color {
+    display: inline-block;
+    height: 22px;
+    width: 15px;
+    margin: 1px 5px 1px 0;
+}
+.account .legend-text {
+    text-align: left;
+}
+.account .pie-wrap tspan {
+    font-size: 1.4rem;
+    /*color:inherit;*/
+}
+.account .pie-wrap h4 {
+    line-height: 22px;
+}
+.account .tr {
+    margin-bottom: 2px;
+}
+.account #make-uplpoll-button {
+    display: inline-block;
+    background-color: #517da2;
+    border: 1px solid #517da2;
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: bold;
+    width: 170px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 10px 5px 10px 5px;
+    text-align: center;
+}
+.loadmore {
+    display: inline-block;
+    border: 1px solid #517da2;
+    background-color: #517da2;
+    color: white;
+    padding: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    /* Chrome/Safari */
+    -moz-user-select: none;
+    /* Firefox */
+    -ms-user-select: none;
+    /* IE10+ */
+    /* Rules below not implemented in browsers yet */
+    -o-user-select: none;
+    user-select: none;
+}
+.loadmore:hover {
+    color: #517da2;
+    background-color: #ffffff;
+}
+.account #make-uplpoll-button:hover {
+    background-color: #ffffff;
+    border: 1px solid #517da2;
+    color: #517da2;
+}
+@media all and (min-width: 767px) and (max-width: 1175px) {
+    .account .tabs {
+        width: 73%;
+    }
+}
+@media all and (max-width: 767px) {
+    .account .personal-wrap {
+        float: none;
+        position: relative;
+        max-width: 100%;
+        width: 100%;
+    }
+    .account .personal-wrap .dp img {
+        display: block;
+        margin: auto;
+    }
+    .account .tabs {
+        float: none;
+        width: 100%;
+        position: relative;
+    }
 }
