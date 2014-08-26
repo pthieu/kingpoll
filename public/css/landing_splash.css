@@ -9,6 +9,16 @@ body.splash{
   margin:auto;
 }
 
+.splash #tbEmail{
+  margin:5px 0 10px 0;
+  font-size:20px;
+}
+
+.splash label[for="tbEmail"]{
+  font-size:20px;
+  margin-right:5px;
+}
+
 .splash input{
   border:1px solid #ffffff;
   background-color: rgba(85,85,85,0.50);
