@@ -17,9 +17,9 @@ module.exports = (function(){
     // {p_q: 'Fight or Flight?',             c_text:['Fight', 'Flight'],             c_hex:[c['red'], c['blue']]},
     // {p_q: 'Offense or Defense?',          c_text:['Offense', 'Defense'],          c_hex:[c['red'], c['blue']]},
     // {p_q: 'Strength or Speed?',           c_text:['Strength', 'Speed'],           c_hex:[c['red'], c['blue']]},
-    {p_q: 'Is this user fun to be around?',                         c_text:['Yes', 'No'],                   c_hex:[c['green'], c['red']]},
+    {p_q: 'Is this person fun to be around?',                         c_text:['Yes', 'No'],                   c_hex:[c['green'], c['red']]},
     // {p_q: 'Attractive?',                  c_text:['Yes', 'No'],                   c_hex:[c['green'], c['red']]},
-    {p_q: 'Is this user a liar?',                        c_text:['Yes', 'No'],                   c_hex:[c['green'], c['red']]},
+    {p_q: 'Is this person a liar?',                        c_text:['Yes', 'No'],                   c_hex:[c['green'], c['red']]},
   ];
   return arrUPLPolls;
 })();

@@ -68,7 +68,7 @@ else{
 }
 app.use(favicon(path.join(__dirname, 'public','images','favicon.ico')));
 app.use(express.static(__dirname + '/public'));
-app.use(express.bodyParser());
+app.use(express.bodyParser({limit: '50mb'}));
 app.use(expressValidator());
 app.use(express.cookieParser());
 app.use(express.session({key: 'express.sid', secret: 'kingpoll', store: sessionStore}));
@@ -262,13 +262,12 @@ io.sockets.on('connection', function (client) {
     client.on('getValidationList', function (data) {
         socket.getValidationList(data, client, io);
     });
-    
-    client.on('createAttrPolls', function (_uid, _type) {
-        if (client.handshake.user.logged_in){
-            _uid = client.handshake.user._id;
-        }
-        user_polls_helper.createAttrPolls(_uid, _type);
-    });
+    // client.on('createAttrPolls', function (_uid, _type) {
+    //     if (client.handshake.user.logged_in){
+    //         _uid = client.handshake.user._id;
+    //     }
+    //     user_polls_helper.createAttrPolls(_uid, _type);
+    // });
     client.on('getAttrPolls', function (_uid, _type, _limit, _skip, _sort) {
         // type 0 for kingpoll_attr, 1 for standard upl polls
         if (client.handshake.user.logged_in && _uid == "/u"){

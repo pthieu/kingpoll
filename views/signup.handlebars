@@ -1,4 +1,4 @@
-<div id='wrapper'>
+<div id='wrapper' class="signuppage">
   <div id='branding'>
     <!-- <img src="/images/kingpoll_347x270_666.png"> -->
     <!-- <span id='nameLogo'>kingpoll.</span><div id='wrapLogo'><img src="/images/kingstache_666.png" alt="There's a poll for that." id='imgLogo'></div> -->
@@ -6,7 +6,9 @@
   </div>
   <form method="post" id='newuser'>
     <div class='formSignup'>
-      <div class='header'>Signup</div>
+      <div class='header'>
+        Signup
+      </div>
       <div class="field">
         <input id="tbEmail" type="email" class='f' name='email' 
         oninvalid="setCustomValidity('Example: username@kingpoll.com')" 
@@ -29,7 +31,9 @@
         <button type='submit' id='submit'>Signup!</button>
       </div>
     </div>
-    <div>We will be implementing a point system in the future. You will get a points multiplier for any additional information you give us, but feel free to leave it empty.<br><span class="italic">Disclaimer: We will be using information you provide us to track demographics and statistics to share with the world (we hope to be the wikipedia of opinions).</span></div>
+    <div>
+      We will be implementing a point system in the future. You will get a points multiplier for any additional information you give us, but feel free to leave it empty.<br><span class="italic">Disclaimer: We will be using information you provide us to track demographics and statistics to share with the world (we hope to be the wikipedia of opinions).</span>
+    </div>
     <div class='formSignup'>
       <div class='header'>Optional Information</div>
       <div class="field">
@@ -46,21 +50,21 @@
       </div>
       <div class="field birth">
         <label for="tbBirth">Birth Date</label>
-        <input id="tbBirth" class='f mult' type="text" name='birth' placeholder='dd/mm/yyyy'/>
+        <input id="tbBirth" class='f mult' type="text" name='birth' placeholder='Aug 21, 2014'/>
       </div>
-      <!-- <div class="field relationship">
-        <label>Relationship</label>
-        <label>
-          <select id="relationship">
-            <option value="">Choose One</option>
-            <option value="Married">Married</option>
-            <option value="Single">Single</option>
-            <option value="Complicated">Dating</option>
-            <option value="Complicated">It's Complicated</option>
-          </select>
-        </label>
-      </div> -->
-      <!-- <div id='mult'>Multiplier:<br/>+0%</div> -->
+        <!-- <div class="field relationship">
+          <label>Relationship</label>
+          <label>
+            <select id="relationship">
+              <option value="">Choose One</option>
+              <option value="Married">Married</option>
+              <option value="Single">Single</option>
+              <option value="Complicated">Dating</option>
+              <option value="Complicated">It's Complicated</option>
+            </select>
+          </label>
+        </div> -->
+        <!-- <div id='mult'>Multiplier:<br/>+0%</div> -->
     </div>
   </form>
 </div>

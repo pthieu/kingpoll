@@ -11,15 +11,15 @@
     <link href="/jvectormap/jquery-jvectormap-1.2.2.css" media="screen" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="/css/layout.css" type="text/css" />
-    <link rel="stylesheet" href="/css/radiobutton.css" type="text/css" />
+    {{#if radiocss}}{{else}}<link rel="stylesheet" href="/css/radiobutton.css" type="text/css" />{{/if}}
     <link rel="stylesheet" href="/css/charts.css" type="text/css" />
-    <link rel="stylesheet" href="{{css_file}}" type="text/css" />
     <link rel="stylesheet" href="/css/account.css" type="text/css" />
     <link rel="stylesheet" href="/css/disqus.css" type="text/css" />
     <link rel="stylesheet" href="/css/popup_signup.css" type="text/css" />
     <link rel="stylesheet" href="/css/dash.css" type="text/css" />
     <link rel="stylesheet" href="/css/footer.css" type="text/css" />
     <link rel="stylesheet" href="/css/validation.css" type="text/css" />
+    <link rel="stylesheet" href="{{css_file}}" type="text/css" />
 
     <!-- for Facebook -->    
     <meta property="fb:app_id" content="1447667995463132" />      
@@ -37,7 +37,7 @@
 </head>
 <body>
     <div id='dash'></div>
-  {{{body}}}
+    {{{body}}}
     <div class="navbar navbar-inverse navbar-bottom">
         <div class="container-fluid" id='footer'></div>
     </div>
@@ -57,8 +57,12 @@
     <!--<script src="/js/disqus.js"></script>-->
     <script>$('#footer').load('/views/footer.html')</script>
     <script>$('#dash').load('/views/dash.html')</script>
-    <script src="{{js_script}}"></script>
     <script src="/js/validation.js"></script>
     <script src="/js/login.js"></script>
+    {{#if signup}}
+    <script src="/js/uplPollIdeas_imgur.js"></script>
+    <script src="/js/sharedraw.js"></script>
+    {{/if}}
+    <script src="{{js_script}}"></script>
 </body>
 </html>
