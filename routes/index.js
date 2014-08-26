@@ -342,6 +342,13 @@ exports.newuplpoll = function(req, res) {
       console.log("saving with existing logged in")
       create_user_id = user._id;
     }
+    else {
+      // if user doesn't exist, just get the fuck out. should redirect to a "user not found" page
+      var redirect = '/home';
+      res.header('Content-Length', Buffer.byteLength(redirect));
+      res.send(redirect, 200);
+      return;
+    }
     var newpoll = new Poll({
       _id: new_pid,
       't_created': new_pid.getTimestamp(),
