@@ -50,20 +50,19 @@ $(document).ready(function() {
 
   socket.emit('getHotPicks');
   socket.on('setHotPicks', function(d) {
-    console.log(d)
     $('.hotpicks').html('');
     var colorbg = ['green', 'red', 'blue', 'purple'];
     for (var i = 0; i < d.length; i++) {
       $('.hotpicks').append([
         '<div class="hotpick ' + colorbg[i] + '">',
-          '<a href="/p/'+d[i].p_id+'">',
+          '<a onclick="function(e){e.preventDefault();}" href="/p/'+d[i].p_id+'">',
             '<div class="contentwrap">',
               '<div class="logobg">',
               '</div>',
               '<div class="content">',
                 '<h2>', d[i].p_total, '</h2>',
                 '<h4>', d[i].p_q, '</h4>',
-                '<h4 class="p_desc">', d[i].p_desc, '</h4>',
+                // '<h4 class="p_desc">', d[i].p_desc, '</h4>',
               '</div>',
             '</div>',
           '</a>',
