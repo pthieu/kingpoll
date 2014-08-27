@@ -151,6 +151,9 @@
 .landing .hotpick:hover *{
   color:#555555;
 }
+.landing .hotpick:hover .logobg{
+  background-image: url("/images/kingstache_555_s.png");
+}
 .landing .hotpick a{
   color: #ffffff;
   text-decoration: none;
@@ -195,10 +198,6 @@
   margin: 0;
   font-weight: bold;
   font-size: 50px;
-}
-.landing .contentwrap .content h4 {
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 .landing .shift-top {
   margin-top: 1rem;
@@ -428,6 +427,8 @@
   .landing .contentwrap .content h4 {
     margin: 0;
     padding: 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 @media screen and (max-width: 667px) {
