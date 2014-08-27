@@ -22,6 +22,7 @@ var Poll = require('./schema/pollSchema').Poll;
 var User = require('./schema/userSchema').User;
 var Vote = require('./schema/voteSchema').Vote;
 var UPL = require('./schema/uplSchema').UPL;
+var Mailing = require('./schema/mailingSchema').Mailing;
 var Comment = require('./models/comments').Comment;
 
 var help = require('./scripts/help.js');
@@ -52,6 +53,7 @@ var user_polls_helper = require('./scripts/user_polls_helper.js');
 var userRoute = require('./routes/login.js');
 var userAuth = require('./routes/login_auth.js');
 var accountRoute = require('./routes/account.js');
+var mailingRoute = require('./routes/mailing.js');
 
 //var MemoryStore = express.session.MemoryStore;
 //var memStore = new MemoryStore();
@@ -175,6 +177,8 @@ io.sockets.on('connection', function (client) {
         client.join('landing');
         console.log(io.sockets.manager.rooms);
     });
+    client.on('setMailList', mailingRoute.setMailList);
+
     var pollid;
     client.on('getRandPoll', function (pollpage) {
         Poll.count( function(err,count) {

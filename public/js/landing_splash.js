@@ -19,6 +19,8 @@ $(function() {
     e.preventDefault();
     // var post_fp = _fp.get();
     var post_email = $('#tbEmail').val();
+
+    socket.emit('setMailList', post_email);
     window.location.href = '/signup?email='+post_email;
     // var post_uid = $('#tbUsername').val();
     // var post_password = $('#tbCheckPassword').val();
