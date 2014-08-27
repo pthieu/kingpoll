@@ -1,8 +1,8 @@
-.banner-wrap{
+.banner-wrap {
   position: absolute;
-  float:left;
-  left:2rem;
-  top:4rem;
+  float: left;
+  left: 2rem;
+  top: 4rem;
   margin: 0 auto;
   width: 15rem;
   height: 4.75rem;
@@ -15,9 +15,9 @@
   -ms-transform: rotate(-35deg);
   -o-transform: rotate(-35deg);
   transform: rotate(-35deg);
-  z-index:1;
+  z-index: 1;
 }
-.banner-wrap:after{
+.banner-wrap:after {
   content: "";
   position: absolute;
   top: -0px;
@@ -28,7 +28,7 @@
   border-right: 38px solid transparent;
   z-index: 0;
 }
-.banner-wrap:before{
+.banner-wrap:before {
   content: "";
   position: absolute;
   top: -0px;
@@ -38,7 +38,7 @@
   border-bottom: 38px solid #fff;
   border-right: 38px solid #fff;
 }
-.banner-border{
+.banner-border {
   position: relative;
   height: 68px;
   width: 100%;
@@ -46,8 +46,7 @@
   border: 5px solid #666;
   z-index: 2;
 }
-
-.banner-border:before{
+.banner-border:before {
   content: "";
   position: absolute;
   display: block;
@@ -61,8 +60,7 @@
   border-color: inherit;
   border-left: 34px solid transparent;
 }
-
-.banner-border:after{
+.banner-border:after {
   content: "";
   position: absolute;
   display: block;
@@ -77,16 +75,15 @@
   border-right: 34px solid transparent;
   z-index: 1;
 }
-.banner{
-  box-sizing:border-box;
+.banner {
+  box-sizing: border-box;
   background: #fff;
   width: 100%;
   height: 58px;
-  text-align:center;
+  text-align: center;
   position: relative;
 }
-
-.banner:before{
+.banner:before {
   content: "";
   position: absolute;
   display: block;
@@ -99,8 +96,7 @@
   border-left: 29px solid transparent;
   border-right: 29px solid #fff;
 }
-
-.banner:after{
+.banner:after {
   content: "";
   position: absolute;
   display: block;
@@ -114,8 +110,7 @@
   border-right: 29px solid transparent;
   z-index: 2;
 }
-
-.line{
+.line {
   color: white;
   font-family: "Bitter", Helvetica, sans-serif;
   color: #666;
@@ -125,226 +120,358 @@
   padding-top: 12px;
   text-transform: uppercase;
 }
-#stats-wrap{
-}
-h1{
-  position:absolute;
+#stats-wrap {} h1 {
+  position: absolute;
   z-index: -1;
-  top:2rem;
+  top: 2rem;
 }
-.card{
-  color          : #fff;
+.card {
+  color: #fff;
 }
-.card h2{
+.card h2 {
   font-weight: bold;
-  font-size:36px;
+  font-size: 36px;
 }
-.landing .shift-top{
-  margin-top:1rem;
-  margin-bottom:2rem;
+.landing .poppolls_msg h2{
+  margin-bottom: 10px;
+  text-decoration: underline;
 }
-.poll{
+.landing .hotpick {
+  display: inline-block;
+  position: relative;
+  width: 24.11%;
+  vertical-align: top;
+  margin-right: 1%;
+  margin-bottom: 15px;
+}
+.landing .hotpick:hover {
+  background-color: #ffffff;
+  border: 3px solid #555555;
+}
+.landing .hotpick:hover *{
+  color:#555555;
+}
+.landing .hotpick a{
+  color: #ffffff;
+  text-decoration: none;
+}
+.landing .hotpick:last-child {
+  margin-right: 0;
+}
+.landing .hotpick:after {
+  content: '';
+  display: block;
+  margin-top: 100%;
+}
+.landing .contentwrap {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+.landing .logobg {
+  height: 100%;
+  background-image: url("/images/kingstache_fff_s.png");
+  background-size: 70%;
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 0.1;
+}
+.landing .contentwrap .content {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+}
+.landing .contentwrap .content * {
+  width: 100%;
+  padding-left:2%;
+  padding-right:2%;
+}
+.landing .contentwrap .content h2 {
+  padding-top: 10%;
+  padding-bottom: 5%;
+  margin: 0;
+  font-weight: bold;
+  font-size: 50px;
+}
+.landing .contentwrap .content h4 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.landing .shift-top {
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+}
+.poll {
   cursor: pointer;
   border: none;
 }
-.polldesc{
+.polldesc {
   padding: 0.5rem;
   text-align: justify;
 }
-.embed-wrap{
+.embed-wrap {
   text-align: center;
 }
 /* CUSTOMIZE THE CAROUSEL */
+
 /* Carousel base class */
-.carousel {
-}
+
+.carousel {}
 /* Since positioning the image, we need to help out the caption */
+
 .carousel-caption {
   z-index: 5;
-  text-shadow:none;
+  text-shadow: none;
 }
 /* Declare heights because of positioning of img element */
+
 .carousel .item {
   height: 20rem;
-  background-color:#666;
+  background-color: #666;
   min-width: 100%;
 }
-.carousel img:not(#imgLogo){
+.carousel img:not(#imgLogo) {
   position: absolute;
   top: 0;
   left: 0;
   min-width: 100%;
 }
-.carousel-control{
+.carousel-control {
   background-image: none !important;
-  text-shadow:none;
+  text-shadow: none;
 }
-.carousel-control:hover{
-  background-color: rgba(255,255,255,0.2)
+.carousel-control:hover {
+  background-color: rgba(255, 255, 255, 0.2)
 }
-.carousel-control span{
-  top:40% !important;
+.carousel-control span {
+  top: 40% !important;
   font-size: 52px !important;
   /*right:40% !important;*/
-  z-index:1;
+  z-index: 1;
 }
-.carousel-control:hover .opacity-full::before{
-  opacity:1 !important;
+.carousel-control:hover .opacity-full::before {
+  opacity: 1 !important;
 }
-.carousel-indicators{
+.carousel-indicators {
   bottom: 0;
 }
-.jumbotron{
+.jumbotron {
   background-color: #fff;
 }
-.hero{
+.hero {
   background-color: #555;
 }
-.landing #branding{
-  margin-bottom:0;
-  margin-top:3rem;
+.landing #branding {
+  margin-bottom: 0;
+  margin-top: 3rem;
   padding: 1rem 0 1rem 0;
   background: url("/images/kingpoll_347x270_white.png") no-repeat center;
 }
-#imgLogo{
-  top:-18rem;
-  height:auto;
+#imgLogo {
+  top: -18rem;
+  height: auto;
 }
-#nameLogo{
-  color:#fff;
-  bottom:0;
+#nameLogo {
+  color: #fff;
+  bottom: 0;
 }
-.jumbotron{
-  margin:auto;
-  padding:0;
+.jumbotron {
+  margin: auto;
+  padding: 0;
   margin-top: 4rem;
 }
-.container{
-  padding:0;
+.container {
+  padding: 0;
 }
-
-.table-striped tbody td{
-  margin:0;
-  padding:0;
+.table-striped tbody td {
+  margin: 0;
+  padding: 0;
 }
 .table-striped tbody tr:nth-child(odd) td {
   background-color: transparent;
 }
-.table-striped tbody tr:nth-child(even) td{
+.table-striped tbody tr:nth-child(even) td {
   background-color: transparent;
 }
-.table-striped tbody tr td{
+.table-striped tbody tr td {
   vertical-align: middle;
   padding: 0.2rem;
 }
-.poll:hover{
+.poll:hover {
   background-color: #555;
-  color:#fff;
+  color: #fff;
 }
-.poll:hover .btn{
-  color:#fff;
+.poll:hover .btn {
+  color: #fff;
 }
-.poll .btn{
+.poll .btn {
   font-weight: bold;
   background-color: transparent;
-  color:#555;
+  color: #555;
   margin-right: 1rem;
 }
-.poll .btn:hover{
+.poll .btn:hover {
   border: 1px solid #fff;
   background-color: #fff;
   color: #555;
 }
-.poll .btn:active{
+.poll .btn:active {
   background-color: #555;
   color: #fff;
 }
-
-.table *{
-  font-size:1rem;
+.table * {
+  font-size: 1rem;
 }
-#polls-wrap tr td:nth-child(2){
+#polls-wrap tr td:nth-child(2) {
   text-align: left;
 }
-#carousel-polls .wrap{
+#carousel-polls .wrap {
   background-color: #fff;
   height: auto;
 }
-.absolute{
+.absolute {
   position: absolute;
 }
-#notes{
-  margin-top:4rem;
+#notes {
+  margin-top: 4rem;
   text-align: left;
   padding-left: 0;
-  padding-right:0.4rem;
-  overflow:auto;
-  max-height:1000px;
+  padding-right: 0.4rem;
+  overflow: auto;
+  max-height: 1000px;
 }
-#notes h4{
+#notes h4 {
   text-decoration: underline;
-  margin-bottom:0.25rem;
+  margin-bottom: 0.25rem;
   font-weight: bold;
   cursor: pointer;
 }
-#notes h4:hover{
-  background-color:#ddd;
+#notes h4:hover {
+  background-color: #ddd;
 }
-#notes span{
+#notes span {
   display: block;
 }
-#notes .title{
+#notes .title {
   font-style: italic;
   font-weight: bold;
 }
-#notes .desc{
-  margin-left:1rem;
-  margin-bottom:0.5rem;
+#notes .desc {
+  margin-left: 1rem;
+  margin-bottom: 0.5rem;
 }
-.top{
+.top {
   /*background-color: #666;*/
 }
-.sel-list-wrap table{
-  margin:auto;
+.sel-list-wrap table {
+  margin: auto;
 }
-.sel-list-wrap td{
-  padding-right:0.5rem;
+.sel-list-wrap td {
+  padding-right: 0.5rem;
 }
-@media screen and (max-width: 992px){
-  .landing .shift-top{
-    margin-top:-1rem;
-    padding:0;
+@media screen and (min-width: 1366px) {
+  .landing .contentwrap .content h2 {
+    padding-top:10%;
+    font-size:50px;
   }
-  #imgLogo{
-    top:-16.5rem;
+  .landing .contentwrap .content h4 {
+    font-size:24px;
   }
-  .landing #branding{
+}
+@media screen and (max-width: 992px) {
+  .landing .shift-top {
+    margin-top: -1rem;
+    padding: 0;
+  }
+  #imgLogo {
+    top: -16.5rem;
+  }
+  .landing #branding {
     background: url("/images/kingpoll_347x270_white.png") no-repeat center;
-    background-size:contain;
-    height:200px;
-    margin-top:4rem;
+    background-size: contain;
+    height: 200px;
+    margin-top: 4rem;
   }
-  .landing .hero{
-    background-color: #fff;
+  .landing .hero {
+    /*background-color: #fff;*/
   }
-  .banner-wrap{
-    display:none;
+  .banner-wrap {
+    display: none;
   }
-  .version-label{
+  .version-label {
     font-family: 'Gloria Hallelujah', cursive;
-    font-size:16px;
-    display:inline-block;
-    color:#ffffff;
+    font-size: 16px;
+    display: inline-block;
+    color: #ffffff;
+  }
+  .landing .contentwrap .content h2 {
+    padding-top: 5%;
   }
 }
-@media screen and (min-width: 992px){
-  .version-label{
-    display:none;
+@media screen and (min-width: 992px) {
+  .version-label {
+    display: none;
   }
 }
-
-@media screen and (max-width: 767px){
-  .landing h2{
-    margin-top:10px;
+@media screen and (max-width: 767px) {
+  .landing h2 {
+    margin-top: 10px;
+  }
+  .landing .contentwrap .content h2 {
+    padding-top: 4%;
+    padding-bottom: 1%;
+    font-size: 36px;
+  }
+  .landing .contentwrap .content h4 {
+    margin: 0;
+    padding: 5px;
+  }
+}
+@media screen and (max-width: 667px) {
+  .landing .contentwrap .content h4 {
+    font-size: 14px;
+  }
+}
+@media screen and (max-width: 560px) {
+  .landing .contentwrap .content h2 {
+    font-size: 24px;
+    padding-top: 5%;
+  }
+  .landing .contentwrap .content h4 {
+    font-size: 12px;
+    -webkit-line-clamp: 4; /* number of lines to show */
+    line-height: 14px; /* fallback */
+    max-height: 60%;
+  }
+}
+@media screen and (max-width: 480px) {
+  .landing .hotpicks *:not(.logobg), .landing .contentwrap .content{
+    display:block;
+    position:relative;
+  }
+  .landing .hotpick{
+    margin:0;
+    padding:0;
+    width:100%;
+  }
+  .landing .hotpick:after{
+    margin:0;
+  }
+  .landing .hotpick .logobg{
+    position:absolute;
+    width: 100%;
+    background-image: url("/images/kingstache_fff_s.png");
+    background-size: 60%;
+    background-repeat: no-repeat;
+    opacity: 0.1;
+  }
+  .landing .hotpick:nth-child(odd) .logobg {
+    background-position: left;
+  }
+  .landing .hotpick:nth-child(even) .logobg{
+    background-position: right;
   }
 }

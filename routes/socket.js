@@ -90,10 +90,10 @@ exports.vote = function(dataVote, client, io, loggedin) {
         User.findOne({
           $or: [{
               'u_email': u_email
-            },
-            social, {
+          },
+          social, {
               'u_fp': u_fp
-            }
+          }
           ]
         }).exec(function(err, user) {
           //below code searches email, which is disabled for now
@@ -224,4 +224,18 @@ exports.getValidationList = function(_data, client, io) {
       }
     }
   });
+}
+exports.getHotPicks = function(client) {
+    Poll.find({}, {
+      'p_id': 1,
+      'p_q': 1,
+      'p_total': 1,
+      's_ttotal': 1,
+      'p_desc': 1,
+      'p_embed': 1,
+      't_created': 1
+    }).sort('-p_total -t_created').limit(4).exec(function(err, _polls) {
+      if (err) return console.error(err);
+      client.emit('setHotPicks', _polls);
+    });
 }

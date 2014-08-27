@@ -1,7 +1,9 @@
 //process.env.PORT for server port
-var appPort =  process.env.PORT || process.env.VCAPP_APP_PORT || 8888;
+var appPort = process.env.PORT || process.env.VCAPP_APP_PORT || 8888;
 
-var express = require('express'), app = express();var expressValidator = require('express-validator');
+var express = require('express'),
+  app = express();
+var expressValidator = require('express-validator');
 var path = require('path');
 var favicon = require('serve-favicon');
 var exphbs = require('express3-handlebars');
@@ -29,21 +31,20 @@ var help = require('./scripts/help.js');
 var dual = require('./public/js/dualwield.js');
 var email = require('./scripts/email.js');
 
-if(process.env.NODE_ENV == 'production'){
-    mongoose.connect('mongodb://localhost/production'); //connect to db
-}
-else{
-    mongoose.connect('mongodb://localhost/test'); //connect to db
+if (process.env.NODE_ENV == 'production') {
+  mongoose.connect('mongodb://localhost/production'); //connect to db
+} else {
+  mongoose.connect('mongodb://localhost/test'); //connect to db
 }
 
 db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:')); //error check
 db.once('open', function callback() {
-    console.log('Connected to mongodb://localhost/'+((process.env.NODE_ENV == 'production')?'production':'test'));
+  console.log('Connected to mongodb://localhost/' + ((process.env.NODE_ENV == 'production') ? 'production' : 'test'));
 });
 
 var sessionStore = new MongoStore({
-    mongoose_connection: mongoose.connections[0]
+  mongoose_connection: mongoose.connections[0]
 });
 
 //this has to be after mongoose connect because it needs connect alive to grab schema
@@ -58,22 +59,29 @@ var mailingRoute = require('./routes/mailing.js');
 //var MemoryStore = express.session.MemoryStore;
 //var memStore = new MemoryStore();
 
-app.engine('handlebars', exphbs({defaultLayout: 'main'}));
+app.engine('handlebars', exphbs({
+  defaultLayout: 'main'
+}));
 app.set('view engine', 'handlebars');
 
-if(process.env.NODE_ENV == 'production'){
-    //production node stuff
+if (process.env.NODE_ENV == 'production') {
+  //production node stuff
+} else {
+  //dev node stuff
+  // app.use(express.logger());
 }
-else{
-    //dev node stuff
-    // app.use(express.logger());
-}
-app.use(favicon(path.join(__dirname, 'public','images','favicon.ico')));
+app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 app.use(express.static(__dirname + '/public'));
-app.use(express.bodyParser({limit: '50mb'}));
+app.use(express.bodyParser({
+  limit: '50mb'
+}));
 app.use(expressValidator());
 app.use(express.cookieParser());
-app.use(express.session({key: 'express.sid', secret: 'kingpoll', store: sessionStore}));
+app.use(express.session({
+  key: 'express.sid',
+  secret: 'kingpoll',
+  store: sessionStore
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -103,29 +111,35 @@ app.get('/u', accountRoute.getOwnAccount);
 app.get('/u/:id', accountRoute.getUserAccount);
 
 app.get('/auth/facebook', passport.authenticate('facebook'));
-app.get('/auth/facebook/callback', 
-  passport.authenticate('facebook', { successRedirect: '/home', failureRedirect: '/signup' }));
+app.get('/auth/facebook/callback',
+  passport.authenticate('facebook', {
+    successRedirect: '/home',
+    failureRedirect: '/signup'
+  }));
 app.get('/auth/twitter', passport.authenticate('twitter'));
-app.get('/auth/twitter/callback', 
-  passport.authenticate('twitter', { successRedirect: '/home', failureRedirect: '/signup' }));
+app.get('/auth/twitter/callback',
+  passport.authenticate('twitter', {
+    successRedirect: '/home',
+    failureRedirect: '/signup'
+  }));
 
 http.listen(appPort);
 console.log('listening on port: ' + appPort);
 
-io.configure(function (){
-    console.log("io passport config start");
-    io.set("authorization", passportSocketIo.authorize({
-        cookieParser: express.cookieParser,
-        key:    'express.sid',       //the cookie where express (or connect) stores its session id.
-        secret: 'kingpoll', //the session secret to parse the cookie
-        store:   sessionStore,     //the session store that express uses
-        success: onAuthorizeSuccess,
-        fail: onAuthorizeFail
-    }));
-    console.log("io passport config end");
+io.configure(function() {
+  console.log("io passport config start");
+  io.set("authorization", passportSocketIo.authorize({
+    cookieParser: express.cookieParser,
+    key: 'express.sid', //the cookie where express (or connect) stores its session id.
+    secret: 'kingpoll', //the session secret to parse the cookie
+    store: sessionStore, //the session store that express uses
+    success: onAuthorizeSuccess,
+    fail: onAuthorizeFail
+  }));
+  console.log("io passport config end");
 });
 
-function onAuthorizeSuccess(data, accept){
+function onAuthorizeSuccess(data, accept) {
   console.log('successful connection to socket.io');
 
   // The accept-callback still allows us to decide whether to
@@ -133,7 +147,7 @@ function onAuthorizeSuccess(data, accept){
   accept(null, true);
 }
 
-function onAuthorizeFail(data, message, error, accept){
+function onAuthorizeFail(data, message, error, accept) {
   console.log('failed connection to socket.io:', message);
   // console.log(data);
   //if(error)
@@ -146,235 +160,298 @@ function onAuthorizeFail(data, message, error, accept){
 
 io.set('log level', 0); // Delete this row if you want to see debug messages
 
-var total_polls=0;
-var total_users=0;
-var total_votes=0;
-setInterval(function () {
-    Poll.count({}, function (err, polls) {
-        total_polls = (polls)?polls:0;
-    });
-    Vote.count({}, function (err, votes) {
-        total_votes = (votes)?votes:0;
-    });
-    User.count({}, function (err, users) {
-        total_users = (users)?users:0;
-    });
+var total_polls = 0;
+var total_users = 0;
+var total_votes = 0;
+setInterval(function() {
+  Poll.count({}, function(err, polls) {
+    total_polls = (polls) ? polls : 0;
+  });
+  Vote.count({}, function(err, votes) {
+    total_votes = (votes) ? votes : 0;
+  });
+  User.count({}, function(err, users) {
+    total_users = (users) ? users : 0;
+  });
 }, 5000);
 
-setInterval(function () {
-    var cutoffdate = new Date();
-    cutoffdate.setDate(cutoffdate.getDate()-1);
-    Vote.find({'v_date': {$lt: cutoffdate}, v_valid:{$not:/true/i}}, function (err, _votes) {
-        _votes.forEach(function (_vote) {
-            help.deleteVote(_vote, Poll)
-        });
+setInterval(function() {
+  var cutoffdate = new Date();
+  cutoffdate.setDate(cutoffdate.getDate() - 1);
+  Vote.find({
+    'v_date': {
+      $lt: cutoffdate
+    },
+    v_valid: {
+      $not: /true/i
+    }
+  }, function(err, _votes) {
+    _votes.forEach(function(_vote) {
+      help.deleteVote(_vote, Poll)
     });
-}, (3600*1000)); // every hour, find  unvalidated votes and delete
+  });
+}, (3600 * 1000)); // every hour, find  unvalidated votes and delete
 
 //Listen for incoming connections from clients
-io.sockets.on('connection', function (client) {
-    client.on('joinlanding', function () {
-        client.join('landing');
-        console.log(io.sockets.manager.rooms);
-    });
-    client.on('setMailList', mailingRoute.setMailList);
+io.sockets.on('connection', function(client) {
+  client.on('joinlanding', function() {
+    client.join('landing');
+    console.log(io.sockets.manager.rooms);
+  });
+  client.on('setMailList', mailingRoute.setMailList);
+  client.on('getHotPicks', function() {
+    socket.getHotPicks(client);
+  });
 
-    var pollid;
-    client.on('getRandPoll', function (pollpage) {
-        Poll.count( function(err,count) {
-            Poll.find({},{'u_email':0, 'u_loc':0, 'p_anon':0, 'c_random':0},{limit: 1, skip: Math.floor((Math.random()*(count)))}, function(err, poll) {
-                if (err) return console.error(err);
-                console.log(poll[0].p_id)
-                if (pollpage) {
-                    //this is if you're at home page
-                    (pollid == poll[0].p_id) ? null : client.leave(pollid);
-                    pollid = poll[0].p_id;
-                    client.leave('landing');
-                    client.join(pollid);
-                    client.emit('pollID', poll[0]);
-                } else {
-                    //this is if you're already on a poll page, just update whatever is on there
-                    client.emit('randPollID', (poll[0])?poll[0].p_id:null);
-                }
-            });
-        });
-    });
-    //get list of all the available polls and display to user
-    client.on('getlistpoll', function (limit, skip, sort) {
-        // console.log("Home: getting polls");
-        switch(sort){
-            case 'newest':
-                // Poll.find({'p_cat': {$not:/kingpoll_attr/i}},{'p_id':1, 'p_q':1, 'p_total':1, 's_ttotal':1, 'p_desc':1, 'p_embed':1},{limit: limit, skip: skip}).sort('-_id').exec(function(err, poll) {
-                Poll.find({},{'p_id':1, 'p_q':1, 'p_total':1, 's_ttotal':1, 'p_desc':1, 'p_embed':1},{limit: limit, skip: skip}).sort('-_id').exec(function(err, poll) {
-                    if (err) return console.error(err);
-                    client.emit('listpoll', poll);
-                });
-                break;
-            case 'mostvotes':
-                // Poll.find({'p_cat': {$not:/kingpoll_attr/i}},{'p_id':1, 'p_q':1, 'p_total':1, 's_ttotal':1, 'p_desc':1, 'p_embed':1},{limit: limit, skip: skip}).sort('-p_total').exec(function(err, poll) {
-                Poll.find({},{'p_id':1, 'p_q':1, 'p_total':1, 's_ttotal':1, 'p_desc':1, 'p_embed':1},{limit: limit, skip: skip}).sort('-p_total').exec(function(err, poll) {
-                    if (err) return console.error(err);
-                    client.emit('listpoll', poll);
-                });
-                break;
+  var pollid;
+  client.on('getRandPoll', function(pollpage) {
+    Poll.count(function(err, count) {
+      Poll.find({}, {
+        'u_email': 0,
+        'u_loc': 0,
+        'p_anon': 0,
+        'c_random': 0
+      }, {
+        limit: 1,
+        skip: Math.floor((Math.random() * (count)))
+      }, function(err, poll) {
+        if (err) return console.error(err);
+        console.log(poll[0].p_id)
+        if (pollpage) {
+          //this is if you're at home page
+          (pollid == poll[0].p_id) ? null : client.leave(pollid);
+          pollid = poll[0].p_id;
+          client.leave('landing');
+          client.join(pollid);
+          client.emit('pollID', poll[0]);
+        } else {
+          //this is if you're already on a poll page, just update whatever is on there
+          client.emit('randPollID', (poll[0]) ? poll[0].p_id : null);
         }
+      });
     });
-    //get search results for polls and display to user
-    client.on('searchpoll', function (searchKey) {
-        Poll.textSearch(searchKey, function(err, poll) {
-            if (err) return console.error(err);
-            client.emit('listsearchpoll', poll);
+  });
+  //get list of all the available polls and display to user
+  client.on('getlistpoll', function(limit, skip, sort) {
+    // console.log("Home: getting polls");
+    switch (sort) {
+      case 'newest':
+        // Poll.find({'p_cat': {$not:/kingpoll_attr/i}},{'p_id':1, 'p_q':1, 'p_total':1, 's_ttotal':1, 'p_desc':1, 'p_embed':1},{limit: limit, skip: skip}).sort('-_id').exec(function(err, poll) {
+        Poll.find({}, {
+          'p_id': 1,
+          'p_q': 1,
+          'p_total': 1,
+          's_ttotal': 1,
+          'p_desc': 1,
+          'p_embed': 1
+        }, {
+          limit: limit,
+          skip: skip
+        }).sort('-_id').exec(function(err, poll) {
+          if (err) return console.error(err);
+          client.emit('listpoll', poll);
         });
-    });
-    //poll.html
-    client.on('getPoll', function (pollID) {
-        Poll.findOne({'p_id':pollID}, {'u_email':0, 'u_loc':0, 'p_anon':0, 'c_random':0}, function(err, poll) {
-            if (err) return console.error(err);
-            client.emit('pollID', poll);
-            if(poll){
-                pollid = poll.p_id;
-                client.leave('landing');
-                client.join(pollid);//join socket.io room
-                console.log(io.sockets.manager.rooms);
-            }
+        break;
+      case 'mostvotes':
+        // Poll.find({'p_cat': {$not:/kingpoll_attr/i}},{'p_id':1, 'p_q':1, 'p_total':1, 's_ttotal':1, 'p_desc':1, 'p_embed':1},{limit: limit, skip: skip}).sort('-p_total').exec(function(err, poll) {
+        Poll.find({}, {
+          'p_id': 1,
+          'p_q': 1,
+          'p_total': 1,
+          's_ttotal': 1,
+          'p_desc': 1,
+          'p_embed': 1
+        }, {
+          limit: limit,
+          skip: skip
+        }).sort('-p_total').exec(function(err, poll) {
+          if (err) return console.error(err);
+          client.emit('listpoll', poll);
         });
+        break;
+    }
+  });
+  //get search results for polls and display to user
+  client.on('searchpoll', function(searchKey) {
+    Poll.textSearch(searchKey, function(err, poll) {
+      if (err) return console.error(err);
+      client.emit('listsearchpoll', poll);
     });
-    client.on('vote', function (dataVote){
-        console.log('User is Voting');
-        socket.vote(dataVote, client, io, client.handshake.user.logged_in);
-    });
-    client.on('iploc', function (iploc) {
-        // console.log(iploc);
-    });
-    //landing
-    client.on('getViewers', function (d) {
-        client.emit('setViewers', io.sockets.clients(d).length);
-    });
-    client.on('getUsers', function () {
-        client.emit('setUsers', total_users);
-    });
-    client.on('getVotes', function () {
-        client.emit('setVotes', total_votes);
-    });
-    client.on('getPolls', function () {
-        client.emit('setPolls', total_polls);
-    });
-    client.on('getVoted', function (data) {
-        socket.getVoted(data, client);
-    });
-    //validation
-    client.on('getValidationList', function (data) {
-        socket.getValidationList(data, client, io);
-    });
-    // client.on('createAttrPolls', function (_uid, _type) {
-    //     if (client.handshake.user.logged_in){
-    //         _uid = client.handshake.user._id;
-    //     }
-    //     user_polls_helper.createAttrPolls(_uid, _type);
-    // });
-    client.on('getAttrPolls', function (_uid, _type, _limit, _skip, _sort) {
-        // type 0 for kingpoll_attr, 1 for standard upl polls
-        if (client.handshake.user.logged_in && _uid == "/u"){
-            _uid = client.handshake.user._id;
-            user_polls_helper.setAttrPolls(_uid, _type, _limit, _skip, _sort, client, io);
-        } else {
-            User.findOne({'u_id':_uid}, {}, function (err, user) {
-                if(user){
-                    user_polls_helper.setAttrPolls(user._id, _type, _limit, _skip, _sort, client, io);
-                }
-            });
-        }      
-    });
-    client.on('getHighlightPolls', function (_uid) {
-        if (client.handshake.user.logged_in && _uid == "/u"){
-            _uid = client.handshake.user._id;
-            user_polls_helper.setHighlightPolls(_uid, client);
-        } else {
-            User.findOne({'u_id':_uid}, function (err, user) {
-                if(user){
-                    user_polls_helper.setHighlightPolls(user._id, client);
-                }
-            });
-        }      
-    });
-    client.on('disconnect', function (iploc) {
-        client.leave(pollid);
+  });
+  //poll.html
+  client.on('getPoll', function(pollID) {
+    Poll.findOne({
+      'p_id': pollID
+    }, {
+      'u_email': 0,
+      'u_loc': 0,
+      'p_anon': 0,
+      'c_random': 0
+    }, function(err, poll) {
+      if (err) return console.error(err);
+      client.emit('pollID', poll);
+      if (poll) {
+        pollid = poll.p_id;
         client.leave('landing');
+        client.join(pollid); //join socket.io room
+        console.log(io.sockets.manager.rooms);
+      }
     });
-    client.on('getAuth', function () {
-        console.log('auth start');
-        // console.log(client.handshake.user);
-        if (client.handshake.user.logged_in){
-            var user = {'id':client.handshake.user.u_id.toString(), 'email':client.handshake.user.u_email};
-            if(client.handshake.user.u_thirdParty){
-                switch(client.handshake.user.u_thirdParty){
-                    case 'facebook':
-                        var party = 'facebook';
-                        break;
-                    case 'twitter':
-                        var party = 'twitter';
-                        break;
-                }
-                var socialID = {'id':client.handshake.user.u_thirdId[party].toString(), 'party':party};
-
-                client.emit('authStatus', client.handshake.user.logged_in, user, socialID);
-            } else {
-                client.emit('authStatus', client.handshake.user.logged_in, user, null);
-            }
-        } else {
-            client.emit('authStatus', client.handshake.user.logged_in, null);
+  });
+  client.on('vote', function(dataVote) {
+    console.log('User is Voting');
+    socket.vote(dataVote, client, io, client.handshake.user.logged_in);
+  });
+  client.on('iploc', function(iploc) {
+    // console.log(iploc);
+  });
+  //landing
+  client.on('getViewers', function(d) {
+    client.emit('setViewers', io.sockets.clients(d).length);
+  });
+  client.on('getUsers', function() {
+    client.emit('setUsers', total_users);
+  });
+  client.on('getVotes', function() {
+    client.emit('setVotes', total_votes);
+  });
+  client.on('getPolls', function() {
+    client.emit('setPolls', total_polls);
+  });
+  client.on('getVoted', function(data) {
+    socket.getVoted(data, client);
+  });
+  //validation
+  client.on('getValidationList', function(data) {
+    socket.getValidationList(data, client, io);
+  });
+  // client.on('createAttrPolls', function (_uid, _type) {
+  //     if (client.handshake.user.logged_in){
+  //         _uid = client.handshake.user._id;
+  //     }
+  //     user_polls_helper.createAttrPolls(_uid, _type);
+  // });
+  client.on('getAttrPolls', function(_uid, _type, _limit, _skip, _sort) {
+    // type 0 for kingpoll_attr, 1 for standard upl polls
+    if (client.handshake.user.logged_in && _uid == "/u") {
+      _uid = client.handshake.user._id;
+      user_polls_helper.setAttrPolls(_uid, _type, _limit, _skip, _sort, client, io);
+    } else {
+      User.findOne({
+        'u_id': _uid
+      }, {}, function(err, user) {
+        if (user) {
+          user_polls_helper.setAttrPolls(user._id, _type, _limit, _skip, _sort, client, io);
         }
-    });
-    client.on('getComments', function (pollId) {
-        console.log("Getting comments for pollId: " + pollId);
+      });
+    }
+  });
+  client.on('getHighlightPolls', function(_uid) {
+    if (client.handshake.user.logged_in && _uid == "/u") {
+      _uid = client.handshake.user._id;
+      user_polls_helper.setHighlightPolls(_uid, client);
+    } else {
+      User.findOne({
+        'u_id': _uid
+      }, function(err, user) {
+        if (user) {
+          user_polls_helper.setHighlightPolls(user._id, client);
+        }
+      });
+    }
+  });
+  client.on('disconnect', function(iploc) {
+    client.leave(pollid);
+    client.leave('landing');
+  });
+  client.on('getAuth', function() {
+    console.log('auth start');
+    // console.log(client.handshake.user);
+    if (client.handshake.user.logged_in) {
+      var user = {
+        'id': client.handshake.user.u_id.toString(),
+        'email': client.handshake.user.u_email
+      };
+      if (client.handshake.user.u_thirdParty) {
+        switch (client.handshake.user.u_thirdParty) {
+          case 'facebook':
+            var party = 'facebook';
+            break;
+          case 'twitter':
+            var party = 'twitter';
+            break;
+        }
+        var socialID = {
+          'id': client.handshake.user.u_thirdId[party].toString(),
+          'party': party
+        };
 
-        Comment.find({ parent_poll_id: pollId }, function(err, result) {
-            //console.log('Result: '+ JSON.stringify(result));
-            // console.log(JSON.stringify(result));
-            if (!err) {
-                client.emit('getCommentsResult', JSON.stringify(result));
-            } else {
-                handleError(res, err);
-            }
-        });
-    });
-    client.on('addComment', function(params) {
-        var json = JSON.parse(params);
-        //console.log(json);
+        client.emit('authStatus', client.handshake.user.logged_in, user, socialID);
+      } else {
+        client.emit('authStatus', client.handshake.user.logged_in, user, null);
+      }
+    } else {
+      client.emit('authStatus', client.handshake.user.logged_in, null);
+    }
+  });
+  client.on('getComments', function(pollId) {
+    console.log("Getting comments for pollId: " + pollId);
 
-        var comment = new Comment({
-            parent_poll_id    : json.parent_poll_id,
-            parent_comment_id : json.parent_comment_id,
-            message           : json.message
-        });
+    Comment.find({
+      parent_poll_id: pollId
+    }, function(err, result) {
+      //console.log('Result: '+ JSON.stringify(result));
+      // console.log(JSON.stringify(result));
+      if (!err) {
+        client.emit('getCommentsResult', JSON.stringify(result));
+      } else {
+        handleError(res, err);
+      }
+    });
+  });
+  client.on('addComment', function(params) {
+    var json = JSON.parse(params);
+    //console.log(json);
 
-        comment.save(function(err) {
-            if (err) {
-                console.log(err);
-            } else {
-                //io.sockets.in(poll.p_id).emit('commentAdded', comment);
-                client.emit('addCommentResult', JSON.stringify(comment));
-            }
-        });
+    var comment = new Comment({
+      parent_poll_id: json.parent_poll_id,
+      parent_comment_id: json.parent_comment_id,
+      message: json.message
     });
-    client.on('setHighlightPoll', function(pollId) {
-        Poll.findOne({'p_id':pollId}, function(err, poll) {
-            console.log('pew')
-            if (err) return console.error(err);
-            if(poll){
-                console.log('pewpew')
-                var highlight;
-                if(poll.p_hl == true){
-                    console.log('pewpewtrue')
-                    highlight = false;
-                } else { 
-                    console.log('pewpewfalse')
-                    highlight = true;
-                }
-                Poll.update({p_id:pollId}, {p_hl: highlight}, function (err, n, raw) {});
-            }
-        });
+
+    comment.save(function(err) {
+      if (err) {
+        console.log(err);
+      } else {
+        //io.sockets.in(poll.p_id).emit('commentAdded', comment);
+        client.emit('addCommentResult', JSON.stringify(comment));
+      }
     });
+  });
+  client.on('setHighlightPoll', function(pollId) {
+    Poll.findOne({
+      'p_id': pollId
+    }, function(err, poll) {
+      console.log('pew')
+      if (err) return console.error(err);
+      if (poll) {
+        console.log('pewpew')
+        var highlight;
+        if (poll.p_hl == true) {
+          console.log('pewpewtrue')
+          highlight = false;
+        } else {
+          console.log('pewpewfalse')
+          highlight = true;
+        }
+        Poll.update({
+          p_id: pollId
+        }, {
+          p_hl: highlight
+        }, function(err, n, raw) {});
+      }
+    });
+  });
 });
 
 //tmp code to read from log file of results
@@ -385,9 +462,9 @@ io.sockets.on('connection', function (client) {
 // });
 
 //how to write to file stream
-    //     var log = fs.createWriteStream(__dirname + '/tmp/results.log', {'flags': 'w'});
-    //     log.write("yes:"+yes_cnt + "\n" + "no:"+no_cnt);
-    //     log.end();
+//     var log = fs.createWriteStream(__dirname + '/tmp/results.log', {'flags': 'w'});
+//     log.write("yes:"+yes_cnt + "\n" + "no:"+no_cnt);
+//     log.end();
 
 // Comments
 app.get('/polls/:poll_id/comments', poll_comments.findAll);

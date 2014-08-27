@@ -8,6 +8,25 @@
   -moz-border-radius    : 0 !important;
 }
 
+.red{
+  background-color: #d25757;
+}
+.orange{
+  background-color: #e38d42 ;
+}
+.green{
+  background-color: #3a9d50;
+}
+.blue{
+  background-color: #517da2;
+}
+.purple{
+  background-color: #9b59b6;
+}
+.black{
+  background-color: #34495e;
+}
+
 html{
   height    : 100%;
   width     : 100%;
