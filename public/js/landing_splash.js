@@ -1,3 +1,4 @@
+var socket = io.connect();
 var _fp = new Fingerprint();
 
 $(function() {

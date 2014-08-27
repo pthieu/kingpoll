@@ -1,274 +1,335 @@
-body.splash{
-  background-color:#ffffff;
-  color:#ffffff;
-  min-width: 967px;
+body.splash {
+    background-color: #ffffff;
+    color: #ffffff;
 }
-
-.splash #wrapper{
-  max-width:967px;
-  margin:auto;
+.splash #wrapper {
+    max-width: 100%;
+    margin: auto;
 }
-
-.splash #tbEmail{
-  margin:5px 0 10px 0;
-  font-size:20px;
+.splash #tbEmail {
+    margin: 5px 0 10px 0;
+    font-size: 20px;
 }
-
-.splash label[for="tbEmail"]{
-  font-size:20px;
-  margin-right:5px;
+.splash label[for="tbEmail"] {
+    font-size: 20px;
+    margin-right: 5px;
 }
-
-.splash input{
-  border:1px solid #ffffff;
-  background-color: rgba(85,85,85,0.50);
-  color:#ffffff;
-  padding:3px 10px 3px 10px;
+.splash input {
+    border: 1px solid #ffffff;
+    background-color: rgba(85, 85, 85, 0.50);
+    color: #ffffff;
+    padding: 3px 10px 3px 10px;
 }
-.splash .field{
-  padding-bottom:3px;
+.splash .field {
+    padding-bottom: 3px;
 }
-
-.splash .header{
-  background-color:#555555;
-  display:block;
-  position:relative;
+.splash .header {
+    background-color: #555555;
+    display: block;
+    position: relative;
 }
-
-.splash .branding{
-  display:inline-block;
-  text-align: center;
+.splash .branding {
+    display: inline-block;
+    text-align: center;
+    margin-left: 15%;
 }
-
-.splash .skip_splash{
-  margin: 10px 0 10px 0;
+.splash .skip_splash {
+    margin: 10px 0 10px 0;
 }
-.splash .skip_splash>span{
-  display:block;
+.splash .skip_splash>span {
+    display: block;
 }
-.splash .skip_splash a{
-  text-decoration: none;
-  color:#ffffff;
+.splash .skip_splash a {
+    text-decoration: none;
+    color: #ffffff;
 }
-.splash .skip_splash .button{
-  display:inline-block;
-  border:1px solid #ffffff;
-  /*background-color: #34495e;*/
-  background-color: #555555;
-  margin-top:10px;
-  margin-bottom:10px;
-  padding:20px 15px 20px 15px;
-  font-weight: bold;
+.splash .skip_splash .button {
+    display: inline-block;
+    border: 1px solid #ffffff;
+    /*background-color: #34495e;*/
+    background-color: #555555;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 20px 15px 20px 15px;
+    font-weight: bold;
 }
-.splash .skip_splash .button:hover{
-  background-color: #ffffff;
-  /*color: #34495e;*/
-  color: #555555;
+.splash .skip_splash .button:hover {
+    background-color: #ffffff;
+    /*color: #34495e;*/
+    color: #555555;
 }
-
-.splash .logo_wrap{
-  text-align: center;
-  display:inline-block;
+.splash .logo_wrap {
+    text-align: center;
+    display: inline-block;
 }
-.splash .logo_wrap img{
-  margin:auto;
+.splash .logo_wrap img {
+    margin: auto;
 }
-
-.splash .content{
-  background: #517da2;
-  /*background: #555555 url('http://conventionofstates.com/wp-content/uploads/questions%20answers.jpg') no-repeat right;*/
-  /*background: #555555 url('http://dummyimage.com/1080x400/888/fff') no-repeat center top;*/
-  width:100%;
-  position:relative;
-  text-align: left;
+.splash .content {
+    background: #517da2;
+    /*background: #555555 url('http://conventionofstates.com/wp-content/uploads/questions%20answers.jpg') no-repeat right;*/
+    /*background: #555555 url('http://dummyimage.com/1080x400/888/fff') no-repeat center top;*/
+    width: 100%;
+    position: relative;
+    text-align: left;
 }
-
-.splash .content .callout{
-  position:absolute;
-  width:500px;
-  top:0;
-  right:0;
-  margin-right:50px;
-  background: rgba(85,85,85,0.75);
-  color:#ffffff;
+.splash .content .callout {
+    position: absolute;
+    width: 500px;
+    top: 0;
+    right: 0;
+    margin-right: 50px;
+    background: rgba(85, 85, 85, 0.75);
+    color: #ffffff;
 }
-.splash .content .branding>img{
-  display:block;
-  padding:5px 35px 0 35px;
+.splash .content .branding>img {
+    display: block;
+    padding: 5px 35px 0 35px;
 }
-
 .splash h1 {
-  font-size: 32px;
-  line-height: 38px;
+    font-size: 32px;
+    line-height: 38px;
 }
 .splash .content h2 {
-  margin-top:12px;
-  font-weight: normal;
+    margin-top: 12px;
+    font-weight: normal;
 }
 .splash .content h3 {
-  /*margin-top:5px;*/
+    /*margin-top:5px;*/
 }
 .splash .callout .message {
-  margin-top:10px;
-  padding: 0 60px 0 60px;
-  text-align: left;
+    margin-top: 10px;
+    padding: 0 60px 0 60px;
+    text-align: left;
 }
-.splash .callout .signup, .splash .callout .login{
-  text-align: right;
-  padding-right:115px;
-  padding-bottom:20px;
-  margin-top: 15px;
+.splash .callout .signup, .splash .callout .login {
+    text-align: right;
+    padding-right: 115px;
+    padding-bottom: 20px;
+    margin-top: 15px;
 }
-.splash .login{
-  position:absolute;
-  right:0;
-  top:0;
-  padding: 35px 40px;
-  text-align: right;
+.splash .login {
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 35px 40px;
+    text-align: right;
+}
+.splash .signup .submit, .splash .login .submit {
+    border: 1px solid #ffffff;
+    background-color: #555555;
+    font-weight: bold;
+    font-size: 15px;
+    color: #ffffff;
+    margin-top: 3px;
+    padding: 8px 10px 8px 10px;
+    cursor: pointer;
+}
+.splash .signup .submit:hover, .splash .login .submit:hover {
+    border: 1px solid #ffffff;
+    background-color: #ffffff;
+    color: #555555;
+}
+.splash .divide_section {
+    background: url('/images/splash_wall.png') repeat center;
+    background-color: #555555;
+}
+.splash .whoareyou {
+    background-color: #d25757;
+    padding-top: 10px;
+    padding-bottom: 20px;
+}
+.splash .whatcando {
+    padding-top: 60px;
+    padding-bottom: 60px;
+    background-color: #9b59b6;
+    /*height: 400px;*/
+}
+.splash .section {
+    margin: 20px 0 20px 15px;
+}
+.splash .whatcando .section {
+    display: inline-block;
+    max-width: 150px;
+    vertical-align: top;
+}
+.splash .step4 {
+    margin-left: 20px;
+}
+.splash .whatcando .section * {
+    display: block;
+}
+.splash .section span {
+    text-align: left;
+}
+.splash .whatweoffer {
+    background-color: #555555;
+    /*padding-top:10px;*/
+    display: block;
+}
+.splash .whatweoffer .blank h2 {
+    margin-top: 10px;
+}
+.splash .whatweoffer h4 {
+    padding-left: 10px;
+}
+.splash .whatweoffer .section {
+    text-align: center;
+}
+.splash .whatweoffer .subsection {
+    display: inline-block;
+    height: 100%;
+    width: 100%;
+    vertical-align: middle;
+}
+.splash .whatweoffer .square_section {
+    display: inline-block;
+    width: 50%;
+    height: 290px;
+}
+.splash .whatweoffer .left {
+    float: left;
+}
+.splash .whatweoffer .square_section.right {
+    background-color: #e38d42;
+    float: right;
+}
+.splash .whatweoffer .square_section.right:not(.blank) {
+    padding-top: 25px;
+}
+.splash .whatweoffer .square_section.left {
+    background-color: #3a9d50;
+    float: left;
+}
+.splash .whatweoffer .square_section.blank {
+    text-align: center;
+    background-color: #555555;
+}
+.splash .whatweoffer .square_section.blank h3 {
+    margin-top: 5px;
+}
+.splash .whatweoffer .square_section.blank .subsection {
+    text-align: left;
+    padding: 0 30px 0 30px;
+}
+.splash .whatweoffer img {
+    margin: 0 10px 0 10px;
+}
+.splash .testimonial {
+    padding-top: 60px;
+    background-color: #34495e;
+    height: 400px;
+}
+.splash .share:not(.nobg) {
+    background: url('/images/splash_wall.png') repeat center;
+    background-color: #555555;
+}
+.splash .share a {
+    text-decoration: none;
+    color: #ffffff;
+}
+.splash .footer {
+    background-color: #555555;
+}
+.splash .share .social, .splash .share .social div {
+    display: inline-block;
+    vertical-align: middle;
+    height: 100%;
+}
+.splash .share .social {
+    margin: 40px 0 40px 0;
+    padding: 20px;
+    border: 1px solid #ffffff;
+    background-color: #555555;
+}
+.splash .share .social img {
+    border: 1px solid #ffffff;
+}
+.splash .share.nobg .social {
+    margin: 0;
+    padding: 5px;
+    line-height: 0;
+}
+.splash .share .social:hover {
+    background-color: #ffffff;
+    color: #555555;
+}
+.splash .footer {
+    padding: 20px;
+}
+@media screen and (max-width: 1900px) {
+    .splash .branding {
+        margin-left: 20%;
+    }
+}
+@media screen and (max-width: 1280px) {
+    .splash .branding {
+        margin-left: 10%;
+    }
+}
+@media screen and (max-width: 1050px) {
+    .splash .branding {
+        margin-left: 10px;
+    }
+}
+@media screen and (max-width: 976px) {
+  .splash .logo_wrap{
+    display:block;
+  }
+  .splash .login{
+    display:inline-block;
+    position:relative;
+    padding:0 0 10px;
+  }
+  .splash .login .submit{
+    padding:5px 10px;
+  }
+  .splash .content{
+    text-align: center;
+  }
+  .splash .content .callout{
+    position:relative;
+    padding:0;
+    width: 100%;
+  }
+  .splash .callout .message{
+    padding:10px 15px 10px 15px;
+  }
+  .splash .callout .signup, .splash .callout .login{
+    padding-right:20px;
+  }
+  .splash .whatweoffer .square_section{
+    display:block;
+    float:none !important;
+    width:100%;
+    height:100%;
+    padding-top:0 !important;
+  }
+  .splash .whatweoffer .section{
+    margin:0;
+  }
+  .splash .whatweoffer .subsection{
+    padding:0 !important;
+  }
+  .splash .whatweoffer .square_section{
+    padding: 20px !important;
+
+  }
 }
 
-.splash .signup .submit, .splash .login .submit{
-  border:1px solid #ffffff;
-  background-color:#555555;
-  font-weight: bold;
-  font-size:15px;
-  color:#ffffff;
-  margin-top:3px;
-  padding:10px 15px 10px 15px;
-  cursor: pointer;
-}
-.splash .signup .submit:hover, .splash .login .submit:hover{
-  border:1px solid #ffffff;
-  background-color:#ffffff;
-  color:#555555;
-}
-
-.splash .divide_section{
-  background: url('/images/splash_wall.png') repeat center;
-  background-color: #555555;
-}
-.splash .whoareyou{
-  background-color: #d25757;
-  padding-top:10px;
-  padding-bottom:20px;
-}
-
-.splash .whatcando{
-  padding-top:60px;
-  background-color: #9b59b6;
-  height:400px;
-}
-.splash .section{
-  margin: 20px 0 20px 15px;
-}
-.splash .whatcando .section{
-  display:inline-block;
-  max-width: 150px;
-  vertical-align: top;
-}
-.splash .step4{
-  margin-left:20px;
-}
-.splash .whatcando .section *{
-  display:block;
-}
-.splash .section span{
-  text-align: left;
-}
-
-.splash .whatweoffer{
-  background-color: #555555;
-  /*padding-top:10px;*/
-  display:block;
-}
-.splash .whatweoffer .blank h2{
-  margin-top:10px;
-}
-.splash .whatweoffer h4{
-  padding-left: 10px;
-}
-.splash .whatweoffer .section{
-  text-align: center;
-}
-.splash .whatweoffer .subsection{
-  display:inline-block;
-  height:100%;
-  width:100%;
-  vertical-align: middle;
-}
-.splash .whatweoffer .square_section{
-  display:inline-block;
-  width:50%;
-  height:290px;
-}
-.splash .whatweoffer .left{
-  float:left;
-}
-.splash .whatweoffer .square_section.right{
-  background-color: #e38d42;
-  float:right;
-}
-.splash .whatweoffer .square_section.right:not(.blank){
-  padding-top:25px;
-}
-.splash .whatweoffer .square_section.left{
-  background-color: #3a9d50;
-  float:left;
-}
-.splash .whatweoffer .square_section.blank{
-  text-align: center;
-  background-color: #555555;
-}
-.splash .whatweoffer .square_section.blank h3{
-  margin-top:5px;
-}
-.splash .whatweoffer .square_section.blank .subsection{
-  text-align: left;
-  padding:0 30px 0 30px;
-}
-.splash .whatweoffer img{
-  margin:0 10px 0 10px;
-}
-.splash .testimonial{
-  padding-top:60px;
-  background-color: #34495e;
-  height:400px;
-}
-.splash .share:not(.nobg){
-  background: url('/images/splash_wall.png') repeat center;
-  background-color: #555555;
-}
-.splash .share a{
-  text-decoration: none;
-  color:#ffffff;
-}
-.splash .footer{
-  background-color: #555555;
-}
-.splash .share .social, .splash .share .social div{
-  display:inline-block;
-  vertical-align: middle;
-  height:100%;
-}
-.splash .share .social{
-  margin: 40px 0 40px 0;
-  padding:20px;
-  border: 1px solid #ffffff;
-  background-color: #555555;
-}
-.splash .share .social img{
-  border: 1px solid #ffffff;
-}
-.splash .share.nobg .social{
-  margin:0;
-  padding:5px;
-  line-height: 0;
-}
-.splash .share .social:hover{
-  background-color: #ffffff;
-  color:#555555;
-}
-
-.splash .footer{
-  padding: 20px;
+@media screen and (max-width: 667px) {
+  .splash .branding{
+    margin-left:0;
+  }
+  .splash .content .branding>img{
+    width:100%;
+    padding:10px;
+  }
+  .splash .whoareyou img{
+    width:100%;
+  }
+  .splash .share .social{
+    margin:0;
+    margin-top: 10px;
+  }
 }
