@@ -1,0 +1,54 @@
+.contact .row{
+  margin:0;
+}
+
+.contact form{
+  width:50%;
+  margin: auto;
+}
+.contact input, .contact select, .contact textarea, .contact label{
+  display:block;
+  width: 100%;
+  font-size:16px;
+  color: #555555;
+}
+
+.contact input, .contact select, .contact textarea{
+  margin-bottom:10px;
+}
+.contact label{
+  text-align: left;
+}
+
+.contact #message{
+  height:200px;
+}
+
+.contact #submit{
+  display:inline-block;
+  padding: 15px 20px 15px 20px;
+  margin-bottom: 80px;
+  font-size:20px;
+  font-weight: bold;
+  color:#ffffff;
+  float: right;
+}
+
+@media screen and (max-width: 967px) {
+  .contact form{
+    width:70%;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .contact form{
+    width:80%;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .contact form{
+    width:100%;
+    padding:10px
+  }
+}

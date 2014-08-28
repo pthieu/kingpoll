@@ -54,6 +54,7 @@ var user_polls_helper = require('./scripts/user_polls_helper.js');
 var userRoute = require('./routes/login.js');
 var userAuth = require('./routes/login_auth.js');
 var accountRoute = require('./routes/account.js');
+var thankyouRoute = require('./routes/thankyou.js');
 var mailingRoute = require('./routes/mailing.js');
 
 //var MemoryStore = express.session.MemoryStore;
@@ -98,6 +99,8 @@ app.get('/verifyuser/v', routes.verifyUser);
 app.get('/verify/v', routes.verifyvote);
 app.get('/search', routes.searchpoll);
 app.get('/contact', routes.contact);
+app.get('/contact/thankyou', thankyouRoute.contact);
+app.post('/contact', mailingRoute.setContact);
 app.get('/policy', routes.policy);
 // app.get('*', routes.about);
 app.post('/new', routes.newpoll);

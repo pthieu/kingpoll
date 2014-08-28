@@ -2,24 +2,54 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-  scale=1.0">
-  <title>kingpoll.</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us</title>
+  <meta name="description" content="A little bit of information about what KingPoll does and why!">
+  <meta content="/images/favicon.ico" itemprop="image">
+  <link rel="shortcut icon" href="/images/favicon.ico"/>
   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" type="text/css" />
-  <link rel="stylesheet" href="/css/about.css" type="text/css" />
   <link rel="stylesheet" href="/css/layout.css" type="text/css" />
+  <link rel="stylesheet" href="/css/contact.css" type="text/css" />
   <link rel="stylesheet" href="/css/footer.css" type="text/css" />
   <link rel="stylesheet" href="/css/dash.css" type="text/css" />
 </head>
 <body>
   <div id='dash'></div>
-  <div id='wrapper' class="policy-wrap">
+  <div id='wrapper' class="contact">
     <div id='branding'>
       <!-- <img src="/images/kingpoll_347x270_666.png"> -->
       <!-- <span id='nameLogo'>kingpoll.</span><div id='wrapLogo'><img src="/images/kingstache_666.png" alt="There's a poll for that." id='imgLogo'></div> -->
       <br/><!-- <span id='slogan'>There's a poll for that.</span> -->
     </div>
     <div class="contact-content">
-      <h1>E-Mail</h1>
+      <form id="contact_form" action="/contact" method="POST" enctype="multipart/form-data">
+        <div class="row">
+          <label for="name">Name:</label>
+          <input id="name" class="input" name="name" type="text" maxlength="100" placeholder="First Last" />
+        </div>
+        <div class="row">
+          <label for="email">Email:</label>
+          <input id="email" class="input" name="email" type="email" maxlength="100" placeholder="Email@gmail.com" required />
+        </div>
+        <div class="row">
+          <label for="category">Category:</label>
+          <select id="category" name="category" multiple>
+            <option value="general" selected='selected'>General</option>
+            <option value="support">Support</option>
+            <option value="media">Press/Media</option>
+            <option value="bug">Bug</option>
+            <option value="legal">Legal</option>
+            <option value="financial">Financial</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="row">
+          <label for="message">Message:</label>
+          <textarea id="message" class="input" name="message" maxlength="5000" placeholder="KingPoll is awesome!"></textarea>
+        </div>
+        <button id="submit" class="btn btn-xs" type="submit" value="Send email" required>Send</button>
+      </form>           
+      <!-- <h1>E-Mail</h1>
       <p><a href="mailto:iokingpoll@gmail.com">iokingpoll@gmail.com</a><br>
       <span>Feel free to contact us about anything. We will try our best to respond! E-mail us about anything from suggestions for improvement to bugs found to general things you like or hate.</span></p>
       <p><a href="mailto:iokingpoll@gmail.com">KINGPOLLInc@gmail.com</a><br>
@@ -29,7 +59,8 @@
       <span>Follow us on facebook to see fancy images with trending questions on your feed!</span></p>
       <p><a href="https://twitter.com/kingpollinc">Twitter</a><br>
       <span>We will be tweeting polls related on what's currently trending on twitter. Come give us a follow and you will be entertained.</span></p>
-    </div>
+    </div> -->
+  </div>
   </div>
   <div class="navbar navbar-inverse navbar-bottom">
     <div class="container-fluid" id='footer'></div>
@@ -38,8 +69,8 @@
   <script src="/socket.io/socket.io.js"></script>
   <script src="/js/jquery.cookie.js"></script>
   <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
-<!--<script src="/js/colors.js"></script>
-  <script src="/js/about.js"></script>-->
+  <script src="/js/colors.js"></script>
+  <script src="/js/contact.js"></script>
   <script type="text/javascript" src="/js/dashboard.js"></script>
   <script>$('#dash').load('/views/dash.html')</script>
   <script>$('#footer').load('/views/footer.html')</script>

@@ -51,6 +51,10 @@ module.exports = {
             + "\n\nThank you for signing up and verifying your new account";
             send_email(email, subject, body);
         });
+    },
+
+    send: function(email, subject, msg){
+        send_email(email, subject, msg);
     }
 }
 
@@ -68,7 +72,6 @@ function send_email(email, subject, msg){
                 handle_sendemail_success(false);
             }
             else{
-                console.log(res);
                 //if pass, we set an expirey date on vote. or? query all votes that are v_valid != true that are before a specific date
                 //reset all polls affected
                 handle_sendemail_success(true);
@@ -76,7 +79,6 @@ function send_email(email, subject, msg){
     });
 }
     
-
 function handle_sendemail_success(results)
 {
     if (results){

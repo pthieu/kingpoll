@@ -660,7 +660,7 @@ $(document).ready(function() {
                 $('#choices .radio label').hover(function(e) {
                     var tmpcolor = $(this).data('color');
                     $(this).css("background-color", e.type === "mouseenter" ? "#ffffff" : tmpcolor);
-                    $(this).css("color", e.type === "mouseenter" ? tmpcolor : "#fff");
+                    $(this).css("color", e.type === "mouseenter" ? tmpcolor : "#ffffff");
                 });
                 $('#choices .share-buttons').show();
             }
