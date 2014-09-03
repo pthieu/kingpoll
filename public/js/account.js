@@ -14,7 +14,6 @@ var uid;
 $(function() {
   // config
   var load_npolls = 6; // number of polls loaded per loadmore click
-
   uid = window.location.pathname;
   uid = uid.replace(/\/u\//, "");
 

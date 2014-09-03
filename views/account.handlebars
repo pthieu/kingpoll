@@ -1,11 +1,11 @@
 ﻿<div id="wrapper" class="account">
-  {{#if title}}
+  {{!-- {{#if title}}
   <div class="title">
     <h1>{{title}}</h1>
   </div>
-  {{else}}
+  {{else}} --}}
   <div class="title"></div>
-  {{/if}}
+  {{!-- {{/if}} --}}
   <div class="personal-wrap">
     <!-- personalinfo about user, display pic or something -->
     <div class="dp">
@@ -13,7 +13,10 @@
         Create poll about {{user.u_id}}
       </a>{{/if}}
       <!-- display pic -->
-      <img src="/images/dummy_dp.png" alt="display picture">
+      <div class="edit_wrap">
+        <img src="/images/dummy_dp.png" alt="display picture" />
+        {{#if self}}<span class="edit">[Upload New]</span>{{/if}}
+      </div>
       {{#if createUpl}}
       {{/if}}
     </div>
