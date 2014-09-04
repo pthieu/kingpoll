@@ -10,6 +10,12 @@ var donuts;
 var attrPolls = {};
 var uid;
 
+if (window.File && window.FileReader && window.FileList && window.Blob) {
+  // Great success! All the File APIs are supported.
+} else {
+  alert('Please use the latest version of Google Chrome for best compatibility with KingPoll.');
+}
+
 //DOM READY
 $(function() {
   // config
@@ -31,6 +37,7 @@ $(function() {
   setTabs();
   $('[data-index=attr-wrap]').click();
 
+  document.getElementById('upload_dp').addEventListener('change', handleUploadDP);
 });
 
 pie = (function() {
@@ -280,4 +287,12 @@ function setTabs() {
       }
     });
   });
+}
+
+function handleUploadDP(e){
+  var file = e.target.files;
+  debugger;
+}
+function load_dp(){
+
 }

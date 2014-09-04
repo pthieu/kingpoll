@@ -100,7 +100,6 @@ exports.getUserAccount = function(req, res) {
       Vote.find({
         'u_id': user._id
       }, function(err, votes) {
-
         var longest = 0;
         var shortest = 999999;
         var average = 0;
@@ -135,7 +134,7 @@ exports.getUserAccount = function(req, res) {
           'u_id': 1
         }, function(err, polls) {
           res.render('account', {
-            title: user.u_id+self,
+            title: '@'+user.u_id,
             user: user,
             showbuttons: false,
             createUpl: true,
@@ -151,7 +150,7 @@ exports.getUserAccount = function(req, res) {
     }
     else {
       res.render('account', {
-        title: "This user does not exist!"
+        'h1': "This user does not exist!"
       });
 
     }

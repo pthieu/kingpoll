@@ -1,10 +1,11 @@
 ﻿<div id="wrapper" class="account">
-  {{!-- {{#if title}}
+  {{#if h1}}
   <div class="title">
-    <h1>{{title}}</h1>
+    <h1>{{h1}}</h1>
   </div>
-  {{else}} --}}
+  {{else}}
   <div class="title"></div>
+  {{/if}}
   {{!-- {{/if}} --}}
   <div class="personal-wrap">
     <!-- personalinfo about user, display pic or something -->
@@ -15,7 +16,7 @@
       <!-- display pic -->
       <div class="edit_wrap">
         <img src="/images/dummy_dp.png" alt="display picture" />
-        {{#if self}}<span class="edit">[Upload New]</span>{{/if}}
+        {{#if self}}<div class="edit_overlay"><span class="edit">Upload New</span><input type="file" id="upload_dp" class="upload_dp" name="upload_dp" value="Upload New" placeholder="edit" /></div>{{/if}}
       </div>
       {{#if createUpl}}
       {{/if}}
