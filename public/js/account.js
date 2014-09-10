@@ -39,7 +39,7 @@ $(function() {
   $('[data-index=attr-wrap]').click();
 
   document.getElementById('upload_dp').addEventListener('change', handleUploadDP);
-  document.getElementById('save-udp-button').addEventListener('click', save_udp);
+  document.getElementById('save-udp-button').addEventListener('click', setUDP);
 });
 
 pie = (function() {
@@ -327,7 +327,7 @@ function handleUploadDP(e) {
   // files.push(file);
 }
 
-function save_udp(){
+function setUDP(){
   var src = $('.account #u_dp').attr('src');
   var img = new Image();
   img.src = src;
@@ -335,7 +335,7 @@ function save_udp(){
   //check size ok again
   if(!checkImgSize(img)) return false;
 
-  socket.emit('save_udp', uid, img.src); // attr polls
+  socket.emit('setUDP', uid, img.src); // attr polls
   $('.account #save-udp-button').addClass('hidden');
 }
 
@@ -343,5 +343,5 @@ function checkImgSize(img){
   return (img.width <= 160 || img.height <= 160)?true:false;
 }
 
-function load_dp() {
+function getUDP() {
 }
