@@ -12,7 +12,8 @@ var uid;
 
 if (window.File && window.FileReader && window.FileList && window.Blob) {
   // Great success! All the File APIs are supported.
-} else {
+}
+else {
   alert('Please use the latest version of Google Chrome for best compatibility with KingPoll.');
 }
 
@@ -38,6 +39,7 @@ $(function() {
   $('[data-index=attr-wrap]').click();
 
   document.getElementById('upload_dp').addEventListener('change', handleUploadDP);
+  document.getElementById('save-udp-button').addEventListener('click', save_udp);
 });
 
 pie = (function() {
@@ -252,19 +254,19 @@ socket.on('setAttrPolls', function(_poll, _type) {
 //Set the highlighted polls on the profile page
 socket.on('setHighLightPolls', function(_poll) {
   $('.highlight-wrap .highlight .no_hl_msg').hide();
-    var type_wrap = '.highlight-wrap .highlight';
-    //add initial grey ddd and also add # for hex colors
-    var choices = {
-      'colors': _poll.c_hex,
-      'ctext': _poll.c_text
-    };
-    choices.colors.unshift('ddd');
-    for (var i = 0; i < choices.colors.length; i++) {
-      choices.colors[i] = "#" + choices.colors[i];
-    }
-    attrPolls[_poll.p_id] = pie.init(type_wrap, _poll.p_id, _poll.c_total, _poll.p_total, _poll.p_q);
-    attrPolls[_poll.p_id].create(innerRadius, outerRadius, pieW, pieH, choices);
-    attrPolls[_poll.p_id].update(_poll.c_total);
+  var type_wrap = '.highlight-wrap .highlight';
+  //add initial grey ddd and also add # for hex colors
+  var choices = {
+    'colors': _poll.c_hex,
+    'ctext': _poll.c_text
+  };
+  choices.colors.unshift('ddd');
+  for (var i = 0; i < choices.colors.length; i++) {
+    choices.colors[i] = "#" + choices.colors[i];
+  }
+  attrPolls[_poll.p_id] = pie.init(type_wrap, _poll.p_id, _poll.c_total, _poll.p_total, _poll.p_q);
+  attrPolls[_poll.p_id].create(innerRadius, outerRadius, pieW, pieH, choices);
+  attrPolls[_poll.p_id].update(_poll.c_total);
 });
 socket.on('updateAttrPolls', function(_d) {});
 //get all polls about user that are user generated
@@ -281,7 +283,8 @@ function setTabs() {
         $(this).addClass('active');
         $(".tab-content").slideUp('fast');
         $("." + tabClicked).slideToggle('fast');
-      } else {
+      }
+      else {
         $("." + tabClicked).slideToggle('fast');
         $(this).removeClass('active');
       }
@@ -289,10 +292,56 @@ function setTabs() {
   });
 }
 
-function handleUploadDP(e){
-  var file = e.target.files;
-  debugger;
-}
-function load_dp(){
+function handleUploadDP(e) {
+  e.stopPropagation();
+  e.preventDefault();
 
+  var files = e.target.files;
+  if (!(files[0].type) || !files[0].type.match(/image/)) {
+    return;
+  }
+  //start a new read stream per file
+  var reader = new FileReader();
+  var file = {};
+
+  file['name'] = files[0].name;
+  file['type'] = files[0].type;
+  file['src'] = window.URL.createObjectURL(files[0]);
+  reader.onloadend = (function(f) {
+    //we return an object because we want variable file to be in the scope of the function (as variable f)
+    return function(e) {
+      var img = new Image();
+      img.src = e.target.result;
+      //check if image <=160x160
+      if (!checkImgSize(img)){
+        console.log('height and width must be no larger than 160 each');
+        return;
+      }
+      $('.account #u_dp').attr('src', img.src);
+      $('.account #save-udp-button').removeClass('hidden');
+    };
+  })(file); // this is using the file variable we defined earlier
+
+  //this is async
+  reader.readAsDataURL(files[0]);
+  // files.push(file);
+}
+
+function save_udp(){
+  var src = $('.account #u_dp').attr('src');
+  var img = new Image();
+  img.src = src;
+  
+  //check size ok again
+  if(!checkImgSize(img)) return false;
+
+  socket.emit('save_udp', uid, img.src); // attr polls
+  $('.account #save-udp-button').addClass('hidden');
+}
+
+function checkImgSize(img){
+  return (img.width <= 160 || img.height <= 160)?true:false;
+}
+
+function load_dp() {
 }

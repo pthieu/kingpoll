@@ -15,11 +15,17 @@
       </a>{{/if}}
       <!-- display pic -->
       <div class="edit_wrap">
-        <img src="/images/dummy_dp.png" alt="display picture" />
-        {{#if self}}<div class="edit_overlay"><span class="edit">Upload New</span><input type="file" id="upload_dp" class="upload_dp" name="upload_dp" value="Upload New" placeholder="edit" /></div>{{/if}}
-      </div>
-      {{#if createUpl}}
+        <img id="u_dp" src="/images/dummy_dp.png" alt="display picture" />
+        {{#if self}}
+        <div class="edit_overlay">
+          <span class="edit">Upload New</span>
+          <input type="file" id="upload_dp" class="upload_dp" name="upload_dp" value="Upload New" placeholder="edit" />
+        </div>
+        <a id="save-udp-button" class="nolink hidden" href="javascript:void(0)"><div class="edit_overlay">
+          Save Display Picture
+        </div></a>
       {{/if}}
+      </div>
     </div>
     <div class='personal-info'>
       {{!-- <h5>Name: {{#if user.u_name}} {{user.u_name}} {{else}} [Private] {{/if}}</h5> --}}

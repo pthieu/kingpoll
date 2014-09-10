@@ -130,3 +130,10 @@ body{
 .td{
   display:table-cell;
 }
+.nolink{
+  color:inherit;
+}
+.nolink:hover{
+  color:inherit;
+  text-decoration: none;
+};
