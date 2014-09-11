@@ -346,7 +346,9 @@ function setUDP(){
   $('.account #save-udp-button').addClass('hidden');
 }
 function getUDP_OK(_udp) {
-  $('.account #u_dp').attr('src', _udp);
+  if(!!_udp){
+    $('.account #u_dp').attr('src', _udp);
+  }
 }
 
 function checkImgSize(img){
