@@ -361,6 +361,12 @@ io.sockets.on('connection', function(client) {
       });
     }
   });
+  client.on('setUDP', function (_uid, _udp) {
+    accountRoute.setUDP(client, _uid, _udp);
+  });
+  client.on('getUDP', function (_uid) {
+    accountRoute.getUDP(client, _uid);
+  });
   client.on('disconnect', function(iploc) {
     client.leave(pollid);
     client.leave('landing');

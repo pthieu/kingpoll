@@ -152,7 +152,28 @@ exports.getUserAccount = function(req, res) {
       res.render('account', {
         'h1': "This user does not exist!"
       });
-
     }
   });
+};
+
+exports.setUDP = function(client, _uid, _udp) {
+  //if logged in, and logged in UID is equal to UID being changed, valid change
+  if (client.handshake.user.logged_in && client.handshake.user.u_id == _uid) {
+    User.update({'_id':client.handshake.user._id}, {'u_dp': _udp}, function (err, _n, _raw) {
+      if (err) console.error(err);
+    });
+    client.emit('setUDP_OK');
+  }
+};
+
+exports.getUDP = function(client, _uid) {
+  if(!!_uid){
+    User.findOne({'u_id': _uid}, {'u_dp':1}, function (err, _user) {
+      if (err) console.error(err);
+      client.emit('getUDP_OK', _user.u_dp);
+    });
+  }
+  else{
+    client.emit('getUDP_ERR');
+  }
 };

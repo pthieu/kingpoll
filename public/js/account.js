@@ -38,8 +38,13 @@ $(function() {
   setTabs();
   $('[data-index=attr-wrap]').click();
 
-  document.getElementById('upload_dp').addEventListener('change', handleUploadDP);
-  document.getElementById('save-udp-button').addEventListener('click', setUDP);
+  var u_dp = document.getElementById('upload_dp');
+  if(!!u_dp) u_dp.addEventListener('change', handleUploadDP);
+  var save_udp = document.getElementById('save-udp-button');
+  if(!!save_udp) save_udp.addEventListener('click', setUDP);
+  
+  socket.emit('getUDP', uid);
+  socket.on('getUDP_OK', getUDP_OK);
 });
 
 pie = (function() {
@@ -209,6 +214,8 @@ function getUserInfo() {}
 function getAttrPolls(_uid, _type) {
   socket.emit('getAttrPolls', _uid, _type);
 }
+socket.on('setUDP_OK', function(){
+});
 //trigger poll update
 socket.on('setAttrPolls', function(_poll, _type) {
   if (!_poll) {
@@ -338,10 +345,10 @@ function setUDP(){
   socket.emit('setUDP', uid, img.src); // attr polls
   $('.account #save-udp-button').addClass('hidden');
 }
+function getUDP_OK(_udp) {
+  $('.account #u_dp').attr('src', _udp);
+}
 
 function checkImgSize(img){
   return (img.width <= 160 || img.height <= 160)?true:false;
-}
-
-function getUDP() {
 }

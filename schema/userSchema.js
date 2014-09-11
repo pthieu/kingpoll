@@ -13,6 +13,8 @@ var userSchema = new mongoose.Schema({
     'u_password': {type:String}, //some sort of encrypted password
     'u_birth'   : {type:Date}, //Birthday
     't_created' : {type:Date}, //account creation date
+    'u_dp'      : {type:String},
+    'u_desc'    : {type:String},
     'u_age'     : {type:Number},
     'u_sex'     : {type:String}, //m/f/other?
     'u_height'  : {type:Number}, //in cm, convert in client
