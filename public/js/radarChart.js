@@ -238,9 +238,12 @@ var RadarChart = {
             .attr('y', newY)
             .text(Format(d.value))
             .style('opacity', 1)
-            .style('font-size', '16px')
+            .style('font-size', '26px')
             .style('font-weight', 'bold')
-            .style('fill', '#000000');
+            .style("shape-rendering", "optimizeSpeed")
+            .style('fill', '#ffffff')
+            .style('stroke', '#000000')
+            .style('stroke-width', '1');
 
           z = "polygon." + d3.select(this).attr("class");
           g.selectAll("polygon")
