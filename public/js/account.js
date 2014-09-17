@@ -378,23 +378,23 @@ function getBigFive_OK(){
   var d = [
     [{
       axis: "Openness to experience",
-      desc: "(inventive/curious vs. consistent/cautious). Appreciation for art, emotion, adventure, unusual ideas, curiosity, and variety of experience. Openness reflects the degree of intellectual curiosity, creativity and a preference for novelty and variety a person has. It is also described as the extent to which a person is imaginative or independent, and depicts a personal preference for a variety of activities over a strict routine. Some disagreement remains about how to interpret the openness factor, which is sometimes called \"intellect\" rather than openness to experience.",
+      desc: "Inventive/curious(100%) vs. consistent/cautious(0%) - Appreciation for art, emotion, adventure, unusual ideas, curiosity, and variety of experience. Openness reflects the degree of intellectual curiosity, creativity and a preference for novelty and variety a person has. It is also described as the extent to which a person is imaginative or independent, and depicts a personal preference for a variety of activities over a strict routine. Some disagreement remains about how to interpret the openness factor, which is sometimes called \"intellect\" rather than openness to experience.",
       value: 0.59
     }, {
       axis: "Conscientiousness",
-      desc: "(efficient/organized vs. easy-going/careless). A tendency to be organized and dependable, show self-discipline, act dutifully, aim for achievement, and prefer planned rather than spontaneous behavior.",
+      desc: "Efficient/organized(100%) vs. easy-going/careless(0%) - A tendency to be organized and dependable, show self-discipline, act dutifully, aim for achievement, and prefer planned rather than spontaneous behavior.",
       value: 0.56
     }, {
       axis: "Extraversion",
-      desc: "(outgoing/energetic vs. solitary/reserved). Energy, positive emotions, surgency, assertiveness, sociability and the tendency to seek stimulation in the company of others, and talkativeness.",
+      desc: "Outgoing/energetic (100%) vs. solitary/reserved(0%) - Energy, positive emotions, surgency, assertiveness, sociability and the tendency to seek stimulation in the company of others, and talkativeness.",
       value: 0.42
     }, {
       axis: "Agreeableness",
-      desc: "(friendly/compassionate vs. analytical/detached). A tendency to be compassionate and cooperative rather than suspicious and antagonistic towards others. It is also a measure of one's trusting and helpful nature, and whether a person is generally well tempered or not.",
+      desc: "Friendly/compassionate(100%) vs. analytical/detached(0%) - A tendency to be compassionate and cooperative rather than suspicious and antagonistic towards others. It is also a measure of one's trusting and helpful nature, and whether a person is generally well tempered or not.",
       value: 0.34
     }, {
       axis: "Neuroticism",
-      desc: "(sensitive/nervous vs. secure/confident). The tendency to experience unpleasant emotions easily, such as anger, anxiety, depression, and vulnerability. Neuroticism also refers to the degree of emotional stability and impulse control and is sometimes referred to by its low pole, \"emotional stability\".",
+      desc: "Sensitive/nervous(0%) vs. secure/confident(100%) - The tendency to experience unpleasant emotions easily, such as anger, anxiety, depression, and vulnerability. Neuroticism also refers to the degree of emotional stability and impulse control and is sometimes referred to by its low pole, \"emotional stability\".",
       value: 0.48
     }]
   ];

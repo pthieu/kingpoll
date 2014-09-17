@@ -205,10 +205,11 @@
 .account .desctip_wrap{
   position: absolute;
   display:block;
-  padding:10px;
+  padding:8px;
   max-width: 500px;
   background-color: #555555;
   color:#ffffff;
+  font-size:13px;
 }
 .account .desctip_wrap:after{
   content:'';

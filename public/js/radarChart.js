@@ -125,7 +125,8 @@ var RadarChart = {
         return cfg.h / 2 * (1 - cfg.factor * Math.cos(i * cfg.radians / total));
       })
       .attr("class", "line")
-      .style("stroke", "grey")
+      .style("stroke", "#517da2")
+      .style("shape-rendering", "optimizeSpeed")
       .style("stroke-width", "1px");
 
     //this is config for labels of each corner
@@ -135,9 +136,11 @@ var RadarChart = {
         return d;
       })
       .style("font-family", "sans-serif")
-      .style("font-size", "13px")
+      .style("font-size", "15px")
+      .style("font-weight", "bold")
+      .style("fill", "#517da2")
       .attr("text-anchor", "middle")
-      .attr("dy", "1.5em")
+      .attr("dy", "1.2em")
       .attr("transform", function(d, i) {
         return "translate(0, -20)"; //
       })
@@ -204,6 +207,7 @@ var RadarChart = {
     series = 0;
 
     //go through each node in the data put in
+    //use each data to change node circles and tooltips
     d.forEach(function(y, x) {
       g.selectAll(".nodes")
         .data(y).enter()
@@ -228,17 +232,22 @@ var RadarChart = {
         .style("fill", cfg.color(series)).style("fill-opacity", .9)
         .on('mouseover', function(d) {
           newX = parseFloat(d3.select(this).attr('cx')) - 10;
-          newY = parseFloat(d3.select(this).attr('cy')) - 5;
+          newY = parseFloat(d3.select(this).attr('cy')) - 10;
 
           tooltip.attr('x', newX)
             .attr('y', newY)
             .text(Format(d.value))
-            .style('opacity', 1);
+            .style('opacity', 1)
+            .style('font-size', '16px')
+            .style('font-weight', 'bold')
+            .style('fill', '#000000');
 
           z = "polygon." + d3.select(this).attr("class");
           g.selectAll("polygon")
+            .transition(200)
             .style("fill-opacity", 0.1);
           g.selectAll(z)
+            .transition(200)
             .style("fill-opacity", .7);
         })
         .on('mouseout', function() {
