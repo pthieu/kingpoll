@@ -45,6 +45,8 @@ $(function() {
   
   socket.emit('getUDP', uid);
   socket.on('getUDP_OK', getUDP_OK);
+
+  getBigFive_OK();
 });
 
 pie = (function() {
@@ -217,7 +219,12 @@ function getAttrPolls(_uid, _type) {
 socket.on('setUDP_OK', function(){
 });
 //trigger poll update
+  
 socket.on('setAttrPolls', function(_poll, _type) {
+//TEMPORARY
+  return;
+//TEMPORARY REMOEV THIS
+
   if (!_poll) {
     switch (_type) {
       case 0:
@@ -353,4 +360,57 @@ function getUDP_OK(_udp) {
 
 function checkImgSize(img){
   return (img.width <= 160 || img.height <= 160)?true:false;
+}
+
+function getBigFive(){
+
+}
+function getBigFive_OK(){
+  var w = 500,
+    h = 500;
+
+  var colorscale = d3.scale.category10();
+
+  //Legend titles
+  var LegendOptions = ['Your Statistics'];
+
+  //Data
+  var d = [
+    [{
+      axis: "Openness to experience",
+      desc: "(inventive/curious vs. consistent/cautious). Appreciation for art, emotion, adventure, unusual ideas, curiosity, and variety of experience. Openness reflects the degree of intellectual curiosity, creativity and a preference for novelty and variety a person has. It is also described as the extent to which a person is imaginative or independent, and depicts a personal preference for a variety of activities over a strict routine. Some disagreement remains about how to interpret the openness factor, which is sometimes called \"intellect\" rather than openness to experience.",
+      value: 0.59
+    }, {
+      axis: "Conscientiousness",
+      desc: "(efficient/organized vs. easy-going/careless). A tendency to be organized and dependable, show self-discipline, act dutifully, aim for achievement, and prefer planned rather than spontaneous behavior.",
+      value: 0.56
+    }, {
+      axis: "Extraversion",
+      desc: "(outgoing/energetic vs. solitary/reserved). Energy, positive emotions, surgency, assertiveness, sociability and the tendency to seek stimulation in the company of others, and talkativeness.",
+      value: 0.42
+    }, {
+      axis: "Agreeableness",
+      desc: "(friendly/compassionate vs. analytical/detached). A tendency to be compassionate and cooperative rather than suspicious and antagonistic towards others. It is also a measure of one's trusting and helpful nature, and whether a person is generally well tempered or not.",
+      value: 0.34
+    }, {
+      axis: "Neuroticism",
+      desc: "(sensitive/nervous vs. secure/confident). The tendency to experience unpleasant emotions easily, such as anger, anxiety, depression, and vulnerability. Neuroticism also refers to the degree of emotional stability and impulse control and is sometimes referred to by its low pole, \"emotional stability\".",
+      value: 0.48
+    }]
+  ];
+
+  //Options for the Radar chart, other than default
+  var mycfg = {
+    w: w,
+    h: h,
+    maxValue: 1,
+    levels: 5,
+    ExtraWidthX: 200,
+    ExtraWidthY: 50,
+    TranslateY: 50
+  }
+
+  //Call function to draw the Radar chart
+  //Will expect that data is in %'s
+  RadarChart.draw(".attr-wrap", d, mycfg);
 }

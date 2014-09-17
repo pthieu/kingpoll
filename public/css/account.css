@@ -198,6 +198,36 @@
   width:160px;
 }
 
+/*SVG DESC TIP*/
+.account .legend.corner{
+  cursor: pointer;
+}
+.account .desctip_wrap{
+  position: absolute;
+  display:block;
+  padding:10px;
+  max-width: 500px;
+  background-color: #555555;
+  color:#ffffff;
+}
+.account .desctip_wrap:after{
+  content:'';
+  display:block;
+  position:absolute;
+  background-color: inherit;;
+  height:10px;
+  width:10px;
+  top:-5px;
+  left:50%;
+  -ms-transform: rotate(45deg); /* IE 9 */
+  -webkit-transform: rotate(45deg); /* Chrome, Safari, Opera */
+  transform: rotate(45deg);
+}
+.account .desctip{
+  display: inline-block;
+  text-align: justify;
+}
+
 @media all and (min-width: 767px) and (max-width: 1175px) {
   .account .tabs {
     width: 73%;
