@@ -3,6 +3,8 @@ var mongoose = require('mongoose');
 var User = mongoose.model('user');
 var Poll = mongoose.model('poll');
 var Vote = mongoose.model('vote');
+var UPL = mongoose.model('upl');
+
 
 
 exports.getOwnAccount = function(req, res) {
@@ -89,7 +91,12 @@ exports.getOwnAccount = function(req, res) {
 };
 
 exports.getUserAccount = function(req, res) {
-  if(req.user && req.user.u_id == req.params.id){var self = true;}else{var self=false;} // if user is logged in
+  if (req.user && req.user.u_id == req.params.id) {
+    var self = true;
+  }
+  else {
+    var self = false;
+  } // if user is logged in
   User.findOne({
     'u_id': req.params.id
   }, function(err, user) {
@@ -134,7 +141,7 @@ exports.getUserAccount = function(req, res) {
           'u_id': 1
         }, function(err, polls) {
           res.render('account', {
-            title: '@'+user.u_id,
+            title: '@' + user.u_id,
             user: user,
             showbuttons: false,
             createUpl: true,
@@ -159,7 +166,11 @@ exports.getUserAccount = function(req, res) {
 exports.setUDP = function(client, _uid, _udp) {
   //if logged in, and logged in UID is equal to UID being changed, valid change
   if (client.handshake.user.logged_in && client.handshake.user.u_id == _uid) {
-    User.update({'_id':client.handshake.user._id}, {'u_dp': _udp}, function (err, _n, _raw) {
+    User.update({
+      '_id': client.handshake.user._id
+    }, {
+      'u_dp': _udp
+    }, function(err, _n, _raw) {
       if (err) console.error(err);
     });
     client.emit('setUDP_OK');
@@ -167,13 +178,41 @@ exports.setUDP = function(client, _uid, _udp) {
 };
 
 exports.getUDP = function(client, _uid) {
-  if(!!_uid){
-    User.findOne({'u_id': _uid}, {'u_dp':1}, function (err, _user) {
+  if (!!_uid) {
+    User.findOne({
+      'u_id': _uid
+    }, {
+      'u_dp': 1
+    }, function(err, _user) {
       if (err) console.error(err);
       client.emit('getUDP_OK', _user.u_dp);
     });
   }
-  else{
+  else {
     client.emit('getUDP_ERR');
+  }
+};
+exports.getBigFive = function(client, _uid) {
+  if (!!_uid) {
+    User.findOne({
+      'u_id': _uid
+    }, function(err, _user) {
+      if (err) console.error(err);
+      UPL.find({
+        'type': 'kingpoll_attr'
+      })
+      .populate({'path':'p_id', 'match':{'p_cat':'bigfive'}})
+      .populate({'path':'u_id', 'match':{'u_id':_user.u_id}})
+      .where('p_id').ne(null)
+      .exec(function(err, _upls) {
+        _upls = _upls.filter(function (upl) {
+          return !!upl.p_id;
+        });
+        console.log(_upls)
+      });
+    });
+  }
+  else {
+    client.emit('getBigFive_ERR');
   }
 };

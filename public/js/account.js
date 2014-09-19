@@ -39,14 +39,14 @@ $(function() {
   $('[data-index=attr-wrap]').click();
 
   var u_dp = document.getElementById('upload_dp');
-  if(!!u_dp) u_dp.addEventListener('change', handleUploadDP);
+  if (!!u_dp) u_dp.addEventListener('change', handleUploadDP);
   var save_udp = document.getElementById('save-udp-button');
-  if(!!save_udp) save_udp.addEventListener('click', setUDP);
-  
-  socket.emit('getUDP', uid);
-  socket.on('getUDP_OK', getUDP_OK);
+  if (!!save_udp) save_udp.addEventListener('click', setUDP);
 
-  getBigFive_OK();
+  socket.emit('getUDP', uid); //get displaypic
+  socket.on('getUDP_OK', getUDP_OK);
+  socket.emit('getBigFive', uid); //get displaypic
+  socket.on('getBigFive_OK', getBigFive_OK);
 });
 
 pie = (function() {
@@ -216,14 +216,13 @@ function getUserInfo() {}
 function getAttrPolls(_uid, _type) {
   socket.emit('getAttrPolls', _uid, _type);
 }
-socket.on('setUDP_OK', function(){
-});
+socket.on('setUDP_OK', function() {});
 //trigger poll update
-  
+
 socket.on('setAttrPolls', function(_poll, _type) {
-//TEMPORARY
+  //TEMPORARY
   return;
-//TEMPORARY REMOEV THIS
+  //TEMPORARY REMOEV THIS
 
   if (!_poll) {
     switch (_type) {
@@ -327,7 +326,7 @@ function handleUploadDP(e) {
       var img = new Image();
       img.src = e.target.result;
       //check if image <=160x160
-      if (!checkImgSize(img)){
+      if (!checkImgSize(img)) {
         console.log('height and width must be no larger than 160 each');
         return;
       }
@@ -341,38 +340,37 @@ function handleUploadDP(e) {
   // files.push(file);
 }
 
-function setUDP(){
+function setUDP() {
   var src = $('.account #u_dp').attr('src');
   var img = new Image();
   img.src = src;
-  
+
   //check size ok again
-  if(!checkImgSize(img)) return false;
+  if (!checkImgSize(img)) return false;
 
   socket.emit('setUDP', uid, img.src); // attr polls
   $('.account #save-udp-button').addClass('hidden');
 }
+
 function getUDP_OK(_udp) {
-  if(!!_udp){
+  if (!!_udp) {
     $('.account #u_dp').attr('src', _udp);
   }
 }
 
-function checkImgSize(img){
-  return (img.width <= 160 || img.height <= 160)?true:false;
+function checkImgSize(img) {
+  return (img.width <= 160 || img.height <= 160) ? true : false;
 }
 
-function getBigFive(){
+function getBigFive() {
 
 }
-function getBigFive_OK(){
-  var w = 500,
-    h = 500;
+
+function getBigFive_OK(d) {
+  var w = 500;
+  var h = 500;
 
   var colorscale = d3.scale.category10();
-
-  //Legend titles
-  var LegendOptions = ['Your Statistics'];
 
   //Data
   var d = [

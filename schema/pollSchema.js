@@ -7,7 +7,7 @@ var Comment = require('../models/comments').Comment;
 var pollSchema = new mongoose.Schema({
     //poll param
     // 'p_id': {type:mongoose.Schema.Types.ObjectId, required:true, index:{unique:true}}, //poll id
-    'p_id'      : {type:String, required:true, unique:true, index: true}, //poll id
+    'p_id'      : {type:String, required:true, unique:true, index: true, ref:'upl'}, //poll id
     't_created' : {type:Date, required:true},
     'p_cat'     : [{type:String}], //poll categories i.e. top10, general, fuck, gaming
     'p_tag'     : [{type:String}], //poll #tags for twitter

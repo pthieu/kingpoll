@@ -367,6 +367,9 @@ io.sockets.on('connection', function(client) {
   client.on('getUDP', function (_uid) {
     accountRoute.getUDP(client, _uid);
   });
+  client.on('getBigFive', function (_uid) {
+    accountRoute.getBigFive(client, _uid);
+  });
   client.on('disconnect', function(iploc) {
     client.leave(pollid);
     client.leave('landing');

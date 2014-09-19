@@ -166,7 +166,7 @@ var createPoll = function(_uid, _username, _type, p_q, c_text, c_hex, p_desc, p_
     });
   });
   //create link between user and attr poll
-  var tmp = (_type == 0) ? 'kingpoll_attr' : 'standard_upl';
+  var tmp = (_type == 1) ? 'kingpoll_attr' : 'standard_upl';
   createUPL(new_uid, new_pid, tmp);
 }
 
