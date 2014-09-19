@@ -240,7 +240,6 @@ exports.newpoll = function(req, res) {
       newpoll['c_text'][i] = req.body.textchoice[i].c_text;
       newpoll['c_hex'][i] = req.body.textchoice[i].c_hex;
     }
-    console.log('poll length check passed');
     //find hashtags
     var tags = cleansymbols(req.body.p_q); //clear symbols so people can't fuck up the db
     newpoll['p_tag'] = getUniqueArray(cleanhashtag(tags));
@@ -263,12 +262,11 @@ exports.newpoll = function(req, res) {
           form: {
             refresh_token: '0dc5c75408d684bd7ce6e893e1938763e964cd52',
             client_id: '1100622bb9cd565',
-            client_secret: '8571ca74634d0a047bfc72880dbfa309dc4d0035',
+            client_secret: '7a8eb51acec070d68838dd5242a114e061eb928c',
             grant_type: 'refresh_token'
           }
         },
         function(err, response, body) {
-          // console.log(response);
           if (!err && response.statusCode == 200) {
             var login_body = JSON.parse(body);
             var options = {
@@ -284,7 +282,6 @@ exports.newpoll = function(req, res) {
                 'description': req.body.p_desc
               }
             };
-
             request.post(options, function(err, response, body) {
               var upload_body = JSON.parse(body);
               if (err) console.error(err);
@@ -327,7 +324,6 @@ exports.newpoll = function(req, res) {
 };
 
 exports.newuplpoll = function(req, res) {
-  console.log(req.user);
   new_pid = mongoose.Types.ObjectId(); //new pollid
 
   var create_user_id;
@@ -397,12 +393,11 @@ exports.newuplpoll = function(req, res) {
           form: {
             refresh_token: '0dc5c75408d684bd7ce6e893e1938763e964cd52',
             client_id: '1100622bb9cd565',
-            client_secret: '8571ca74634d0a047bfc72880dbfa309dc4d0035',
+            client_secret: '7a8eb51acec070d68838dd5242a114e061eb928c',
             grant_type: 'refresh_token'
           }
         },
         function(err, response, body) {
-          // console.log(response);
           if (!err && response.statusCode == 200) {
             var login_body = JSON.parse(body);
             var options = {
@@ -485,7 +480,6 @@ exports.newuplpoll = function(req, res) {
 };
 
 exports.validateVote = function(req, res) {
-  // console.log(req.headers.referer) // this is to get exact url
   var voteObj = req.body;
   var votes = [];
   for (i in voteObj) {
@@ -554,9 +548,9 @@ exports.newuser = function(req, res) {
     }
 
     arrIMG = req.body.arrIMG;
+
     //user exists, but not registered
     if (user) {
-      // console.log(user);
       if (user.u_isSignUp === false) {
         user.u_isSignUp = true;
         user.u_id = req.body.u_id;
@@ -602,7 +596,7 @@ exports.newuser = function(req, res) {
           });
         } else {
           console.log('User Save: passed')
-          user_polls_helper.createAttrPolls(user._id, user.u_id, 0, arrIMG); // create kingpoll_attr polls
+          user_polls_helper.createAttrPolls(user._id, user.u_id, 1, arrIMG); // create kingpoll_attr polls
           email.send_user_confirmation(user.u_email, user.u_id, user.u_salt);
           var redirect = '/signup/done';
           res.header('Content-Length', Buffer.byteLength(redirect));
@@ -614,19 +608,14 @@ exports.newuser = function(req, res) {
 };
 
 exports.verifyUser = function(req, res) {
-  // console.log(req.headers.referer) // this is to get exact url
   var userObj = req.url;
   var usalt = getURLParameter(req.url, "g");
   var uemail = getURLParameter(req.url, "u");
   var verify_msg = "";
 
-  console.log(usalt);
-  console.log(uemail);
   User.findOne({
     'u_email': uemail
   }, function(err, _user) {
-    console.log("Verifying");
-    // console.log(_user);
     if (err) {
       return console.error(err);
     }

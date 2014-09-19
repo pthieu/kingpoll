@@ -1,14 +1,11 @@
 var arrIMG = {}; //hold imgur images
 
 var arrUPLPolls = [
-  'Spontaneous or Analytical?',
-  'Hardworking or Intelligent?',
-  'Liberal or Conservative?',
-  'Optimist or Pessimist?',
-  'Extrovert or Introvert?',
-  'Brain or Brawn?',
-  'Is this person fun to be around?',
-  'Is this person a liar?',
+  'Am I open to new experiences? How do I react when exposed to something unfamiliar?',
+  'What is my general behaviour when performing any task?',
+  'How do I react in situations dealing with people compared with being alone?',
+  'When I see someone in need of help, how do I feel or react?',
+  'How do I behave when taken out of my comfort zone? How do I react to negative stressors?'
 ];
 
 //currently makes the share images and sends to imgur
@@ -73,6 +70,7 @@ function drawShare(text) {
   // height = +(canvas.height = (parseInt(fontSize)*maxlines)+20);
 
   var speaker = "kingpoll.com";
+  var username = $('#tbUsername').val();
 
   //global vars
   // var colors = ['#339933'];
@@ -123,7 +121,7 @@ function drawShare(text) {
   c.font = "bold " + (parseInt(fontSize) - 16) + "px" + " " + fontFamily;
   //c.fillText('kingpoll.com/p/abcdefgxyz123', width-5, height-10);
   //if(speaker.value){
-  c.fillText("- " + speaker, width - 25, height - 20);
+  c.fillText(speaker+'/u/'+username, width - 25, height - 20);
   //}
   c.imageSmoothingEnabled = true;
   return canvas.toDataURL('image/jpeg');
