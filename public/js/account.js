@@ -399,9 +399,10 @@ function getBigFive_OK(d) {
     h: h,
     maxValue: 1,
     levels: 5,
-    ExtraWidthX: 200,
+    ExtraWidthX: 175,
     ExtraWidthY: 50,
-    TranslateY: 50
+    TranslateY: 50,
+    factor:0.95
   }
 
   //Call function to draw the Radar chart

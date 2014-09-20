@@ -59,7 +59,7 @@ var RadarChart = {
     var tooltip;
 
     //Circular segments i.e. grey bg web lines
-    for (var j = 0; j < cfg.levels - 1; j++) {
+    for (var j = 0; j < cfg.levels; j++) {
       var levelFactor = cfg.factor * radius * ((j + 1) / cfg.levels);
       g.selectAll(".levels")
         .data(allAxis)
@@ -140,15 +140,15 @@ var RadarChart = {
       .style("font-weight", "bold")
       .style("fill", "#517da2")
       .attr("text-anchor", "middle")
-      .attr("dy", "1em")
+      .attr("dy", "1.4em")
       .attr("transform", function(d, i) {
-        return "translate(0, -20)"; //
+        return "translate(0, -10)"; //
       })
       .attr("x", function(d, i) {
         return cfg.w / 2 * (1 - cfg.factorLegend * Math.sin(i * cfg.radians / total)) - 60 * Math.sin(i * cfg.radians / total);
       })
       .attr("y", function(d, i) {
-        return cfg.h / 1.95 * (1 - Math.cos(i * cfg.radians / total)) - 20 * Math.cos(i * cfg.radians / total);
+        return cfg.h / 2.1 * (1 - Math.cos(i * cfg.radians / total)) - 20 * Math.cos(i * cfg.radians / total);
       })
     
     //go through each data in the set, select the corners it's bound to, attach it as a data
@@ -167,8 +167,8 @@ var RadarChart = {
       g.selectAll(".nodes")
         .data(y, function(j, i) {
           dataValues.push([
-        cfg.w / 2 * (1 - (parseFloat(Math.max(j.value, 0)) / cfg.maxValue) * cfg.factor * Math.sin(i * cfg.radians / total)),
-        cfg.h / 2 * (1 - (parseFloat(Math.max(j.value, 0)) / cfg.maxValue) * cfg.factor * Math.cos(i * cfg.radians / total))]);
+        cfg.w / 2 * (1 - (parseFloat(Math.max(j.value, 0)) / cfg.maxValue) * Math.pow(cfg.factor,3) * Math.sin(i * cfg.radians / total)),
+        cfg.h / 2 * (1 - (parseFloat(Math.max(j.value, 0)) / cfg.maxValue) * Math.pow(cfg.factor,3) * Math.cos(i * cfg.radians / total))]);
         });
       dataValues.push(dataValues[0]);
       g.selectAll(".area")
@@ -220,12 +220,12 @@ var RadarChart = {
         })
         .attr("cx", function(j, i) {
           dataValues.push([
-        cfg.w / 2 * (1 - (parseFloat(Math.max(j.value, 0)) / cfg.maxValue) * cfg.factor * Math.sin(i * cfg.radians / total)),
-        cfg.h / 2 * (1 - (parseFloat(Math.max(j.value, 0)) / cfg.maxValue) * cfg.factor * Math.cos(i * cfg.radians / total))]);
-          return cfg.w / 2 * (1 - (Math.max(j.value, 0) / cfg.maxValue) * cfg.factor * Math.sin(i * cfg.radians / total));
+        cfg.w / 2 * (1 - (parseFloat(Math.max(j.value, 0)) / cfg.maxValue) * Math.pow(cfg.factor,3) * Math.sin(i * cfg.radians / total)),
+        cfg.h / 2 * (1 - (parseFloat(Math.max(j.value, 0)) / cfg.maxValue) * Math.pow(cfg.factor,3) * Math.cos(i * cfg.radians / total))]);
+          return cfg.w / 2 * (1 - (Math.max(j.value, 0) / cfg.maxValue) * Math.pow(cfg.factor,3) * Math.sin(i * cfg.radians / total));
         })
         .attr("cy", function(j, i) {
-          return cfg.h / 2 * (1 - (Math.max(j.value, 0) / cfg.maxValue) * cfg.factor * Math.cos(i * cfg.radians / total));
+          return cfg.h / 2 * (1 - (Math.max(j.value, 0) / cfg.maxValue) * Math.pow(cfg.factor,3) * Math.cos(i * cfg.radians / total));
         })
         .attr("data-id", function(j) {
           return j.axis

@@ -245,6 +245,9 @@ exports.getBigFive = function(client, _uid) {
             corner.desc = '<span class="corner_title">Sensitive/nervous (0%) vs. secure/confident (100%)</span>' + corner.desc;
             corner['value'] = (_upls[i].p_id.p_total !=0 )?Math.round(_upls[i].p_id.c_total[1]/_upls[i].p_id.p_total*100)/100:0;
           }
+          //if no votes, we default to zero
+          //outherwise it will be some percentage out of 100% since they're all 2-choice
+          corner.value = (_upls[i].p_id.p_total != 0)?corner.value:0.5;
 
           d.push(corner);
         }
