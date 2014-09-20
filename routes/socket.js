@@ -155,6 +155,7 @@ exports.vote = function(dataVote, client, io, loggedin) {
               //     newvote.v_valid = user.u_salt[user.u_salt.length-1]; //take newest salt
               // }
               // END email send evaluation
+              console.log(dataVote.v_ip)
               user.u_ip = user.u_ip.addToSet(dataVote.v_ip);
               help.savedoc(user, newvote, function(item) {
                 client.emit('setEmail', user.u_email);
