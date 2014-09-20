@@ -44,7 +44,7 @@ var uplList2 = [
   },
   {
     p_q: "When I see someone in need of help, how do I feel or react?",
-    c_text: ['Friendly or Compassionate', 'Analytical or Detached'],
+    c_text: ['Friendly or Empathetic', 'Analytical or Detached'],
     c_hex: [c2['red'], c2['blue']],
     p_desc: 'Agreeableness: a tendency to be compassionate and cooperative rather than suspicious and antagonistic towards others. It is also a measure of one\'s trusting and helpful nature, and whether a person is generally well tempered or not.\n\nSee Wikipedia: http://en.wikipedia.org/wiki/Big_Five_personality_traits',
     p_cat: ['kingpoll_attr', 'bigfive', 'agreeableness']
