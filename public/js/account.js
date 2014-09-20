@@ -396,8 +396,9 @@ function getBigFive_OK(d) {
     h: h,
     maxValue: 1,
     levels: 5,
-    ExtraWidthX: 200,
+    ExtraWidthX: 210,
     ExtraWidthY: 50,
+    TranslateX: 105,
     TranslateY: 50,
     factor:0.95
   }

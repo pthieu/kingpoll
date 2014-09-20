@@ -140,7 +140,7 @@ var RadarChart = {
       .style("font-weight", "bold")
       .style("fill", "#517da2")
       .attr("text-anchor", "middle")
-      .attr("dx", "-15")
+      .attr("dx", "-20")
       .attr("dy", "25")
       .attr("transform", function(d, i) {
         return "translate(0, -10)"; //

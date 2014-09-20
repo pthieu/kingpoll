@@ -249,7 +249,7 @@ exports.getBigFive = function(client, _uid) {
           //if no votes, we default to zero
           //outherwise it will be some percentage out of 100% since they're all 2-choice
           corner.value = (_upls[i].p_id.p_total != 0)?corner.value:0.5;
-          corner.axis += '('+_upls[i].p_id.p_total+' votes)';
+          corner.axis += ' ('+_upls[i].p_id.p_total+' votes)';
 
           d.push(corner);
         }
