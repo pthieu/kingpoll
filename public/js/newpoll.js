@@ -2,10 +2,20 @@ var socket = io.connect();
 
 var _fp = new Fingerprint();
 var fingerprint = _fp.get();
+var u_id;
+var u_email;
 
 localStorage.setItem('fp', fingerprint);
 
 $(document).ready(function() {
+    socket.emit('getAuth');
+    socket.on('authStatus', function(status, user, social) {
+      if (status) {
+        socialID = social;
+        u_id = user.id;
+        u_email = user.email;
+      }
+    });
     // create #options based on max num
     var nchoice_max = $('.nchoice label').length;
     var nchoice_pick;
@@ -243,8 +253,8 @@ $(document).ready(function() {
     $('#newpoll').submit(function(e) {
         e.preventDefault();
         //get local storage/cookie
-        post_uid = localStorage.getItem('u_id');
-        post_email = localStorage.getItem('u_email');
+        post_uid = (!!u_id)?u_id:localStorage.getItem('u_id');
+        post_email = (!!u_email)?u_email:localStorage.getItem('u_email');
         fingerprint = _fp.get();
         // Get some values from elements on the page:
         var form = $(this);
@@ -364,7 +374,6 @@ var canvas = document.getElementById('c'),
     c = canvas.getContext('2d');
 //grab inputs
 var quote = document.getElementById('custom_question');
-var speaker = "kingpoll.com";
 
 //canvas setup
 // var fontFamily = "Segoe UI",
@@ -440,6 +449,8 @@ function fragmentText(text, maxWidth) {
 
 //draw function occurs every keystroke
 function draw() {
+    var speaker = (!!u_id)?"kingpoll.com/u/"+u_id:"kingpoll.com";
+    
     c.clearRect(0, 0, width, height);
     c.fillStyle = grad;
     c.fillRect(0, 0, width, height);
@@ -464,7 +475,7 @@ function draw() {
     c.font = "bold " + (parseInt(fontSize) - 16) + "px" + " " + fontFamily;
     //c.fillText('kingpoll.com/p/abcdefgxyz123', width-5, height-10);
     //if(speaker.value){
-    c.fillText("- " + speaker, width - 25, height - 20);
+    c.fillText(speaker, width - 25, height - 20);
     //}
     c.imageSmoothingEnabled = true;
 }

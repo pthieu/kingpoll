@@ -204,6 +204,7 @@ exports.getBigFive = function(client, _uid) {
       .populate({'path':'p_id', 'match':{'p_cat':'bigfive'}})
       .populate({'path':'u_id', 'match':{'u_id':_user.u_id}})
       .where('p_id').ne(null)
+      .sort('_id')
       .exec(function(err, _upls) {
         _upls = _upls.filter(function (upl) {
           return !!upl.p_id;
