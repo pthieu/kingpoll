@@ -29,13 +29,6 @@ var uplList2 = [
     p_cat: ['kingpoll_attr', 'bigfive', 'openness']
   },
   {
-    p_q: "What is my general behaviour when performing any task?",
-    c_text: ['Easy-going or Improvised','Efficient or Organized'],
-    c_hex: [c2['red'], c2['blue']],
-    p_desc: 'Conscientiousness: a tendency to be organized, show self-discipline, act dutifully, aim for achievement, and prefer planned rather than preferring improvisation, taking a  carefree approach, or showing spontaneous behavior.\n\nSee Wikipedia: http://en.wikipedia.org/wiki/Big_Five_personality_traits',
-    p_cat: ['kingpoll_attr', 'bigfive', 'conscientiousness']
-  },
-  {
     p_q: "How do I react in situations dealing with people compared with being alone?",
     c_text: ['Outgoing or Energetic', 'Solitary or Reserved'],
     c_hex: [c2['red'], c2['blue']],
@@ -43,15 +36,22 @@ var uplList2 = [
     p_cat: ['kingpoll_attr', 'bigfive', 'extraversion']
   },
   {
+    p_q: "What is my general behaviour when performing any task?",
+    c_text: ['Easy-going or Improvised', 'Efficient or Organized'],
+    c_hex: [c2['red'], c2['blue']],
+    p_desc: 'Conscientiousness: a tendency to be organized, show self-discipline, act dutifully, aim for achievement, and prefer planned rather than preferring improvisation, taking a  carefree approach, or showing spontaneous behavior.\n\nSee Wikipedia: http://en.wikipedia.org/wiki/Big_Five_personality_traits',
+    p_cat: ['kingpoll_attr', 'bigfive', 'conscientiousness']
+  },
+  {
     p_q: "When I see someone in need of help, how do I feel or react?",
-    c_text: ['Friendly or Compassionate','Analytical or Detached'],
+    c_text: ['Friendly or Compassionate', 'Analytical or Detached'],
     c_hex: [c2['red'], c2['blue']],
     p_desc: 'Agreeableness: a tendency to be compassionate and cooperative rather than suspicious and antagonistic towards others. It is also a measure of one\'s trusting and helpful nature, and whether a person is generally well tempered or not.\n\nSee Wikipedia: http://en.wikipedia.org/wiki/Big_Five_personality_traits',
     p_cat: ['kingpoll_attr', 'bigfive', 'agreeableness']
   },
   {
     p_q: "How do I behave when taken out of my comfort zone? How do I react to negative stressors?",
-    c_text: ['Sensitive or Nervous','Secure or Confident'],
+    c_text: ['Sensitive or Nervous', 'Secure or Confident'],
     c_hex: [c2['red'], c2['blue']],
     p_desc: 'Neuroticism: the tendency to experience unpleasant emotions and describes a person\'s level of impulse control or response to stress.\n\nIndividuals who score high on neuroticism are more likely than average to experience feelings as anxiety, anger, jealousy, guilt, and depressed mood. They respond more poorly to stressors, are more likely to interpret ordinary situations as threatening, and minor frustrations as hopelessly difficult. They are often self-conscious and shy, and they may have trouble controlling urges and delaying gratification.\n\n Note that although people who score low on neuroticism tend to be calm, even-tempered, and less likely to feel tense or stressed, it does not necessarily mean they have high levels of positive emotion.\n\nSee Wikipedia: http://en.wikipedia.org/wiki/Big_Five_personality_traits',
     p_cat: ['kingpoll_attr', 'bigfive', 'neuroticism']
@@ -111,7 +111,8 @@ var createPoll = function(_uid, _username, _type, p_q, c_text, c_hex, p_desc, p_
     newpoll.save(function(err, poll, count) {
       if (err) {
         console.error(err);
-      } else {
+      }
+      else {
         //START IMGUR POST
         if (!!_img) {
           request.post(
@@ -180,7 +181,8 @@ var createUPL = function(_uid, _pid, _type) {
   newupl.save(function(err, upl, count) {
     if (err) {
       console.error(err);
-    } else {
+    }
+    else {
       // UPL created succesffully
     }
   });

@@ -702,9 +702,9 @@ $(document).ready(function() {
                         'socialID': socialID,
                         'u_email': u_email,
                         'u_fp': fingerprint,
-                        'u_loc': [geo_loc.country, geo_loc.countryCode, geo_loc.regionName, geo_loc.region, geo_loc.city],
-                        'u_longlat': [geo_loc.lon, geo_loc.lat],
-                        'v_ip': geo_loc.query,
+                        'u_loc': (!!geo_loc)?[geo_loc.country, geo_loc.countryCode, geo_loc.regionName, geo_loc.region, geo_loc.city]:"",
+                        'u_longlat': (!!geo_loc)?[geo_loc.lon, geo_loc.lat]:"",
+                        'v_ip': (!!geo_loc)?geo_loc.query:"",
                         'v_choice': $(this).val(),
                         //vanon
                         'v_hex': data.c_hex[$(this).val()],

@@ -208,7 +208,48 @@ exports.getBigFive = function(client, _uid) {
         _upls = _upls.filter(function (upl) {
           return !!upl.p_id;
         });
-        console.log(_upls)
+
+        var d = [];
+
+        //since we create the big five polls on user creation, we know what categories we use so we can hard code this
+        //there really isn't an easier way to do this without a lot of code
+        for(var i = 0; i<_upls.length; i++){
+          var corner = {};
+          corner['pid'] = _upls[i].p_id.p_id;
+          corner['desc'] = _upls[i].p_id.p_desc
+                            .replace(/^[^:]+:/i, '<strong>$&</strong>')
+                            .replace(/See Wikipedia:.*$/i, '')
+                            .replace(/[^\n]+\n\n/ig, '<span class="spacing">$&</span>');
+          if(_upls[i].p_id.p_cat.indexOf('openness') >= 0){
+            corner['axis'] = 'Openness to experience';
+            corner.desc = '<span class="corner_title">Inventive/curious (100%) vs. consistent/cautious (0%)</span>' + corner.desc;
+            corner['value'] = (_upls[i].p_id.p_total !=0 )?Math.round(_upls[i].p_id.c_total[0]/_upls[i].p_id.p_total*100)/100:0;
+          }
+          else if(_upls[i].p_id.p_cat.indexOf('conscientiousness') >= 0){
+            corner['axis'] = 'Conscientiousness';
+            corner.desc = '<span class="corner_title">Efficient/organized (100%) vs. easy-going/careless (0%)</span>' + corner.desc;
+            corner['value'] = (_upls[i].p_id.p_total !=0 )?Math.round(_upls[i].p_id.c_total[1]/_upls[i].p_id.p_total*100)/100:0;
+          }
+          else if(_upls[i].p_id.p_cat.indexOf('extraversion') >= 0){
+            corner['axis'] = 'Extraversion';
+            corner.desc = '<span class="corner_title">Outgoing/energetic  (100%) vs. solitary/reserved (0%)</span>' + corner.desc;
+            corner['value'] = (_upls[i].p_id.p_total !=0 )?Math.round(_upls[i].p_id.c_total[0]/_upls[i].p_id.p_total*100)/100:0;
+          }
+          else if(_upls[i].p_id.p_cat.indexOf('agreeableness') >= 0){
+            corner['axis'] = 'Agreeableness';
+            corner.desc = '<span class="corner_title">Friendly/compassionate (100%) vs. analytical/detached (0%)</span>' + corner.desc;
+            corner['value'] = (_upls[i].p_id.p_total !=0 )?Math.round(_upls[i].p_id.c_total[0]/_upls[i].p_id.p_total*100)/100:0;
+          }
+          else if(_upls[i].p_id.p_cat.indexOf('neuroticism') >= 0){
+            corner['axis'] = 'Neuroticism';
+            corner.desc = '<span class="corner_title">Sensitive/nervous (0%) vs. secure/confident (100%)</span>' + corner.desc;
+            corner['value'] = (_upls[i].p_id.p_total !=0 )?Math.round(_upls[i].p_id.c_total[1]/_upls[i].p_id.p_total*100)/100:0;
+          }
+
+          d.push(corner);
+        }
+
+        client.emit('getBigFive_OK', [d]);
       });
     });
   }

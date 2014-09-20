@@ -362,10 +362,6 @@ function checkImgSize(img) {
   return (img.width <= 160 || img.height <= 160) ? true : false;
 }
 
-function getBigFive() {
-
-}
-
 function getBigFive_OK(d) {
   var w = 500;
   var h = 500;
@@ -373,7 +369,7 @@ function getBigFive_OK(d) {
   var colorscale = d3.scale.category10();
 
   //Data
-  var d = [
+  var tmpdata = [
     [{
       axis: "Openness to experience",
       desc: "Inventive/curious(100%) vs. consistent/cautious(0%) - Appreciation for art, emotion, adventure, unusual ideas, curiosity, and variety of experience. Openness reflects the degree of intellectual curiosity, creativity and a preference for novelty and variety a person has. It is also described as the extent to which a person is imaginative or independent, and depicts a personal preference for a variety of activities over a strict routine. Some disagreement remains about how to interpret the openness factor, which is sometimes called \"intellect\" rather than openness to experience.",

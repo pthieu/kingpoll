@@ -140,7 +140,7 @@ var RadarChart = {
       .style("font-weight", "bold")
       .style("fill", "#517da2")
       .attr("text-anchor", "middle")
-      .attr("dy", "1.2em")
+      .attr("dy", "1em")
       .attr("transform", function(d, i) {
         return "translate(0, -20)"; //
       })
@@ -148,7 +148,7 @@ var RadarChart = {
         return cfg.w / 2 * (1 - cfg.factorLegend * Math.sin(i * cfg.radians / total)) - 60 * Math.sin(i * cfg.radians / total);
       })
       .attr("y", function(d, i) {
-        return cfg.h / 2 * (1 - Math.cos(i * cfg.radians / total)) - 20 * Math.cos(i * cfg.radians / total);
+        return cfg.h / 1.95 * (1 - Math.cos(i * cfg.radians / total)) - 20 * Math.cos(i * cfg.radians / total);
       })
     
     //go through each data in the set, select the corners it's bound to, attach it as a data
@@ -158,6 +158,7 @@ var RadarChart = {
         .each(function (d,i) {
           d3.select(this).attr('data-desc', d.desc);
           d3.select(this).attr('data-corner', d.axis);
+          d3.select(this).attr('data-pid', d.pid);
         })
     });
 
@@ -284,16 +285,15 @@ var RadarChart = {
     //jquery for desctips
     $('.axis .legend.corner').each(function (i, e) {
       var jE = $(e);
-      var offset = $(e).offset();
+      var offset = $(e).position();
       var desctip = [
-        '<div class="desctip_wrap hidden" style="top:'+(offset.top+jE.height())+'px; left:'+(offset.left-250+jE.width()/2)+'px;" data-corner="'+jE.attr('data-corner')+'">',
+        '<div class="desctip_wrap hidden" style="top:'+(offset.top+jE.height()*1.5)+'px; left:'+(offset.left-250+jE.width()/2)+'px;" data-corner="'+jE.attr('data-corner')+'">',
           '<span class="desctip">',
             jE.attr('data-desc'),
           '</span>',
         '</div>'
       ].join('')
       $('.account .attr-wrap').append(desctip);
-
       jE.hover(function (e) {
         var corner = $(this).attr('data-corner');
         var desctip = $('.desctip_wrap[data-corner="'+corner+'"]')
@@ -303,7 +303,10 @@ var RadarChart = {
         else{
           desctip.addClass('hidden');
         }
-      })
+      });
+      jE.on('click', function (e) {
+        window.location.href='/p/'+$(this).attr('data-pid');
+      });
     });
   }
 };

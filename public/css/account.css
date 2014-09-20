@@ -1,5 +1,6 @@
 .account {
   margin-bottom: 15px !important;
+  min-width: 700px;
 }
 .account .title {
   margin: 40px auto 0 auto;
@@ -227,14 +228,29 @@
 .account .desctip{
   display: inline-block;
   text-align: justify;
+  line-height: 16px;
+}
+.account .corner_title{
+  display:block;
+  font-size: 14px;
+  font-style: italic;
+  margin-bottom: 5px;
+  text-decoration: underline;
 }
 
+.account .desctip .spacing{
+  display:block;
+  margin-bottom:4px;
+}
 @media all and (min-width: 767px) and (max-width: 1175px) {
   .account .tabs {
     width: 73%;
   }
 }
 @media all and (max-width: 767px) {
+  .account .personal-wrap, .account .stats-wrap, .account .dp {
+    padding-left: 0;
+  }
   .account .personal-wrap {
     float: none;
     position: relative;
@@ -249,5 +265,10 @@
     float: none;
     width: 100%;
     position: relative;
+  }
+  .account #make-uplpoll-button{
+    display: block;
+    margin: auto;
+    margin-bottom: 3px;
   }
 }
