@@ -21,7 +21,7 @@ var RadarChart = {
       radians: 2 * Math.PI,
       opacityArea: 0.5,
       ToRight: 5,
-      TranslateX: 80,
+      TranslateX: 100,
       TranslateY: 50,
       ExtraWidthX: 100,
       ExtraWidthY: 100,
@@ -140,14 +140,17 @@ var RadarChart = {
       .style("font-weight", "bold")
       .style("fill", "#517da2")
       .attr("text-anchor", "middle")
-      .attr("dy", "1.4em")
+      .attr("dx", "-15")
+      .attr("dy", "25")
       .attr("transform", function(d, i) {
         return "translate(0, -10)"; //
       })
       .attr("x", function(d, i) {
-        return cfg.w / 2 * (1 - cfg.factorLegend * Math.sin(i * cfg.radians / total)) - 60 * Math.sin(i * cfg.radians / total);
+        //spread in x. change the first division factor higher to make it squeeze more
+        return cfg.w / 1.875 * (1 - cfg.factorLegend * Math.sin(i * cfg.radians / total)) - 60 * Math.sin(i * cfg.radians / total);
       })
       .attr("y", function(d, i) {
+        //spread in y
         return cfg.h / 2.1 * (1 - Math.cos(i * cfg.radians / total)) - 20 * Math.cos(i * cfg.radians / total);
       })
     
