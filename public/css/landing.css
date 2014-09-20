@@ -334,34 +334,6 @@
 .absolute {
   position: absolute;
 }
-#notes {
-  margin-top: 4rem;
-  text-align: left;
-  padding-left: 0;
-  padding-right: 0.4rem;
-  overflow: auto;
-  max-height: 1000px;
-}
-#notes h4 {
-  text-decoration: underline;
-  margin-bottom: 0.25rem;
-  font-weight: bold;
-  cursor: pointer;
-}
-#notes h4:hover {
-  background-color: #ddd;
-}
-#notes span {
-  display: block;
-}
-#notes .title {
-  font-style: italic;
-  font-weight: bold;
-}
-#notes .desc {
-  margin-left: 1rem;
-  margin-bottom: 0.5rem;
-}
 .top {
   /*background-color: #666;*/
 }

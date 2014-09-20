@@ -125,6 +125,14 @@ exports.signupDone = function(req, res) {
     css_file: '/css/signup.css'
   });
 };
+exports.changelog = function(req, res) {
+  res.render('changelog', {
+    title: 'Changelog',
+    css_file: '/css/changelog.css',
+    js_script: '/js/changelog.js'
+  });
+};
+
 exports.verifyvote = function(req, res) {
   // var data = [];
   // data = req.params.code.split('+');

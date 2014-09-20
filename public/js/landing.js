@@ -108,10 +108,6 @@ $(document).ready(function() {
     });
   });
 
-  $('#notes h4').click(function() {
-    $(this).parent().find('span').slideToggle(100);
-  })
-
   $(window).scroll(function() {
     if ($(window).scrollTop() === $(document).height() - $(window).height()) {
       var skip = $('.poll').length; //skip how many

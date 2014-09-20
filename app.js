@@ -94,6 +94,7 @@ app.get('/listpoll', routes.listpoll);
 app.get('/p/:id', routes.getpoll);
 app.get('/signup', routes.signup);
 app.get('/signup/done', routes.signupDone);
+app.get('/changelog', routes.changelog);
 app.get('/verifyuser/v', routes.verifyUser);
 app.get('/verify/v', routes.verifyvote);
 app.get('/search', routes.searchpoll);

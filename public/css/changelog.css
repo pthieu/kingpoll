@@ -1,0 +1,28 @@
+#notes {
+  margin:auto;
+  margin-top: 4rem;
+  text-align: left;
+  padding-left: 20px;
+  padding-right: 20px;
+  float:none;
+}
+#notes h4 {
+  text-decoration: underline;
+  margin-bottom: 0.25rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+#notes h4:hover {
+  background-color: #ddd;
+}
+#notes span {
+  display: block;
+}
+#notes .title {
+  font-style: italic;
+  font-weight: bold;
+}
+#notes .desc {
+  margin-left: 1rem;
+  margin-bottom: 0.5rem;
+}
