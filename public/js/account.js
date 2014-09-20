@@ -24,7 +24,7 @@ $(function() {
   uid = window.location.pathname;
   uid = uid.replace(/\/u\//, "");
 
-  socket.emit('getAttrPolls', uid, 0, load_npolls, 0, 'newest'); // attr polls
+  // socket.emit('getAttrPolls', uid, 0, load_npolls, 0, 'newest'); // attr polls
   socket.emit('getAttrPolls', uid, 1, load_npolls, 0, 'newest'); // upl polls
   socket.emit('getHighlightPolls', uid); // hightlights // hidden for now until we get functinoality in 
 
@@ -220,9 +220,6 @@ socket.on('setUDP_OK', function() {});
 //trigger poll update
 
 socket.on('setAttrPolls', function(_poll, _type) {
-  //TEMPORARY
-  return;
-  //TEMPORARY REMOEV THIS
 
   if (!_poll) {
     switch (_type) {
