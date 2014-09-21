@@ -199,6 +199,7 @@ exports.getBigFive = function(client, _uid) {
     }, function(err, _user) {
       if (err) console.error(err);
       UPL.find({
+        'u_id': _user._id,
         'type': 'kingpoll_attr'
       })
       .populate({'path':'p_id', 'match':{'p_cat':'bigfive'}})

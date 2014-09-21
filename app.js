@@ -33,7 +33,8 @@ var email = require('./scripts/email.js');
 
 if (process.env.NODE_ENV == 'production') {
   mongoose.connect('mongodb://localhost/production'); //connect to db
-} else {
+}
+else {
   mongoose.connect('mongodb://localhost/test'); //connect to db
 }
 
@@ -66,7 +67,8 @@ app.set('view engine', 'handlebars');
 
 if (process.env.NODE_ENV == 'production') {
   //production node stuff
-} else {
+}
+else {
   //dev node stuff
   // app.use(express.logger());
 }
@@ -123,7 +125,12 @@ app.get('/auth/twitter/callback',
   passport.authenticate('twitter', {
     successRedirect: '/home',
     failureRedirect: '/signup'
-  }));
+  })
+);
+//this is the 404
+app.use(function(req, res, next){
+  res.send(404, 'Sorry cant find that!');
+});
 
 http.listen(appPort);
 console.log('listening on port: ' + appPort);
@@ -226,7 +233,8 @@ io.sockets.on('connection', function(client) {
           client.leave('landing');
           client.join(pollid);
           client.emit('pollID', poll[0]);
-        } else {
+        }
+        else {
           //this is if you're already on a poll page, just update whatever is on there
           client.emit('randPollID', (poll[0]) ? poll[0].p_id : null);
         }
@@ -338,7 +346,8 @@ io.sockets.on('connection', function(client) {
     if (client.handshake.user.logged_in && _uid == "/u") {
       _uid = client.handshake.user._id;
       user_polls_helper.setAttrPolls(_uid, _type, _limit, _skip, _sort, client, io);
-    } else {
+    }
+    else {
       User.findOne({
         'u_id': _uid
       }, {}, function(err, user) {
@@ -352,7 +361,8 @@ io.sockets.on('connection', function(client) {
     if (client.handshake.user.logged_in && _uid == "/u") {
       _uid = client.handshake.user._id;
       user_polls_helper.setHighlightPolls(_uid, client);
-    } else {
+    }
+    else {
       User.findOne({
         'u_id': _uid
       }, function(err, user) {
@@ -362,13 +372,13 @@ io.sockets.on('connection', function(client) {
       });
     }
   });
-  client.on('setUDP', function (_uid, _udp) {
+  client.on('setUDP', function(_uid, _udp) {
     accountRoute.setUDP(client, _uid, _udp);
   });
-  client.on('getUDP', function (_uid) {
+  client.on('getUDP', function(_uid) {
     accountRoute.getUDP(client, _uid);
   });
-  client.on('getBigFive', function (_uid) {
+  client.on('getBigFive', function(_uid) {
     accountRoute.getBigFive(client, _uid);
   });
   client.on('disconnect', function(iploc) {
@@ -398,10 +408,12 @@ io.sockets.on('connection', function(client) {
         };
 
         client.emit('authStatus', client.handshake.user.logged_in, user, socialID);
-      } else {
+      }
+      else {
         client.emit('authStatus', client.handshake.user.logged_in, user, null);
       }
-    } else {
+    }
+    else {
       client.emit('authStatus', client.handshake.user.logged_in, null);
     }
   });
@@ -415,7 +427,8 @@ io.sockets.on('connection', function(client) {
       // console.log(JSON.stringify(result));
       if (!err) {
         client.emit('getCommentsResult', JSON.stringify(result));
-      } else {
+      }
+      else {
         handleError(res, err);
       }
     });
@@ -433,7 +446,8 @@ io.sockets.on('connection', function(client) {
     comment.save(function(err) {
       if (err) {
         console.log(err);
-      } else {
+      }
+      else {
         //io.sockets.in(poll.p_id).emit('commentAdded', comment);
         client.emit('addCommentResult', JSON.stringify(comment));
       }
@@ -451,7 +465,8 @@ io.sockets.on('connection', function(client) {
         if (poll.p_hl == true) {
           console.log('pewpewtrue')
           highlight = false;
-        } else {
+        }
+        else {
           console.log('pewpewfalse')
           highlight = true;
         }
