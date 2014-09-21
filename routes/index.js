@@ -363,7 +363,7 @@ exports.newuplpoll = function(req, res) {
       'p_desc': req.body.p_desc,
       'c_n': req.body.c_n,
       't_created': new_pid.getTimestamp(),
-      'u_id': (!!req.user && req.user._id) ? mongoose.Types.ObjectId(req.user._id) : 'anonymous',
+      'u_id': (!!req.user && req.user._id) ? req.user._id : 'anonymous',
       'u_email': (!!req.user && req.user.u_email) ? req.user.u_email : 'anonymous', //if user exists, we put his email in, otherwise it's anonymous
       'c_random': req.body.c_random
     });
