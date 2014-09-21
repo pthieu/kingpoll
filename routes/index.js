@@ -224,6 +224,7 @@ exports.newpoll = function(req, res) {
         create_user_id = user._id;
       }
     }
+    console.log(req.user)
     var newpoll = new Poll({
       _id: new_pid,
       't_created': new_pid.getTimestamp(),
@@ -231,7 +232,7 @@ exports.newpoll = function(req, res) {
       'p_embed': (req.body.p_embed) ? (req.body.p_embed.split(' ')[0]) : "",
       'p_desc': req.body.p_desc,
       'c_n': req.body.c_n,
-      'u_id': (!!req.user && req.user._id) ? mongoose.Types.ObjectId(req.user._id) : 'anonymous', // if user logged in and has _id, use _id
+      'u_id': (!!req.user && req.user._id) ? req.user._id : null, // if user logged in and has _id, use _id
       'u_email': (!!req.user && req.user.u_email) ? req.user.u_email : 'anonymous', //if user exists, we put his email in, otherwise it's anonymous
       't_created': new_pid.getTimestamp(),
       'c_random': req.body.c_random

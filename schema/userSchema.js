@@ -53,17 +53,13 @@ userSchema.pre('save', function(next) {
 
     var saltval = salt.generate_salt();
     user.u_salt = saltval;
-    console.log(user.u_salt);
     user.u_password = salt.get_hashed_password(user.u_password, saltval);
-    console.log(user.u_password);
     next();
 });
 
 //Password Verification function
 userSchema.methods.comparePassword = function(candidatePassword, cb) {
     var inputpassword = salt.get_hashed_password(candidatePassword, this.u_salt);
-    console.log("input password is:" + inputpassword);
-    console.log("stored password is:" + this.u_password);
     if (this.u_password == inputpassword) {
         cb(null, true);
     } else {
