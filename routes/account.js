@@ -45,7 +45,6 @@ exports.getOwnAccount = function(req, res) {
           else {
             shortest = 0;
           }
-
           votedisplay['longest'] = (longest / 1000).toFixed(2);
           votedisplay['shortest'] = (shortest / 1000).toFixed(2);
           votedisplay['average'] = (average / 1000).toFixed(2);

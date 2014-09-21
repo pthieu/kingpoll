@@ -22,7 +22,7 @@ var pollSchema = new mongoose.Schema({
     'c_hex'     : [{type:String, required:true}], // color
     'c_total'   : [{type:Number}], //total votes per color
     //user param
-    'u_id'      : {type:String}, //user id
+    'u_id'      : {type:mongoose.Schema.Types.ObjectId, index:true}, //user _id
     'u_email'   : {type:String, default:"anonymous"}, //user id
     'u_loc'     : {type:String}, //origin of poll
     'p_anon'    : {type:Boolean, default:false}, //show user name?
