@@ -96,7 +96,7 @@ var createPoll = function(_uid, _username, _type, p_q, c_text, c_hex, p_desc, p_
     'c_n': c_text.length,
     'c_text': c_text,
     'c_hex': c_hex,
-    'u_id': 'kingpoll_attr',
+    'u_id': null,
     'u_email': 'kingpoll_attr',
     'p_desc': p_desc,
     'p_cat': p_cat,
