@@ -261,3 +261,27 @@ exports.getBigFive = function(client, _uid) {
     client.emit('getBigFive_ERR');
   }
 };
+
+
+exports.checkSignupEmail = function(client, _uemail) {
+  User.findOne({'u_email': _uemail, 'u_isSignUp': true}, function (err, _user) {
+    if (err) console.error(err);
+    if(!!_user){
+      client.emit('checkSignup_RES', 'emailexists');
+    }
+    else{
+      client.emit('checkSignup_RES', 'emailok');
+    }
+  });
+};
+exports.checkSignupUID = function(client, _uid) {
+  User.findOne({'u_id': _uid, 'u_isSignUp': true}, function (err, _user) {
+    if (err) console.error(err);
+    if(!!_user){
+      client.emit('checkSignup_RES', 'uidexists');
+    }
+    else{
+      client.emit('checkSignup_RES', 'uidok');
+    }
+  });
+};

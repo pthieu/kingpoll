@@ -10,11 +10,11 @@ $(document).ready(function() {
 
   var themecolor = colors_hex[randColor(colors_hex)];
   $('#submit').css({'background-color': "#"+themecolor,'border-color': "#"+themecolor});
-  $('.field').hover(function () {
-    $(this).find('label').css({'color': "#"+themecolor});
-    $(this).find('input, label').css({'color': "#"+themecolor});
-  }, function () {
-    $(this).find('label').css({'color': "#888"});
-    $(this).find('input, label').css({'color': "#888"});
-  });
+  // $('.field').hover(function () {
+  //   $(this).find('label').css({'color': "#"+themecolor});
+  //   $(this).find('input, label').css({'color': "#"+themecolor});
+  // }, function () {
+  //   $(this).find('label').css({'color': "#888"});
+  //   $(this).find('input, label').css({'color': "#888"});
+  // });
 });

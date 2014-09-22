@@ -32,20 +32,21 @@ $(document).ready(function() {
 
   var themecolor = colors_hex[randColor(colors_hex)];
   $('#submit').css({'background-color': "#"+themecolor,'border-color': "#"+themecolor});
-  $('.field').hover(function () {
-    $(this).find('label').css({'color': "#"+themecolor});
-    $(this).find('input, label').css({'color': "#"+themecolor});
-  }, function () {
-    $(this).find('label').css({'color': "#888888"});
-    $(this).find('input, label').css({'color': "#888888"});
-  });
+  // $('.field').hover(function () {
+  //   $(this).find('label').css({'color': "#"+themecolor});
+  //   $(this).find('input, label').css({'color': "#"+themecolor});
+  // }, function () {
+  //   $(this).find('label').css({'color': "#888888"});
+  //   $(this).find('input, label').css({'color': "#888888"});
+  // });
 
   $('input[type=password]').on('change keydown keypress keyup', function() {
     if($('#tbPassword').val() !== $('#tbCheckPassword').val()){
       $('#tbPassword, #tbCheckedPassword').each(function() {
         this.setCustomValidity("Passwords do not match!");
       });
-    }else{
+    }
+    else{
       $('#tbPassword, #tbCheckedPassword').each(function() {
         this.setCustomValidity("");
       });
@@ -74,10 +75,37 @@ $(document).ready(function() {
   //if directed here with search param
   if(!!u_email) var tmp = $('#tbEmail').val(u_email).mouseover().addClass('set').mouseleave();
 
+  $('#tbEmail').on('focusout', function () {
+    socket.emit('checkSignupEmail', $('#tbEmail').val());
+  });
+  $('#tbUsername').on('focusout', function () {
+    socket.emit('checkSignupUID', $('#tbUsername').val());
+  });
+  socket.on('checkSignup_RES', function (res) {
+    var lblEmail = $('label[for="tbEmail"]');
+    var lblUID = $('label[for="tbUsername"]');
+    switch(res){
+      case 'emailexists':
+        lblEmail.text('Email - Email already exists!').css('color', 'red');
+        break;
+      case 'uidexists':
+        lblUID.text('Username - Username already exists!').css('color', 'red');
+        break;
+      case 'emailok':
+        lblEmail.text('Email').css('color', '#888888');
+        break;
+      case 'uidok':
+        lblUID.text('Username').css('color', '#888888');
+        break;
+      default:
+        lblEmail.text('Email').css('color', '#888888');
+        lblUID.text('Username').css('color', '#888888');
+        break;
+    }
+  });
+
   $('#newuser').submit(function(e){
     e.preventDefault();
-
-
 
     var post_fp = _fp.get();
     var post_email = $('#tbEmail').val();

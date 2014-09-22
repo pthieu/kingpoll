@@ -381,6 +381,12 @@ io.sockets.on('connection', function(client) {
   client.on('getBigFive', function(_uid) {
     accountRoute.getBigFive(client, _uid);
   });
+  client.on('checkSignupEmail', function(_uemail) {
+    accountRoute.checkSignupEmail(client, _uemail);
+  });
+  client.on('checkSignupUID', function(_uid) {
+    accountRoute.checkSignupUID(client, _uid);
+  });
   client.on('disconnect', function(iploc) {
     client.leave(pollid);
     client.leave('landing');

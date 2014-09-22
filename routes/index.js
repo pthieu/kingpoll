@@ -16,13 +16,13 @@ var numonly = /\d+/; //test for number pattern
 /********** GET STUFF **********/
 exports.landing = function(req, res) {
   //if detect signed in go to home
-  if(!!req.user){
-    var redirect ='home';
+  if (!!req.user) {
+    var redirect = 'home';
     res.header('Content-Length', Buffer.byteLength(redirect));
     res.redirect(redirect, 302);
   }
   //if not signed in, go to splash
-  else{
+  else {
     res.sendfile('public/views/landing_splash.html');
   }
 }
@@ -85,7 +85,8 @@ exports.getpoll = function(req, res) {
           js_script: '/js/poll.js'
         });
       });
-    } else {
+    }
+    else {
       res.render('poll', {
         description: '',
         title: 'Poll Not Found',
@@ -202,7 +203,8 @@ exports.newpoll = function(req, res) {
     if (req.user) {
       console.log("saving with existing logged in")
       create_user_id = req.user._id;
-    } else {
+    }
+    else {
       //if new user
       if (!user) {
         var new_uid = mongoose.Types.ObjectId();
@@ -218,7 +220,8 @@ exports.newpoll = function(req, res) {
         user.save(function(err, user, count) {
           if (err) {
             console.error(err);
-          } else {
+          }
+          else {
             console.log('User Save: passed')
           }
         });
@@ -310,7 +313,8 @@ exports.newpoll = function(req, res) {
                   res.status(500).json({
                     status: 'Poll Save: failed'
                   });
-                } else {
+                }
+                else {
                   console.log('Poll Save: passed')
                   var redirect = "/p/" + hex_pid.toString();
                   res.header('Content-Length', Buffer.byteLength(redirect));
@@ -318,14 +322,16 @@ exports.newpoll = function(req, res) {
                 }
               });
             });
-          } else {
+          }
+          else {
             newpoll.save(function(err, poll, count) {
               if (err) {
                 console.error(err);
                 res.status(500).json({
                   status: 'Poll Save: failed'
                 });
-              } else {
+              }
+              else {
                 console.log('Poll Save: passed')
                 var redirect = "/p/" + hex_pid.toString();
                 res.header('Content-Length', Buffer.byteLength(redirect));
@@ -442,7 +448,8 @@ exports.newuplpoll = function(req, res) {
                   res.status(500).json({
                     status: 'Poll Save: failed'
                   });
-                } else {
+                }
+                else {
                   var newupl = new UPL({
                     _id: mongoose.Types.ObjectId(),
                     'p_id': poll._id,
@@ -452,7 +459,8 @@ exports.newuplpoll = function(req, res) {
                   newupl.save(function(err, upl, count) {
                     if (err) {
                       console.error(err);
-                    } else {
+                    }
+                    else {
                       console.log('Poll Save: passed')
                       var redirect = "/p/" + hex_pid.toString();
                       res.header('Content-Length', Buffer.byteLength(redirect));
@@ -462,14 +470,16 @@ exports.newuplpoll = function(req, res) {
                 }
               });
             });
-          } else {
+          }
+          else {
             newpoll.save(function(err, poll, count) {
               if (err) {
                 console.error(err);
                 res.status(500).json({
                   status: 'Poll Save: failed'
                 });
-              } else {
+              }
+              else {
                 var newupl = new UPL({
                   _id: mongoose.Types.ObjectId(),
                   'p_id': poll._id,
@@ -479,7 +489,8 @@ exports.newuplpoll = function(req, res) {
                 newupl.save(function(err, upl, count) {
                   if (err) {
                     console.error(err);
-                  } else {
+                  }
+                  else {
                     console.log('Poll Save: passed')
                     var redirect = "/p/" + hex_pid.toString();
                     res.header('Content-Length', Buffer.byteLength(redirect));
@@ -531,7 +542,8 @@ exports.validateVote = function(req, res) {
               }, function(err, votes) {
                 if (votes.length > 0) {
                   //votes still exist so do nothing
-                } else {
+                }
+                else {
                   User.update({
                     '_id': _vote.u_id
                   }, {
@@ -544,9 +556,11 @@ exports.validateVote = function(req, res) {
               });
             });
           }
-        } else if (vote.action === "delete") {
+        }
+        else if (vote.action === "delete") {
           help.deleteVote(_vote, Poll, req, res);
-        } else {}
+        }
+        else {}
       }
     });
   });
@@ -581,7 +595,8 @@ exports.newuser = function(req, res) {
             res.status(500).json({
               status: 'User Save: failed'
             });
-          } else {
+          }
+          else {
             console.log('User Save: passed')
             user_polls_helper.createAttrPolls(user._id, user.u_id, 0, arrIMG); // create kingpoll_attr polls
             email.send_user_confirmation(user.u_email, user.u_id, user.u_salt);
@@ -610,7 +625,8 @@ exports.newuser = function(req, res) {
           res.status(500).json({
             status: 'User Save: failed'
           });
-        } else {
+        }
+        else {
           console.log('User Save: passed')
           user_polls_helper.createAttrPolls(user._id, user.u_id, 1, arrIMG); // create kingpoll_attr polls
           email.send_user_confirmation(user.u_email, user.u_id, user.u_salt);
@@ -638,14 +654,16 @@ exports.verifyUser = function(req, res) {
     if (_user) {
       if (_user.u_validate === true) {
         verify_msg = "This account has already been verified.";
-      } else if (_user.u_salt[0] === usalt) {
+      }
+      else if (_user.u_salt[0] === usalt) {
         User.update({
           u_id: _user.u_id
         }, {
           u_validate: true
         }, function(err, n, raw) {});
         verify_msg = "Thank you for verifying your account!";
-      } else {
+      }
+      else {
         verify_msg = "Something went wrong!";
       }
     }
@@ -660,7 +678,8 @@ function cleansymbols(str, lvl) {
   //clears everything except for #
   if (!!str && lvl == null) {
     return str.replace(/[-!$%^&*()_+|?~=`{}\[\]:";'<>,.\\\/]/g, "");
-  } else {
+  }
+  else {
     return null;
   }
 }
