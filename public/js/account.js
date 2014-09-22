@@ -356,7 +356,7 @@ function getUDP_OK(_udp) {
 }
 
 function checkImgSize(img) {
-  return (img.width <= 160 || img.height <= 160) ? true : false;
+  return (img.width <= 250 && img.height <= 250) ? true : false;
 }
 
 function getBigFive_OK(d) {

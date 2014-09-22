@@ -88,9 +88,15 @@ $.getJSON("http://ip-api.com/json/", function(_geodata) {
 });
 
 var _fp = new Fingerprint();
-var fingerprint = _fp.get();
 
-setLocalVar('fp', fingerprint);
+//grab fingerprint from memory
+var fingerprint = getLocalVar('fp');
+//if no fingerprint, then we get a new one.
+if (!fingerprint){
+  debugger;
+  fingerprint = _fp.get();
+  setLocalVar('fp', fingerprint);
+}
 
 socket.on('authStatus', function(status, user, social) {
   if (status) {
@@ -690,7 +696,6 @@ $(document).ready(function() {
       //graphs done drawing, grab time
       votetime = $.now();
       $('input[name="vote"]').click(function() {
-        fingerprint = _fp.get();
         //get time once
         if (votetime > 1383809658764) {
           votetime = (s_vtime) ? s_vtime : ($.now() - votetime); //get votetime once

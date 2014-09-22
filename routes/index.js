@@ -15,9 +15,16 @@ var numonly = /\d+/; //test for number pattern
 
 /********** GET STUFF **********/
 exports.landing = function(req, res) {
-  //if not signed in, go to splash
-  res.sendfile('public/views/landing_splash.html');
   //if detect signed in go to home
+  if(!!req.user){
+    var redirect ='home';
+    res.header('Content-Length', Buffer.byteLength(redirect));
+    res.redirect(redirect, 302);
+  }
+  //if not signed in, go to splash
+  else{
+    res.sendfile('public/views/landing_splash.html');
+  }
 }
 exports.home = function(req, res) {
   res.sendfile('public/views/landing.html');
