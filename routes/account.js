@@ -142,6 +142,7 @@ exports.getUserAccount = function(req, res) {
           res.render('account', {
             title: '@' + user.u_id,
             user: user,
+            image: user.u_dp || null,
             showbuttons: false,
             createUpl: true,
             polls: polls,
