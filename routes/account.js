@@ -130,6 +130,14 @@ exports.getUserAccount = function(req, res) {
         votedisplay['shortest'] = (shortest / 1000).toFixed(2);
         votedisplay['average'] = (average / 1000).toFixed(2);
         votedisplay['total'] = (total / 1000).toFixed(2);
+        var fs = require('fs');
+var string = user.u_dp;
+var regex = /^data:.+\/(.+);base64,(.*)$/;
+
+var matches = string.match(regex);
+var ext = matches[1];
+var data = matches[2];
+var buffer = new Buffer(data, 'base64');
 
         Poll.find({
           'u_id': user._id
@@ -142,7 +150,7 @@ exports.getUserAccount = function(req, res) {
           res.render('account', {
             title: '@' + user.u_id,
             user: user,
-            image: user.u_dp || null,
+            image: buffer || null,
             showbuttons: false,
             createUpl: true,
             polls: polls,
