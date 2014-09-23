@@ -560,7 +560,8 @@ $(document).ready(function() {
         clearpie();
       }
       $("#pie_msg_val").text(data.p_total);
-      setInterval(function() {
+      $(".vote_arc").unbind('hover');
+      setTimeout(function() {
         $(".vote_arc").hover(function() {
           if ($(this).attr('value') >= 0) {
             $('#pieTotalBG').attr("fill", ("#" + data.c_hex[$(this).attr('value')]));
