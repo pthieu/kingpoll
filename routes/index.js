@@ -75,7 +75,7 @@ exports.getpoll = function(req, res) {
 
         res.render('poll', {
           description: poll.p_desc,
-          title: poll.p_q + ' - Poll ' + poll.p_id,
+          title: poll.p_q,
           url: 'http://kingpoll.com/p/' + poll.p_id,
           pollid: poll.p_id,
           image: poll.p_image,
