@@ -131,13 +131,6 @@ exports.getUserAccount = function(req, res) {
         votedisplay['average'] = (average / 1000).toFixed(2);
         votedisplay['total'] = (total / 1000).toFixed(2);
         var fs = require('fs');
-var string = user.u_dp;
-var regex = /^data:.+\/(.+);base64,(.*)$/;
-
-var matches = string.match(regex);
-var ext = matches[1];
-var data = matches[2];
-var buffer = new Buffer(data, 'base64');
 
         Poll.find({
           'u_id': user._id
@@ -150,7 +143,7 @@ var buffer = new Buffer(data, 'base64');
           res.render('account', {
             title: '@' + user.u_id,
             user: user,
-            image: buffer || null,
+            image: null,
             showbuttons: false,
             createUpl: true,
             polls: polls,
