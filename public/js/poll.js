@@ -577,7 +577,7 @@ $(document).ready(function() {
             $('#pie_msg_val').text(data.p_total);
           }
         });
-      }, dur);
+      }, dur*2);
 
       //BARCHART CHANGES
       if ((!!u_email || !!fingerprint) && !(voted)) {
