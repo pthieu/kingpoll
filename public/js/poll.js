@@ -526,7 +526,9 @@ $(document).ready(function() {
         $('.embed-wrap *').html('')
         $('.embed-wrap').hide();
       }
-      $('#question').html(data.p_q);
+
+      var q = data.p_q.replace(/(^|[^@\w])@(\w{1,15})\b/g,'<a href="/u/$2" target="_blank">$&</a>');
+      $('#question').html(q);
 
       //$('.fb-share-button').attr("data-href",window.location.href);
       //$('.share-buttons').html('<div style="display: none;" class="fb-share-button" data-href="'+window.location.href+'" data-type="button"></div>');
