@@ -62,6 +62,9 @@ body.splash {
     text-align: center;
     display: inline-block;
 }
+.splash .logo_wrap span {
+    display:none;
+}
 .splash .logo_wrap img {
     margin: auto;
 }
