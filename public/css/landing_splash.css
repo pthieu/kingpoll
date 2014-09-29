@@ -260,6 +260,15 @@ body.splash {
 .splash .footer {
     padding: 20px;
 }
+.splash .footer>span{
+    margin-left:10px;
+    margin-right:10px;
+}
+.splash .footer a{
+    text-decoration: none;
+    color:inherit;
+    margin:0 10px 0 10px;
+}
 @media screen and (max-width: 1900px) {
     .splash .branding {
         margin-left: 20%;
