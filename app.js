@@ -102,7 +102,7 @@ var sitemap = sm.createSitemap ({
         { url: '/changelog/',  changefreq: 'yearly',  priority: 0.7 },
         { url: '/search/',  changefreq: 'monthly',  priority: 0.5 },
         { url: '/u/:id',  changefreq: 'daily',  priority: 0.5 },
-        { url: '/p/',  changefreq: 'daily',  priority: 0.3 },
+        // { url: '/p/',  changefreq: 'daily',  priority: 0.3 },
         { url: '/policy/', changefreq: 'yearly',  priority: 0.2 },     // changefreq: 'weekly',  priority: 0.5
         { url: '/login/',  changefreq: 'monthly',  priority: 0.1 },
         { url: '/signup/done/',  changefreq: 'yearly',  priority: 0.1 },
