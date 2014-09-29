@@ -4,6 +4,7 @@ var appPort = process.env.PORT || process.env.VCAPP_APP_PORT || 8888;
 var express = require('express'),
   app = express();
 var expressValidator = require('express-validator');
+var sm = require('sitemap');
 var path = require('path');
 var favicon = require('serve-favicon');
 var exphbs = require('express3-handlebars');
@@ -86,6 +87,35 @@ app.use(express.session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+
+
+var sitemap = sm.createSitemap ({
+      hostname: 'http://www.kingpoll.com',
+      cacheTime: 600000,        // 600 sec - cache purge period
+      urls: [
+        { url: '/',  changefreq: 'daily', priority: 1.0 },
+        { url: '/about/',  changefreq: 'yearly',  priority: 1.0 },
+        { url: '/home/',  changefreq: 'daily', priority: 1.0 },
+        { url: '/contact/',  changefreq: 'monthly',  priority: 0.9 },
+        { url: '/new/',  changefreq: 'yearly',  priority: 0.9 },
+        { url: '/signup/',  changefreq: 'monthly',  priority: 0.7 },
+        { url: '/changelog/',  changefreq: 'yearly',  priority: 0.7 },
+        { url: '/search/',  changefreq: 'monthly',  priority: 0.5 },
+        { url: '/u/:id',  changefreq: 'daily',  priority: 0.5 },
+        { url: '/p/',  changefreq: 'daily',  priority: 0.3 },
+        { url: '/policy/', changefreq: 'yearly',  priority: 0.2 },     // changefreq: 'weekly',  priority: 0.5
+        { url: '/login/',  changefreq: 'monthly',  priority: 0.1 },
+        { url: '/signup/done/',  changefreq: 'yearly',  priority: 0.1 },
+        { url: '/thankyou/',  changefreq: 'yearly',  priority: 0.1 }
+      ]
+    });
+
+app.get('/sitemap.xml', function(req, res) {
+  sitemap.toXML( function (xml) {
+      res.header('Content-Type', 'application/xml');
+      res.send( xml );
+  });
+});
 
 app.get('/', routes.landing);
 app.get('/home', routes.home);
