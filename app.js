@@ -5,6 +5,7 @@ var express = require('express'),
   app = express();
 var expressValidator = require('express-validator');
 var sm = require('sitemap');
+var robots = require('robots.txt')
 var path = require('path');
 var favicon = require('serve-favicon');
 var exphbs = require('express3-handlebars');
@@ -87,7 +88,8 @@ app.use(express.session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
-
+// Pass in the absolute path to your robots.txt file
+app.use(robots(__dirname + '/robots.txt'));
 
 var sitemap = sm.createSitemap ({
       hostname: 'http://www.kingpoll.com',
